@@ -1,0 +1,44 @@
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
+import HeaderLayout from "components/ui/layout/HeaderLayout";
+import ViewCap from "components/ui/layout/ViewCap";
+import ViewBody from "components/ui/layout/ViewBody";
+import * as Locale from "./locales";
+
+const useStyles = makeStyles({
+  body: {
+    margin: 24,
+    "& h3": {
+      color: "#BBB",
+      textAlign: "center"
+    },
+    "& p": {
+      color: "#666",
+      lineHeight: 1.4
+    }
+  }
+});
+
+interface ErrorViewProps {
+  nav: React.ReactNode;
+}
+
+const ErrorView: React.FC<ErrorViewProps> = ({ nav, children }) => {
+  const classes = useStyles();
+
+  return (
+    <HeaderLayout>
+      <ViewCap top>{nav}</ViewCap>
+      <ViewBody>
+        <div className={classes.body}>
+          <h3>
+            <Locale.Error />
+          </h3>
+          <p>{children}</p>
+        </div>
+      </ViewBody>
+    </HeaderLayout>
+  );
+};
+
+export default ErrorView;

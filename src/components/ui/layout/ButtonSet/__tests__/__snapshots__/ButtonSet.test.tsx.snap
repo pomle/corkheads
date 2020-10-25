@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonSet component renders content with children when content present 1`] = `
+<div
+  className="makeStyles-root-1"
+>
+  <button
+    type="button"
+  >
+    Foo
+  </button>
+  <button
+    type="button"
+  >
+    Bar
+  </button>
+</div>
+`;
+
+exports[`ButtonSet component renders nothing if content missing 1`] = `null`;

@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Screen component when mounted on matching has mounted component 1`] = `
+<div
+  className="content"
+>
+  <div>
+    Counter: 
+    1
+  </div>
+  <div>
+    Params: 
+    {"myId":"123"}
+  </div>
+</div>
+`;
+
+exports[`Screen component when mounted on matching then unmatching is still mounted 1`] = `
+<div
+  className="content"
+>
+  <div>
+    Counter: 
+    1
+  </div>
+  <div>
+    Params: 
+    {"myId":"123"}
+  </div>
+</div>
+`;
+
+exports[`Screen component when mounted on matching then updating presents updated mounted component 1`] = `
+<div
+  className="content"
+>
+  <div>
+    Counter: 
+    2
+  </div>
+  <div>
+    Params: 
+    {"myId":"123"}
+  </div>
+</div>
+`;
+
+exports[`Screen component when mounted on non-matching has not mounted component 1`] = `null`;
+
+exports[`Screen component when mounted on non-matching with transition has not mounted component 1`] = `
+<div
+  className="transition"
+>
+  Active: 
+  No
+  <div
+    className="transition-content"
+  />
+</div>
+`;
+
+exports[`Screen component when mounted on non-matching with transition then matching has mounted component 1`] = `
+<div
+  className="transition"
+>
+  Active: 
+  Yes
+  <div
+    className="transition-content"
+  >
+    <div
+      className="content"
+    >
+      <div>
+        Counter: 
+        1
+      </div>
+      <div>
+        Params: 
+        {}
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Screen component when mounted on over-matching has mounted component 1`] = `
+<div
+  className="content"
+>
+  <div>
+    Counter: 
+    1
+  </div>
+  <div>
+    Params: 
+    {}
+  </div>
+</div>
+`;
+
+exports[`Screen component when mounted on over-matching then setting exact is still mounted 1`] = `
+<div
+  className="content"
+>
+  <div>
+    Counter: 
+    1
+  </div>
+  <div>
+    Params: 
+    {}
+  </div>
+</div>
+`;

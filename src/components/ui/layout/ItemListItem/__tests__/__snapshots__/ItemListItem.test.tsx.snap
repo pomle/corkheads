@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ItemListItem can be disabled 1`] = `
+<div
+  className="makeStyles-itemListItem-1 makeStyles-itemListItem-6"
+>
+  <div
+    className="makeStyles-content-2"
+  />
+</div>
+`;
+
+exports[`ItemListItem renders as button when onClick supplied 1`] = `
+<button
+  className="makeStyles-content-2"
+  onClick={[Function]}
+  type="button"
+>
+  <div
+    className="makeStyles-itemListItem-1 makeStyles-itemListItem-4"
+  >
+    <div
+      className="makeStyles-content-2"
+    />
+  </div>
+</button>
+`;
+
+exports[`ItemListItem wraps children 1`] = `
+<div
+  className="makeStyles-itemListItem-1 makeStyles-itemListItem-3"
+>
+  <div
+    className="makeStyles-content-2"
+  >
+    I am a child
+  </div>
+</div>
+`;

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duration component shows hour and minute 1`] = `"3h 25min"`;
+
+exports[`Duration component shows only minutes if under hour 1`] = `"59min"`;

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DayTime component shows the date and time of date when valid 1`] = `"2019-09-12 12:42"`;

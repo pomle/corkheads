@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Time component shows blank time when date invalid 1`] = `"--:--"`;
+
+exports[`Time component shows the time of day for the date when valid 1`] = `"12:42"`;

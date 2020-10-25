@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Distance component formats a distance as kilometers 1`] = `
+Array [
+  "5",
+  " km",
+]
+`;

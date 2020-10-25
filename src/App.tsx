@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Router from "components/route/Router";
+import { SharedStateContext } from "components/context/SharedState";
+import { ContextMenuContext } from "components/context/ContextMenuContext";
+import { InternationalizationContext } from "components/context/InternationalizationContext";
+import { FirebaseContext } from "components/context/FirebaseContext";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const contexts = [
+  FirebaseContext,
+  ContextMenuContext,
+  SharedStateContext,
+  InternationalizationContext,
+  Router
+].reverse();
+
+const App: React.FC = ({ children }) => {
+  return contexts.reduce((stack, Context) => {
+    return React.createElement(Context, null, stack);
+  }, <>{children}</>);
+};
 
 export default App;

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Percentage component handles negatives 1`] = `
+Array [
+  "-124",
+  "%",
+]
+`;
+
+exports[`Percentage component handles non-finites gracefully 1`] = `"-"`;
+
+exports[`Percentage component rounds number 1`] = `
+Array [
+  "54",
+  "%",
+]
+`;
+
+exports[`Percentage component shows 1 as 100% 1`] = `
+Array [
+  "100",
+  "%",
+]
+`;

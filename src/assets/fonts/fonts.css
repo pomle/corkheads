@@ -1,0 +1,89 @@
+@font-face {
+  font-family: "Moderat";
+  font-weight: 400;
+  font-style: normal;
+  src: url("Moderat/Moderat-Regular.eot"),
+    url("Moderat/Moderat-Regular.woff2") format("woff2"),
+    url("Moderat/Moderat-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 400;
+  font-style: italic;
+  src: url("Moderat/Moderat-RegularItalic.eot"),
+    url("Moderat/Moderat-RegularItalic.woff2") format("woff2"),
+    url("Moderat/Moderat-RegularItalic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 300;
+  font-style: normal;
+  src: url("Moderat/Moderat-Light.eot"),
+    url("Moderat/Moderat-Light.woff2") format("woff2"),
+    url("Moderat/Moderat-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 700;
+  font-style: normal;
+  src: url("Moderat/Moderat-Bold.eot"),
+    url("Moderat/Moderat-Bold.woff2") format("woff2"),
+    url("Moderat/Moderat-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 500;
+  font-style: normal;
+  src: url("Moderat/Moderat-Medium.eot"),
+    url("Moderat/Moderat-Medium.woff2") format("woff2"),
+    url("Moderat/Moderat-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 300;
+  font-style: italic;
+  src: url("Moderat/Moderat-LightItalic.eot"),
+    url("Moderat/Moderat-LightItalic.woff2") format("woff2"),
+    url("Moderat/Moderat-LightItalic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 200;
+  font-style: normal;
+  src: url("Moderat/Moderat-Thin.eot"),
+    url("Moderat/Moderat-Thin.woff2") format("woff2"),
+    url("Moderat/Moderat-Thin.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 200;
+  font-style: italic;
+  src: url("Moderat/Moderat-ThinItalic.eot"),
+    url("Moderat/Moderat-ThinItalic.woff2") format("woff2"),
+    url("Moderat/Moderat-ThinItalic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 800;
+  font-style: normal;
+  src: url("Moderat/Moderat-Black.eot"),
+    url("Moderat/Moderat-Black.woff2") format("woff2"),
+    url("Moderat/Moderat-Black.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Moderat";
+  font-weight: 800;
+  font-style: italic;
+  src: url("Moderat/Moderat-BlackItalic.eot"),
+    url("Moderat/Moderat-BlackItalic.woff2") format("woff2"),
+    url("Moderat/Moderat-BlackItalic.woff") format("woff");
+}

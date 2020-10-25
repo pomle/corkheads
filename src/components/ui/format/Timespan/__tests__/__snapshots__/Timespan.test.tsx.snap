@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Timespan component shows start time a time after duration 1`] = `
+Array [
+  "12:42",
+  " - ",
+  "13:42",
+]
+`;
