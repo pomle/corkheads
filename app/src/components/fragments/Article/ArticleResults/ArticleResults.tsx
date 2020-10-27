@@ -31,7 +31,7 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({
     return <ResultStatement message="Nothing found." />;
   }
 
-  const articles = result.data.docs.map(doc => doc.data());
+  const articles = result.data;
 
   return (
     <ItemList>
