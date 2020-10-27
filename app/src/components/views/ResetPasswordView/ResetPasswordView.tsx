@@ -84,7 +84,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
               <Field legend="Email">
                 <input
                   type="email"
-                  name="einride-reset-password-email"
+                  name="reset-password-email"
                   value={email}
                   onChange={event => setEmail(event.target.value)}
                 />
