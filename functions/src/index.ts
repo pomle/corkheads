@@ -1,9 +1,20 @@
 import * as functions from 'firebase-functions';
-
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
+import algoliasearch from "algoliasearch";
+// Initialize Algolia, requires installing Algolia dependencies:
+// https://www.algolia.com/doc/api-client/javascript/getting-started/#install
 //
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// App ID and API Key are stored in functions config variables
+const ALGOLIA_ID = functions.config().algolia.app_id;
+const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
+
+const ALGOLIA_INDEX_NAME = 'article';
+const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
+
+exports.onArticleCreated = functions.firestore.document('articles/{articleId}').onCreate((snap, context) => {
+    const data = snap.data();
+
+    data.objectID = context.params.articleId;
+
+    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    return index.saveObject(data);
+});
