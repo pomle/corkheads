@@ -73,7 +73,7 @@ describe("useLiveTime", () => {
         hook.rerender();
       });
 
-      it("it returns the same reference to Moment object", () => {
+      it("returns the same reference to Moment object", () => {
         expect(reference).toBe(hook.result.current);
       });
     });
