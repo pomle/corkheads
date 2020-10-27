@@ -95,7 +95,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
               <Field legend={<Text.Email />}>
                 <input
                   type="email"
-                  name="einride-login-username"
+                  name="login-username"
                   value={email}
                   onChange={event => setEmail(event.target.value)}
                 />
@@ -104,7 +104,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
               <Field legend={<Text.Password />}>
                 <input
                   type="password"
-                  name="einride-login-password"
+                  name="login-password"
                   value={password}
                   onChange={event => setPassword(event.target.value)}
                 />
