@@ -11,7 +11,7 @@ export const articleConverter = {
         return article.data;
     },
 
-    fromFirestore(snapshot: Snapshot) {
+    fromFirestore(snapshot: Snapshot): Article {
         return {
             id: snapshot.id,
             data: { ...DEFAULT_ARTICLE, ...snapshot.data() }
