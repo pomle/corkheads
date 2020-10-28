@@ -10,9 +10,12 @@ type QueryResult<T> = {
 }
 
 type ArticlesQuery = {
+    fetch?: {
+        ids: string[],
+    },
     search?: {
         text: string
-    },
+    }
 };
 
 export function useArticles(query: ArticlesQuery) {
@@ -29,31 +32,40 @@ export function useArticles(query: ArticlesQuery) {
     }, [db]);
 
     useEffect(() => {
-        if (query.search) {
-            setResult(result => ({...result, busy: true}))
+        setResult(result => ({...result, busy: true}))
 
-            searchIndex
-            .search(query.search.text)
-            .then(results => {
-                return results.hits.map(hit => hit.objectID);
-            })
-            .then(ids => {
-                return ids.map(id => collection.doc(id).get());
-            })
-            .then(results => Promise.all(results))
-            .then(snapshots => {
-                return snapshots.filter(s => s.exists).map(s => s.data()) as Article[];
-            })
-            .then(snapshots => {
-                setResult(result => ({
-                    ...result,
-                    data: snapshots
-                }));
-            })
-            .finally(() => {
-                setResult(result => ({...result, busy: false}));
-            });
-        }
+        Promise.resolve()
+        .then(() => {
+            if (query.fetch) {
+                return query.fetch.ids;
+            }
+
+            if (query.search) {
+                return searchIndex
+                    .search(query.search.text)
+                    .then(results => {
+                        return results.hits.map(hit => hit.objectID);
+                    });
+            }
+
+            return [];
+        })
+        .then(ids => {
+            return ids.map(id => collection.doc(id).get());
+        })
+        .then(results => Promise.all(results))
+        .then(snapshots => {
+            return snapshots.filter(s => s.exists).map(s => s.data()) as Article[];
+        })
+        .then(snapshots => {
+            setResult(result => ({
+                ...result,
+                data: snapshots
+            }));
+        })
+        .finally(() => {
+            setResult(result => ({...result, busy: false}));
+        });
     }, [collection, searchIndex, query])
 
     return result;

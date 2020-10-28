@@ -4,6 +4,7 @@ type Snapshot = firebase.firestore.QueryDocumentSnapshot;
 
 const DEFAULT_ARTICLE = {
     displayName: "",
+    manufacturer: "",
 };
 
 export const articleConverter = {

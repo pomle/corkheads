@@ -27,11 +27,13 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({
     return <ResultStatement message="Searching..." />;
   }
 
-  if (!result.data) {
+  const articles = result.data;
+
+  if (!articles || articles.length === 0) {
     return <ResultStatement message="Nothing found." />;
   }
 
-  const articles = result.data;
+
 
   return (
     <ItemList>
@@ -40,7 +42,7 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({
           <ItemListItem key={article.id} onClick={() => onSelect(article)}>
             <CaptionedPair
               primary={article.data.displayName}
-              secondary={article.id}
+              secondary={article.data.manufacturer}
             />
           </ItemListItem>
         );

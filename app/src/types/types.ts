@@ -5,4 +5,5 @@ type Container<T> = {
 
 export type Article = Container<{
     displayName: string,
+    manufacturer: string;
 }>;
