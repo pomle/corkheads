@@ -14,8 +14,10 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.6",
     "algoliasearch": "^4.5.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "firebase": "^7.24.0",
     "moment": "^2.29.1",
+    "prettier": "^2.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -26,6 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint '*/**/*.{ts,tsx}'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -33,7 +36,11 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "plugins": ["prettier"],
+    "rules": {
+      "prettier/prettier": "error"
+    }
   },
   "browserslist": {
     "production": [
