@@ -9,7 +9,7 @@ type DevicePrefs = {
 
 function createDefaults(): DevicePrefs {
   return {
-    locale: Locale.enGB
+    locale: Locale.enGB,
   };
 }
 

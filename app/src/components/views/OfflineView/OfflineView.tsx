@@ -15,13 +15,13 @@ const useStyles = makeStyles(() => ({
       fontSize: 36,
       lineHeight: "42px",
       fontWeight: "normal",
-      marginBottom: "32px"
+      marginBottom: "32px",
     },
     "& p": {
       margin: "32px",
-      marginBottom: "64px"
-    }
-  }
+      marginBottom: "64px",
+    },
+  },
 }));
 const OfflineView = () => {
   const classes = useStyles();

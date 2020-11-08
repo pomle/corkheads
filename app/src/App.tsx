@@ -12,7 +12,7 @@ const contexts = [
   ContextMenuContext,
   SharedStateContext,
   InternationalizationContext,
-  Router
+  Router,
 ].reverse();
 
 const App: React.FC = ({ children }) => {

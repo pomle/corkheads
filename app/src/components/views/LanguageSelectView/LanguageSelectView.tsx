@@ -14,7 +14,7 @@ interface LanguageSelectViewProps {
 
 const LanguageSelectView: React.FC<LanguageSelectViewProps> = ({
   nav,
-  onSelect
+  onSelect,
 }) => {
   return (
     <HeaderLayout>

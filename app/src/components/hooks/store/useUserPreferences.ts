@@ -2,14 +2,13 @@ import { useMemo } from "react";
 import { Namespaces } from "lib/storage/namespaces";
 import { useStorage, unnest } from "./useStorage";
 
-type UserPrefs = {
-};
+type UserPrefs = {};
 
 function createDefaults(): UserPrefs {
   return {
     showNotifications: true,
     selectedSiteId: undefined,
-    selectedVehicleId: undefined
+    selectedVehicleId: undefined,
   };
 }
 

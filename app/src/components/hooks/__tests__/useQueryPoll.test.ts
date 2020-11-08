@@ -17,7 +17,7 @@ describe("useQueryPoll", () => {
   beforeEach(() => {
     mockQuery = {
       startPolling: jest.fn(),
-      stopPolling: jest.fn()
+      stopPolling: jest.fn(),
     };
   });
 
@@ -30,8 +30,8 @@ describe("useQueryPoll", () => {
           initialProps: {
             query: mockQuery,
             interval: 1000,
-            active: true
-          }
+            active: true,
+          },
         }
       );
     });
@@ -81,7 +81,7 @@ describe("useQueryPoll", () => {
         hook.rerender({
           query: { ...mockQuery },
           interval: 1000,
-          active: true
+          active: true,
         });
       });
 
@@ -114,8 +114,8 @@ describe("useQueryPoll", () => {
           initialProps: {
             query: mockQuery,
             interval: 1000,
-            active: false
-          }
+            active: false,
+          },
         }
       );
     });
@@ -130,7 +130,7 @@ describe("useQueryPoll", () => {
         hook.rerender({
           query: mockQuery,
           interval: 1000,
-          active: true
+          active: true,
         });
       });
 
@@ -144,7 +144,7 @@ describe("useQueryPoll", () => {
           hook.rerender({
             query: mockQuery,
             interval: 1000,
-            active: false
+            active: false,
           });
         });
 

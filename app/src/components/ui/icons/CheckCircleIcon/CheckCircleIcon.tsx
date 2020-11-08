@@ -10,9 +10,9 @@ const useStyles = makeStyles(() => ({
     stroke: calculateCheckMarkColor,
     "& path": {
       fill: calculateCheckMarkColor,
-      stroke: "none"
-    }
-  }
+      stroke: "none",
+    },
+  },
 }));
 
 const calculateBackgroundColor = ({ variant }: CheckMarkWithCircleProps) => {

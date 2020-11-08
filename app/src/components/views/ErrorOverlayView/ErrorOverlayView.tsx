@@ -13,15 +13,15 @@ const useStyles = makeStyles({
   toast: {
     bottom: 0,
     height: "auto",
-    top: "auto"
+    top: "auto",
   },
   controls: {
     background: "#fff",
     display: "grid",
     gridGap: 20,
     padding: 20,
-    pointerEvents: "all"
-  }
+    pointerEvents: "all",
+  },
 });
 
 const ErrorOverlay: React.FC = () => {

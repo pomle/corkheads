@@ -6,7 +6,7 @@ const Screen = <PathCodecType extends PathCodec>({
   path,
   exact = false,
   transition: Transition,
-  children: Component
+  children: Component,
 }: {
   path: Path<PathCodecType>;
   exact?: boolean;

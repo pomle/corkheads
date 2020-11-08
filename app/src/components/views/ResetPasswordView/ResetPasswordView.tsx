@@ -17,26 +17,26 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: "100%",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   content: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
-    width: 280
+    width: 280,
   },
   logo: {
-    margin: 20
+    margin: 20,
   },
   fields: {
     display: "grid",
     gridGap: 20,
     margin: "40px 0",
-    width: "100%"
+    width: "100%",
   },
   completeMessage: {
     fontSize: 14,
-    margin: 20
+    margin: 20,
   },
   button: {
     background: "#5ADC9B",
@@ -48,9 +48,9 @@ const useStyles = makeStyles({
     width: 145,
     "&[disabled]": {
       background: "#EAEAEA",
-      color: "#999999"
-    }
-  }
+      color: "#999999",
+    },
+  },
 });
 
 interface ResetPasswordViewProps {
@@ -86,7 +86,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
                   type="email"
                   name="reset-password-email"
                   value={email}
-                  onChange={event => setEmail(event.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </Field>
             </div>

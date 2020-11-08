@@ -10,7 +10,7 @@ interface PickableItemProps<T> {
 const PickableItem: React.FC<PickableItemProps<any>> = ({
   value,
   onPick,
-  children
+  children,
 }) => {
   return (
     <ItemListItem onClick={() => onPick(value)}>

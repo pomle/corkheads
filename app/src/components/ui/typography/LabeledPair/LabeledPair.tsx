@@ -3,11 +3,11 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
-    lineHeight: "1.4"
+    lineHeight: "1.4",
   },
   label: {
-    color: "#999999"
-  }
+    color: "#999999",
+  },
 });
 
 interface LabeledPairProps {

@@ -6,13 +6,13 @@ const useStyles = makeStyles({
   root: {
     alignItems: "center",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   content: {
     alignItems: "center",
-    display: "flex"
+    display: "flex",
   },
-  action: {}
+  action: {},
 });
 
 interface ActionableItemProps {
@@ -21,7 +21,7 @@ interface ActionableItemProps {
 
 const ActionableItem: React.FC<ActionableItemProps> = ({
   children,
-  action
+  action,
 }) => {
   const classes = useStyles();
 

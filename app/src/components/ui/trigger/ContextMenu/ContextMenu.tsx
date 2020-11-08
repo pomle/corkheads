@@ -18,14 +18,14 @@ const useStyles = makeStyles({
         textAlign: "center",
         padding: 16,
         "&:first-child": {
-          border: "none"
+          border: "none",
         },
         "&.done": {
-          color: "rgb(168, 67, 152)"
-        }
-      }
-    }
-  }
+          color: "rgb(168, 67, 152)",
+        },
+      },
+    },
+  },
 });
 
 interface ContextMenuProps {

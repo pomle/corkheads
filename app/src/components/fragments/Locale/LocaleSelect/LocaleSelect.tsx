@@ -10,18 +10,18 @@ import ItemListItem from "components/ui/layout/ItemListItem";
 const useStyles = makeStyles({
   nativeName: {
     fontSize: 16,
-    fontWeight: 500
+    fontWeight: 500,
   },
   selectedName: {
     fontSize: 14,
     fontWeight: 400,
-    marginTop: 6
-  }
+    marginTop: 6,
+  },
 });
 
 const localeNames: Localizable<Localizable<string>> = {
   [Locale.enGB]: Lang.EN,
-  [Locale.svSE]: Lang.SE
+  [Locale.svSE]: Lang.SE,
 };
 
 interface LocaleSelectProps {
@@ -42,7 +42,7 @@ const LocaleSelect: React.FC<LocaleSelectProps> = ({ onSelect }) => {
 
   return (
     <ItemList>
-      {localeOptions.map(localeOption => {
+      {localeOptions.map((localeOption) => {
         const current = localeOption === locale;
         return (
           <ItemListItem

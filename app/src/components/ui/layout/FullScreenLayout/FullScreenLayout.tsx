@@ -7,9 +7,9 @@ const useStyles = makeStyles({
     height: "100%",
     pointerEvents: "all",
     "& > div": {
-      flex: "1"
-    }
-  }
+      flex: "1",
+    },
+  },
 });
 
 const FullScreenLayout: React.FC = ({ children }) => {

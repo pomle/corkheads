@@ -3,7 +3,7 @@ import React, {
   useContext,
   useCallback,
   useMemo,
-  useState
+  useState,
 } from "react";
 
 type ContextMenuContextValue = {
@@ -17,7 +17,7 @@ const noop = () => undefined;
 const Context = createContext<ContextMenuContextValue>({
   content: undefined,
   publish: noop,
-  clear: noop
+  clear: noop,
 });
 
 export const ContextMenuContext: React.FC = ({ children }) => {
@@ -38,7 +38,7 @@ export const ContextMenuContext: React.FC = ({ children }) => {
     () => ({
       content,
       publish,
-      clear
+      clear,
     }),
     [content, publish, clear]
   );

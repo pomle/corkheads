@@ -6,11 +6,11 @@ const useStyles = makeStyles({
   root: {
     alignItems: "center",
     display: "flex",
-    flexFlow: "row"
+    flexFlow: "row",
   },
   arrow: {
-    marginLeft: 7
-  }
+    marginLeft: 7,
+  },
 });
 
 interface GoForwardProps {

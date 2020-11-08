@@ -8,7 +8,7 @@ interface DurationProps {
 
 const UNITS: [number, string][] = [
   [60 * 60, "h"],
-  [60, "min"]
+  [60, "min"],
 ];
 
 const Duration: React.FC<DurationProps> = ({ from, until }) => {

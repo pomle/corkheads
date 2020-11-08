@@ -69,7 +69,7 @@ export function createPath<PathCodecType extends PathCodec>(
       addCodec: AdditionalPathCodecType
     ) {
       return createPath(this.path + pathName, { ...codec, ...addCodec });
-    }
+    },
   };
 }
 
@@ -79,7 +79,7 @@ export function createCodec<T>(
 ): ParamCodec<T> {
   return {
     encode,
-    decode
+    decode,
   };
 }
 
@@ -93,6 +93,6 @@ export function usePath<PathCodecType extends PathCodec>(
     params,
     url() {
       return path.url(params);
-    }
+    },
   };
 }

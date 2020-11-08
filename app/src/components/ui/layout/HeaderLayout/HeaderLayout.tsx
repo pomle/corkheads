@@ -6,16 +6,16 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: "100%",
-    pointerEvents: "all"
+    pointerEvents: "all",
   },
   header: {
-    flex: "0 1"
+    flex: "0 1",
   },
   content: {
     flex: "auto",
     height: "100%",
-    overflow: "hidden"
-  }
+    overflow: "hidden",
+  },
 });
 
 interface HeaderLayoutProps {
@@ -23,7 +23,7 @@ interface HeaderLayoutProps {
 }
 
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({
-  children: [header, content]
+  children: [header, content],
 }) => {
   const classes = useStyles();
 

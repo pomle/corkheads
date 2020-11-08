@@ -7,10 +7,10 @@ import { Localizable, Locale as LC } from "./localization";
 
 export const EN: Localizable<string> = {
   [LC.enGB]: "English",
-  [LC.svSE]: "Swedish"
+  [LC.svSE]: "Swedish",
 };
 
 export const SE: Localizable<string> = {
   [LC.enGB]: "Engelska",
-  [LC.svSE]: "Svenska"
+  [LC.svSE]: "Svenska",
 };

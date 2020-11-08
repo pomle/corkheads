@@ -25,7 +25,7 @@ export function useSharedState<T>(
 
   const setValue = useCallback(
     (value: T) => {
-      setState(values => ({ ...values, [key]: value }));
+      setState((values) => ({ ...values, [key]: value }));
     },
     [key, setState]
   );

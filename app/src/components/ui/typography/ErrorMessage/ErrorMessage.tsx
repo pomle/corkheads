@@ -6,8 +6,8 @@ const useStyles = makeStyles({
     background: "rgb(252, 92, 99)",
     borderRadius: 10,
     color: "white",
-    padding: "16px 24px"
-  }
+    padding: "16px 24px",
+  },
 });
 
 const ErrorMessage: React.FC = ({ children }) => {

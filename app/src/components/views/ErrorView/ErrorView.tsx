@@ -10,13 +10,13 @@ const useStyles = makeStyles({
     margin: 24,
     "& h3": {
       color: "#BBB",
-      textAlign: "center"
+      textAlign: "center",
     },
     "& p": {
       color: "#666",
-      lineHeight: 1.4
-    }
-  }
+      lineHeight: 1.4,
+    },
+  },
 });
 
 interface ErrorViewProps {

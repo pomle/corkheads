@@ -7,8 +7,8 @@ const useStyles = makeStyles({
     display: "inline-block",
     height: 20,
     padding: "0 5px",
-    width: 20
-  }
+    width: 20,
+  },
 });
 
 const InlineCircleSpinner: React.FC = () => {

@@ -8,13 +8,13 @@ interface InternationalizationContextMockProps {
 
 export const InternationalizationContextMock: React.FC<InternationalizationContextMockProps> = ({
   initialLocale = Locale.enGB,
-  children
+  children,
 }) => {
   const locale = useState<Locale>(initialLocale);
 
   const value = useMemo(() => {
     return {
-      locale
+      locale,
     };
   }, [locale]);
 

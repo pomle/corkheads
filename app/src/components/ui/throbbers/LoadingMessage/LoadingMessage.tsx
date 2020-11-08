@@ -8,16 +8,16 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: 200,
-    justifyContent: "center"
+    justifyContent: "center",
   },
   throbber: {
     margin: 20,
-    width: "60%"
+    width: "60%",
   },
   message: {
     fontSize: 20,
-    fontWeight: 500
-  }
+    fontWeight: 500,
+  },
 });
 
 interface LoadingMessageProps {

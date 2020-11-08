@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
   root: {},
   caption: {
-    fontSize: 16
+    fontSize: 16,
   },
-  statement: {}
+  statement: {},
 });
 
 interface CaptionedStatementProps {
@@ -15,7 +15,7 @@ interface CaptionedStatementProps {
 
 const CaptionedStatement: React.FC<CaptionedStatementProps> = ({
   caption,
-  children
+  children,
 }) => {
   const classes = useStyles();
 

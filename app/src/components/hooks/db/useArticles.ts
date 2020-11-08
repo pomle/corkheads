@@ -3,70 +3,79 @@ import { articleConverter } from "types/adapters";
 import { Article } from "types/types";
 import { useArticleIndex } from "components/hooks/algolia";
 import { useDB } from "../useDB";
+import { useObjectStore } from "components/context/ObjectStoreContext";
 
-type QueryResult<T> = {
-    busy: boolean,
-    data?: T[],
+export function useArticleStore(ids: string[]): Article[] {
+  const [store, setStore] = useObjectStore();
+
+  const db = useDB();
+
+  const collection = useMemo(() => {
+    return db.collection("articles").withConverter(articleConverter);
+  }, [db]);
+
+  useEffect(() => {
+    const unsubs: (() => void)[] = [];
+    for (const id of ids) {
+      const unsub = collection.doc(id).onSnapshot((snapshot) => {
+        const article = snapshot.data();
+        if (article) {
+          setStore((store) => ({ ...store, [article.id]: article }));
+        }
+      });
+      unsubs.push(unsub);
+    }
+
+    return () => {
+      unsubs.forEach((unsub) => unsub());
+    };
+  }, [ids, collection, setStore]);
+
+  const articles: Article[] = [];
+
+  for (const id of ids) {
+    if (store[id]) {
+      articles.push(store[id] as Article);
+    }
+  }
+
+  return articles;
 }
 
-type ArticlesQuery = {
-    fetch?: {
-        ids: string[],
-    },
-    search?: {
-        text: string
-    }
+type QueryResult<T> = {
+  busy: boolean;
+  data: T[];
 };
 
-export function useArticles(query: ArticlesQuery) {
-    const [result, setResult] = useState<QueryResult<Article>>({
-        busy: false,
-    });
+type ArticlesQuery = {
+  search: {
+    text: string;
+  };
+};
 
-    const db = useDB();
+export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
+  const [ids, setIds] = useState<string[]>([]);
+  const [busy, setBusy] = useState<boolean>(false);
+  const searchIndex = useArticleIndex();
 
-    const searchIndex = useArticleIndex();
+  useEffect(() => {
+    setBusy(true);
 
-    const collection = useMemo(() => {
-        return db.collection("articles").withConverter(articleConverter);
-    }, [db]);
+    searchIndex
+      .search(query.search.text)
+      .then((results) => {
+        return results.hits.map((hit) => hit.objectID);
+      })
+      .then(setIds)
+      .finally(() => {
+        setBusy(false);
+      });
+  }, [searchIndex, query]);
 
-    useEffect(() => {
-        setResult(result => ({...result, busy: true}))
+  const articles = useArticleStore(ids);
 
-        Promise.resolve()
-        .then(() => {
-            if (query.fetch) {
-                return query.fetch.ids;
-            }
-
-            if (query.search) {
-                return searchIndex
-                    .search(query.search.text)
-                    .then(results => {
-                        return results.hits.map(hit => hit.objectID);
-                    });
-            }
-
-            return [];
-        })
-        .then(ids => {
-            return ids.map(id => collection.doc(id).get());
-        })
-        .then(results => Promise.all(results))
-        .then(snapshots => {
-            return snapshots.filter(s => s.exists).map(s => s.data()) as Article[];
-        })
-        .then(snapshots => {
-            setResult(result => ({
-                ...result,
-                data: snapshots
-            }));
-        })
-        .finally(() => {
-            setResult(result => ({...result, busy: false}));
-        });
-    }, [collection, searchIndex, query])
-
-    return result;
+  return {
+    busy,
+    data: articles,
+  };
 }

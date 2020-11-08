@@ -12,9 +12,9 @@ const useStyles = makeStyles({
     height: 24,
     width: 24,
     "&[disabled]": {
-      opacity: 0.3
-    }
-  }
+      opacity: 0.3,
+    },
+  },
 });
 
 type ContextMenuButtonProps = React.ButtonHTMLAttributes<any>;

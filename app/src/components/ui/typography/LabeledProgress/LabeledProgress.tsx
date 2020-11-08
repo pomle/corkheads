@@ -5,27 +5,27 @@ import Percentage from "components/ui/format/Percentage";
 
 const useStyles = makeStyles({
   root: {
-    lineHeight: "1.4"
+    lineHeight: "1.4",
   },
   text: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   label: {
-    color: "#A8A8A8"
+    color: "#A8A8A8",
   },
   textValue: {
-    color: "#999999"
+    color: "#999999",
   },
   bar: {
     alignItems: "center",
     display: "flex",
     height: "1.4em",
-    justifyContent: "stretch"
+    justifyContent: "stretch",
   },
   percentage: {
-    color: "#999999"
-  }
+    color: "#999999",
+  },
 });
 
 interface LabeledProgressProps {

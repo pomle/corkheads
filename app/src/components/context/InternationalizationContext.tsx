@@ -15,7 +15,7 @@ export const InternationalizationContext: React.FC = ({ children }) => {
 
   const value = useMemo(() => {
     return {
-      locale
+      locale,
     };
   }, [locale]);
 

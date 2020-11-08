@@ -7,13 +7,13 @@ const useStyles = makeStyles({
     fontSize: 36,
     overflow: "hidden",
     textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   content: {
     alignItems: "center",
     display: "flex",
-    justifyContent: "space-between"
-  }
+    justifyContent: "space-between",
+  },
 });
 
 interface ViewTitleProps {

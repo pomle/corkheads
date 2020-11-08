@@ -14,13 +14,13 @@ const useStyles = makeStyles({
     display: "grid",
     gridAutoFlow: "column",
     gridGap: 20,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   arrow: {
     paddingRight: 10,
     paddingTop: 10,
-    fill: disabled
-  }
+    fill: disabled,
+  },
 });
 
 interface DetailArrowItemProps {
@@ -32,7 +32,7 @@ interface DetailArrowItemProps {
 const DetailArrowItem: React.FC<DetailArrowItemProps> = ({
   primary,
   secondary,
-  disabled
+  disabled,
 }) => {
   const classes = useStyles({ primary, secondary, disabled });
   return (

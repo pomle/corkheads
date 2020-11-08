@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
   useScrollHandle,
-  ScrollContext
+  ScrollContext,
 } from "components/context/ScrollContext";
 
 const useStyles = makeStyles({
@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     background: "#F8F8F8",
     height: "100%",
     overflow: "scroll",
-    position: "relative" // Creates link to children's offsetParent
-  }
+    position: "relative", // Creates link to children's offsetParent
+  },
 });
 
 const ViewBody: React.FC = ({ children }) => {

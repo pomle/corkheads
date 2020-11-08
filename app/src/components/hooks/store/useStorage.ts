@@ -22,7 +22,7 @@ export function useStorage<T extends StorageValues>(
         storedValue === EMPTY
           ? Object.create(null)
           : ensureObject<T>(storedValue),
-      store: debounce(storage.set, SERIALIZATION_DEBOUNCE)
+      store: debounce(storage.set, SERIALIZATION_DEBOUNCE),
     };
   }, [namespace]);
 

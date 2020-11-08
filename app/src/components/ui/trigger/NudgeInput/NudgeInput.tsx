@@ -18,14 +18,14 @@ const useStyles = makeStyles({
       alignItems: "center",
       display: "flex",
       flex: "1 1",
-      justifyContent: "center"
-    }
+      justifyContent: "center",
+    },
   },
   button: {
     flex: "36px",
     opacity: (props: StyleProps) => (props.expanded ? 1 : 0),
     pointerEvents: (props: StyleProps) => (props.expanded ? "all" : "none"),
-    transition: "opacity 0.3s ease"
+    transition: "opacity 0.3s ease",
   },
   value: {
     flex: "40px",
@@ -33,8 +33,8 @@ const useStyles = makeStyles({
     fontWeight: 700,
     lineHeight: 0,
     height: 40,
-    width: 40
-  }
+    width: 40,
+  },
 });
 
 interface NudgeInputProps {
@@ -47,7 +47,7 @@ const NudgeInput: React.FC<NudgeInputProps> = ({
   children,
   expanded,
   onDecrease,
-  onIncrease
+  onIncrease,
 }) => {
   const classes = useStyles({ expanded });
 

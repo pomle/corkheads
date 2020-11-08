@@ -19,22 +19,22 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: "100%",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   content: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
-    width: 280
+    width: 280,
   },
   logo: {
-    margin: 20
+    margin: 20,
   },
   fields: {
     display: "grid",
     gridGap: 20,
     margin: "40px 0",
-    width: "100%"
+    width: "100%",
   },
   button: {
     background: "#5ADC9B",
@@ -46,13 +46,13 @@ const useStyles = makeStyles({
     width: 145,
     "&[disabled]": {
       background: "#EAEAEA",
-      color: "#999999"
-    }
+      color: "#999999",
+    },
   },
   forgotPassword: {
     fontSize: 14,
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
 
 interface Credentials {
@@ -97,7 +97,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
                   type="email"
                   name="login-username"
                   value={email}
-                  onChange={event => setEmail(event.target.value)}
+                  onChange={(event) => setEmail(event.target.value)}
                 />
               </Field>
 
@@ -106,7 +106,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
                   type="password"
                   name="login-password"
                   value={password}
-                  onChange={event => setPassword(event.target.value)}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
               </Field>
             </div>

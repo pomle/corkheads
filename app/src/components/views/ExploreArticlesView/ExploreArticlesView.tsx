@@ -8,20 +8,19 @@ import ArticleSelect from "components/fragments/Article/ArticleSelect";
 import { Article } from "types/types";
 
 interface ExploreArticlesViewProps {
-    onSelect: (article: Article) => void;
+  onSelect: (article: Article) => void;
 }
 
 const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
-    onSelect
+  onSelect,
 }) => {
   return (
     <HeaderLayout>
       <ViewCap top>
-
         <ViewTitle title={<Locales.FindDrink />} />
       </ViewCap>
       <ViewBody>
-      <ArticleSelect onSelect={onSelect} />
+        <ArticleSelect onSelect={onSelect} />
       </ViewBody>
     </HeaderLayout>
   );

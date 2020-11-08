@@ -7,8 +7,8 @@ const useStyles = makeStyles({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: -10,
-    padding: 10
-  }
+    padding: 10,
+  },
 });
 
 const RefreshBar: React.FC = ({ children }) => {

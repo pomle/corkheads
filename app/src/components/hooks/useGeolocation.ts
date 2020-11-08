@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 const DEFAULT_OPTIONS = {
   enableHighAccuracy: true,
   maximumAge: 0,
-  timeout: 60000
+  timeout: 60000,
 };
 
 const geo = navigator.geolocation;

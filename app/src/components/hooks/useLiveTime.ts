@@ -7,10 +7,7 @@ export const useLiveTime = (unit: Unit): Moment => {
   const [time, setTime] = useState<Moment>(initial);
 
   useEffect(() => {
-    const nextTime = time
-      .clone()
-      .startOf(unit)
-      .add(1, unit);
+    const nextTime = time.clone().startOf(unit).add(1, unit);
     const delay = nextTime.diff(time, "milliseconds");
     const timer = setTimeout(setTime, delay, nextTime);
     return () => clearTimeout(timer);

@@ -19,8 +19,8 @@ const PointTrail: React.FC<PointTrailProps> = ({ points, color }) => {
   const radius = 4;
   const gutter = radius + 2;
   const margin = radius + 1;
-  const boundsX = getBounds(points.map(p => p[0]));
-  const boundsY = getBounds(points.map(p => p[1]));
+  const boundsX = getBounds(points.map((p) => p[0]));
+  const boundsY = getBounds(points.map((p) => p[1]));
   const offsetX = margin - boundsX[0];
   const offsetY = margin - boundsY[0];
   const width = boundsX[1] - boundsX[0];
@@ -37,7 +37,7 @@ const PointTrail: React.FC<PointTrailProps> = ({ points, color }) => {
     v2.subtract(v);
     lines.push([
       [v1.x, v1.y],
-      [v2.x, v2.y]
+      [v2.x, v2.y],
     ]);
   }
 

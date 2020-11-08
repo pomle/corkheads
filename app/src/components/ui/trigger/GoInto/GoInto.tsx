@@ -5,16 +5,16 @@ import { ReactComponent as ArrowIcon } from "assets/graphics/icons/arrow-editabl
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
-    display: "flex"
+    display: "flex",
   },
   content: {
-    flex: "1"
+    flex: "1",
   },
   icon: {
     display: "flex",
     flex: "0 1 24px",
-    justifyContent: "flex-end"
-  }
+    justifyContent: "flex-end",
+  },
 });
 
 const GoInto: React.FC = ({ children }) => {

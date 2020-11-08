@@ -18,14 +18,14 @@ const useStyles = makeStyles({
     justifyContent: "flex-end",
     opacity,
     height: "100%",
-    pointerEvents: props => (props.active ? "all" : "none"),
-    transition: "opacity 0.3s ease"
+    pointerEvents: (props) => (props.active ? "all" : "none"),
+    transition: "opacity 0.3s ease",
   },
   content: {
-    transform: props =>
+    transform: (props) =>
       props.active ? "translate(0, 0)" : "translate(0, 100%)",
-    transition: "transform 0.3s ease"
-  }
+    transition: "transform 0.3s ease",
+  },
 });
 
 const ContextMenuView: React.FC = () => {

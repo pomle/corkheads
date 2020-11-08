@@ -1,10 +1,16 @@
-import React, { createContext, useContext, useState, Dispatch, SetStateAction } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 type Store = {
-    [key: string]: any
-}
+  [key: string]: unknown;
+};
 
-type ObjectStoreContextValue = [Store, Dispatch<SetStateAction<Store>>]
+type ObjectStoreContextValue = [Store, Dispatch<SetStateAction<Store>>];
 
 const Context = createContext<ObjectStoreContextValue>([{}, () => undefined]);
 

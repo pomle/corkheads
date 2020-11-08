@@ -9,11 +9,11 @@ const useStyles = makeStyles({
     opacity: (props: ItemListItemProps) => (props.disabled ? 0.2 : 1),
     padding: "10px 20px",
     pointerEvents: (props: ItemListItemProps) =>
-      props.disabled ? "none" : "all"
+      props.disabled ? "none" : "all",
   },
   content: {
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 interface ItemListItemProps {
@@ -24,7 +24,7 @@ interface ItemListItemProps {
 const ItemListItem: React.FC<ItemListItemProps> = ({
   onClick,
   disabled,
-  children
+  children,
 }) => {
   const classes = useStyles({ disabled });
 

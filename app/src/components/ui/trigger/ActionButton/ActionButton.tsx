@@ -30,9 +30,9 @@ const useStyles = makeStyles({
     textAlign: "center",
     "&[disabled]": {
       background: "#EAEAEA",
-      color: "#999999"
-    }
-  }
+      color: "#999999",
+    },
+  },
 });
 
 interface ActionButtonProps extends React.ButtonHTMLAttributes<any> {

@@ -20,8 +20,8 @@ const useStyles = makeStyles({
     boxShadow: "0 0 20px -10px",
     height: "100%",
     transform,
-    transition: "all 0.5s ease"
-  }
+    transition: "all 0.5s ease",
+  },
 });
 
 export type Direction = [number, number];

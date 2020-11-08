@@ -7,14 +7,14 @@ const useStyles = makeStyles({
   root: {
     alignItems: "center",
     display: "flex",
-    fontSize: 17
+    fontSize: 17,
   },
   icon: {
     marginRight: 5,
     "& > svg": {
-      display: "block"
-    }
-  }
+      display: "block",
+    },
+  },
 });
 
 interface BackButtonProps {
@@ -25,7 +25,7 @@ interface BackButtonProps {
 const BackButton: React.FC<BackButtonProps> = ({
   onClick,
   to: path,
-  children
+  children,
 }) => {
   const classes = useStyles();
 

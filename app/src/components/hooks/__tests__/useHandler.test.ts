@@ -2,7 +2,7 @@
 import {
   renderHook,
   act,
-  RenderHookResult
+  RenderHookResult,
 } from "@testing-library/react-hooks";
 import { useHandler, HandlerState } from "../useHandler";
 

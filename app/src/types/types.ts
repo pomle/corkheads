@@ -1,9 +1,11 @@
 type Container<T> = {
-    id: string,
-    data: T,
+  id: string;
+  data: T;
 };
 
-export type Article = Container<{
-    displayName: string,
-    manufacturer: string;
-}>;
+type ArticleData = {
+  displayName: string;
+  manufacturer: string;
+};
+
+export type Article = Container<ArticleData>;

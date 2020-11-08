@@ -3,7 +3,7 @@ import React, {
   useContext,
   useRef,
   useCallback,
-  useMemo
+  useMemo,
 } from "react";
 
 type ScrollPos = {
@@ -20,7 +20,7 @@ const noop = () => undefined;
 
 const Context = createContext<ScrollContextValue>({
   to: noop,
-  reveal: noop
+  reveal: noop,
 });
 
 export const ScrollContext = Context.Provider;
@@ -38,7 +38,7 @@ export function useScrollHandle<T extends HTMLElement>(): [
       node.scrollTo({
         left: pos.x,
         top: pos.y,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   }, []);
@@ -47,7 +47,7 @@ export function useScrollHandle<T extends HTMLElement>(): [
     (node: HTMLElement) => {
       to({
         x: node.offsetLeft,
-        y: node.offsetTop
+        y: node.offsetTop,
       });
     },
     [to]
@@ -58,8 +58,8 @@ export function useScrollHandle<T extends HTMLElement>(): [
       ref,
       {
         reveal,
-        to
-      }
+        to,
+      },
     ],
     [reveal, to]
   );

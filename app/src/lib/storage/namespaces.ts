@@ -1,4 +1,4 @@
 export const Namespaces = {
   DevicePrefs: "prefs/device",
-  UserPrefs: "prefs/v1"
+  UserPrefs: "prefs/v1",
 };

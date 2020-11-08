@@ -11,9 +11,9 @@ const useStyles = makeStyles({
       height: "100%",
       width: "100%",
       position: "absolute",
-      top: 0
-    }
-  }
+      top: 0,
+    },
+  },
 });
 
 const ViewStack: React.FC = ({ children }) => {

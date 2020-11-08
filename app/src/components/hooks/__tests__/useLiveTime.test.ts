@@ -2,7 +2,7 @@
 import {
   renderHook,
   RenderHookResult,
-  act
+  act,
 } from "@testing-library/react-hooks";
 import { DurationInputArg2 as Unit, Moment } from "moment";
 import { useLiveTime } from "../useLiveTime";
@@ -20,8 +20,8 @@ describe("useLiveTime", () => {
     beforeEach(() => {
       hook = renderHook(({ unit }) => useLiveTime(unit), {
         initialProps: {
-          unit: "minute" as Unit
-        }
+          unit: "minute" as Unit,
+        },
       });
     });
 

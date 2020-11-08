@@ -5,11 +5,11 @@ const useStyles = makeStyles({
   root: {
     alignItems: "center",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   secondary: {
-    color: "#999999"
-  }
+    color: "#999999",
+  },
 });
 
 interface HeadlineProps {

@@ -12,14 +12,16 @@ const AuthenticationView: React.FC = () => {
   const submitHandle = useHandler(
     useCallback(
       (credentials: { username: string; password: string }) => {
-        return auth.signInWithEmailAndPassword(credentials.username, credentials.password);
+        return auth.signInWithEmailAndPassword(
+          credentials.username,
+          credentials.password
+        );
       },
       [auth]
     )
   );
 
-  const shouldPromptUser =
-    !submitHandle.busy && !auth.currentUser;
+  const shouldPromptUser = !submitHandle.busy && !auth.currentUser;
 
   return (
     <ViewStack>

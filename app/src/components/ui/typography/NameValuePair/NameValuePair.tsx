@@ -4,13 +4,13 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
-    display: "flex"
+    display: "flex",
   },
   value: {
     color: "#999999",
     flex: "1 1",
-    textAlign: "right"
-  }
+    textAlign: "right",
+  },
 });
 
 interface NameValuePairProps {

@@ -1,15 +1,13 @@
 import React, { createContext, useContext } from "react";
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 import config from "firebase.config.json";
 
-export const Context = createContext<firebase.app.App | null>(
-  null
-);
+export const Context = createContext<firebase.app.App | null>(null);
 
 function createApp() {
-    return firebase.initializeApp(config);
+  return firebase.initializeApp(config);
 }
 
 const app = createApp();
@@ -21,9 +19,7 @@ export const FirebaseContext: React.FC = ({ children }) => {
 export function useFirebase() {
   const value = useContext(Context);
   if (value === null) {
-    throw new Error(
-      "useFirebase without FirebaseContext"
-    );
+    throw new Error("useFirebase without FirebaseContext");
   }
   return value;
 }

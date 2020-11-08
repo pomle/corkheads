@@ -2,7 +2,7 @@
 import {
   renderHook,
   act,
-  RenderHookResult
+  RenderHookResult,
 } from "@testing-library/react-hooks";
 import LocalStorageMock from "lib/mocks/LocalStorageMock";
 import { SharedStateContext } from "components/context/SharedState";
@@ -34,7 +34,7 @@ describe("useStorage", () => {
   const DEFAULT: Shape = {
     amount: 1337,
     name: "Foobar",
-    untouched: "Use me to ensure defaults remain"
+    untouched: "Use me to ensure defaults remain",
   };
 
   const NAMESPACE = "fake-namespace";
@@ -55,13 +55,13 @@ describe("useStorage", () => {
     JSON.stringify(true),
     JSON.stringify(false),
     JSON.stringify(12314),
-    JSON.stringify(undefined)
-  ].forEach(storedString => {
+    JSON.stringify(undefined),
+  ].forEach((storedString) => {
     it(`returns default when store contains ${storedString}`, () => {
       localStorage.setItem(NAMESPACE, storedString);
 
       hook = renderHook(() => useStorage<Shape>(NAMESPACE, DEFAULT), {
-        wrapper: SharedStateContext
+        wrapper: SharedStateContext,
       });
 
       expect(hook.result.current[0]).toEqual(DEFAULT);
@@ -76,8 +76,8 @@ describe("useStorage", () => {
           wrapper: SharedStateContext,
           initialProps: {
             namespace: NAMESPACE,
-            defaults: DEFAULT
-          }
+            defaults: DEFAULT,
+          },
         }
       );
     });
@@ -134,8 +134,8 @@ describe("useStorage", () => {
                   amount: 1241215125,
                   name:
                     "I am already set explicitly so should not be available",
-                  untouched: "I am a new default"
-                }
+                  untouched: "I am a new default",
+                },
               });
             });
           });
@@ -158,7 +158,7 @@ describe("useStorage", () => {
           act(() => {
             hook.rerender({
               namespace: "other-mock-namespace",
-              defaults: DEFAULT
+              defaults: DEFAULT,
             });
           });
         });
@@ -180,7 +180,7 @@ describe("useStorage", () => {
             act(() => {
               hook.rerender({
                 namespace: NAMESPACE,
-                defaults: DEFAULT
+                defaults: DEFAULT,
               });
             });
           });
@@ -202,7 +202,7 @@ describe("useStorage", () => {
             jest.advanceTimersByTime(5000);
 
             hook = renderHook(() => useStorage<Shape>(NAMESPACE, DEFAULT), {
-              wrapper: SharedStateContext
+              wrapper: SharedStateContext,
             });
           });
         });

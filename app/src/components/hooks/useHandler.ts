@@ -45,6 +45,6 @@ export const useHandler = <Input extends any[], Response>(
   return {
     busy,
     callback,
-    error
+    error,
   };
 };

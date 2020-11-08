@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     height: "100%",
     margin: "-10px -20px -10px 0",
     padding: "10px 20px 10px 0",
-    width: "100%"
-  }
+    width: "100%",
+  },
 });
 
 interface CheckableFollowableItemProps {
@@ -26,7 +26,7 @@ const CheckableFollowableItem: React.FC<CheckableFollowableItemProps> = ({
   disabled,
   onToggle,
   onFollow,
-  children
+  children,
 }) => {
   const classes = useStyles();
 

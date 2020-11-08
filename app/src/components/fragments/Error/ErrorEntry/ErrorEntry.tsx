@@ -8,7 +8,7 @@ interface ErrorEntryMessageProps {
 }
 
 const ErrorEntryMessage: React.FC<ErrorEntryMessageProps> = ({
-  errorEntry
+  errorEntry,
 }) => {
   const severity = errorEntry.severity;
   if (severity === Severity.Alert) {

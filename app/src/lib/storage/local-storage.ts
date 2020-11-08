@@ -28,7 +28,7 @@ const createStorage = <T>(key: string): Storage<T> => {
 
   return {
     get,
-    set
+    set,
   };
 };
 

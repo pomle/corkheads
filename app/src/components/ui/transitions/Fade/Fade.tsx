@@ -10,8 +10,8 @@ const useStyles = makeStyles({
   fade: {
     height: "100%",
     opacity,
-    transition: "opacity 0.5s ease"
-  }
+    transition: "opacity 0.5s ease",
+  },
 });
 
 const Fade: React.FC<TransitionEffectProps> = ({ active, children }) => {

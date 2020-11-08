@@ -10,7 +10,7 @@ const useStyles = makeStyles({
       color: "#999999",
       fontSize: 12,
       margin: "4px 0",
-      padding: 0
+      padding: 0,
     },
     "& input": {
       border: "none",
@@ -19,9 +19,9 @@ const useStyles = makeStyles({
       fontSize: 16,
       margin: "4px -10px",
       padding: "6px 10px",
-      width: "100%"
-    }
-  }
+      width: "100%",
+    },
+  },
 });
 
 interface FieldProps {

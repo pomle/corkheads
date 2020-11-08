@@ -6,8 +6,8 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "grid",
     gridAutoFlow: "column",
-    justifyItems: "spread"
-  }
+    justifyItems: "spread",
+  },
 });
 
 interface RadioButtonsProps<T> {
@@ -18,7 +18,7 @@ interface RadioButtonsProps<T> {
 const RadioButtons: React.FC<RadioButtonsProps<any>> = ({
   children,
   value: selectedValue,
-  onChange
+  onChange,
 }) => {
   const classes = useStyles();
 

@@ -3,19 +3,19 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
-    display: "flex"
+    display: "flex",
   },
   prefix: {
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
-    width: "65px"
+    width: "65px",
   },
   content: {
     flex: "1",
     minHeight: 50,
-    padding: "10px 20px 10px 0"
-  }
+    padding: "10px 20px 10px 0",
+  },
 });
 
 interface BlockPrefixedItemProps {
@@ -24,7 +24,7 @@ interface BlockPrefixedItemProps {
 
 const BlockPrefixedItem: React.FC<BlockPrefixedItemProps> = ({
   prefix,
-  children
+  children,
 }) => {
   const classes = useStyles();
 

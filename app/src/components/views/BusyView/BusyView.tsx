@@ -9,15 +9,15 @@ const useStyles = makeStyles({
     background: "#fff",
     display: "flex",
     flexFlow: "column",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   throbber: {
     margin: 20,
-    width: "80%"
+    width: "80%",
   },
   message: {
-    margin: 20
-  }
+    margin: 20,
+  },
 });
 
 const BusyView: React.FC = ({ children }) => {

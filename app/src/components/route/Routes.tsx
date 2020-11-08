@@ -1,55 +1,34 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import AppRoute from "./routes/AppRoute";
 import Screen from "./Screen";
 import ExploreArticlesView from "components/views/ExploreArticlesView";
 import * as paths from "./paths";
-import { useNav } from "components/hooks/useNav";
 import { Article } from "types/types";
-import { useArticles } from "components/hooks/db/useArticles";
-import ArticleDetailsView from "components/views/ArticleDetailsView";
-import LoadingView from "components/views/LoadingView";
-import ErrorView from "components/views/ErrorView";
-import { SlideRight } from "components/ui/transitions/Slide";
+import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ViewStack from "components/ui/layout/ViewStack";
-
-const ArticleViewPath: React.FC<{articleId: string}> = ({articleId}) => {
-  const searchQuery = useMemo(() => ({
-    fetch: {
-      ids: [articleId],
-    }
-  }), [articleId]);
-
-  const result = useArticles(searchQuery);
-
-  const Nav = <>T</>;
-
-  if (result.busy) {
-    return <LoadingView nav={Nav} />
-  }
-
-  if (!result?.data?.length) {
-    return <ErrorView nav={Nav}>
-      Not found
-    </ErrorView>;
-  }
-
-  return <ArticleDetailsView nav={Nav} article={result.data[0]}/>
-}
+import ProfileView from "components/views/ProfileView/ProfileView";
+import ArticlePage from "./routes/AppRoute/pages/ArticlePage";
+import { useHistory } from "react-router-dom";
 
 const Routes: React.FC = () => {
-  const goToArticle = useNav(paths.articleView);
-  const handleSelect = useCallback((article: Article) => {
-    goToArticle({articleId: article.id});
-  }, [goToArticle]);
+  const history = useHistory();
+  const handleSelect = useCallback(
+    (article: Article) => {
+      const url = paths.articleView.url({ articleId: article.id });
+      history.push(url);
+    },
+    [history]
+  );
 
   return (
     <AppRoute>
       <ViewStack>
-        <Screen path={paths.exploreArticles}>
-          {() => <ExploreArticlesView onSelect={handleSelect}/>}
-        </Screen>
+        <ProfileView />
         <Screen path={paths.articleView} transition={SlideRight}>
-          {params => <ArticleViewPath articleId={params.articleId}/>}
+          {(params) => <ArticlePage articleId={params.articleId} />}
+        </Screen>
+        <Screen path={paths.exploreArticles} transition={SlideDown}>
+          {() => <ExploreArticlesView onSelect={handleSelect} />}
         </Screen>
       </ViewStack>
     </AppRoute>

@@ -6,18 +6,18 @@ import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 const useStyles = makeStyles({
   root: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   title: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   subtitle: {
     color: "#888",
     fontSize: 12,
-    fontWeight: 400
-  }
+    fontWeight: 400,
+  },
 });
 
 interface DialogTitleProps {
@@ -29,7 +29,7 @@ interface DialogTitleProps {
 const DialogTitle: React.FC<DialogTitleProps> = ({
   title,
   subtitle,
-  onCancel
+  onCancel,
 }) => {
   const classes = useStyles();
 

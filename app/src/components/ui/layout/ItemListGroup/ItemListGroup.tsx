@@ -7,13 +7,13 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "flex",
     justifyContent: "space-between",
-    padding: "30px 20px 15px 20px"
+    padding: "30px 20px 15px 20px",
   },
   title: {
     fontSize: 24,
-    fontWeight: 500
+    fontWeight: 500,
   },
-  content: {}
+  content: {},
 });
 
 interface ItemListGroupProps {
@@ -24,7 +24,7 @@ interface ItemListGroupProps {
 const ItemListGroup: React.FC<ItemListGroupProps> = ({
   title,
   contextMenu,
-  children
+  children,
 }) => {
   const classes = useStyles();
   return (

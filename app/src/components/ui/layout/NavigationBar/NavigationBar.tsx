@@ -11,9 +11,9 @@ const useStyles = makeStyles({
     padding: "16px 16px 6px 16px",
     "& button": {
       margin: "-12px -12px",
-      padding: "12px 12px"
-    }
-  }
+      padding: "12px 12px",
+    },
+  },
 });
 
 interface NavigationBarProps {

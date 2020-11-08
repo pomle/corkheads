@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
-    padding: "16px 14px"
-  }
+    padding: "16px 14px",
+  },
 });
 
 const ViewHead: React.FC = ({ children }) => {

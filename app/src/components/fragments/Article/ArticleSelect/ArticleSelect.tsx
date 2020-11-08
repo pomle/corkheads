@@ -16,9 +16,9 @@ const useStyles = makeStyles({
       border: "1px solid #DDD",
       borderRadius: 20,
       padding: "6px 15px 8px 15px",
-      width: "100%"
-    }
-  }
+      width: "100%",
+    },
+  },
 });
 
 interface ArticleSelectProps {
@@ -37,7 +37,7 @@ const ArticleSelect: React.FC<ArticleSelectProps> = ({ onSelect }) => {
           type="text"
           placeholder="Search"
           value={query}
-          onChange={event => setQuery(event.currentTarget.value)}
+          onChange={(event) => setQuery(event.currentTarget.value)}
         />
       </div>
 

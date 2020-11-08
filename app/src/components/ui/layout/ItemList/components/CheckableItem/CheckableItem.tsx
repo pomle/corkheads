@@ -6,8 +6,8 @@ import BlockPrefixedItem from "../BlockPrefixedItem";
 const useStyles = makeStyles({
   toggle: {
     margin: "-16px",
-    padding: "16px"
-  }
+    padding: "16px",
+  },
 });
 
 interface CheckableItemProps {
@@ -20,7 +20,7 @@ const CheckableItem: React.FC<CheckableItemProps> = ({
   toggled,
   disabled,
   onToggle,
-  children
+  children,
 }) => {
   const classes = useStyles();
 

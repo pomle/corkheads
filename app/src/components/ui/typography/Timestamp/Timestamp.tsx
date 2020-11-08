@@ -6,7 +6,7 @@ const COLOR_NONE = "transparent";
 
 export enum TimestampState {
   Normal,
-  Confirmed
+  Confirmed,
 }
 
 const setBackgroundColor = ({ state }: TimestampProps) => {
@@ -38,8 +38,8 @@ const useStyles = makeStyles({
     letterSpacing: 0,
     lineHeight: "18px",
     padding: 2,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 interface TimestampProps {
@@ -48,7 +48,7 @@ interface TimestampProps {
 
 const Timestamp: React.FC<TimestampProps> = ({
   children,
-  state = TimestampState.Normal
+  state = TimestampState.Normal,
 }) => {
   const classes = useStyles({ state });
 

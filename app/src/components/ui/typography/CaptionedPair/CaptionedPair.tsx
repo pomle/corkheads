@@ -3,16 +3,16 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
-    lineHeight: "22px"
+    lineHeight: "22px",
   },
   primary: {
-    fontWeight: 500
+    fontWeight: 500,
   },
   secondary: {
     color: "#888",
     fontSize: 12,
-    fontWeight: 400
-  }
+    fontWeight: 400,
+  },
 });
 
 interface CaptionedPairProps {
@@ -22,7 +22,7 @@ interface CaptionedPairProps {
 
 const CaptionedPair: React.FC<CaptionedPairProps> = ({
   primary,
-  secondary
+  secondary,
 }) => {
   const classes = useStyles();
   return (

@@ -7,9 +7,7 @@ import Duration from "../Duration";
 describe("Duration component", () => {
   it("shows hour and minute", () => {
     const A = moment("2000-01-01T00:00:00Z");
-    const B = A.clone()
-      .add(3, "hours")
-      .add(25, "minutes");
+    const B = A.clone().add(3, "hours").add(25, "minutes");
     const component = renderer.create(<Duration from={A} until={B} />);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();

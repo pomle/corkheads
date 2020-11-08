@@ -10,8 +10,8 @@ const useStyles = makeStyles({
     fontWeight: 500,
     justifyContent: "center",
     padding: 40,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 interface ResultStatementProps {

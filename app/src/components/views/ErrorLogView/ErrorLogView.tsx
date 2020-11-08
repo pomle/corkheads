@@ -13,13 +13,13 @@ const useStyles = makeStyles({
     display: "grid",
     gridGap: 20,
     padding: 20,
-    pointerEvents: "all"
+    pointerEvents: "all",
   },
   control: {
     display: "flex",
     justifyContent: "center",
-    padding: 20
-  }
+    padding: 20,
+  },
 });
 
 interface ErrorViewProps {
@@ -38,7 +38,7 @@ const ErrorLogView: React.FC<ErrorViewProps> = ({ nav }) => {
       </ViewCap>
       <ViewBody>
         <div className={classes.errors}>
-          {entries.map(entry => {
+          {entries.map((entry) => {
             return <ErrorEntryMessage key={entry.id} errorEntry={entry} />;
           })}
         </div>

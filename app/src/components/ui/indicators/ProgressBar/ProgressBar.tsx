@@ -5,13 +5,13 @@ import { clamp } from "lib/math";
 const useStyles = makeStyles({
   bar: {
     background: "#EAEAEA",
-    width: "100%"
+    width: "100%",
   },
   indicator: {
     background: "#5ADC9B",
     height: 3,
-    width: (props: ProgressBarProps) => `${props.value * 100}%`
-  }
+    width: (props: ProgressBarProps) => `${props.value * 100}%`,
+  },
 });
 
 interface ProgressBarProps {

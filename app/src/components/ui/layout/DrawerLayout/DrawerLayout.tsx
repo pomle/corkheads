@@ -14,22 +14,22 @@ const useStyles = makeStyles({
     flexFlow: "column",
     height: "100%",
     overflow: "hidden",
-    position: "relative"
+    position: "relative",
   },
   content: (props: StyleProps) => ({
     flex: "auto",
     height: "100%",
     overflow: "scroll",
-    paddingBottom: props.dialogSize
+    paddingBottom: props.dialogSize,
   }),
   dialog: {
     "& > div": {
       bottom: 0,
       height: "auto",
       position: "absolute",
-      width: "100%"
-    }
-  }
+      width: "100%",
+    },
+  },
 });
 
 interface DrawerLayoutProps {
@@ -42,7 +42,7 @@ interface DrawerLayoutProps {
 const DrawerLayout: React.FC<DrawerLayoutProps> = ({
   active,
   pad = false,
-  children: [content, dialog]
+  children: [content, dialog],
 }) => {
   const [dialogSize, setDialogSize] = useState<number>(0);
   const classes = useStyles({ dialogSize });

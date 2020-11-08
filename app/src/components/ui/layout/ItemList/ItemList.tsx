@@ -11,10 +11,10 @@ const useStyles = makeStyles({
     "& > *": {
       borderBottom: "solid 1px #EAEAEA",
       "&:last-child": {
-        borderBottom: "none"
-      }
-    }
-  }
+        borderBottom: "none",
+      },
+    },
+  },
 });
 
 interface ItemListProps {

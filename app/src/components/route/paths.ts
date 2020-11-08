@@ -5,10 +5,7 @@ const stringCodec = createCodec(encodeURIComponent, decodeURIComponent);
 const exploreArticles = createPath("/explore", {});
 
 const articleView = createPath("/article/:articleId", {
-  articleId: stringCodec
+  articleId: stringCodec,
 });
 
-export {
-  exploreArticles,
-  articleView
-};
+export { exploreArticles, articleView };

@@ -5,13 +5,13 @@ import React, {
   useMemo,
   useState,
   useRef,
-  useEffect
+  useEffect,
 } from "react";
 import moment, { Moment } from "moment";
 
 export enum Severity {
   Error,
-  Alert
+  Alert,
 }
 
 export type ErrorEntry = {
@@ -34,7 +34,7 @@ const Context = createContext<ErrorContextValue>({
   entries: [],
   publish: noop,
   dismiss: noop,
-  clear: noop
+  clear: noop,
 });
 
 export const ErrorContext: React.FC = ({ children }) => {
@@ -48,16 +48,16 @@ export const ErrorContext: React.FC = ({ children }) => {
         id: errorId.current,
         date: moment(),
         error,
-        severity
+        severity,
       };
-      setEntries(entries => [entry, ...entries]);
+      setEntries((entries) => [entry, ...entries]);
     },
     [setEntries]
   );
 
   const dismiss = useCallback(
     (entry: ErrorEntry) => {
-      setEntries(entries => entries.filter(e => e !== entry));
+      setEntries((entries) => entries.filter((e) => e !== entry));
     },
     [setEntries]
   );
@@ -71,7 +71,7 @@ export const ErrorContext: React.FC = ({ children }) => {
       entries,
       publish,
       dismiss,
-      clear
+      clear,
     }),
     [entries, publish, dismiss, clear]
   );

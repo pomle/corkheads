@@ -6,16 +6,16 @@ const useStyles = makeStyles({
     borderColor: "#CCCCCC",
     borderStyle: "solid",
     borderWidth: 0,
-    minHeight: 54
+    minHeight: 54,
   },
   bottomBorder: {
     background: "#FFF",
-    borderBottomWidth: "1px"
+    borderBottomWidth: "1px",
   },
   topBorder: {
     background: "#FFF",
-    borderTopWidth: "1px"
-  }
+    borderTopWidth: "1px",
+  },
 });
 
 interface ViewCapProps {

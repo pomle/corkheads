@@ -6,16 +6,16 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: "100%",
-    pointerEvents: "all"
+    pointerEvents: "all",
   },
   content: {
     flex: "auto",
     height: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   tabs: {
-    flex: "0 1"
-  }
+    flex: "0 1",
+  },
 });
 
 interface TabLayoutProps {

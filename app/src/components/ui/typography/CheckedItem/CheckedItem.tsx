@@ -7,11 +7,11 @@ type CheckedItemType = "safe" | "detail" | "disabled";
 const useStyles = makeStyles({
   row: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   check: {
-    paddingTop: 5
-  }
+    paddingTop: 5,
+  },
 });
 
 interface CheckedItemProps {

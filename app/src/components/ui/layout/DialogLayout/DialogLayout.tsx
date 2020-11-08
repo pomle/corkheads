@@ -5,13 +5,13 @@ import HeaderLayout from "../HeaderLayout";
 const useStyles = makeStyles({
   head: {
     background: "#FFF",
-    borderBottom: "solid 1px #CCCCCC"
+    borderBottom: "solid 1px #CCCCCC",
   },
   content: {
     background: "#FFF",
     height: "100%",
-    overflow: "scroll"
-  }
+    overflow: "scroll",
+  },
 });
 
 interface DialogLayoutProps {
@@ -19,7 +19,7 @@ interface DialogLayoutProps {
 }
 
 const DialogLayout: React.FC<DialogLayoutProps> = ({
-  children: [head, content]
+  children: [head, content],
 }) => {
   const classes = useStyles();
 

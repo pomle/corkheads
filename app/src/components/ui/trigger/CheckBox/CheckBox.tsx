@@ -55,9 +55,9 @@ const useStyles = makeStyles({
     width: 20,
     "& svg": {
       height: 8.9,
-      width: 9.3
-    }
-  }
+      width: 9.3,
+    },
+  },
 });
 
 const CheckBox: React.FC<CheckBoxProps> = ({ checked, disabled }) => {

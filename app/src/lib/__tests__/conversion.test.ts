@@ -12,8 +12,8 @@ describe("ensureObject", () => {
     -12141,
     [],
     ["a", "b"],
-    {}
-  ].forEach(value => {
+    {},
+  ].forEach((value) => {
     it(`returns an object when value is ${typeof value}`, () => {
       const result = ensureObject(value);
       expect(typeof result).toBe("object");

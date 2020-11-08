@@ -5,8 +5,8 @@ const useStyles = makeStyles({
   root: {
     display: "grid",
     gridGap: 20,
-    gridAutoFlow: "row"
-  }
+    gridAutoFlow: "row",
+  },
 });
 
 const ItemListCluster: React.FC = ({ children }) => {

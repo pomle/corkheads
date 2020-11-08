@@ -12,7 +12,7 @@ const stringCodec = createCodec(
 
 const FakeTransition: React.FC<{ active: boolean }> = ({
   active,
-  children
+  children,
 }) => {
   return (
     <div className="transition">
@@ -42,7 +42,7 @@ describe("Screen component", () => {
   const history = ["/router/123"];
 
   beforeEach(() => {
-    elementMock = jest.fn(params => <FakeContent params={params} />);
+    elementMock = jest.fn((params) => <FakeContent params={params} />);
     transitionMock = jest.fn(FakeTransition);
   });
 

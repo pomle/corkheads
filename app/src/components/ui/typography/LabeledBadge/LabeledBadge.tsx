@@ -32,8 +32,8 @@ const useStyles = makeStyles({
     textAlign: "center",
     color: calculateFontColor,
     paddingLeft: "9px",
-    paddingRight: "9px"
-  }
+    paddingRight: "9px",
+  },
 });
 
 interface LabeledBadgeProps {

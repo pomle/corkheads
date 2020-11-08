@@ -11,7 +11,7 @@ const transform = ({ activeIndex, size }: SlidingWindowStyleProps) => {
 const useStyles = makeStyles({
   slidingWindow: {
     height: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   container: {
     display: "flex",
@@ -19,10 +19,10 @@ const useStyles = makeStyles({
     transform,
     transition: "all 0.5s ease",
     "& > *": {
-      flex: "100%"
+      flex: "100%",
     },
-    width: ({ size }: SlidingWindowStyleProps) => `${size * 100}%`
-  }
+    width: ({ size }: SlidingWindowStyleProps) => `${size * 100}%`,
+  },
 });
 
 interface SlidingWindowStyleProps {
@@ -37,7 +37,7 @@ interface SlidingWindowProps {
 
 const SlidingWindow: React.FC<SlidingWindowProps> = ({
   activeIndex,
-  children
+  children,
 }) => {
   const classes = useStyles({ activeIndex, size: children.length });
   return (

@@ -6,21 +6,21 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
-    padding: 10
+    padding: 10,
   },
   icon: {
     alignItems: "center",
     display: "flex",
     justifyContent: "center",
     height: 20,
-    width: 20
+    width: 20,
   },
   label: {
     fontSize: 10,
     fontWeight: 500,
     letterSpacing: 0.16,
-    marginTop: 6
-  }
+    marginTop: 6,
+  },
 });
 
 interface LabeledIconProps {

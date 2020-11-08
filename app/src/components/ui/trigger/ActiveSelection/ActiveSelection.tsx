@@ -5,16 +5,16 @@ import { ReactComponent as CheckIcon } from "./assets/check.svg";
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
-    display: "flex"
+    display: "flex",
   },
   content: {
-    flex: "1"
+    flex: "1",
   },
   icon: {
     display: "flex",
     flex: "0 1 24px",
-    justifyContent: "flex-end"
-  }
+    justifyContent: "flex-end",
+  },
 });
 
 interface ActiveSelectionProps {
@@ -23,7 +23,7 @@ interface ActiveSelectionProps {
 
 const ActiveSelection: React.FC<ActiveSelectionProps> = ({
   checked,
-  children
+  children,
 }) => {
   const classes = useStyles();
 
