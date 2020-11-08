@@ -1,10 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import logo from "assets/graphics/corkheads-logo.png";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
-import { useDevicePreference } from "components/hooks/store/useDevicePreferences";
 import Field from "components/ui/layout/Field";
+import { useSharedInput } from "components/hooks/useSharedInput";
+import ViewStack from "components/ui/layout/ViewStack";
+import { SlideRight } from "components/ui/transitions/Slide";
 import ButtonSet from "components/ui/layout/ButtonSet";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import BackButton from "components/ui/trigger/BackButton";
+import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
 import * as Text from "./locales";
 
 const useStyles = makeStyles({
@@ -51,7 +56,8 @@ const useStyles = makeStyles({
 });
 
 interface Credentials {
-  email: string;
+  username: string;
+  password: string;
 }
 
 interface LoginViewProps {
@@ -59,48 +65,88 @@ interface LoginViewProps {
 }
 
 const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
-  const [email, setEmail] = useDevicePreference("email");
-
-  const handleSubmit = useCallback(() => {
-    onSubmit({ email });
-  }, [email, onSubmit]);
-
-  const canAttemptLogin = email.length >= 5;
-
   const classes = useStyles();
 
+  const [showPasswordReset, setShowPasswordReset] = useState<boolean>(false);
+
+  const [email, setEmail] = useSharedInput("user-login-email", "");
+  const [password, setPassword] = useState<string>("");
+
+  const handleSubmit = useCallback(() => {
+    onSubmit({ username: email, password: password });
+  }, [email, onSubmit, password]);
+
+  const handleReset = useCallback(async () => {
+    setShowPasswordReset(true);
+  }, [setShowPasswordReset]);
+
+  const canAttemptLogin = email.length > 0 && password.length > 0;
+
   return (
-    <FullScreenLayout>
-      <div className={classes.root}>
-        <div className={classes.content}>
-          <div className={classes.logo}>
-            <img src={logo} alt="Corkheads logo" width="240" height="240" />
-          </div>
+    <ViewStack>
+      <FullScreenLayout>
+        <div className={classes.root}>
+          <div className={classes.content}>
+            <div className={classes.logo}>
+              <img src={logo} alt="Corkheads logo" width="240" height="240" />
+            </div>
 
-          <div className={classes.fields}>
-            <Field legend={<Text.Email />}>
-              <input
-                type="email"
-                name="login-username"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </Field>
-          </div>
+            <div className={classes.fields}>
+              <Field legend={<Text.Email />}>
+                <input
+                  type="email"
+                  name="login-username"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </Field>
 
-          <ButtonSet>
+              <Field legend={<Text.Password />}>
+                <input
+                  type="password"
+                  name="login-password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </Field>
+            </div>
+
+            <ButtonSet>
+              <button
+                type="button"
+                className={classes.button}
+                onClick={handleSubmit}
+                disabled={!canAttemptLogin}
+              >
+                <Text.DoLogin />
+              </button>
+            </ButtonSet>
+
             <button
               type="button"
-              className={classes.button}
-              onClick={handleSubmit}
-              disabled={!canAttemptLogin}
+              className={classes.forgotPassword}
+              onClick={handleReset}
             >
-              <Text.DoLogin />
+              <Text.ForgotPassword />
             </button>
-          </ButtonSet>
+          </div>
         </div>
-      </div>
-    </FullScreenLayout>
+      </FullScreenLayout>
+
+      <SlideRight active={showPasswordReset}>
+        <ResetPasswordView
+          nav={
+            <NavigationBar
+              back={
+                <BackButton onClick={() => setShowPasswordReset(false)}>
+                  <Text.DoLogin />
+                </BackButton>
+              }
+            />
+          }
+        />
+      </SlideRight>
+    </ViewStack>
   );
 };
 
