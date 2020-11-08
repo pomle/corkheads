@@ -45,7 +45,7 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
           <Trans.FindDrink />
         </ActionButton>
 
-        <ActionButton variant="safe" onClick={signOut}>
+        <ActionButton variant="danger" onClick={signOut}>
           Log out
         </ActionButton>
       </ViewBody>
