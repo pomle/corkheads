@@ -86,7 +86,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
     <ViewStack>
       <FullScreenLayout>
         <div className={classes.root}>
-          <div className={classes.content}>
+          <form className={classes.content}>
             <div className={classes.logo}>
               <img src={logo} alt="Corkheads logo" width="240" height="240" />
             </div>
@@ -95,7 +95,8 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
               <Field legend={<Text.Email />}>
                 <input
                   type="email"
-                  name="login-username"
+                  name="login-email"
+                  autoComplete="login-email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                 />
@@ -105,6 +106,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
                 <input
                   type="password"
                   name="login-password"
+                  autoComplete="login-password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                 />
@@ -129,7 +131,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
             >
               <Text.ForgotPassword />
             </button>
-          </div>
+          </form>
         </div>
       </FullScreenLayout>
 
