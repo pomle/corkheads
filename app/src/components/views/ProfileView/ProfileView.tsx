@@ -8,11 +8,14 @@ import { useAuth } from "components/hooks/useAuth";
 import * as Trans from "./locales";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
+import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 
 interface ProfileViewProps {}
 
 const ProfileView: React.FC<ProfileViewProps> = () => {
   const history = useHistory();
+
+  const signOut = useExplicitLogout();
 
   const goToExplore = useCallback(() => {
     const url = paths.exploreArticles.url({});
@@ -40,6 +43,10 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
 
         <ActionButton variant="safe" onClick={goToExplore}>
           <Trans.FindDrink />
+        </ActionButton>
+
+        <ActionButton variant="safe" onClick={signOut}>
+          Log out
         </ActionButton>
       </ViewBody>
     </HeaderLayout>
