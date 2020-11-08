@@ -32,6 +32,7 @@ const CheckInView: React.FC<CheckInViewProps> = ({ nav, article }) => {
         <div style={{ display: "flex", flexDirection: "column" }}>
           {RATINGS.map((r) => (
             <ActionButton
+              key={r}
               variant={rating === r ? "safe" : "detail"}
               onClick={() => setRating(r)}
             >

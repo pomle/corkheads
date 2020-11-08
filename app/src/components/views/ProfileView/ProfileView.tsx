@@ -28,12 +28,14 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
       </ViewCap>
       <ViewBody>
         <table>
-          <tr>
-            <th>
-              <Trans.Email />
-            </th>
-            <td>{user?.email}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>
+                <Trans.Email />
+              </th>
+              <td>{user?.email}</td>
+            </tr>
+          </tbody>
         </table>
 
         <ActionButton variant="safe" onClick={goToExplore}>
