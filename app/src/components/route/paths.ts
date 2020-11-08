@@ -8,4 +8,8 @@ const articleView = createPath("/article/:articleId", {
   articleId: stringCodec,
 });
 
-export { exploreArticles, articleView };
+const articleCheckIn = createPath("/article/:articleId/check-in", {
+  articleId: stringCodec,
+});
+
+export { exploreArticles, articleView, articleCheckIn };

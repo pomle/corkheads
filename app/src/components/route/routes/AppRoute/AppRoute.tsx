@@ -11,7 +11,6 @@ import { useAuth } from "components/hooks/useAuth";
 const AppRoute: React.FC = ({ children }) => {
   const { auth } = useAuth();
   const isOnline = useOnlineStatus();
-  //const { hasNewUpdate } = useUpdater();
 
   return (
     <ViewStack>

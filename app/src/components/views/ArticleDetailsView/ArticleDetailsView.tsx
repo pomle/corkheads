@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useHistory } from "react-router-dom";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -7,6 +8,8 @@ import { Article } from "types/types";
 import ItemListGroup from "components/ui/layout/ItemListGroup";
 import * as Trans from "./locales";
 import ItemListItem from "components/ui/layout/ItemListItem";
+import ActionButton from "components/ui/trigger/ActionButton";
+import * as paths from "components/route/paths";
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
@@ -17,6 +20,12 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
   article,
 }) => {
+  const history = useHistory();
+  const goToCheckIn = useCallback(() => {
+    const url = paths.articleCheckIn.url({ articleId: article.id });
+    history.push(url);
+  }, [article.id, history]);
+
   const data = article.data;
 
   return (
@@ -38,6 +47,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
                 </tr>
               </tbody>
             </table>
+
+            <ActionButton variant="safe" onClick={goToCheckIn}>
+              Check in
+            </ActionButton>
           </ItemListItem>
         </ItemListGroup>
       </ViewBody>
