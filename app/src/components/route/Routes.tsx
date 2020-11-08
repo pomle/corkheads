@@ -16,7 +16,7 @@ const Routes: React.FC = () => {
   const handleSelect = useCallback(
     (article: Article) => {
       const url = paths.articleView.url({ articleId: article.id });
-      history.push(url);
+      history.replace(url);
     },
     [history]
   );
