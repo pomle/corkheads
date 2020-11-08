@@ -5,11 +5,13 @@ import { useStorage, unnest } from "./useStorage";
 
 type DevicePrefs = {
   locale: Locale;
+  email: string;
 };
 
 function createDefaults(): DevicePrefs {
   return {
     locale: Locale.enGB,
+    email: "",
   };
 }
 
