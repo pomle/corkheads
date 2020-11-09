@@ -34,6 +34,8 @@ export function useCheckInSearch(query: CheckInsQuery) {
       .collection("users")
       .doc(userId)
       .collection("check-ins")
+      .orderBy("createdAt", "desc")
+      .limit(query.limit || 10)
       .onSnapshot((result) => {
         const ids = result.docs.map((doc) => doc.id);
         setIds(ids);

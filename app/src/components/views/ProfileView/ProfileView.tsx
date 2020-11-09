@@ -32,6 +32,7 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
       filters: {
         userIds: user ? [user.uid] : [],
       },
+      limit: 3,
     };
   }, [user]);
 
