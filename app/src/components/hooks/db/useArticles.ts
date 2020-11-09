@@ -5,7 +5,12 @@ import { useArticleIndex } from "components/hooks/algolia";
 import { useDB } from "../useDB";
 import { useObjectStore } from "components/context/ObjectStoreContext";
 
-export function useArticleStore(ids: string[]): Article[] {
+type QueryResult<T> = {
+  busy: boolean;
+  data: T;
+};
+
+export function useArticleStore(ids: string[]): QueryResult<Article[]> {
   const [store, setStore] = useObjectStore();
 
   const db = useDB();
@@ -19,9 +24,7 @@ export function useArticleStore(ids: string[]): Article[] {
     for (const id of ids) {
       const unsub = collection.doc(id).onSnapshot((snapshot) => {
         const article = snapshot.data();
-        if (article) {
-          setStore((store) => ({ ...store, [article.id]: article }));
-        }
+        setStore((store) => ({ ...store, [id]: article }));
       });
       unsubs.push(unsub);
     }
@@ -33,19 +36,20 @@ export function useArticleStore(ids: string[]): Article[] {
 
   const articles: Article[] = [];
 
+  let busy = false;
   for (const id of ids) {
-    if (store[id]) {
+    if (id in store) {
       articles.push(store[id] as Article);
+    } else {
+      busy = true;
     }
   }
 
-  return articles;
+  return {
+    busy: busy,
+    data: articles,
+  };
 }
-
-type QueryResult<T> = {
-  busy: boolean;
-  data: T[];
-};
 
 type ArticlesQuery = {
   search: {
@@ -53,7 +57,7 @@ type ArticlesQuery = {
   };
 };
 
-export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
+export function useArticleSearch(query: ArticlesQuery): QueryResult<Article[]> {
   const [ids, setIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);
   const searchIndex = useArticleIndex();
@@ -72,10 +76,10 @@ export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
       });
   }, [searchIndex, query]);
 
-  const articles = useArticleStore(ids);
+  const articleResult = useArticleStore(ids);
 
   return {
-    busy,
-    data: articles,
+    busy: busy || articleResult.busy,
+    data: articleResult.data,
   };
 }

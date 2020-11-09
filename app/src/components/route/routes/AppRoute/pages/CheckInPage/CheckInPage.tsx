@@ -27,17 +27,22 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
     />
   );
 
-  const article = result[0];
+  const user = useUser();
 
-  if (!article) {
+  if (result.busy || !user) {
     return <LoadingView nav={nav} />;
   }
 
-  if (!article) {
-    return <ErrorView nav={nav}>Not found</ErrorView>;
-  }
+  const article = result.data[0];
 
-  return <CheckInView nav={nav} article={article} />;
+  return (
+    <CheckInView
+      nav={nav}
+      article={article}
+      user={user}
+      onSuccess={goToProfile}
+    />
+  );
 };
 
 export default CheckInPage;
