@@ -8,15 +8,18 @@ import ArticleSelect from "components/fragments/Article/ArticleSelect";
 import { Article } from "types/types";
 
 interface ExploreArticlesViewProps {
+  nav: React.ReactNode;
   onSelect: (article: Article) => void;
 }
 
 const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
+  nav,
   onSelect,
 }) => {
   return (
     <HeaderLayout>
       <ViewCap top>
+        {nav}
         <ViewTitle title={<Locales.FindDrink />} />
       </ViewCap>
       <ViewBody>
