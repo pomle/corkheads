@@ -1,54 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { checkInConverter } from "types/adapters";
 import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
-import { useObjectStore } from "components/context/ObjectStoreContext";
+import { createStoreHook } from "../createStoreHook";
 
-type QueryResult<T> = {
-  busy: boolean;
-  data: T;
-};
-
-export function useCheckInStore(ids: string[]): QueryResult<CheckIn[]> {
-  const [store, setStore] = useObjectStore();
-
-  const db = useDB();
-
-  const collection = useMemo(() => {
-    return db.collection("check-ins").withConverter(checkInConverter);
-  }, [db]);
-
-  useEffect(() => {
-    const unsubs: (() => void)[] = [];
-    for (const id of ids) {
-      const unsub = collection.doc(id).onSnapshot((snapshot) => {
-        const checkIn = snapshot.data();
-        setStore((store) => ({ ...store, [id]: checkIn }));
-      });
-      unsubs.push(unsub);
-    }
-
-    return () => {
-      unsubs.forEach((unsub) => unsub());
-    };
-  }, [ids, collection, setStore]);
-
-  const checkIns: CheckIn[] = [];
-
-  let busy = false;
-  for (const id of ids) {
-    if (id in store) {
-      checkIns.push(store[id] as CheckIn);
-    } else {
-      busy = true;
-    }
-  }
-
-  return {
-    busy: busy,
-    data: checkIns,
-  };
-}
+export const useCheckInStore = createStoreHook<CheckIn>((db) =>
+  db.collection("check-ins").withConverter(checkInConverter)
+);
 
 type CheckInsQuery = {
   filters: {
@@ -56,7 +14,7 @@ type CheckInsQuery = {
   };
 };
 
-export function useCheckInSearch(query: CheckInsQuery): QueryResult<CheckIn[]> {
+export function useCheckInSearch(query: CheckInsQuery) {
   const [ids, setIds] = useState<string[]>([]);
 
   const db = useDB();
