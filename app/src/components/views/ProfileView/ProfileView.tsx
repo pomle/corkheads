@@ -35,7 +35,7 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
     };
   }, [user]);
 
-  const checkIns = useCheckInSearch(query);
+  const checkInResult = useCheckInSearch(query);
 
   return (
     <HeaderLayout>
@@ -61,7 +61,7 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
         </ActionButton>
 
         <ItemListGroup title="Check Ins">
-          {!checkIns.busy && (
+          {!checkInResult.busy && (
             <table>
               <thead>
                 <tr>
@@ -70,8 +70,8 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
                 </tr>
               </thead>
               <tbody>
-                {checkIns.data.map((checkIn) => {
-                  return <CheckIn checkInId={checkIn.id} />;
+                {checkInResult.data.map((checkIn) => {
+                  return <CheckIn key={checkIn.id} checkInId={checkIn.id} />;
                 })}
               </tbody>
             </table>
