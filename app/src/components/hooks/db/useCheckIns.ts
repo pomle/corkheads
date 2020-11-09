@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { checkInConverter } from "types/adapters";
 import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
@@ -58,8 +58,6 @@ type CheckInsQuery = {
 
 export function useCheckInSearch(query: CheckInsQuery): QueryResult<CheckIn[]> {
   const [ids, setIds] = useState<string[]>([]);
-  const [busy, setBusy] = useState<boolean>(false);
-  const index = useRef<number>(0);
 
   const db = useDB();
 
@@ -68,31 +66,17 @@ export function useCheckInSearch(query: CheckInsQuery): QueryResult<CheckIn[]> {
       return;
     }
 
-    const pointer = (index.current += 1);
-    setBusy(true);
-
     const userId = query.filters.userIds[0];
 
-    db.collection("users")
+    return db
+      .collection("users")
       .doc(userId)
       .collection("check-ins")
-      .get()
-      .then((result) => {
+      .onSnapshot((result) => {
         const ids = result.docs.map((doc) => doc.id);
         setIds(ids);
-      })
-      .finally(() => {
-        if (pointer === index.current) {
-          console.log("Matching run index");
-          setBusy(false);
-        }
       });
   }, [db, query]);
 
-  const checkInResult = useCheckInStore(ids);
-
-  return {
-    busy: busy || checkInResult.busy,
-    data: checkInResult.data,
-  };
+  return useCheckInStore(ids);
 }
