@@ -8,10 +8,14 @@ export const useCheckInStore = createStoreHook<CheckIn>((db) =>
   db.collection("check-ins").withConverter(checkInConverter)
 );
 
+type SortQuery = { [key: string]: "asc" | "desc" };
+
 type CheckInsQuery = {
   filters: {
     userIds: string[];
   };
+  sort?: SortQuery;
+  limit?: number;
 };
 
 export function useCheckInSearch(query: CheckInsQuery) {
