@@ -3,6 +3,8 @@ type Geolocation = {
   long: number;
 };
 
+export type User = firebase.User;
+
 type Container<T> = {
   id: string;
   data: T;
@@ -18,10 +20,10 @@ export type Article = Container<ArticleData>;
 type CheckInData = {
   userId: string;
   articleId: string;
+  rating?: number;
   placeId?: string;
-  rating: number;
-  geolocation: Geolocation;
-  comment: string;
+  comment?: string;
+  geolocation?: Geolocation;
 };
 
 export type CheckIn = Container<CheckInData>;

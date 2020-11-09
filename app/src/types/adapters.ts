@@ -1,4 +1,4 @@
-import { Article } from "./types";
+import { Article, CheckIn } from "./types";
 
 type Snapshot = firebase.firestore.QueryDocumentSnapshot;
 
@@ -16,6 +16,24 @@ export const articleConverter = {
     return {
       id: snapshot.id,
       data: { ...DEFAULT_ARTICLE, ...snapshot.data() },
+    };
+  },
+};
+
+const DEFAULT_CHECKIN = {
+  userId: "",
+  articleId: "",
+};
+
+export const checkInConverter = {
+  toFirestore(checkIn: CheckIn) {
+    return checkIn.data;
+  },
+
+  fromFirestore(snapshot: Snapshot): CheckIn {
+    return {
+      id: snapshot.id,
+      data: { ...DEFAULT_CHECKIN, ...snapshot.data() },
     };
   },
 };
