@@ -1,4 +1,6 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   overscroll-behavior: none;
 }
@@ -14,16 +16,17 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 a {
-  color: #2A2A2A;
+  color: #2a2a2a;
   text-decoration: none;
 }
 
-button, input {
+button,
+input {
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
@@ -38,11 +41,22 @@ button {
   text-align: inherit;
 }
 
+input {
+  color: #838383;
+  border: solid 1px #f6f6f6;
+  border-radius: 2px;
+}
+
 button > svg {
   display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
 
