@@ -1,8 +1,7 @@
 import React from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import BusyView from "../BusyView";
+import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 
 interface LoadingViewProps {
   nav: React.ReactNode;
@@ -10,12 +9,12 @@ interface LoadingViewProps {
 
 const LoadingView: React.FC<LoadingViewProps> = ({ nav, children }) => {
   return (
-    <HeaderLayout>
-      <ViewCap top>{nav}</ViewCap>
+    <FullScreenLayout>
       <ViewBody>
+        {nav}
         <BusyView>{children}</BusyView>
       </ViewBody>
-    </HeaderLayout>
+    </FullScreenLayout>
   );
 };
 

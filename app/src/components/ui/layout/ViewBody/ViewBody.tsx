@@ -7,7 +7,7 @@ import {
 
 const useStyles = makeStyles({
   ViewBody: {
-    background: "#F8F8F8",
+    background: "#e2e2e2",
     height: "100%",
     overflow: "scroll",
     position: "relative", // Creates link to children's offsetParent

@@ -17,14 +17,28 @@ const useStyles = makeStyles({
   },
 });
 
-interface ProfileHeadProps {}
+function resolveTitle(user: firebase.User) {
+  if (user.displayName) {
+    return user.displayName;
+  }
 
-const ProfileHead: React.FC<ProfileHeadProps> = () => {
+  if (user.email) {
+    return user.email;
+  }
+
+  return "Drinker Drinkinson";
+}
+
+interface ProfileHeadProps {
+  user: firebase.User;
+}
+
+const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
   const classes = useStyles();
   return (
     <div className={classes.profileHead}>
       <div className={classes.photo}></div>
-      <h2>Drinker Drinkinson</h2>
+      <h2>{resolveTitle(user)}</h2>
     </div>
   );
 };
