@@ -5,7 +5,7 @@ const useStyles = makeStyles({
   root: {
     display: "grid",
     gridAutoFlow: "column",
-    justifyContent: "start",
+    justifyContent: "stretch",
     gridGap: 16,
   },
 });
