@@ -1,11 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
-type ButtonType = "safe" | "danger" | "detail";
+type ButtonType = "action" | "safe" | "danger" | "detail";
 
 const calculateBackgroundColor = ({ variant }: ActionButtonProps) => {
   if (variant === "danger") {
     return "#FC5C63";
+  } else if (variant === "action") {
+    return "#F76640";
   } else if (variant === "detail") {
     return "#f8f8f8";
   }
@@ -22,11 +24,11 @@ const calculateFontColor = ({ variant }: ActionButtonProps) => {
 const useStyles = makeStyles({
   actionButton: {
     background: calculateBackgroundColor,
-    borderRadius: 24,
+    borderRadius: "2px",
     color: calculateFontColor,
-    fontSize: 14,
-    minWidth: 145,
-    padding: "8px 20px 9px 20px",
+    fontSize: 16,
+    fontWeight: 500,
+    padding: "16px 24px 16px 24px",
     textAlign: "center",
     "&[disabled]": {
       background: "#EAEAEA",
