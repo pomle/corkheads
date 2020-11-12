@@ -11,7 +11,7 @@ export const Password = localize({
 });
 
 export const DoLogin = localize({
-  [LC.enGB]: "Login",
+  [LC.enGB]: "Log in",
   [LC.svSE]: "Logga in",
 });
 

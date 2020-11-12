@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import Field from "components/ui/layout/Field";
-//import { useAuth } from "@internal/shared/hooks";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
@@ -9,11 +7,12 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
+import ActionButton from "components/ui/trigger/ActionButton";
 
 const useStyles = makeStyles({
-  root: {
+  resetPasswordView: {
     alignItems: "center",
-    background: "#FFF",
+    background: "#e2e2e2",
     display: "flex",
     flexFlow: "column",
     height: "100%",
@@ -37,19 +36,6 @@ const useStyles = makeStyles({
   completeMessage: {
     fontSize: 14,
     margin: 20,
-  },
-  button: {
-    background: "#5ADC9B",
-    borderRadius: 24,
-    color: "#FFF",
-    fontSize: 14,
-    textAlign: "center",
-    height: 48,
-    width: 145,
-    "&[disabled]": {
-      background: "#EAEAEA",
-      color: "#999999",
-    },
   },
 });
 
@@ -76,19 +62,28 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
 
   return (
     <HeaderLayout>
-      <ViewCap top>{nav}</ViewCap>
+      <ViewCap>{nav}</ViewCap>
       <ViewBody>
-        <div className={classes.root}>
+        <div className={classes.resetPasswordView}>
           <div className={classes.content}>
             <div className={classes.fields}>
-              <Field legend="Email">
-                <input
-                  type="email"
-                  name="reset-password-email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </Field>
+              <input
+                type="email"
+                name="reset-password-email"
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+
+              <ButtonSet>
+                <ActionButton
+                  variant="action"
+                  onClick={handleReset}
+                  disabled={!canAttemptReset}
+                >
+                  Send Instructions
+                </ActionButton>
+              </ButtonSet>
             </div>
 
             {wasSent && (
@@ -96,17 +91,6 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
                 An email with instructions have been sent to <b>{email}</b>.
               </p>
             )}
-
-            <ButtonSet>
-              <button
-                type="button"
-                className={classes.button}
-                onClick={handleReset}
-                disabled={!canAttemptReset}
-              >
-                Send Instructions
-              </button>
-            </ButtonSet>
           </div>
         </div>
       </ViewBody>

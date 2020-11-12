@@ -32,6 +32,16 @@ input {
   font-weight: inherit;
 }
 
+input {
+  color: #838383;
+  border: solid 1px #f6f6f6;
+  border-radius: 2px;
+  font-size: 18px;
+  font-weight: 500;
+  outline: "none";
+  padding: 16px;
+}
+
 button {
   background: none;
   border: none;
@@ -39,12 +49,6 @@ button {
   margin: 0;
   padding: 0;
   text-align: inherit;
-}
-
-input {
-  color: #838383;
-  border: solid 1px #f6f6f6;
-  border-radius: 2px;
 }
 
 button > svg {

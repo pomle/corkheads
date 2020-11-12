@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import logo from "assets/graphics/corkheads-logo.png";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
-import Field from "components/ui/layout/Field";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
@@ -11,11 +10,12 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
 import * as Text from "./locales";
+import ActionButton from "components/ui/trigger/ActionButton";
 
 const useStyles = makeStyles({
-  root: {
+  loginView: {
     alignItems: "center",
-    background: "#FFF",
+    background: "#e2e2e2",
     display: "flex",
     flexFlow: "column",
     height: "100%",
@@ -32,25 +32,12 @@ const useStyles = makeStyles({
   },
   fields: {
     display: "grid",
-    gridGap: 20,
+    gridGap: 16,
     margin: "40px 0",
     width: "100%",
   },
-  button: {
-    background: "#5ADC9B",
-    borderRadius: 24,
-    color: "#FFF",
-    fontSize: 14,
-    textAlign: "center",
-    height: 48,
-    width: 145,
-    "&[disabled]": {
-      background: "#EAEAEA",
-      color: "#999999",
-    },
-  },
   forgotPassword: {
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 20,
   },
 });
@@ -85,44 +72,41 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
   return (
     <ViewStack>
       <FullScreenLayout>
-        <div className={classes.root}>
+        <div className={classes.loginView}>
           <form className={classes.content}>
             <div className={classes.logo}>
               <img src={logo} alt="Corkheads logo" width="240" height="240" />
             </div>
 
             <div className={classes.fields}>
-              <Field legend={<Text.Email />}>
-                <input
-                  type="email"
-                  name="login-email"
-                  autoComplete="login-email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-              </Field>
+              <input
+                type="email"
+                name="login-email"
+                placeholder="Email"
+                autoComplete="login-email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
 
-              <Field legend={<Text.Password />}>
-                <input
-                  type="password"
-                  name="login-password"
-                  autoComplete="login-password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-              </Field>
+              <input
+                type="password"
+                name="login-password"
+                placeholder="Password"
+                autoComplete="login-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+
+              <ButtonSet>
+                <ActionButton
+                  variant="action"
+                  onClick={handleSubmit}
+                  disabled={!canAttemptLogin}
+                >
+                  <Text.DoLogin />
+                </ActionButton>
+              </ButtonSet>
             </div>
-
-            <ButtonSet>
-              <button
-                type="button"
-                className={classes.button}
-                onClick={handleSubmit}
-                disabled={!canAttemptLogin}
-              >
-                <Text.DoLogin />
-              </button>
-            </ButtonSet>
 
             <button
               type="button"
