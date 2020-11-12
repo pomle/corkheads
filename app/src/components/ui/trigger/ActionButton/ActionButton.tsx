@@ -26,8 +26,6 @@ const useStyles = makeStyles({
     background: calculateBackgroundColor,
     borderRadius: "2px",
     color: calculateFontColor,
-    fontSize: 16,
-    fontWeight: 500,
     padding: "16px 24px 16px 24px",
     textAlign: "center",
     "&[disabled]": {
