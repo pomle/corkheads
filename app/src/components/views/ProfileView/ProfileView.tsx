@@ -15,10 +15,6 @@ import { useArticleStore } from "components/hooks/db/useArticles";
 
 interface ProfileViewProps {}
 
-const articleIdsA = ["AAA", "BBB", "CCC"];
-
-const articleIdsB = ["GGG", "FFF", "CCC"];
-
 const ProfileView: React.FC<ProfileViewProps> = () => {
   const history = useHistory();
 
@@ -50,12 +46,7 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
   }, [checkInResult.data]);
 
   const articleResult = useArticleStore(articleIds);
-  const articleResultA = useArticleStore(articleIdsA);
-  const articleResultB = useArticleStore(articleIdsB);
-
   console.log("Based on IDs", articleIds, articleResult);
-  console.log("A", articleResultA);
-  console.log("B", articleResultB);
 
   if (!user || checkInResult.busy) {
     return <BusyView />;
