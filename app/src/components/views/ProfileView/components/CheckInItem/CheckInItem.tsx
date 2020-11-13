@@ -4,12 +4,26 @@ import { Article, CheckIn } from "types/types";
 import Badge from "components/ui/typography/Badge";
 import Rating from "components/ui/indicators/Rating";
 
+type StyleProps = {
+  photoURL?: string;
+};
+
+function backgroundImage({ photoURL }: StyleProps) {
+  if (photoURL) {
+    return `url(${photoURL})`;
+  }
+  return "none";
+}
+
 const useStyles = makeStyles({
   checkIn: {
     display: "flex",
   },
   photo: {
     background: "#c9c9c9",
+    backgroundImage,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     overflow: "hidden",
     height: "85px",
     width: "85px",
@@ -48,7 +62,7 @@ interface CheckInItemProps {
 }
 
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
-  const classes = useStyles();
+  const classes = useStyles({ photoURL: article.data.photoURL });
   return (
     <div className={classes.checkIn}>
       <div className={classes.photo}></div>
