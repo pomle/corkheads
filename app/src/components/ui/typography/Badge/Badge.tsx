@@ -1,0 +1,24 @@
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  root: {
+    background: "#ff6a41",
+    borderRadius: "10px",
+    color: "#fff",
+    fontSize: "9px",
+    lineHeight: 1,
+    padding: "2px 16px 3px 16px",
+    textAlign: "center",
+    textTransform: "uppercase",
+  },
+});
+
+interface BadgeProps {}
+
+const Badge: React.FC<BadgeProps> = ({ children }) => {
+  const classes = useStyles();
+  return <div className={classes.root}>{children}</div>;
+};
+
+export default Badge;
