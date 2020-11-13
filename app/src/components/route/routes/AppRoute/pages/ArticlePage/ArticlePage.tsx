@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo } from "react";
-import { useArticleStore } from "components/hooks/db/useArticles";
+import React, { useCallback } from "react";
+import { useArticle } from "components/hooks/db/useArticles";
 import ArticleDetailsView from "components/views/ArticleDetailsView";
 import LoadingView from "components/views/LoadingView";
 import ErrorView from "components/views/ErrorView";
@@ -16,26 +16,23 @@ const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
     history.push(url);
   }, [history]);
 
-  const ids = useMemo(() => [articleId], [articleId]);
-
-  const result = useArticleStore(ids);
-
   const nav = (
     <NavigationBar
       back={<BackButton onClick={goToProfile}>Profile</BackButton>}
     />
   );
 
+  const result = useArticle(articleId);
+
   if (result.busy) {
     return <LoadingView nav={nav} />;
   }
 
-  const article = result.data[0];
-  if (!article) {
+  if (!result.data) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 
-  return <ArticleDetailsView nav={nav} article={article} />;
+  return <ArticleDetailsView nav={nav} article={result.data} />;
 };
 
 export default ArticlePage;

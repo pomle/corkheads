@@ -11,6 +11,7 @@ import BusyView from "components/views/BusyView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import ProfileHead from "./components/ProfileHead";
+import { useArticleStore } from "components/hooks/db/useArticles";
 
 interface ProfileViewProps {}
 
@@ -36,6 +37,16 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
   }, [user]);
 
   const checkInResult = useCheckInSearch(query);
+  console.log("CheckInResult", checkInResult);
+
+  const articleIds = useMemo(() => {
+    return Object.values(checkInResult.data).map(
+      (checkIn) => checkIn.data.articleId
+    );
+  }, [checkInResult.data]);
+
+  const articleResult = useArticleStore(articleIds);
+  console.log("Based on IDs", articleIds, articleResult);
 
   if (!user || checkInResult.busy) {
     return <BusyView />;

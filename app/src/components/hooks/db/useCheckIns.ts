@@ -4,8 +4,9 @@ import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
 import { createStoreHook } from "../createStoreHook";
 
-export const useCheckInStore = createStoreHook<CheckIn>((db) =>
-  db.collection("check-ins").withConverter(checkInConverter)
+export const useCheckInStore = createStoreHook<CheckIn>(
+  (db) => db.collection("check-ins").withConverter(checkInConverter),
+  "checkIns"
 );
 
 type SortQuery = { [key: string]: "asc" | "desc" };
@@ -38,6 +39,7 @@ export function useCheckInSearch(query: CheckInsQuery) {
       .limit(query.limit || 10)
       .onSnapshot((result) => {
         const ids = result.docs.map((doc) => doc.id);
+        console.log("Updating search ids");
         setIds(ids);
       });
   }, [db, query]);
