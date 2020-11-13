@@ -28,8 +28,6 @@ export function createStoreHook<T>(
 ) {
   const cache: { [key: string]: any } = Object.create(null);
 
-  const subscribers: { [key: string]: Subscription } = Object.create(null);
-
   function useObjectIndex<T>(
     ids: string[]
   ): [Index<T>, (id: string, object: T) => void] {
@@ -72,6 +70,8 @@ export function createStoreHook<T>(
 
     return [data, updateIndex];
   }
+
+  const subscribers: { [key: string]: Subscription } = Object.create(null);
 
   return function useStore(ids: string[]): StoreResult<T> {
     const [index, updateIndex] = useObjectIndex<T>(ids);
