@@ -43,7 +43,7 @@ export function createStoreHook<T>(
       for (const id of ids) {
         console.log("Checking cache for", tag, id, cache);
         if (id in cache) {
-          if (cache[id] !== data[id]) {
+          if (cache[id]) {
             index[id] = cache[id];
             commit = true;
           }
@@ -54,7 +54,7 @@ export function createStoreHook<T>(
         console.log("Updating data object for", tag);
         setData(index);
       }
-    }, [ids, data]);
+    }, [ids]);
 
     useEffect(() => {
       refreshIndex();
