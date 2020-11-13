@@ -156,7 +156,6 @@ const CheckInView: React.FC<CheckInViewProps> = ({
       });
   }, [user.uid, checkIn, db, onSuccess]);
 
-
   const canCheckIn = isCheckInValid(checkIn);
 
   const classes = useStyles();
