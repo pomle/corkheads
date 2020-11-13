@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  FullScreenLayout: {
     display: "flex",
     height: "100%",
     pointerEvents: "all",
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 const FullScreenLayout: React.FC = ({ children }) => {
   const classes = useStyles();
 
-  return <div className={classes.root}>{children}</div>;
+  return <div className={classes.FullScreenLayout}>{children}</div>;
 };
 
 export default FullScreenLayout;
