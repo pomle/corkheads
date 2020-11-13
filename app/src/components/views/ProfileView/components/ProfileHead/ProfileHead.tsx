@@ -1,6 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type StyleProps = {
+  photoURL?: string;
+};
+
+function backgroundImage({ photoURL }: StyleProps) {
+  if (photoURL) {
+    return `url(${photoURL})`;
+  }
+
+  return "none";
+}
+
 const useStyles = makeStyles({
   profileHead: {
     alignItems: "center",
@@ -9,7 +21,10 @@ const useStyles = makeStyles({
     marginBottom: "40px",
   },
   photo: {
-    background: "#fff",
+    backgroundColor: "#fff",
+    backgroundImage,
+    backgroundPosition: "center",
+    backgroundSize: "contain",
     borderRadius: "50%",
     margin: "24px",
     overflow: "hidden",
@@ -40,7 +55,10 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
-  const classes = useStyles();
+  const classes = useStyles({
+    photoURL: user.photoURL || undefined,
+  });
+
   return (
     <div className={classes.profileHead}>
       <div className={classes.photo}></div>
