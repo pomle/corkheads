@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import ViewBody from "components/ui/layout/ViewBody";
 import * as Trans from "./locales";
@@ -20,8 +20,6 @@ const articleIdsA = ["AAA", "BBB", "CCC"];
 const articleIdsB = ["GGG", "FFF", "CCC"];
 
 const ProfileView: React.FC<ProfileViewProps> = () => {
-  const [state, setState] = useState<number>(0);
-
   const history = useHistory();
 
   const signOut = useExplicitLogout();
@@ -50,17 +48,6 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
       (checkIn) => checkIn.data.articleId
     );
   }, [checkInResult.data]);
-
-  useMemo(() => {
-    console.log("articleIds", articleIds);
-  }, [articleIds]);
-
-  //console.log(articleIds);
-
-  /*useEffect(() => {
-    const timer = setInterval(() => setState((state) => (state += 1)), 1000);
-    return () => clearInterval(timer);
-  }, []);*/
 
   const articleResultA = useArticleStore(articleIdsA);
   const articleResultB = useArticleStore(articleIdsB);

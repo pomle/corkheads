@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useObjectStore } from "components/context/ObjectStoreContext";
 import { useDB } from "components/hooks/useDB";
 
 const EMPTY = Object.create(null);
@@ -113,9 +112,10 @@ export function createStoreHook<T>(
             delete subscribers[sub.id];
           }
         }
+
         console.log("OFF", tag, subscribers);
       };
-    }, [ids]);
+    }, [ids, updateIndex]);
 
     return useMemo(
       () => ({
