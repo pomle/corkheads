@@ -1,10 +1,8 @@
 import React, { useCallback } from "react";
-import ViewStack from "components/ui/layout/ViewStack";
 import LoginView from "components/views/LoginView";
-import BusyView from "components/views/BusyView";
-import Fade from "components/ui/transitions/Fade";
 import { useHandler } from "components/hooks/useHandler";
 import { useAuth } from "components/hooks/useAuth";
+import Lock from "components/ui/transitions/Lock";
 
 const AuthenticationView: React.FC = () => {
   const { auth } = useAuth();
@@ -24,12 +22,9 @@ const AuthenticationView: React.FC = () => {
   const shouldPromptUser = !submitHandle.busy && !auth.currentUser;
 
   return (
-    <ViewStack>
-      <BusyView />
-      <Fade active={shouldPromptUser}>
-        <LoginView onSubmit={submitHandle.callback} />
-      </Fade>
-    </ViewStack>
+    <Lock active={shouldPromptUser}>
+      <LoginView onSubmit={submitHandle.callback} />
+    </Lock>
   );
 };
 
