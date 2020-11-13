@@ -7,7 +7,7 @@ const opacity = ({ active }: TransitionEffectProps) => {
 };
 
 const useStyles = makeStyles({
-  fade: {
+  Fade: {
     height: "100%",
     opacity,
     transition: "opacity 0.5s ease",
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 
 const Fade: React.FC<TransitionEffectProps> = ({ active, children }) => {
   const classes = useStyles({ active });
-  return <div className={classes.fade}>{children}</div>;
+  return <div className={classes.Fade}>{children}</div>;
 };
 
 export default Fade;

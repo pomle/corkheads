@@ -16,7 +16,7 @@ const transform = ({ active, direction }: SlideProps) => {
 };
 
 const useStyles = makeStyles({
-  slide: {
+  Slide: {
     boxShadow: "0 0 20px -10px",
     height: "100%",
     transform,
@@ -32,7 +32,7 @@ interface SlideProps extends TransitionEffectProps {
 
 const Slide: React.FC<SlideProps> = ({ active, direction, children }) => {
   const classes = useStyles({ active, direction });
-  return <div className={classes.slide}>{children}</div>;
+  return <div className={classes.Slide}>{children}</div>;
 };
 
 export default Slide;

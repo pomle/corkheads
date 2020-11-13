@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  ViewStack: {
     height: "100%",
     overflow: "hidden",
     position: "relative",
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 const ViewStack: React.FC = ({ children }) => {
   const classes = useStyles();
 
-  return <div className={classes.root}>{children}</div>;
+  return <div className={classes.ViewStack}>{children}</div>;
 };
 
 export default ViewStack;

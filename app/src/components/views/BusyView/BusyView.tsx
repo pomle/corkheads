@@ -4,9 +4,8 @@ import LineThrobber from "components/ui/throbbers/LineThrobber";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 
 const useStyles = makeStyles({
-  root: {
+  BusyView: {
     alignItems: "center",
-    background: "#fff",
     display: "flex",
     flexFlow: "column",
     justifyContent: "center",
@@ -25,7 +24,7 @@ const BusyView: React.FC = ({ children }) => {
 
   return (
     <FullScreenLayout>
-      <div className={classes.root}>
+      <div className={classes.BusyView}>
         <div className={classes.throbber}>
           <LineThrobber />
         </div>
