@@ -13,6 +13,7 @@ type Container<T> = {
 type ArticleData = {
   displayName: string;
   manufacturer: string;
+  photoURL?: string;
 };
 
 export type Article = Container<ArticleData>;
