@@ -74,7 +74,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   }, [checkInHistoryResult.data]);
 
   const articleHistoryResult = useArticleStore(articleIds);
-  console.log("articleHistoryResult", articleHistoryResult);
 
   const topArticles = useMemo(() => {
     if (topArticlesResult.busy) {
