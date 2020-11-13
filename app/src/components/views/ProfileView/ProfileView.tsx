@@ -12,6 +12,9 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import ProfileHead from "./components/ProfileHead";
 import { useArticleStore } from "components/hooks/db/useArticles";
+import CheckInItem from "./components/CheckInItem";
+import Section from "./components/Section";
+import SectionList from "./components/SectionList";
 
 interface ProfileViewProps {}
 
@@ -24,6 +27,14 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
     const url = paths.exploreArticles.url({});
     history.push(url);
   }, [history]);
+
+  const goToArticle = useCallback(
+    (articleId: string) => {
+      const url = paths.articleView.url({ articleId });
+      history.push(url);
+    },
+    [history]
+  );
 
   const user = useUser();
 
@@ -46,11 +57,8 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
   }, [checkInResult.data]);
 
   const articleResult = useArticleStore(articleIds);
-  console.log("Based on IDs", articleIds, articleResult);
 
-  console.log("Busy view", !user, checkInResult.busy);
-
-  if (!user || checkInResult.busy) {
+  if (!user || checkInResult.busy || articleResult.busy) {
     return <BusyView />;
   }
 
@@ -61,7 +69,41 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
 
         <ProfileHead user={user} />
 
-        <ActionButton variant="safe" onClick={goToExplore}>
+        <SectionList>
+          <Section header="Top drinks">
+            {checkInResult.data.map((checkIn) => {
+              const articleId = checkIn.data.articleId;
+              const article = articleResult.data[articleId];
+              return (
+                <button onClick={() => goToArticle(articleId)}>
+                  <CheckInItem
+                    key={checkIn.id}
+                    checkIn={checkIn}
+                    article={article}
+                  />
+                </button>
+              );
+            })}
+          </Section>
+
+          <Section header="History">
+            {checkInResult.data.map((checkIn) => {
+              const articleId = checkIn.data.articleId;
+              const article = articleResult.data[articleId];
+              return (
+                <button onClick={() => goToArticle(articleId)}>
+                  <CheckInItem
+                    key={checkIn.id}
+                    checkIn={checkIn}
+                    article={article}
+                  />
+                </button>
+              );
+            })}
+          </Section>
+        </SectionList>
+
+        <ActionButton variant="action" onClick={goToExplore}>
           <Trans.FindDrink />
         </ActionButton>
       </ViewBody>

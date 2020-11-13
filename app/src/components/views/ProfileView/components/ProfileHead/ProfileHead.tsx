@@ -6,14 +6,20 @@ const useStyles = makeStyles({
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
+    marginBottom: "40px",
   },
   photo: {
     background: "#fff",
     borderRadius: "50%",
-    margin: "16px",
+    margin: "24px",
     overflow: "hidden",
     height: "120px",
     width: "120px",
+  },
+  identity: {
+    color: "#5a5a5a",
+    fontSize: "17px",
+    fontWeight: 700,
   },
 });
 
@@ -38,7 +44,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
   return (
     <div className={classes.profileHead}>
       <div className={classes.photo}></div>
-      <h2>{resolveTitle(user)}</h2>
+      <h2 className={classes.identity}>{resolveTitle(user)}</h2>
     </div>
   );
 };
