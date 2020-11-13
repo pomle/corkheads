@@ -48,6 +48,8 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
   const articleResult = useArticleStore(articleIds);
   console.log("Based on IDs", articleIds, articleResult);
 
+  console.log("Busy view", !user, checkInResult.busy);
+
   if (!user || checkInResult.busy) {
     return <BusyView />;
   }

@@ -57,6 +57,7 @@ export function createStoreHook<T>(
     }, [ids]);
 
     useEffect(() => {
+      setData(EMPTY);
       refreshIndex();
     }, [refreshIndex]);
 
@@ -128,4 +129,8 @@ export function createStoreHook<T>(
       [ids, index]
     );
   };
+}
+
+export function toList<T>(ids: string[], index: { [key: string]: T }) {
+  return ids.filter((id) => index[id]).map((id) => index[id]);
 }

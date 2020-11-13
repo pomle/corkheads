@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { articleConverter } from "types/adapters";
 import { useArticleIndex } from "components/hooks/algolia";
-import { createStoreHook } from "../createStoreHook";
+import { createStoreHook, toList } from "../createStoreHook";
 import { Article } from "types/types";
 
 export const useArticleStore = createStoreHook<Article>(
@@ -24,12 +24,6 @@ type ArticlesQuery = {
   };
 };
 
-function useMapToList<T>(ids: string[], index: { [key: string]: T }) {
-  return useMemo(() => {
-    return ids.filter((id) => index[id]).map((id) => index[id]);
-  }, [ids, index]);
-}
-
 export function useArticleSearch(query: ArticlesQuery) {
   const [ids, setIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);
@@ -51,13 +45,16 @@ export function useArticleSearch(query: ArticlesQuery) {
 
   const articleResult = useArticleStore(ids);
 
-  const data = useMapToList(ids, articleResult.data);
+  const list = useMemo(() => toList(ids, articleResult.data), [
+    ids,
+    articleResult.data,
+  ]);
 
   return useMemo(
     () => ({
       busy: busy || articleResult.busy,
-      data,
+      data: list,
     }),
-    [articleResult.busy, data, busy]
+    [articleResult.busy, list, busy]
   );
 }

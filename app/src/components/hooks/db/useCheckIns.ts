@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { checkInConverter } from "types/adapters";
 import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
-import { createStoreHook } from "../createStoreHook";
+import { createStoreHook, toList } from "../createStoreHook";
 
 export const useCheckInStore = createStoreHook<CheckIn>(
   (db) => db.collection("check-ins").withConverter(checkInConverter),
@@ -20,6 +20,7 @@ type CheckInsQuery = {
 };
 
 export function useCheckInSearch(query: CheckInsQuery) {
+  const [busy, setBusy] = useState<boolean>(true);
   const [ids, setIds] = useState<string[]>([]);
 
   const db = useDB();
@@ -41,8 +42,22 @@ export function useCheckInSearch(query: CheckInsQuery) {
         const ids = result.docs.map((doc) => doc.id);
         console.log("Updating search ids");
         setIds(ids);
+        setBusy(false);
       });
   }, [db, query]);
 
-  return useCheckInStore(ids);
+  const checkInResult = useCheckInStore(ids);
+
+  const list = useMemo(() => toList(ids, checkInResult.data), [
+    ids,
+    checkInResult.data,
+  ]);
+
+  return useMemo(
+    () => ({
+      busy: busy || checkInResult.busy,
+      data: list,
+    }),
+    [checkInResult.busy, list, busy]
+  );
 }
