@@ -15,11 +15,9 @@ import { useArticleStore } from "components/hooks/db/useArticles";
 
 interface ProfileViewProps {}
 
-const articleIdsAAAA = [
-  "FMBAGrodXDnkN7h9OKly",
-  "FMBAGrodXDnkN7h9OKly",
-  "4mnxd6fi3AigLRSTjkKf",
-];
+const articleIdsA = ["AAA", "BBB", "CCC"];
+
+const articleIdsB = ["GGG", "FFF", "CCC"];
 
 const ProfileView: React.FC<ProfileViewProps> = () => {
   const [state, setState] = useState<number>(0);
@@ -64,9 +62,10 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
     return () => clearInterval(timer);
   }, []);*/
 
-  const articleResult = useArticleStore(articleIdsAAAA);
-  const articleResult2 = useArticleStore(articleIdsAAAA);
-  console.log(articleResult);
+  const articleResultA = useArticleStore(articleIdsA);
+  const articleResultB = useArticleStore(articleIdsB);
+  console.log("A", articleResultA);
+  console.log("B", articleResultB);
 
   if (!user || checkInResult.busy) {
     return <BusyView />;
