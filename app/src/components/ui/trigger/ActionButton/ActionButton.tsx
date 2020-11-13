@@ -24,7 +24,7 @@ const calculateFontColor = ({ variant }: ActionButtonProps) => {
 const useStyles = makeStyles({
   actionButton: {
     background: calculateBackgroundColor,
-    borderRadius: "2px",
+    borderRadius: "4px",
     color: calculateFontColor,
     padding: "16px 24px 16px 24px",
     textAlign: "center",
