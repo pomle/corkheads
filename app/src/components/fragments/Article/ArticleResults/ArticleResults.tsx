@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
 import ItemList from "components/ui/layout/ItemList";
-import ItemListItem from "components/ui/layout/ItemListItem";
-import CaptionedPair from "components/ui/typography/CaptionedPair";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import { useArticleSearch } from "components/hooks/db/useArticles";
 import { Article } from "types/types";
+import ArticleItem from "components/views/ExploreArticlesView/components/ArticleItem/ArticleItem";
 
 interface ArticleResultsProps {
   query: string;
@@ -37,12 +36,9 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
     <ItemList>
       {articles.map((article) => {
         return (
-          <ItemListItem key={article.id} onClick={() => onSelect(article)}>
-            <CaptionedPair
-              primary={article.data.displayName}
-              secondary={article.data.manufacturer}
-            />
-          </ItemListItem>
+          <button onClick={() => onSelect(article)}>
+            <ArticleItem key={article.id} article={article} />
+          </button>
         );
       })}
     </ItemList>

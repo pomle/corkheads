@@ -12,6 +12,7 @@ import { useArticleStore } from "components/hooks/db/useArticles";
 import CheckInItem from "./components/CheckInItem";
 import Section from "./components/Section";
 import SectionList from "./components/SectionList";
+import ItemList from "components/ui/layout/ItemList";
 
 interface ProfileViewProps {
   user: firebase.User;
@@ -63,35 +64,39 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
 
         <SectionList>
           <Section header="Top drinks">
-            {checkInResult.data.map((checkIn) => {
-              const articleId = checkIn.data.articleId;
-              const article = articleResult.data[articleId];
-              return (
-                <button onClick={() => goToArticle(articleId)}>
-                  <CheckInItem
-                    key={checkIn.id}
-                    checkIn={checkIn}
-                    article={article}
-                  />
-                </button>
-              );
-            })}
+            <ItemList>
+              {checkInResult.data.map((checkIn) => {
+                const articleId = checkIn.data.articleId;
+                const article = articleResult.data[articleId];
+                return (
+                  <button onClick={() => goToArticle(articleId)}>
+                    <CheckInItem
+                      key={checkIn.id}
+                      checkIn={checkIn}
+                      article={article}
+                    />
+                  </button>
+                );
+              })}
+            </ItemList>
           </Section>
 
           <Section header="History">
-            {checkInResult.data.map((checkIn) => {
-              const articleId = checkIn.data.articleId;
-              const article = articleResult.data[articleId];
-              return (
-                <button onClick={() => goToArticle(articleId)}>
-                  <CheckInItem
-                    key={checkIn.id}
-                    checkIn={checkIn}
-                    article={article}
-                  />
-                </button>
-              );
-            })}
+            <ItemList>
+              {checkInResult.data.map((checkIn) => {
+                const articleId = checkIn.data.articleId;
+                const article = articleResult.data[articleId];
+                return (
+                  <button onClick={() => goToArticle(articleId)}>
+                    <CheckInItem
+                      key={checkIn.id}
+                      checkIn={checkIn}
+                      article={article}
+                    />
+                  </button>
+                );
+              })}
+            </ItemList>
           </Section>
         </SectionList>
       </ViewBody>

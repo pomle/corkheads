@@ -8,15 +8,12 @@ import { Article } from "types/types";
 const MIN_QUERY_LENGTH = 3;
 
 const useStyles = makeStyles({
-  root: {},
+  ArticleSelect: {},
   searchBar: {
     display: "flex",
-    padding: "10px",
-    "& input": {
-      border: "1px solid #DDD",
-      borderRadius: 20,
-      padding: "6px 15px 8px 15px",
-      width: "100%",
+    padding: "24px",
+    "& > input": {
+      flex: "1",
     },
   },
 });
@@ -31,7 +28,7 @@ const ArticleSelect: React.FC<ArticleSelectProps> = ({ onSelect }) => {
   const [query, setQuery] = useSharedInput("site-select-query", "");
 
   return (
-    <div className={classes.root}>
+    <div className={classes.ArticleSelect}>
       <div className={classes.searchBar}>
         <input
           type="text"
