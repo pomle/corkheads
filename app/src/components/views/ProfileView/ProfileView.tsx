@@ -76,8 +76,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             <ItemList>
               {topArticlesResult.data.map((article) => {
                 return (
-                  <button onClick={() => goToArticle(article.id)}>
-                    <ArticleItem key={article.id} article={article} />
+                  <button
+                    key={article.id}
+                    onClick={() => goToArticle(article.id)}
+                  >
+                    <ArticleItem article={article} />
                   </button>
                 );
               })}
@@ -90,12 +93,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 const articleId = checkIn.data.articleId;
                 const article = articleHistoryResult.data[articleId];
                 return (
-                  <button onClick={() => goToArticle(articleId)}>
-                    <CheckInItem
-                      key={checkIn.id}
-                      checkIn={checkIn}
-                      article={article}
-                    />
+                  <button
+                    key={checkIn.id}
+                    onClick={() => goToArticle(articleId)}
+                  >
+                    <CheckInItem checkIn={checkIn} article={article} />
                   </button>
                 );
               })}
