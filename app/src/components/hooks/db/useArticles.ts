@@ -9,6 +9,15 @@ export const useArticleStore = createStoreHook<Article>(
   "articles"
 );
 
+export function useArticle(articleId: string) {
+  const ids = useMemo(() => [articleId], [articleId]);
+  const result = useArticleStore(ids);
+  return {
+    busy: result.busy,
+    data: articleId in result.data ? result.data[articleId] : undefined,
+  };
+}
+
 type ArticlesQuery = {
   search: {
     text: string;
