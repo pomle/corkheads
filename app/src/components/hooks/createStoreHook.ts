@@ -58,7 +58,7 @@ export function createStoreHook<T>(
 
     useEffect(() => {
       refreshIndex();
-    }, [ids]);
+    }, [refreshIndex]);
 
     const updateIndex = useCallback(
       (id: string, object: T) => {
@@ -66,7 +66,7 @@ export function createStoreHook<T>(
         cache[id] = object;
         refreshIndex();
       },
-      [ids]
+      [refreshIndex]
     );
 
     console.log("Retuning data", tag, data);
