@@ -89,15 +89,9 @@ export function createStoreHook<T>(
         let sub: Subscription;
 
         if (!subscribers[id]) {
-          const object = {
-            id,
-            data: { articleId: id, displayName: id, manufacturer: id },
-          };
-          const timer = setTimeout(() => {
-            updateIndex(id, (object as unknown) as T);
-          }, 1000);
-
-          const unsub = () => clearTimeout(timer);
+          const unsub = collection.doc(id).onSnapshot((result) => {
+            updateIndex(id, result.data() as T);
+          });
 
           subscribers[id] = {
             id,
@@ -124,7 +118,7 @@ export function createStoreHook<T>(
 
         console.log("OFF", tag, subscribers);
       };
-    }, [ids, updateIndex]);
+    }, [ids, collection, updateIndex]);
 
     return useMemo(
       () => ({
