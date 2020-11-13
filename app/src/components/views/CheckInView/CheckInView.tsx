@@ -6,13 +6,31 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article, CheckIn, User } from "types/types";
 import ActionButton from "components/ui/trigger/ActionButton";
-import ItemListGroup from "components/ui/layout/ItemListGroup";
-import ItemListItem from "components/ui/layout/ItemListItem";
 import { useGeolocation } from "components/hooks/useGeolocation";
 import { useDB } from "components/hooks/useDB";
 import moment from "moment";
+import { makeStyles } from "@material-ui/styles";
+import RatingInput from "./component/RatingInput";
+import Section from "components/ui/layout/Section";
+import SectionList from "components/ui/layout/SectionList";
 
-const RATINGS = [1, 2, 3, 4, 5];
+const useStyles = makeStyles({
+  photo: {
+    background: "#fff",
+    color: "#5a5a5a",
+    height: "100vw",
+    maxHeight: "400px",
+
+    padding: "24px",
+    "& > .content": {
+      display: "flex",
+      flexFlow: "column",
+      height: "100%",
+      justifyContent: "space-between",
+      textAlign: "center",
+    },
+  },
+});
 
 interface CheckInViewProps {
   nav: React.ReactNode;
@@ -33,6 +51,22 @@ function createCheckIn(article: Article, user: User): CheckIn {
       userId: user.uid,
       articleId: article.id,
     },
+  };
+}
+
+function copyPosition(position: Position) {
+  const coords = position.coords;
+  return {
+    coords: {
+      accuracy: coords.accuracy,
+      altitude: coords.altitude,
+      altitudeAccuracy: coords.altitudeAccuracy,
+      heading: coords.heading,
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+      speed: coords.speed,
+    },
+    timestamp: position.timestamp,
   };
 }
 
@@ -65,12 +99,21 @@ const CheckInView: React.FC<CheckInViewProps> = ({
     [updateCheckIn]
   );
 
+  const setPosition = useCallback(
+    (position: Position | undefined) => {
+      updateCheckIn({ position });
+    },
+    [updateCheckIn]
+  );
+
   const setComment = useCallback(
     (comment: string) => {
       updateCheckIn({ comment });
     },
     [updateCheckIn]
   );
+
+  const { position } = useGeolocation();
 
   const db = useDB();
 
@@ -113,9 +156,10 @@ const CheckInView: React.FC<CheckInViewProps> = ({
       });
   }, [user.uid, checkIn, db, onSuccess]);
 
-  const { position } = useGeolocation();
 
   const canCheckIn = isCheckInValid(checkIn);
+
+  const classes = useStyles();
 
   return (
     <HeaderLayout>
@@ -124,69 +168,54 @@ const CheckInView: React.FC<CheckInViewProps> = ({
         <ViewTitle title="Check In" />
       </ViewCap>
       <ViewBody>
-        <div
-          style={{ display: "flex", flexDirection: "column", padding: "16px" }}
-        >
-          <h1>{article.data.displayName}</h1>
-          <h3>
-            by <b>{article.data.manufacturer}</b>
-          </h3>
-          <ItemListGroup title="Rating">
-            <ItemListItem>
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: "24px",
-                  justifyContent: "space-around",
-                }}
-              >
-                {RATINGS.map((r) => (
-                  <button
-                    style={{
-                      filter:
-                        checkIn.data.rating && checkIn.data.rating >= r
-                          ? "grayscale(0%)"
-                          : "grayscale(100%)",
-                    }}
-                    key={r}
-                    onClick={() => setRating(r)}
-                  >
-                    ⭐
-                  </button>
-                ))}
-              </div>
-            </ItemListItem>
-          </ItemListGroup>
+        <div className={classes.photo}>
+          <div className="content">
+            <div>
+              <h3>{article.data.displayName}</h3>
+              <h5>{article.data.manufacturer}</h5>
+            </div>
 
-          <ItemListGroup title="Location">
-            <ItemListItem>
-              Position:
-              {position && (
-                <>
-                  <div>Lat: {position?.coords.latitude}</div>
-                  <div>Long: {position?.coords.longitude}</div>
-                </>
-              )}
-            </ItemListItem>
-          </ItemListGroup>
+            <RatingInput
+              rating={checkIn.data.rating || 0}
+              onChange={setRating}
+            />
 
-          <ItemListGroup title="Comment">
-            <ItemListItem>
-              <textarea
-                value={checkIn.data.comment || ""}
-                onChange={(event) => setComment(event?.target.value)}
-              />
-            </ItemListItem>
-          </ItemListGroup>
-
-          <ActionButton
-            disabled={!canCheckIn}
-            variant="safe"
-            onClick={commitCheckIn}
-          >
-            Check in Now
-          </ActionButton>
+            <ActionButton
+              disabled={!canCheckIn}
+              variant="action"
+              onClick={commitCheckIn}
+            >
+              Check in now
+            </ActionButton>
+          </div>
         </div>
+
+        <SectionList>
+          <Section header="Location">
+            <ActionButton
+              disabled={!position}
+              variant="action"
+              onClick={() =>
+                setPosition(
+                  checkIn.data.position
+                    ? undefined
+                    : position
+                    ? copyPosition(position)
+                    : undefined
+                )
+              }
+            >
+              {checkIn.data.position ? "Remove Location" : "Add Location"}
+            </ActionButton>
+          </Section>
+
+          <Section header="Comment">
+            <textarea
+              value={checkIn.data.comment || ""}
+              onChange={(event) => setComment(event?.target.value)}
+            />
+          </Section>
+        </SectionList>
       </ViewBody>
     </HeaderLayout>
   );
