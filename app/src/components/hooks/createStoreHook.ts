@@ -30,7 +30,6 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
     const updateIndex = useCallback(
       (id: string, object: T) => {
         setStore((store) => ({ ...store, [id]: object }));
-        console.log("Updating store", id, object);
       },
       [setStore]
     );
@@ -39,7 +38,6 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
       const index = Object.create(null);
 
       for (const id of ids) {
-        console.log("Checking store for", id, store[id]);
         if (store[id]) {
           index[id] = store[id];
         }
@@ -70,7 +68,6 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
         if (!subscribers[id]) {
           const unsub = collection.doc(id).onSnapshot((result) => {
             const data = result.data() as T;
-            console.log("Updating index", id, data);
             updateIndex(id, data);
           });
 
@@ -86,8 +83,6 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
         subs.push(sub);
       }
 
-      console.log("ON", subscribers);
-
       return () => {
         for (const sub of subs) {
           sub.count -= 1;
@@ -96,8 +91,6 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
             delete subscribers[sub.id];
           }
         }
-
-        console.log("OFF", subscribers);
       };
     }, [ids, collection, updateIndex]);
 
