@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDB } from "components/hooks/useDB";
-
-const EMPTY = Object.create(null);
+import { useObjectStore } from "components/context/ObjectStoreContext";
 
 type Index<T> = {
   [key: string]: T;
@@ -26,47 +25,31 @@ export function createStoreHook<T>(
   getCollection: CollectionFactory,
   tag: string
 ) {
-  const cache: { [key: string]: any } = Object.create(null);
-
   function useObjectIndex<T>(
     ids: string[]
   ): [Index<T>, (id: string, object: T) => void] {
-    const [data, setData] = useState<Index<T>>(EMPTY);
-
-    const refreshIndex = useCallback(() => {
-      console.log("Refreshing index", tag, ids);
-      const index = Object.create(null);
-
-      let commit = false;
-      for (const id of ids) {
-        console.log("Checking cache for", tag, id, cache[id]);
-        if (cache[id]) {
-          index[id] = cache[id];
-          commit = true;
-        }
-      }
-
-      if (commit) {
-        console.log("Updating data object for", tag, index);
-        setData(index);
-      }
-    }, [ids]);
-
-    useEffect(() => {
-      setData(EMPTY);
-      refreshIndex();
-    }, [refreshIndex]);
+    const [store, setStore] = useObjectStore();
 
     const updateIndex = useCallback(
       (id: string, object: T) => {
-        cache[id] = object;
-        console.log("Updating cache", tag, id, cache);
-        refreshIndex();
+        setStore((store) => ({ ...store, [id]: object }));
+        console.log("Updating store", tag, id, object);
       },
-      [refreshIndex]
+      [setStore]
     );
 
-    console.log("Returning data", ids, data);
+    const data = useMemo(() => {
+      const index = Object.create(null);
+
+      for (const id of ids) {
+        console.log("Checking store for", tag, id, store[id]);
+        if (store[id]) {
+          index[id] = store[id];
+        }
+      }
+
+      return index;
+    }, [ids, store]);
 
     return [data, updateIndex];
   }
