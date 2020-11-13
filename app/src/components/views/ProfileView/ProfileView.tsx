@@ -13,6 +13,8 @@ import CheckInItem from "./components/CheckInItem";
 import Section from "./components/Section";
 import SectionList from "./components/SectionList";
 import ItemList from "components/ui/layout/ItemList";
+import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
+import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
 
 interface ProfileViewProps {
   user: firebase.User;
@@ -31,27 +33,37 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
     [history]
   );
 
-  const query = useMemo(() => {
+  const topArticlesQuery = useMemo(() => {
     return {
       filters: {
-        userIds: [user.uid],
+        userId: user.uid,
       },
       limit: 3,
     };
   }, [user]);
 
-  const checkInResult = useCheckInSearch(query);
-  console.log("CheckInResult", checkInResult);
+  const topArticlesResult = useUserArticleQuery(topArticlesQuery);
+
+  const checkInHistoryQuery = useMemo(() => {
+    return {
+      filters: {
+        userIds: [user.uid],
+      },
+      limit: 5,
+    };
+  }, [user]);
+
+  const checkInHistoryResult = useCheckInSearch(checkInHistoryQuery);
 
   const articleIds = useMemo(() => {
-    return Object.values(checkInResult.data).map(
+    return Object.values(checkInHistoryResult.data).map(
       (checkIn) => checkIn.data.articleId
     );
-  }, [checkInResult.data]);
+  }, [checkInHistoryResult.data]);
 
-  const articleResult = useArticleStore(articleIds);
+  const articleHistoryResult = useArticleStore(articleIds);
 
-  if (!user || checkInResult.busy || articleResult.busy) {
+  if (!user || checkInHistoryResult.busy || articleHistoryResult.busy) {
     return <BusyView />;
   }
 
@@ -65,16 +77,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
         <SectionList>
           <Section header="Top drinks">
             <ItemList>
-              {checkInResult.data.map((checkIn) => {
-                const articleId = checkIn.data.articleId;
-                const article = articleResult.data[articleId];
+              {topArticlesResult.data.map((article) => {
                 return (
-                  <button onClick={() => goToArticle(articleId)}>
-                    <CheckInItem
-                      key={checkIn.id}
-                      checkIn={checkIn}
-                      article={article}
-                    />
+                  <button onClick={() => goToArticle(article.id)}>
+                    <ArticleItem key={article.id} article={article} />
                   </button>
                 );
               })}
@@ -83,9 +89,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
 
           <Section header="History">
             <ItemList>
-              {checkInResult.data.map((checkIn) => {
+              {checkInHistoryResult.data.map((checkIn) => {
                 const articleId = checkIn.data.articleId;
-                const article = articleResult.data[articleId];
+                const article = articleHistoryResult.data[articleId];
                 return (
                   <button onClick={() => goToArticle(articleId)}>
                     <CheckInItem

@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import * as firebase from "firebase/app";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -77,15 +78,35 @@ const CheckInView: React.FC<CheckInViewProps> = ({
     db.collection("check-ins")
       .add(checkIn.data)
       .then((result) => {
-        console.log(result);
-        return db
+        const increment = firebase.firestore.FieldValue.increment(1);
+
+        const checkInRef = db
           .collection("users")
           .doc(user.uid)
           .collection("check-ins")
-          .doc(result.id)
-          .set({
-            createdAt: moment().toISOString(),
-          });
+          .doc(result.id);
+
+        const articleRef = db
+          .collection("users")
+          .doc(user.uid)
+          .collection("articles")
+          .doc(checkIn.data.articleId);
+
+        const batch = db.batch();
+
+        batch.set(checkInRef, {
+          createdAt: moment().toISOString(),
+        });
+
+        batch.set(
+          articleRef,
+          {
+            checkIns: increment,
+          },
+          { merge: true }
+        );
+
+        return batch.commit();
       })
       .then(() => {
         onSuccess();
