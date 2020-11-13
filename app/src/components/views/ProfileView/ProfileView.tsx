@@ -60,7 +60,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const articleHistoryResult = useArticleStore(articleIds);
 
-  if (!user || checkInHistoryResult.busy || articleHistoryResult.busy) {
+  if (checkInHistoryResult.busy || articleHistoryResult.busy) {
     return <BusyView />;
   }
 
