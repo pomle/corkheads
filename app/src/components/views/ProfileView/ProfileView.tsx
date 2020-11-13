@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 import { useCheckInSearch } from "components/hooks/db/useCheckIns";
 import ViewBody from "components/ui/layout/ViewBody";
 import BusyView from "components/views/BusyView";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
@@ -17,13 +15,12 @@ import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
 
 interface ProfileViewProps {
+  nav: React.ReactNode;
   user: firebase.User;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   const history = useHistory();
-
-  const signOut = useExplicitLogout();
 
   const goToArticle = useCallback(
     (articleId: string) => {
@@ -70,7 +67,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
   return (
     <FullScreenLayout>
       <ViewBody>
-        <NavigationBar forward={<button onClick={signOut}>Log out</button>} />
+        {nav}
 
         <ProfileHead user={user} />
 
