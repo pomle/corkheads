@@ -22,7 +22,7 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
     history.push(url);
   }, [history]);
 
-  const result = useArticle(articleId);
+  const result = useArticle(articleId, "checkInPage");
   const article = result.data;
 
   const nav = (
@@ -47,7 +47,7 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
 
   return (
     <CheckInView
-      key={history.location.key}
+      //key={history.location.key}
       nav={nav}
       article={article}
       user={user}

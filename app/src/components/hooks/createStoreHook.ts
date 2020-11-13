@@ -59,22 +59,23 @@ export function createStoreHook<T>(
 
     const updateIndex = useCallback(
       (id: string, object: T) => {
-        console.log("Updating cache", tag, id, object);
         cache[id] = object;
+        console.log("Updating cache", tag, id, cache);
         refreshIndex();
       },
       [refreshIndex]
     );
 
-    console.log("Retuning data", tag, data);
+    console.log("Returning data", ids, data);
 
     return [data, updateIndex];
   }
 
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
-  return function useStore(ids: string[]): StoreResult<T> {
+  return function useStore(ids: string[], tag?: string): StoreResult<T> {
     const [index, updateIndex] = useObjectIndex<T>(ids);
+    console.log("index", tag, ids, index);
 
     const db = useDB();
 
@@ -90,7 +91,7 @@ export function createStoreHook<T>(
         if (!subscribers[id]) {
           const unsub = collection.doc(id).onSnapshot((result) => {
             const data = result.data() as T;
-            console.log("Updating index", id, data);
+            console.log("Updating index", id, data, tag);
             updateIndex(id, data);
           });
 

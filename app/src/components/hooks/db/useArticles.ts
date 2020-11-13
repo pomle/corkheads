@@ -9,9 +9,10 @@ export const useArticleStore = createStoreHook<Article>(
   "articles"
 );
 
-export function useArticle(articleId: string) {
+export function useArticle(articleId: string, tag?: string) {
   const ids = useMemo(() => [articleId], [articleId]);
-  const result = useArticleStore(ids);
+  const result = useArticleStore(ids, tag);
+  console.log("useArticle", result, tag);
   return {
     busy: result.busy,
     data: articleId in result.data ? result.data[articleId] : undefined,
