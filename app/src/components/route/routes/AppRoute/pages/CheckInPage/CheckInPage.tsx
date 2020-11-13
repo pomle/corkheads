@@ -47,7 +47,7 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
 
   return (
     <CheckInView
-      //key={history.location.key}
+      key={history.location.key}
       nav={nav}
       article={article}
       user={user}
