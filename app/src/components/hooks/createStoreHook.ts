@@ -123,7 +123,7 @@ export function createStoreHook<T>(
 
     return useMemo(
       () => ({
-        busy: Object.values(index).length !== ids.length,
+        busy: !ids.every((id) => index[id]),
         data: index,
       }),
       [ids, index]
