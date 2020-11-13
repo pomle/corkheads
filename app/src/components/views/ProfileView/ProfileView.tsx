@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useCheckInSearch } from "components/hooks/db/useCheckIns";
 import ViewBody from "components/ui/layout/ViewBody";
-import BusyView from "components/views/BusyView";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
@@ -59,10 +58,24 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   }, [checkInHistoryResult.data]);
 
   const articleHistoryResult = useArticleStore(articleIds);
+  console.log("articleHistoryResult", articleHistoryResult);
 
-  if (checkInHistoryResult.busy || articleHistoryResult.busy) {
-    return <BusyView />;
-  }
+  const topArticles = useMemo(() => {
+    if (topArticlesResult.busy) {
+      return [];
+    }
+    return topArticlesResult.data;
+  }, [topArticlesResult]);
+
+  const checkInHistory = useMemo(() => {
+    if (checkInHistoryResult.busy || articleHistoryResult.busy) {
+      return [];
+    }
+    return checkInHistoryResult.data.map((checkIn) => ({
+      checkIn,
+      article: articleHistoryResult.data[checkIn.data.articleId],
+    }));
+  }, [checkInHistoryResult, articleHistoryResult]);
 
   return (
     <FullScreenLayout>
@@ -74,7 +87,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
         <SectionList>
           <Section header="Top drinks">
             <ItemList>
-              {topArticlesResult.data.map((article) => {
+              {topArticles.map((article) => {
                 return (
                   <button
                     key={article.id}
@@ -89,13 +102,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
           <Section header="History">
             <ItemList>
-              {checkInHistoryResult.data.map((checkIn) => {
-                const articleId = checkIn.data.articleId;
-                const article = articleHistoryResult.data[articleId];
+              {checkInHistory.map(({ checkIn, article }) => {
                 return (
                   <button
                     key={checkIn.id}
-                    onClick={() => goToArticle(articleId)}
+                    onClick={() => goToArticle(article.id)}
                   >
                     <CheckInItem checkIn={checkIn} article={article} />
                   </button>
