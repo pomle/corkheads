@@ -41,17 +41,15 @@ export function createStoreHook<T>(
 
       let commit = false;
       for (const id of ids) {
-        console.log("Checking cache for", tag, id, cache);
-        if (id in cache) {
-          if (cache[id]) {
-            index[id] = cache[id];
-            commit = true;
-          }
+        console.log("Checking cache for", tag, id, cache[id]);
+        if (cache[id]) {
+          index[id] = cache[id];
+          commit = true;
         }
       }
 
       if (commit) {
-        console.log("Updating data object for", tag);
+        console.log("Updating data object for", tag, index);
         setData(index);
       }
     }, [ids]);
@@ -91,7 +89,9 @@ export function createStoreHook<T>(
 
         if (!subscribers[id]) {
           const unsub = collection.doc(id).onSnapshot((result) => {
-            updateIndex(id, result.data() as T);
+            const data = result.data() as T;
+            console.log("Updating index", id, data);
+            updateIndex(id, data);
           });
 
           subscribers[id] = {
