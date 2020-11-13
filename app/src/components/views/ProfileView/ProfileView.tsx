@@ -1,32 +1,26 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import ViewBody from "components/ui/layout/ViewBody";
-import * as Trans from "./locales";
-import ActionButton from "components/ui/trigger/ActionButton";
-import * as paths from "components/route/paths";
 import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 import { useCheckInSearch } from "components/hooks/db/useCheckIns";
-import { useUser } from "components/hooks/useUser";
+import ViewBody from "components/ui/layout/ViewBody";
 import BusyView from "components/views/BusyView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
+import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
 import { useArticleStore } from "components/hooks/db/useArticles";
 import CheckInItem from "./components/CheckInItem";
 import Section from "./components/Section";
 import SectionList from "./components/SectionList";
 
-interface ProfileViewProps {}
+interface ProfileViewProps {
+  user: firebase.User;
+}
 
-const ProfileView: React.FC<ProfileViewProps> = () => {
+const ProfileView: React.FC<ProfileViewProps> = ({ user }) => {
   const history = useHistory();
 
   const signOut = useExplicitLogout();
-
-  const goToExplore = useCallback(() => {
-    const url = paths.exploreArticles.url({});
-    history.push(url);
-  }, [history]);
 
   const goToArticle = useCallback(
     (articleId: string) => {
@@ -36,12 +30,10 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
     [history]
   );
 
-  const user = useUser();
-
   const query = useMemo(() => {
     return {
       filters: {
-        userIds: user ? [user.uid] : [],
+        userIds: [user.uid],
       },
       limit: 3,
     };
@@ -102,10 +94,6 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
             })}
           </Section>
         </SectionList>
-
-        <ActionButton variant="action" onClick={goToExplore}>
-          <Trans.FindDrink />
-        </ActionButton>
       </ViewBody>
     </FullScreenLayout>
   );

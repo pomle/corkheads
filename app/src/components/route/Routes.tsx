@@ -6,10 +6,10 @@ import * as paths from "components/route/paths";
 import { Article } from "types/types";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ViewStack from "components/ui/layout/ViewStack";
-import ProfileView from "components/views/ProfileView";
 import ArticlePage from "./routes/AppRoute/pages/ArticlePage";
 import CheckInPage from "./routes/AppRoute/pages/CheckInPage";
 import FindPage from "./routes/AppRoute/pages/FindPage";
+import ProfilePage from "./routes/AppRoute/pages/ProfilePage/ProfilePage";
 
 const Routes: React.FC = () => {
   const history = useHistory();
@@ -24,7 +24,7 @@ const Routes: React.FC = () => {
   return (
     <AppRoute>
       <ViewStack>
-        <ProfileView />
+        <ProfilePage />
         <Screen path={paths.articleView} transition={SlideRight}>
           {(params) => <ArticlePage articleId={params.articleId} />}
         </Screen>
