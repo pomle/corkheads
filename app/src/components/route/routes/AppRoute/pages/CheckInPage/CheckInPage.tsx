@@ -23,10 +23,15 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
   }, [history]);
 
   const result = useArticle(articleId);
+  const article = result.data;
 
   const nav = (
     <NavigationBar
-      back={<BackButton onClick={goToArticle}>Article</BackButton>}
+      back={
+        <BackButton onClick={goToArticle}>
+          {article ? article.data.displayName : "Article"}
+        </BackButton>
+      }
     />
   );
 
@@ -35,8 +40,6 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
   if (result.busy || !user) {
     return <LoadingView nav={nav} />;
   }
-
-  const article = result.data;
 
   if (!article) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
