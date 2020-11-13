@@ -12,10 +12,26 @@ import SectionList from "./components/SectionList";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
+import { Article } from "types/types";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
   user: firebase.User;
+}
+
+function createFakeArticles(len: number) {
+  const articles: Article[] = [];
+  for (let i = 0; i < len; i += 1) {
+    const article: Article = {
+      id: `${i}`,
+      data: {
+        displayName: "-",
+        manufacturer: "-",
+      },
+    };
+    articles.push(article);
+  }
+  return articles;
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
@@ -62,7 +78,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const topArticles = useMemo(() => {
     if (topArticlesResult.busy) {
-      return [];
+      return createFakeArticles(3);
     }
     return topArticlesResult.data;
   }, [topArticlesResult]);
