@@ -13,6 +13,9 @@ const useStyles = makeStyles({
     marginRight: 5,
     "& > svg": {
       display: "block",
+      "& > path": {
+        fill: "#838383",
+      },
     },
   },
 });
