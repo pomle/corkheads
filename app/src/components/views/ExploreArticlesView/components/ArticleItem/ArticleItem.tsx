@@ -2,12 +2,26 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/types";
 
+type StyleProps = {
+  photoURL?: string;
+};
+
+function backgroundImage({ photoURL }: StyleProps) {
+  if (photoURL) {
+    return `url(${photoURL})`;
+  }
+  return "none";
+}
+
 const useStyles = makeStyles({
   ArticleItem: {
     display: "flex",
   },
   photo: {
     background: "#c9c9c9",
+    backgroundImage,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     overflow: "hidden",
     height: "85px",
     width: "85px",
@@ -37,10 +51,11 @@ interface ArticleItemProps {
 }
 
 const ArticleItem: React.FC<ArticleItemProps> = ({ article }) => {
-  const classes = useStyles();
+  const classes = useStyles({ photoURL: article.data.photoURL });
+
   return (
     <div className={classes.ArticleItem}>
-      <div className={classes.photo}></div>
+      <div className={classes.photo} />
       <div className={classes.meta}>
         <div>
           <div className={classes.displayName}>{article.data.displayName}</div>
