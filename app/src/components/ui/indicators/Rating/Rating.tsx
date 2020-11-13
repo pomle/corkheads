@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   rating: {
-    display: "flex",
+    display: "inline-flex",
     fontSize: "10px",
     justifyContent: "space-around",
   },
