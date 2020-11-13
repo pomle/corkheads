@@ -35,11 +35,13 @@ export function createStoreHook<T>(
   ): [Index<T>, (id: string, object: T) => void] {
     const [data, setData] = useState<Index<T>>(EMPTY);
 
-    useEffect(() => {
+    const refreshIndex = useCallback(() => {
+      console.log("Refreshing index", tag, ids);
       const index = Object.create(null);
 
       let commit = false;
       for (const id of ids) {
+        console.log("Checking cache for", tag, id, cache);
         if (id in cache) {
           if (cache[id] !== data[id]) {
             index[id] = cache[id];
@@ -54,12 +56,17 @@ export function createStoreHook<T>(
       }
     }, [ids, data]);
 
+    useEffect(() => {
+      refreshIndex();
+    }, [ids]);
+
     const updateIndex = useCallback(
       (id: string, object: T) => {
-        console.log("Updating index", tag, id, object);
-        setData((data) => ({ ...data, [id]: object }));
+        console.log("Updating cache", tag, id, object);
+        cache[id] = object;
+        refreshIndex();
       },
-      [setData]
+      [ids]
     );
 
     console.log("Retuning data", tag, data);
@@ -82,11 +89,13 @@ export function createStoreHook<T>(
         let sub: Subscription;
 
         if (!subscribers[id]) {
-          const object = { id, data: { displayName: id, manufacturer: id } };
-          const timer = setTimeout(
-            () => updateIndex(id, (object as unknown) as T),
-            1000
-          );
+          const object = {
+            id,
+            data: { articleId: id, displayName: id, manufacturer: id },
+          };
+          const timer = setTimeout(() => {
+            updateIndex(id, (object as unknown) as T);
+          }, 1000);
 
           const unsub = () => clearTimeout(timer);
 

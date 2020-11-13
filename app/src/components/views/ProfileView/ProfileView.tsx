@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import ViewBody from "components/ui/layout/ViewBody";
 import * as Trans from "./locales";
@@ -41,16 +41,19 @@ const ProfileView: React.FC<ProfileViewProps> = () => {
   }, [user]);
 
   const checkInResult = useCheckInSearch(query);
+  console.log("CheckInResult", checkInResult);
 
   const articleIds = useMemo(() => {
-    console.log("checkInResult", checkInResult);
     return Object.values(checkInResult.data).map(
       (checkIn) => checkIn.data.articleId
     );
   }, [checkInResult.data]);
 
+  const articleResult = useArticleStore(articleIds);
   const articleResultA = useArticleStore(articleIdsA);
   const articleResultB = useArticleStore(articleIdsB);
+
+  console.log("Based on IDs", articleIds, articleResult);
   console.log("A", articleResultA);
   console.log("B", articleResultB);
 
