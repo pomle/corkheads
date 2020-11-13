@@ -4,9 +4,8 @@ import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
 import { createStoreHook, toList } from "../createStoreHook";
 
-export const useCheckInStore = createStoreHook<CheckIn>(
-  (db) => db.collection("check-ins").withConverter(checkInConverter),
-  "checkIns"
+export const useCheckInStore = createStoreHook<CheckIn>((db) =>
+  db.collection("check-ins").withConverter(checkInConverter)
 );
 
 type SortQuery = { [key: string]: "asc" | "desc" };
