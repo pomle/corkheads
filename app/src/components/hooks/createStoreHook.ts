@@ -21,10 +21,7 @@ type CollectionFactory = (
   db: firebase.firestore.Firestore
 ) => firebase.firestore.CollectionReference;
 
-export function createStoreHook<T>(
-  getCollection: CollectionFactory,
-  tag: string
-) {
+export function createStoreHook<T>(getCollection: CollectionFactory) {
   function useObjectIndex<T>(
     ids: string[]
   ): [Index<T>, (id: string, object: T) => void] {
@@ -33,7 +30,7 @@ export function createStoreHook<T>(
     const updateIndex = useCallback(
       (id: string, object: T) => {
         setStore((store) => ({ ...store, [id]: object }));
-        console.log("Updating store", tag, id, object);
+        console.log("Updating store", id, object);
       },
       [setStore]
     );
@@ -42,7 +39,7 @@ export function createStoreHook<T>(
       const index = Object.create(null);
 
       for (const id of ids) {
-        console.log("Checking store for", tag, id, store[id]);
+        console.log("Checking store for", id, store[id]);
         if (store[id]) {
           index[id] = store[id];
         }
@@ -56,9 +53,8 @@ export function createStoreHook<T>(
 
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
-  return function useStore(ids: string[], tag?: string): StoreResult<T> {
+  return function useStore(ids: string[]): StoreResult<T> {
     const [index, updateIndex] = useObjectIndex<T>(ids);
-    console.log("index", tag, ids, index);
 
     const db = useDB();
 
@@ -74,7 +70,7 @@ export function createStoreHook<T>(
         if (!subscribers[id]) {
           const unsub = collection.doc(id).onSnapshot((result) => {
             const data = result.data() as T;
-            console.log("Updating index", id, data, tag);
+            console.log("Updating index", id, data);
             updateIndex(id, data);
           });
 
@@ -90,7 +86,7 @@ export function createStoreHook<T>(
         subs.push(sub);
       }
 
-      console.log("ON", tag, subscribers);
+      console.log("ON", subscribers);
 
       return () => {
         for (const sub of subs) {
@@ -101,7 +97,7 @@ export function createStoreHook<T>(
           }
         }
 
-        console.log("OFF", tag, subscribers);
+        console.log("OFF", subscribers);
       };
     }, [ids, collection, updateIndex]);
 

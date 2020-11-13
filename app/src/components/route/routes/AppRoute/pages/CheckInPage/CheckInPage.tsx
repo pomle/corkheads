@@ -22,7 +22,7 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
     history.push(url);
   }, [history]);
 
-  const result = useArticle(articleId, "checkInPage");
+  const result = useArticle(articleId);
   const article = result.data;
 
   const nav = (

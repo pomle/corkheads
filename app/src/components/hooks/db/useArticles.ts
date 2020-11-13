@@ -4,15 +4,13 @@ import { useArticleIndex } from "components/hooks/algolia";
 import { createStoreHook, toList } from "../createStoreHook";
 import { Article } from "types/types";
 
-export const useArticleStore = createStoreHook<Article>(
-  (db) => db.collection("articles").withConverter(articleConverter),
-  "articles"
+export const useArticleStore = createStoreHook<Article>((db) =>
+  db.collection("articles").withConverter(articleConverter)
 );
 
-export function useArticle(articleId: string, tag?: string) {
+export function useArticle(articleId: string) {
   const ids = useMemo(() => [articleId], [articleId]);
-  const result = useArticleStore(ids, tag);
-  console.log("useArticle", result, tag);
+  const result = useArticleStore(ids);
   return {
     busy: result.busy,
     data: articleId in result.data ? result.data[articleId] : undefined,
