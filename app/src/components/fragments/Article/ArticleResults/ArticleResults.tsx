@@ -36,8 +36,8 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
     <ItemList>
       {articles.map((article) => {
         return (
-          <button onClick={() => onSelect(article)}>
-            <ArticleItem key={article.id} article={article} />
+          <button key={article.id} onClick={() => onSelect(article)}>
+            <ArticleItem article={article} />
           </button>
         );
       })}
