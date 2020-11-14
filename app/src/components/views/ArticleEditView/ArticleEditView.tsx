@@ -9,6 +9,7 @@ import { Article } from "types/types";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { useDB } from "components/hooks/useDB";
+import Photo from "./components/Photo";
 
 const useStyles = makeStyles({
   form: {
@@ -31,18 +32,6 @@ const useStyles = makeStyles({
       color: "#838383",
       fontSize: "16px",
       fontWeight: 400,
-    },
-    "& .photo": {
-      alignItems: "center",
-      backgroundColor: "#f9f9f9",
-      border: "dashed 2px #e2e2e2",
-      display: "flex",
-      fontSize: "18px",
-      fontWeight: 500,
-      justifyContent: "center",
-      height: "200px",
-      margin: "auto",
-      width: "200px",
     },
   },
 });
@@ -146,7 +135,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               />
             </div>
 
-            <div className="photo">Upload Photo</div>
+            <Photo />
 
             <ActionButton
               disabled={!canSave}
