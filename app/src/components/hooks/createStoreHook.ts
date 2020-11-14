@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useDB } from "components/hooks/useDB";
 import { useObjectIndex } from "components/context/ObjectStoreContext";
 import { listEquals } from "lib/equality";
 
@@ -18,10 +17,6 @@ type StoreResult<T> = {
   data: Index<T>;
 };
 
-type CollectionFactory = (
-  db: firebase.firestore.Firestore
-) => firebase.firestore.CollectionReference;
-
 function useEqualList(next: any[]): any[] {
   const memo = useRef<any[]>([]);
 
@@ -33,18 +28,16 @@ function useEqualList(next: any[]): any[] {
   return memo.current;
 }
 
-export function createStoreHook<T>(getCollection: CollectionFactory) {
+type CollectionHook = () => firebase.firestore.CollectionReference;
+
+export function createStoreHook<T>(useCollection: CollectionHook) {
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
   return function useStore(unstableIds: string[]): StoreResult<T> {
     const ids = useEqualList(unstableIds);
     const [index, updateIndex] = useObjectIndex<T>(ids);
 
-    const db = useDB();
-
-    const collection = useMemo(() => {
-      return getCollection(db);
-    }, [db]);
+    const collection = useCollection();
 
     useEffect(() => {
       const subs: Subscription[] = [];

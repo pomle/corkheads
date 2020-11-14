@@ -1,20 +1,18 @@
 import React, { useCallback, useMemo, useState } from "react";
-import * as firebase from "firebase/app";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/user";
 import { Article } from "types/article";
-import { CheckIn, converter } from "types/checkIn";
+import { CheckIn } from "types/checkIn";
 import ActionButton from "components/ui/trigger/ActionButton";
 import { useGeolocation } from "components/hooks/useGeolocation";
-import { useDB } from "components/hooks/useDB";
-import moment from "moment";
 import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
+import { useCommitCheckIn } from "./hooks";
 
 const useStyles = makeStyles({
   photo: {
@@ -22,7 +20,6 @@ const useStyles = makeStyles({
     color: "#5a5a5a",
     height: "100vw",
     maxHeight: "400px",
-
     padding: "24px",
     "& > .content": {
       display: "flex",
@@ -117,47 +114,13 @@ const CheckInView: React.FC<CheckInViewProps> = ({
 
   const { position } = useGeolocation();
 
-  const db = useDB();
+  const commitCheckIn = useCommitCheckIn(user);
 
-  const commitCheckIn = useCallback(() => {
-    db.collection("check-ins")
-      .withConverter(converter)
-      .add(checkIn)
-      .then((result) => {
-        const increment = firebase.firestore.FieldValue.increment(1);
-
-        const checkInRef = db
-          .collection("users")
-          .doc(user.uid)
-          .collection("check-ins")
-          .doc(result.id);
-
-        const articleRef = db
-          .collection("users")
-          .doc(user.uid)
-          .collection("articles")
-          .doc(checkIn.data.articleId);
-
-        const batch = db.batch();
-
-        batch.set(checkInRef, {
-          createdAt: moment().toISOString(),
-        });
-
-        batch.set(
-          articleRef,
-          {
-            checkIns: increment,
-          },
-          { merge: true }
-        );
-
-        return batch.commit();
-      })
-      .then(() => {
-        onSuccess();
-      });
-  }, [user.uid, checkIn, db, onSuccess]);
+  const handleCheckIn = useCallback(() => {
+    commitCheckIn(checkIn).then(() => {
+      onSuccess();
+    });
+  }, [checkIn, commitCheckIn, onSuccess]);
 
   const canCheckIn = isCheckInValid(checkIn);
 
@@ -185,7 +148,7 @@ const CheckInView: React.FC<CheckInViewProps> = ({
             <ActionButton
               disabled={!canCheckIn}
               variant="action"
-              onClick={commitCheckIn}
+              onClick={handleCheckIn}
             >
               Check in now
             </ActionButton>
