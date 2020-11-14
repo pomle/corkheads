@@ -5,7 +5,7 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/types";
+import { Article } from "types/article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { useDB } from "components/hooks/useDB";

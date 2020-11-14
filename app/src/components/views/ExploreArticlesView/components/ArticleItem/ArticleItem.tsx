@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Article } from "types/types";
+import { Article } from "types/article";
 
 type StyleProps = {
   photoURL?: string;

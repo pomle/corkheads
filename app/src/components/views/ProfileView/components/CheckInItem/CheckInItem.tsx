@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Article, CheckIn } from "types/types";
+import { Article } from "types/article";
+import { CheckIn } from "types/checkIn";
 import Badge from "components/ui/typography/Badge";
 import Rating from "components/ui/indicators/Rating";
 

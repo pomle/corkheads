@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { checkInConverter } from "types/adapters";
-import { CheckIn } from "types/types";
 import { useDB } from "../useDB";
 import { createStoreHook, toList } from "../createStoreHook";
+import { converter, CheckIn } from "types/checkIn";
 
 export const useCheckInStore = createStoreHook<CheckIn>((db) =>
-  db.collection("check-ins").withConverter(checkInConverter)
+  db.collection("check-ins").withConverter(converter)
 );
 
 type SortQuery = { [key: string]: "asc" | "desc" };

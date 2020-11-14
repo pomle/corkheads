@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import ArticleResults from "components/fragments/Article/ArticleResults";
-import { Article } from "types/types";
+import { Article } from "types/article";
 
 const MIN_QUERY_LENGTH = 3;
 

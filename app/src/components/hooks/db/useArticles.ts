@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { articleConverter } from "types/adapters";
+import { createStoreHook, toList } from "components/hooks/createStoreHook";
 import { useArticleIndex } from "components/hooks/algolia";
-import { createStoreHook, toList } from "../createStoreHook";
-import { Article } from "types/types";
+import { converter, Article } from "types/article";
 
 export const useArticleStore = createStoreHook<Article>((db) =>
-  db.collection("articles").withConverter(articleConverter)
+  db.collection("articles").withConverter(converter)
 );
 
 export function useArticle(articleId: string) {

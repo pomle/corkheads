@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ItemList from "components/ui/layout/ItemList";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import { useArticleSearch } from "components/hooks/db/useArticles";
-import { Article } from "types/types";
+import { Article } from "types/article";
 import ArticleItem from "components/views/ExploreArticlesView/components/ArticleItem/ArticleItem";
 import * as paths from "components/route/paths";
 import TextItem from "./components/TextItem";

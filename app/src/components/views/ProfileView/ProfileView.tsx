@@ -12,7 +12,7 @@ import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
-import { Article } from "types/types";
+import { Article } from "types/article";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
