@@ -6,6 +6,6 @@ export type Container<T> = {
 type Snapshot = firebase.firestore.QueryDocumentSnapshot;
 
 export interface Converter<T> {
-  toFirestore(data: Container<T>): object;
+  toFirestore(data: Container<T>): firebase.firestore.DocumentData;
   fromFirestore(snapshot: Snapshot): Container<T>;
 }
