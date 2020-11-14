@@ -6,7 +6,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/user";
 import { Article } from "types/article";
-import { CheckIn } from "types/checkIn";
+import { CheckIn, converter } from "types/checkIn";
 import ActionButton from "components/ui/trigger/ActionButton";
 import { useGeolocation } from "components/hooks/useGeolocation";
 import { useDB } from "components/hooks/useDB";
@@ -121,7 +121,8 @@ const CheckInView: React.FC<CheckInViewProps> = ({
 
   const commitCheckIn = useCallback(() => {
     db.collection("check-ins")
-      .add(checkIn.data)
+      .withConverter(converter)
+      .add(checkIn)
       .then((result) => {
         const increment = firebase.firestore.FieldValue.increment(1);
 
