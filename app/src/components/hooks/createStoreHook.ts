@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDB } from "components/hooks/useDB";
 import { useObjectStore } from "components/context/ObjectStoreContext";
 
@@ -20,6 +20,25 @@ type StoreResult<T> = {
 type CollectionFactory = (
   db: firebase.firestore.Firestore
 ) => firebase.firestore.CollectionReference;
+
+function useEqualList(next: any[]): any[] {
+  const memo = useRef<any[]>([]);
+
+  const prev = memo.current;
+  if (next.length !== prev.length) {
+    memo.current = next;
+    return memo.current;
+  }
+
+  for (let i = 0; i < next.length; i += 1) {
+    if (next[i] !== prev[i]) {
+      memo.current = next;
+      return memo.current;
+    }
+  }
+
+  return memo.current;
+}
 
 export function createStoreHook<T>(getCollection: CollectionFactory) {
   function useObjectIndex<T>(
@@ -51,7 +70,8 @@ export function createStoreHook<T>(getCollection: CollectionFactory) {
 
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
-  return function useStore(ids: string[]): StoreResult<T> {
+  return function useStore(unstableIds: string[]): StoreResult<T> {
+    const ids = useEqualList(unstableIds);
     const [index, updateIndex] = useObjectIndex<T>(ids);
 
     const db = useDB();
