@@ -40,34 +40,34 @@ function useEqualList(next: any[]): any[] {
   return memo.current;
 }
 
-export function createStoreHook<T>(getCollection: CollectionFactory) {
-  function useObjectIndex<T>(
-    ids: string[]
-  ): [Index<T>, (id: string, object: T) => void] {
-    const [store, setStore] = useObjectStore();
+function useObjectIndex<T>(
+  ids: string[]
+): [Index<T>, (id: string, object: T) => void] {
+  const [store, setStore] = useObjectStore();
 
-    const updateIndex = useCallback(
-      (id: string, object: T) => {
-        setStore((store) => ({ ...store, [id]: object }));
-      },
-      [setStore]
-    );
+  const updateIndex = useCallback(
+    (id: string, object: T) => {
+      setStore((store) => ({ ...store, [id]: object }));
+    },
+    [setStore]
+  );
 
-    const data = useMemo(() => {
-      const index = Object.create(null);
+  const data = useMemo(() => {
+    const index = Object.create(null);
 
-      for (const id of ids) {
-        if (store[id]) {
-          index[id] = store[id];
-        }
+    for (const id of ids) {
+      if (store[id]) {
+        index[id] = store[id];
       }
+    }
 
-      return index;
-    }, [ids, store]);
+    return index;
+  }, [ids, store]);
 
-    return [data, updateIndex];
-  }
+  return [data, updateIndex];
+}
 
+export function createStoreHook<T>(getCollection: CollectionFactory) {
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
   return function useStore(unstableIds: string[]): StoreResult<T> {
