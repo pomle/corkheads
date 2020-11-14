@@ -1,9 +1,12 @@
 import React, { useMemo } from "react";
+import { Link } from "react-router-dom";
 import ItemList from "components/ui/layout/ItemList";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import { useArticleSearch } from "components/hooks/db/useArticles";
 import { Article } from "types/types";
 import ArticleItem from "components/views/ExploreArticlesView/components/ArticleItem/ArticleItem";
+import * as paths from "components/route/paths";
+import TextItem from "./components/TextItem";
 
 interface ArticleResultsProps {
   query: string;
@@ -11,6 +14,8 @@ interface ArticleResultsProps {
 }
 
 const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
+  const createURL = useMemo(() => paths.articleCreate.url({}), []);
+
   const searchQuery = useMemo(
     () => ({
       search: {
@@ -28,10 +33,6 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
 
   const articles = result.data;
 
-  if (articles && articles.length === 0) {
-    return <ResultStatement message="Nothing found." />;
-  }
-
   return (
     <ItemList>
       {articles.map((article) => {
@@ -41,6 +42,10 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
           </button>
         );
       })}
+      <TextItem>
+        Can't find the drink you're looking for?{" "}
+        <Link to={createURL}>Add it!</Link>
+      </TextItem>
     </ItemList>
   );
 };
