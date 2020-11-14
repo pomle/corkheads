@@ -2,10 +2,25 @@ import { useEffect, useMemo, useState } from "react";
 import { createStoreHook, toList } from "components/hooks/createStoreHook";
 import { useArticleIndex } from "components/hooks/algolia";
 import { converter, Article } from "types/article";
+import { useDB } from "../useDB";
+import { User } from "types/user";
 
-export const useArticleStore = createStoreHook<Article>((db) =>
-  db.collection("articles").withConverter(converter)
-);
+export function useArticleCollection() {
+  const db = useDB();
+  return useMemo(() => db.collection("articles").withConverter(converter), [
+    db,
+  ]);
+}
+
+export function useUserArticleCollection(user: User) {
+  const db = useDB();
+  return useMemo(
+    () => db.collection("users").doc(user.uid).collection("articles"),
+    [db, user]
+  );
+}
+
+export const useArticleStore = createStoreHook<Article>(useArticleCollection);
 
 export function useArticle(articleId: string) {
   const ids = useMemo(() => [articleId], [articleId]);
