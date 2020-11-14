@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useDB } from "components/hooks/useDB";
 import { useObjectIndex } from "components/context/ObjectStoreContext";
+import { listEquals } from "lib/equality";
 
 type Index<T> = {
   [key: string]: T;
@@ -25,16 +26,8 @@ function useEqualList(next: any[]): any[] {
   const memo = useRef<any[]>([]);
 
   const prev = memo.current;
-  if (next.length !== prev.length) {
+  if (!listEquals(next, prev)) {
     memo.current = next;
-    return memo.current;
-  }
-
-  for (let i = 0; i < next.length; i += 1) {
-    if (next[i] !== prev[i]) {
-      memo.current = next;
-      return memo.current;
-    }
   }
 
   return memo.current;
