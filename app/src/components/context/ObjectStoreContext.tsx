@@ -4,6 +4,8 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
+  useCallback,
+  useMemo,
 } from "react";
 
 type Store = {
@@ -23,4 +25,36 @@ export const ObjectStoreContext: React.FC = ({ children }) => {
 
 export function useObjectStore() {
   return useContext(Context);
+}
+
+export function useObjectIndex<T>(
+  ids: string[]
+): [
+  {
+    [key: string]: T;
+  },
+  (id: string, object: T) => void
+] {
+  const [store, setStore] = useObjectStore();
+
+  const updateIndex = useCallback(
+    (id: string, object: T) => {
+      setStore((store) => ({ ...store, [id]: object }));
+    },
+    [setStore]
+  );
+
+  const data = useMemo(() => {
+    const index = Object.create(null);
+
+    for (const id of ids) {
+      if (store[id]) {
+        index[id] = store[id];
+      }
+    }
+
+    return index;
+  }, [ids, store]);
+
+  return [data, updateIndex];
 }

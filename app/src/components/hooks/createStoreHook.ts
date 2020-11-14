@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDB } from "components/hooks/useDB";
-import { useObjectStore } from "components/context/ObjectStoreContext";
+import { useObjectIndex } from "components/context/ObjectStoreContext";
 
 type Index<T> = {
   [key: string]: T;
@@ -38,33 +38,6 @@ function useEqualList(next: any[]): any[] {
   }
 
   return memo.current;
-}
-
-function useObjectIndex<T>(
-  ids: string[]
-): [Index<T>, (id: string, object: T) => void] {
-  const [store, setStore] = useObjectStore();
-
-  const updateIndex = useCallback(
-    (id: string, object: T) => {
-      setStore((store) => ({ ...store, [id]: object }));
-    },
-    [setStore]
-  );
-
-  const data = useMemo(() => {
-    const index = Object.create(null);
-
-    for (const id of ids) {
-      if (store[id]) {
-        index[id] = store[id];
-      }
-    }
-
-    return index;
-  }, [ids, store]);
-
-  return [data, updateIndex];
 }
 
 export function createStoreHook<T>(getCollection: CollectionFactory) {
