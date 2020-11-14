@@ -4,6 +4,7 @@ import { Article } from "types/article";
 import { CheckIn } from "types/checkIn";
 import Badge from "components/ui/typography/Badge";
 import Rating from "components/ui/indicators/Rating";
+import PassedTime from "components/ui/format/PassedTime";
 
 type StyleProps = {
   photoURL?: string;
@@ -42,14 +43,21 @@ const useStyles = makeStyles({
   displayName: {
     fontSize: "17px",
     fontWeight: 700,
+    gridColumn: "1 / 3",
   },
   manufacturer: {
     fontSize: "12px",
     fontWeight: 500,
   },
+  timestamp: {
+    color: "#e2e2e2",
+    fontSize: "10px",
+    textAlign: "right",
+  },
   rating: {
     alignItems: "center",
     display: "flex",
+    gridColumn: "1 / 3",
     margin: "-4px",
     "& > *": {
       margin: "4px",
@@ -68,11 +76,12 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
     <div className={classes.checkIn}>
       <div className={classes.photo}></div>
       <div className={classes.meta}>
-        <div>
-          <div className={classes.displayName}>{article.data.displayName}</div>
-          <div className={classes.manufacturer}>
-            {article.data.manufacturer}
-          </div>
+        <div className={classes.displayName}>{article.data.displayName}</div>
+        <div className={classes.manufacturer}>{article.data.manufacturer}</div>
+        <div className={classes.timestamp}>
+          {checkIn.data.timestamp && (
+            <PassedTime date={checkIn.data.timestamp} />
+          )}
         </div>
         <div className={classes.rating}>
           <Badge>4 Check Ins</Badge>
