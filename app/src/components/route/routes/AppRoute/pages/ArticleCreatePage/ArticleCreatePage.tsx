@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import ArticleEditView from "components/views/ArticleEditView";
-import { Article } from "types/types";
+import { Article } from "types/article";
 import LoadingView from "components/views/LoadingView";
 import { useUser } from "components/hooks/useUser";
 

@@ -1,25 +1,11 @@
-export type User = firebase.User;
-
-type Container<T> = {
+export type Container<T> = {
   id: string;
   data: T;
 };
 
-type ArticleData = {
-  displayName: string;
-  manufacturer: string;
-  photoURL?: string;
-};
+type Snapshot = firebase.firestore.QueryDocumentSnapshot;
 
-export type Article = Container<ArticleData>;
-
-type CheckInData = {
-  userId: string;
-  articleId: string;
-  rating?: number;
-  placeId?: string;
-  comment?: string;
-  position?: Position;
-};
-
-export type CheckIn = Container<CheckInData>;
+export interface Converter<T> {
+  toFirestore(data: Container<T>): object;
+  fromFirestore(snapshot: Snapshot): Container<T>;
+}
