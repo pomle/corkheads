@@ -13,12 +13,12 @@ const useStyles = makeStyles({
     height: "300px",
     margin: "auto",
     width: "300px",
-  },
-  stream: {
-    objectFit: "cover",
-    objectPosition: "center",
-    height: "100%",
-    width: "100%",
+    "& > video": {
+      objectFit: "cover",
+      objectPosition: "center",
+      height: "100%",
+      width: "100%",
+    },
   },
 });
 
@@ -39,9 +39,7 @@ function useMediaStream() {
   return stream;
 }
 
-interface PhotoProps {}
-
-const Photo: React.FC<PhotoProps> = () => {
+const VideoStream: React.FC<PhotoProps> = () => {
   const stream = useMediaStream();
 
   const videoElement = useRef<HTMLVideoElement>(null);
@@ -59,11 +57,22 @@ const Photo: React.FC<PhotoProps> = () => {
     }
   }, [stream]);
 
+  return <video ref={videoElement} />;
+};
+
+interface PhotoProps {}
+
+const Photo: React.FC<PhotoProps> = () => {
+  const [cameraActive, setCameraActive] = useState<boolean>(false);
+
   const classes = useStyles();
 
   return (
-    <div className={classes.Photo}>
-      <video ref={videoElement} className={classes.stream} />
+    <div
+      className={classes.Photo}
+      onPointerDown={() => setCameraActive((state) => !state)}
+    >
+      {cameraActive ? <VideoStream /> : "Upload Photo"}
     </div>
   );
 };
