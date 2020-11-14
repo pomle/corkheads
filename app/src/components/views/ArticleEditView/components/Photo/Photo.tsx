@@ -28,7 +28,11 @@ function useMediaStream() {
   useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({
-        video: true,
+        video: {
+          facingMode: {
+            exact: "environment",
+          },
+        },
       })
       .then((stream) => {
         console.log(stream);
