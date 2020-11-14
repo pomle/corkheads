@@ -6,15 +6,13 @@ const profileView = createPath("/", {});
 
 const exploreArticles = createPath("/explore", {});
 
-const articleCreate = createPath("/article/new", {});
+const articleCreate = createPath("/article/create", {});
 
-const articleView = createPath("/article/:articleId", {
+const articleView = createPath("/article/view/:articleId", {
   articleId: stringCodec,
 });
 
-const articleCheckIn = createPath("/article/:articleId/check-in", {
-  articleId: stringCodec,
-});
+const articleCheckIn = articleView.append("/check-in", {});
 
 export {
   profileView,
