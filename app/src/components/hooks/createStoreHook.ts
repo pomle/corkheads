@@ -91,3 +91,10 @@ export function createStoreHook<T>(useCollection: CollectionHook) {
 export function toList<T>(ids: string[], index: { [key: string]: T }) {
   return ids.filter((id) => index[id]).map((id) => index[id]);
 }
+
+export function useFlatResult<T>(id: string, result: StoreResult<T>) {
+  return {
+    busy: result.busy,
+    data: id in result.data ? result.data[id] : undefined,
+  };
+}
