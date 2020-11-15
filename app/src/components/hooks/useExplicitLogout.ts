@@ -4,7 +4,7 @@ import { useAuth } from "./useAuth";
 
 export const useExplicitLogout = () => {
   const history = useHistory();
-  const { auth } = useAuth();
+  const auth = useAuth();
 
   return useCallback(async () => {
     await auth.signOut();

@@ -1,25 +1,25 @@
 import React, { useCallback } from "react";
 import LoginView from "components/views/LoginView";
 import { useHandler } from "components/hooks/useHandler";
-import { useAuth } from "components/hooks/useAuth";
+import { useSession } from "components/context/SessionContext";
 import Lock from "components/ui/transitions/Lock";
 
 const AuthenticationView: React.FC = () => {
-  const { auth } = useAuth();
+  const session = useSession();
 
   const submitHandle = useHandler(
     useCallback(
       (credentials: { username: string; password: string }) => {
-        return auth.signInWithEmailAndPassword(
+        return session.auth.signInWithEmailAndPassword(
           credentials.username,
           credentials.password
         );
       },
-      [auth]
+      [session]
     )
   );
 
-  const shouldPromptUser = !submitHandle.busy && !auth.currentUser;
+  const shouldPromptUser = session.ready && !session.user && !submitHandle.busy;
 
   return (
     <Lock active={shouldPromptUser}>

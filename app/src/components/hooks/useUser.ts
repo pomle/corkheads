@@ -1,5 +1,5 @@
-import { useAuth } from "./useAuth";
+import { useSession } from "components/context/SessionContext";
 
 export function useUser() {
-  return useAuth().user;
+  return useSession().user;
 }
