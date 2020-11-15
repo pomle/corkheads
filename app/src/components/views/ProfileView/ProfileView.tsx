@@ -11,28 +11,12 @@ import { useArticleStore } from "components/hooks/db/useArticles";
 import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
-import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
-import { Article } from "types/article";
+import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/user";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
   user: User;
-}
-
-function createFakeArticles(len: number) {
-  const articles: Article[] = [];
-  for (let i = 0; i < len; i += 1) {
-    const article: Article = {
-      id: `${i}`,
-      data: {
-        displayName: "-",
-        manufacturer: "-",
-      },
-    };
-    articles.push(article);
-  }
-  return articles;
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
@@ -78,7 +62,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const topArticles = useMemo(() => {
     if (topArticlesResult.busy) {
-      return createFakeArticles(3);
+      return [];
     }
     return topArticlesResult.data;
   }, [topArticlesResult]);
@@ -103,13 +87,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
         <SectionList>
           <Section header="Top drinks">
             <ItemList>
-              {topArticles.map((article) => {
+              {topArticles.map(({ article, userArticle }) => {
                 return (
                   <button
-                    key={article.id}
+                    key={userArticle.id}
                     onClick={() => goToArticle(article.id)}
                   >
-                    <ArticleItem article={article} />
+                    <TopArticleItem
+                      article={article}
+                      userArticle={userArticle}
+                    />
                   </button>
                 );
               })}
