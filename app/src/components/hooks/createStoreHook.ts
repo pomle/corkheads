@@ -34,10 +34,10 @@ export function createStoreHook<T>(useCollection: CollectionHook) {
   const subscribers: { [key: string]: Subscription } = Object.create(null);
 
   return function useStore(unstableIds: string[]): StoreResult<T> {
-    const ids = useEqualList(unstableIds);
-    const [index, updateIndex] = useObjectIndex<T>(ids);
-
     const collection = useCollection();
+
+    const ids = useEqualList(unstableIds);
+    const [index, updateIndex] = useObjectIndex<T>(ids, collection.path);
 
     useEffect(() => {
       const subs: Subscription[] = [];
