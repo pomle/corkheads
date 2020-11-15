@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDB } from "../useDB";
-import { createStoreHook, toList } from "../createStoreHook";
+import { createStoreHook, QueryResult, toList } from "../createStoreHook";
 import { converter, CheckIn } from "types/checkIn";
 import { User } from "types/user";
 
@@ -31,7 +31,7 @@ type CheckInsQuery = {
   limit?: number;
 };
 
-export function useCheckInSearch(query: CheckInsQuery) {
+export function useCheckInSearch(query: CheckInsQuery): QueryResult<CheckIn> {
   const [busy, setBusy] = useState<boolean>(true);
   const [ids, setIds] = useState<string[]>([]);
 

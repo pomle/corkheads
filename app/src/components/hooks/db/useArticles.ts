@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { createStoreHook, toList } from "components/hooks/createStoreHook";
+import {
+  createStoreHook,
+  QueryResult,
+  toList,
+} from "components/hooks/createStoreHook";
 import { useArticleIndex } from "components/hooks/algolia";
 import { converter, Article } from "types/article";
 import { useDB } from "../useDB";
@@ -37,7 +41,7 @@ type ArticlesQuery = {
   };
 };
 
-export function useArticleSearch(query: ArticlesQuery) {
+export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
   const [ids, setIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);
   const searchIndex = useArticleIndex();
