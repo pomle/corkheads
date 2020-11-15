@@ -2,6 +2,7 @@ import React, { createContext, useContext } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import config from "config/firebase.config.json";
 
 export const Context = createContext<firebase.app.App | null>(null);
