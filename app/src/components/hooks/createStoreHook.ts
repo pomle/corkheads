@@ -17,6 +17,11 @@ type StoreResult<T> = {
   data: Index<T>;
 };
 
+export type QueryResult<T> = {
+  busy: boolean;
+  data: T[];
+};
+
 function useEqualList(next: any[]): any[] {
   const memo = useRef<any[]>([]);
 
