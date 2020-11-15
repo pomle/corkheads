@@ -8,7 +8,7 @@ const useStyles = makeStyles({
     color: "#fff",
     fontSize: "9px",
     lineHeight: 1,
-    padding: "2px 16px 3px 16px",
+    padding: "3px 16px",
     textAlign: "center",
     textTransform: "uppercase",
     width: "max-content",
