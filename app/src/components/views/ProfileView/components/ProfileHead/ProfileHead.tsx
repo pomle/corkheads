@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     backgroundColor: "#fff",
     backgroundImage,
     backgroundPosition: "center",
-    backgroundSize: "contain",
+    backgroundSize: "cover",
     borderRadius: "50%",
     margin: "24px",
     overflow: "hidden",
