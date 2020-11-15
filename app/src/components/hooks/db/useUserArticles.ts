@@ -1,5 +1,8 @@
 import { useMemo } from "react";
-import { createStoreHook } from "components/hooks/createStoreHook";
+import {
+  createStoreHook,
+  useFlatResult,
+} from "components/hooks/createStoreHook";
 import { converter, UserArticle } from "types/userArticle";
 import { useDB } from "components/hooks/useDB";
 
@@ -27,10 +30,6 @@ export function useUserArticleStore(userId: string, articleIds: string[]) {
 }
 
 export function useUserArticle(userId: string, articleId: string) {
-  const articleIds = useMemo(() => [articleId], [articleId]);
-  const result = useUserArticleStore(userId, articleIds);
-  return {
-    busy: result.busy,
-    data: articleId in result.data ? result.data[articleId] : undefined,
-  };
+  const result = useUserArticleStore(userId, [articleId]);
+  return useFlatResult(articleId, result);
 }

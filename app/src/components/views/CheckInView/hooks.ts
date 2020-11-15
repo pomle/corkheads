@@ -1,11 +1,7 @@
 import { useCallback } from "react";
 import moment from "moment";
 import * as firebase from "firebase/app";
-import { useUserArticleCollection } from "components/hooks/db/useArticles";
-import {
-  useCheckInCollection,
-  useUserCheckInCollection,
-} from "components/hooks/db/useCheckIns";
+import { useCheckInCollection } from "components/hooks/db/useCheckIns";
 import { useDB } from "components/hooks/useDB";
 import { User } from "types/user";
 import { CheckIn } from "types/checkIn";
@@ -13,8 +9,9 @@ import { CheckIn } from "types/checkIn";
 export function useCommitCheckIn(user: User) {
   const db = useDB();
   const checkInsRef = useCheckInCollection();
-  const userCheckInsRef = useUserCheckInCollection(user);
-  const userArticlesRef = useUserArticleCollection(user);
+  const userRef = db.collection("users").doc(user.uid);
+  const userCheckInsRef = userRef.collection("check-ins");
+  const userArticlesRef = userRef.collection("articles");
 
   return useCallback(
     (checkIn: CheckIn) => {

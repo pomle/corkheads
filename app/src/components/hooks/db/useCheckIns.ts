@@ -2,21 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useDB } from "../useDB";
 import { createStoreHook, QueryResult, toList } from "../createStoreHook";
 import { converter, CheckIn } from "types/checkIn";
-import { User } from "types/user";
 
 export function useCheckInCollection() {
   const db = useDB();
   return useMemo(() => db.collection("check-ins").withConverter(converter), [
     db,
   ]);
-}
-
-export function useUserCheckInCollection(user: User) {
-  const db = useDB();
-  return useMemo(
-    () => db.collection("users").doc(user.uid).collection("check-ins"),
-    [db, user]
-  );
 }
 
 export const useCheckInStore = createStoreHook<CheckIn>(useCheckInCollection);
