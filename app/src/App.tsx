@@ -5,9 +5,11 @@ import { ContextMenuContext } from "components/context/ContextMenuContext";
 import { InternationalizationContext } from "components/context/InternationalizationContext";
 import { FirebaseContext } from "components/context/FirebaseContext";
 import { ObjectStoreContext } from "components/context/ObjectStoreContext";
+import { SessionContext } from "components/context/SessionContext";
 
 const contexts = [
   FirebaseContext,
+  SessionContext,
   ObjectStoreContext,
   ContextMenuContext,
   SharedStateContext,
