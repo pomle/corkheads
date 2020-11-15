@@ -15,6 +15,9 @@ const PassedTime: React.FC<PassedTimeProps> = ({ date }) => {
   const hours = now.diff(date, "hours");
   if (hours < 1) {
     const minutes = now.diff(date, "minute");
+    if (minutes < 1) {
+      return <Trans.JustNow />;
+    }
     return <Trans.MinutesAgo minutes={minutes} />;
   } else if (hours < 6) {
     return <Trans.HoursAgo hours={hours} />;
