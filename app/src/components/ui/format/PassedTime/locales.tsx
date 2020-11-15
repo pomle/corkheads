@@ -1,5 +1,10 @@
 import { localize, Locale as LC } from "lib/i18n/localization";
 
+export const JustNow = localize({
+  [LC.enGB]: "A moment ago",
+  [LC.svSE]: "Nyss",
+});
+
 export const HoursAgo = localize<{ hours: number }>({
   [LC.enGB]: ({ hours }) => {
     if (hours === 1) {
