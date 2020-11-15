@@ -5,16 +5,16 @@ import AuthenticationView from "components/views/AuthenticationView";
 import OfflineView from "components/views/OfflineView/OfflineView";
 import ContextMenuView from "components/views/ContextMenuView/ContextMenuView";
 import { useOnlineStatus } from "components/hooks/useOnlineStatus";
-import { useAuth } from "components/hooks/useAuth";
+import { useUser } from "components/hooks/useUser";
 
 const AppRoute: React.FC = ({ children }) => {
-  const { auth } = useAuth();
+  const user = useUser();
   const isOnline = useOnlineStatus();
 
   return (
     <ViewStack>
       <>{children}</>
-      <Slide direction={SlideDirection.Down} active={!auth.currentUser}>
+      <Slide direction={SlideDirection.Down} active={!user}>
         <AuthenticationView />
       </Slide>
       <Slide direction={SlideDirection.Down} active={!isOnline}>

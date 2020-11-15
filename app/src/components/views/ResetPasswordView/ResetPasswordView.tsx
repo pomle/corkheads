@@ -46,7 +46,7 @@ interface ResetPasswordViewProps {
 const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
   const classes = useStyles();
 
-  const { auth } = useAuth();
+  const auth = useAuth();
 
   const [wasSent, setWasSent] = useAutoClearState<boolean>(5000, false);
 
