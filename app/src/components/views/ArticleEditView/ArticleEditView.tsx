@@ -9,6 +9,7 @@ import { Article } from "types/article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { useDB } from "components/hooks/useDB";
+import { User } from "types/user";
 
 const useStyles = makeStyles({
   form: {
@@ -54,7 +55,7 @@ function isArticleValid(article: Article) {
 
 interface ArticleEditViewProps {
   nav: React.ReactNode;
-  user: firebase.User;
+  user: User;
   article: Article;
 }
 

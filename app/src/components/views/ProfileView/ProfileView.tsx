@@ -13,10 +13,11 @@ import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import ArticleItem from "../ExploreArticlesView/components/ArticleItem/ArticleItem";
 import { Article } from "types/article";
+import { User } from "types/user";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
-  user: firebase.User;
+  user: User;
 }
 
 function createFakeArticles(len: number) {
