@@ -28,33 +28,38 @@ export function useObjectStore() {
 }
 
 export function useObjectIndex<T>(
-  ids: string[]
+  ids: string[],
+  namespace: string
 ): [
   {
     [key: string]: T;
   },
   (id: string, object: T) => void
 ] {
+  const path = useCallback((id: string) => `${namespace}/${id}`, [namespace]);
+
   const [store, setStore] = useObjectStore();
 
   const updateIndex = useCallback(
     (id: string, object: T) => {
-      setStore((store) => ({ ...store, [id]: object }));
+      const key = path(id);
+      setStore((store) => ({ ...store, [key]: object }));
     },
-    [setStore]
+    [path, setStore]
   );
 
   const data = useMemo(() => {
     const index = Object.create(null);
 
     for (const id of ids) {
-      if (store[id]) {
-        index[id] = store[id];
+      const key = path(id);
+      if (store[key]) {
+        index[id] = store[key];
       }
     }
 
     return index;
-  }, [ids, store]);
+  }, [ids, path, store]);
 
   return [data, updateIndex];
 }
