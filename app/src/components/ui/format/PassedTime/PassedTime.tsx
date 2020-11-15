@@ -1,8 +1,8 @@
 import React from "react";
 import { Moment } from "moment";
 import { useLiveTime } from "components/hooks/useLiveTime";
-import Day from "components/ui/format/Day";
 import Time from "components/ui/format/Time";
+import DayTime from "components/ui/format//DayTime";
 import * as Trans from "./locales";
 
 interface PassedTimeProps {
@@ -24,7 +24,7 @@ const PassedTime: React.FC<PassedTimeProps> = ({ date }) => {
   } else if (hours < 12) {
     return <Time date={date} />;
   } else {
-    return <Day date={date} />;
+    return <DayTime date={date} />;
   }
 };
 
