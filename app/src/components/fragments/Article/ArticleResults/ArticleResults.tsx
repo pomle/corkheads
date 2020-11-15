@@ -4,8 +4,8 @@ import ItemList from "components/ui/layout/ItemList";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import { useArticleSearch } from "components/hooks/db/useArticles";
 import { Article } from "types/article";
-import ArticleItem from "components/views/ExploreArticlesView/components/ArticleItem/ArticleItem";
 import * as paths from "components/route/paths";
+import SearchArticleItem from "./components/SearchArticleItem";
 import TextItem from "./components/TextItem";
 
 interface ArticleResultsProps {
@@ -38,7 +38,7 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
       {articles.map((article) => {
         return (
           <button key={article.id} onClick={() => onSelect(article)}>
-            <ArticleItem article={article} />
+            <SearchArticleItem article={article} />
           </button>
         );
       })}
