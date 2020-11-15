@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  Badge: {
     background: "#ff6a41",
     borderRadius: "10px",
     color: "#fff",
@@ -18,7 +18,7 @@ interface BadgeProps {}
 
 const Badge: React.FC<BadgeProps> = ({ children }) => {
   const classes = useStyles();
-  return <div className={classes.root}>{children}</div>;
+  return <div className={classes.Badge}>{children}</div>;
 };
 
 export default Badge;
