@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/article";
 import { CheckIn } from "types/checkIn";
-import Badge from "components/ui/typography/Badge";
 import Rating from "components/ui/indicators/Rating";
 import PassedTime from "components/ui/format/PassedTime";
 
@@ -84,7 +83,6 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
           )}
         </div>
         <div className={classes.rating}>
-          <Badge>4 Check Ins</Badge>
           {checkIn.data.rating && <Rating rating={checkIn.data.rating / 5} />}
         </div>
       </div>
