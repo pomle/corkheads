@@ -33,10 +33,10 @@ const useStyles = makeStyles({
     background: "#fff",
     color: "#5a5a5a",
     display: "grid",
+    flex: "1",
     gridAutoFlow: "row",
     gridGap: "4px",
-    flex: "1",
-    lineHeight: 1.4,
+    lineHeight: 1,
     padding: "14px 16px",
   },
   displayName: {
