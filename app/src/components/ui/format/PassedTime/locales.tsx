@@ -10,7 +10,7 @@ export const HoursAgo = localize<{ hours: number }>({
     if (hours === 1) {
       return "1 hour ago";
     }
-    return `${hours} timmar sedan`;
+    return `${hours} hours ago`;
   },
   [LC.svSE]: ({ hours }) => {
     if (hours === 1) {
