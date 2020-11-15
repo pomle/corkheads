@@ -14,11 +14,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface ArticleItemProps {
+interface SearchArticleItemProps {
   article: Article;
 }
 
-const ArticleItem: React.FC<ArticleItemProps> = ({ article }) => {
+const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
   const { photoURL } = article.data;
 
   const classes = useStyles();
@@ -33,4 +33,4 @@ const ArticleItem: React.FC<ArticleItemProps> = ({ article }) => {
   );
 };
 
-export default ArticleItem;
+export default SearchArticleItem;
