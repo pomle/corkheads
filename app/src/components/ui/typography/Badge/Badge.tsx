@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     padding: "2px 16px 3px 16px",
     textAlign: "center",
     textTransform: "uppercase",
+    width: "max-content",
   },
 });
 
