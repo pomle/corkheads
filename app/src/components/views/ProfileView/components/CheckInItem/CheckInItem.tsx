@@ -32,13 +32,25 @@ const useStyles = makeStyles({
   },
 });
 
+function resolvePhotoURL(checkIn: CheckIn, article: Article) {
+  if (checkIn.data.photoURL) {
+    return checkIn.data.photoURL;
+  }
+
+  if (article.data.photoURL) {
+    return article.data.photoURL;
+  }
+
+  return;
+}
+
 interface CheckInItemProps {
   article: Article;
   checkIn: CheckIn;
 }
 
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
-  const { photoURL } = article.data;
+  const photoURL = resolvePhotoURL(checkIn, article);
 
   const classes = useStyles();
 
