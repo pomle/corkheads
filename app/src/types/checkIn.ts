@@ -11,6 +11,7 @@ type CheckInData = {
   placeId?: string;
   comment?: string;
   position?: Position;
+  photoURL?: string;
 };
 
 export type CheckIn = Container<CheckInData>;
