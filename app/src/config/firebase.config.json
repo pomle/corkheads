@@ -1,9 +1,9 @@
 {
-    "apiKey": "AIzaSyCbUQGTfxNz4q-5CoA6ab2pqy1P6hUM8h8",
-    "authDomain": "corkheads.firebaseapp.com",
-    "databaseURL": "https://corkheads.firebaseio.com",
-    "projectId": "corkheads",
-    "storageBucket": "corkheads.appspot.com",
-    "messagingSenderId": "583913992608",
-    "appId": "1:583913992608:web:9c2a1baa92bfe20862b4c5"
+  "apiKey": "AIzaSyCbUQGTfxNz4q-5CoA6ab2pqy1P6hUM8h8",
+  "authDomain": "corkheads.firebaseapp.com",
+  "databaseURL": "https://corkheads.firebaseio.com",
+  "projectId": "corkheads",
+  "storageBucket": "corkheads-user-public-media",
+  "messagingSenderId": "583913992608",
+  "appId": "1:583913992608:web:9c2a1baa92bfe20862b4c5"
 }
