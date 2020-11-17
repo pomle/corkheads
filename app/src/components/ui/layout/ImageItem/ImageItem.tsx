@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     "& > img": {
       height: "100%",
       objectFit: "cover",
-      objectPostion: "center",
+      objectPosition: "center",
       width: "100%",
     },
   },
