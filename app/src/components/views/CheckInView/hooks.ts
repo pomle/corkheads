@@ -1,41 +1,63 @@
 import { useCallback } from "react";
 import moment from "moment";
 import * as firebase from "firebase/app";
-import { useCheckInCollection } from "components/hooks/db/useCheckIns";
 import { useDB } from "components/hooks/useDB";
 import { User } from "types/user";
 import { CheckIn } from "types/checkIn";
+import { useUserUpload } from "components/hooks/useUserUpload";
+import { useCheckInCollection } from "components/hooks/db/useCheckIns";
+import { clone } from "types/types";
 
-export function useCommitCheckIn(user: User) {
+type Payload = {
+  user: User;
+  checkIn: CheckIn;
+  file?: File;
+};
+
+export function useCommitCheckIn() {
   const db = useDB();
-  const checkInsRef = useCheckInCollection();
-  const userRef = db.collection("users").doc(user.uid);
-  const userCheckInsRef = userRef.collection("check-ins");
-  const userArticlesRef = userRef.collection("articles");
+  const uploadFile = useUserUpload();
+
+  const checkInsCollection = useCheckInCollection();
 
   return useCallback(
-    (checkIn: CheckIn) => {
-      return checkInsRef.add(checkIn).then((result) => {
-        const userCheckInRef = userCheckInsRef.doc(result.id);
-        const userArticleRef = userArticlesRef.doc(checkIn.data.articleId);
+    async ({ user, checkIn: checkInSource, file }: Payload) => {
+      // Make a deep copy because it may be mutated in the photoURL assign.
+      const checkIn = clone(checkInSource);
 
-        const batch = db.batch();
+      const uploadResult = await (file && uploadFile(user, file));
 
-        batch.set(userCheckInRef, {
-          createdAt: moment().toISOString(),
-        });
+      const photoURL = await (uploadResult &&
+        (uploadResult.ref.getDownloadURL() as Promise<string>));
 
-        batch.set(
-          userArticleRef,
-          {
-            checkIns: firebase.firestore.FieldValue.increment(1),
-          },
-          { merge: true }
-        );
+      if (photoURL) {
+        checkIn.data.photoURL = photoURL;
+      }
 
-        return batch.commit();
+      const checkInResult = await checkInsCollection.add(checkIn);
+
+      const userRef = db.collection("users").doc(user.uid);
+      const userCheckInsRef = userRef.collection("check-ins");
+      const userArticlesRef = userRef.collection("articles");
+      const userCheckInRef = userCheckInsRef.doc(checkInResult.id);
+      const userArticleRef = userArticlesRef.doc(checkIn.data.articleId);
+
+      const batch = db.batch();
+
+      batch.set(userCheckInRef, {
+        createdAt: moment().toISOString(),
       });
+
+      batch.set(
+        userArticleRef,
+        {
+          checkIns: firebase.firestore.FieldValue.increment(1),
+        },
+        { merge: true }
+      );
+
+      return batch.commit();
     },
-    [db, checkInsRef, userCheckInsRef, userArticlesRef]
+    [checkInsCollection, db, uploadFile]
   );
 }

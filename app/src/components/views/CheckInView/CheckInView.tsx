@@ -13,9 +13,10 @@ import RatingInput from "./component/RatingInput";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import { useCommitCheckIn } from "./hooks";
+import FileSelect from "components/ui/trigger/FileSelect";
 
 const useStyles = makeStyles({
-  photo: {
+  main: {
     background: "#fff",
     color: "#5a5a5a",
     height: "100vw",
@@ -27,6 +28,18 @@ const useStyles = makeStyles({
       height: "100%",
       justifyContent: "space-between",
       textAlign: "center",
+    },
+  },
+  photo: {
+    background: "#c9c9c9",
+    height: "100vw",
+    maxHeight: "400px",
+    overflow: "hidden",
+    "& > img": {
+      height: "100%",
+      objectFit: "cover",
+      objectPosition: "center",
+      width: "100%",
     },
   },
 });
@@ -76,6 +89,10 @@ const CheckInView: React.FC<CheckInViewProps> = ({
   onSuccess,
 }) => {
   const initial = useMemo(() => createCheckIn(article, user), [article, user]);
+
+  const [photoURL, setPhotoURL] = useState<string>();
+  const [file, setFile] = useState<File>();
+
   const [checkIn, setCheckIn] = useState<CheckIn>(initial);
 
   const updateCheckIn = useCallback(
@@ -98,6 +115,13 @@ const CheckInView: React.FC<CheckInViewProps> = ({
     [updateCheckIn]
   );
 
+  const handleFile = useCallback((file: File) => {
+    setFile(file);
+
+    const url = URL.createObjectURL(file);
+    setPhotoURL(url);
+  }, []);
+
   const setPosition = useCallback(
     (position: Position | undefined) => {
       updateCheckIn({ position });
@@ -114,13 +138,13 @@ const CheckInView: React.FC<CheckInViewProps> = ({
 
   const { position } = useGeolocation();
 
-  const commitCheckIn = useCommitCheckIn(user);
+  const commitCheckIn = useCommitCheckIn();
 
   const handleCheckIn = useCallback(() => {
-    commitCheckIn(checkIn).then(() => {
+    commitCheckIn({ user, checkIn, file }).then(() => {
       onSuccess();
     });
-  }, [checkIn, commitCheckIn, onSuccess]);
+  }, [file, user, checkIn, commitCheckIn, onSuccess]);
 
   const canCheckIn = isCheckInValid(checkIn);
 
@@ -133,7 +157,7 @@ const CheckInView: React.FC<CheckInViewProps> = ({
         <ViewTitle title="Check In" />
       </ViewCap>
       <ViewBody>
-        <div className={classes.photo}>
+        <div className={classes.main}>
           <div className="content">
             <div>
               <h3>{article.data.displayName}</h3>
@@ -154,6 +178,16 @@ const CheckInView: React.FC<CheckInViewProps> = ({
             </ActionButton>
           </div>
         </div>
+
+        <SectionList>
+          <Section header="Photo">
+            <FileSelect onFile={handleFile}>
+              <div className={classes.photo}>
+                {photoURL && <img src={photoURL} alt="Your picked upload" />}
+              </div>
+            </FileSelect>
+          </Section>
+        </SectionList>
 
         <SectionList>
           <Section header="Location">
