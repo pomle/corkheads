@@ -8,15 +8,17 @@ const useStyles = makeStyles({
     display: "flex",
   },
   photo: {
+    alignItems: "center",
+    alignSelf: "stretch",
     background: "#c9c9c9",
-    overflow: "hidden",
-    height: "85px",
+    display: "flex",
+    minHeight: "85px",
     width: "85px",
     "& > img": {
-      height: "100%",
+      height: "85px",
       objectFit: "cover",
       objectPosition: "center",
-      width: "100%",
+      width: "85px",
     },
   },
   meta: {
