@@ -28,12 +28,12 @@ const useStyles = makeStyles({
     width: 280,
   },
   logo: {
-    margin: 20,
+    margin: 16,
   },
   fields: {
     display: "grid",
     gridGap: 16,
-    margin: "40px 0",
+    margin: "24px 0",
     width: "100%",
   },
   forgotPassword: {
@@ -75,7 +75,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
         <div className={classes.loginView}>
           <form className={classes.content}>
             <div className={classes.logo}>
-              <img src={logo} alt="Corkheads logo" width="240" height="240" />
+              <img src={logo} alt="Corkheads logo" width="200" height="200" />
             </div>
 
             <div className={classes.fields}>
