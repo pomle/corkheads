@@ -16,8 +16,8 @@ const useStyles = makeStyles({
     borderRadius: "50%",
     margin: "24px",
     overflow: "hidden",
-    height: "120px",
-    width: "120px",
+    height: "140px",
+    width: "140px",
     "& > img": {
       height: "100%",
       objectFit: "cover",
