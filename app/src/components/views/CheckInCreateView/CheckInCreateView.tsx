@@ -13,7 +13,7 @@ import RatingInput from "./component/RatingInput";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import { useCommitCheckIn } from "./hooks";
-import FileSelect from "components/ui/trigger/FileSelect";
+import ImageSelect from "components/ui/trigger/ImageSelect";
 
 const useStyles = makeStyles({
   main: {
@@ -181,11 +181,11 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
         <SectionList>
           <Section header="Photo">
-            <FileSelect onFile={handleFile}>
+            <ImageSelect onFile={handleFile}>
               <div className={classes.photo}>
                 {photoURL && <img src={photoURL} alt="Your picked upload" />}
               </div>
-            </FileSelect>
+            </ImageSelect>
           </Section>
         </SectionList>
 
