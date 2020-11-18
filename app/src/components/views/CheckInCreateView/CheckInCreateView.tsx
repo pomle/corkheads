@@ -7,7 +7,6 @@ import { User } from "types/user";
 import { Article } from "types/article";
 import { CheckIn } from "types/checkIn";
 import ActionButton from "components/ui/trigger/ActionButton";
-import { useGeolocation } from "components/hooks/useGeolocation";
 import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
 import Section from "components/ui/layout/Section";
@@ -59,22 +58,6 @@ function createCheckIn(article: Article, user: User): CheckIn {
   };
 }
 
-function copyPosition(position: Position) {
-  const coords = position.coords;
-  return {
-    coords: {
-      accuracy: coords.accuracy,
-      altitude: coords.altitude,
-      altitudeAccuracy: coords.altitudeAccuracy,
-      heading: coords.heading,
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      speed: coords.speed,
-    },
-    timestamp: position.timestamp,
-  };
-}
-
 interface CheckInCreateViewProps {
   nav: React.ReactNode;
   article: Article;
@@ -122,21 +105,12 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
     setPhotoURL(url);
   }, []);
 
-  const setPosition = useCallback(
-    (position: Position | undefined) => {
-      updateCheckIn({ position });
-    },
-    [updateCheckIn]
-  );
-
   const setComment = useCallback(
     (comment: string) => {
       updateCheckIn({ comment });
     },
     [updateCheckIn]
   );
-
-  const { position } = useGeolocation();
 
   const commitCheckIn = useCommitCheckIn();
 
@@ -190,24 +164,6 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
         </SectionList>
 
         <SectionList>
-          <Section header="Location">
-            <ActionButton
-              disabled={!position}
-              variant="action"
-              onClick={() =>
-                setPosition(
-                  checkIn.data.position
-                    ? undefined
-                    : position
-                    ? copyPosition(position)
-                    : undefined
-                )
-              }
-            >
-              {checkIn.data.position ? "Remove Location" : "Add Location"}
-            </ActionButton>
-          </Section>
-
           <Section header="Comment">
             <textarea
               value={checkIn.data.comment || ""}
