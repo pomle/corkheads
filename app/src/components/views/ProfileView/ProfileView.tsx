@@ -15,6 +15,7 @@ import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/user";
 import CollectionList from "components/ui/layout/CollectionList";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
+import SectionTitle from "components/ui/layout/SectionTitle";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -87,7 +88,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
         <ProfileHead user={user} />
 
         <SectionList>
-          <Section header="Top drinks">
+          <Section
+            header={
+              <SectionTitle
+                main="Top drinks"
+                context={<a href="/">See all</a>}
+              />
+            }
+          >
             <ItemList>
               {topArticles.map(({ article, userArticle }) => {
                 return (
@@ -105,7 +113,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             </ItemList>
           </Section>
 
-          <Section header="Check ins">
+          <Section
+            header={
+              <SectionTitle
+                main="Check ins"
+                context={<a href="/">See all</a>}
+              />
+            }
+          >
             <ItemList>
               {checkInHistory.map(({ checkIn, article }) => {
                 return (
@@ -120,7 +135,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             </ItemList>
           </Section>
 
-          <Section header="Collection">
+          <Section
+            header={
+              <SectionTitle
+                main="Collection"
+                context={<a href="/">See all</a>}
+              />
+            }
+          >
             <CollectionList>
               {checkInHistory.map(({ checkIn, article }) => {
                 const photoURL = checkIn.data.photoURL;
@@ -140,7 +162,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             </CollectionList>
           </Section>
 
-          <Section header="Wishlist">
+          <Section
+            header={
+              <SectionTitle main="Wishlist" context={<a href="/">See all</a>} />
+            }
+          >
             <CollectionList>
               {checkInHistory.map(({ checkIn, article }) => {
                 const photoURL = checkIn.data.photoURL;
