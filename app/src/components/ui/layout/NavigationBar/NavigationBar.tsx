@@ -2,12 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  NavigationBar: {
     alignItems: "center",
     display: "flex",
-    fontSize: 17,
+    fontSize: "16px",
     justifyContent: "space-between",
-    minHeight: 24,
+    minHeight: "24px",
     padding: "16px 16px 6px 16px",
     "& button": {
       margin: "-12px -12px",
@@ -25,7 +25,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ back, forward }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.NavigationBar}>
       <div>{back}</div>
       <div>{forward}</div>
     </div>

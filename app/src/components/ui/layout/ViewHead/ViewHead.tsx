@@ -2,15 +2,15 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
-    padding: "16px 14px",
+  ViewHead: {
+    padding: "16px 16px",
   },
 });
 
 const ViewHead: React.FC = ({ children }) => {
   const classes = useStyles();
 
-  return <div className={classes.root}>{children}</div>;
+  return <div className={classes.ViewHead}>{children}</div>;
 };
 
 export default ViewHead;
