@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { useUserData } from "components/hooks/db/useUserData";
+import { UserData, useUserData } from "components/hooks/db/useUserData";
 import FileSelect from "components/ui/trigger/FileSelect";
 import { useUserUpload } from "components/hooks/useUserUpload";
 
@@ -32,9 +32,9 @@ const useStyles = makeStyles({
   },
 });
 
-function resolveTitle(user: firebase.User) {
-  if (user.displayName) {
-    return user.displayName;
+function resolveTitle(user: firebase.User, userData: UserData) {
+  if (userData.displayName) {
+    return userData.displayName;
   }
 
   if (user.email) {
@@ -74,7 +74,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
         </div>
       </FileSelect>
 
-      <h2 className={classes.identity}>{resolveTitle(user)}</h2>
+      <h2 className={classes.identity}>{resolveTitle(user, userData)}</h2>
     </div>
   );
 };
