@@ -4,7 +4,7 @@ import React from "react";
 const useStyles = makeStyles({
   NameValueList: {
     "& > *": {
-      borderTop: "solid 1px #979797",
+      borderTop: "solid 1px #e4e4e4",
       "&:first-child": {
         borderTop: "none",
       },
