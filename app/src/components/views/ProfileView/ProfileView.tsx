@@ -46,7 +46,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
       filters: {
         userIds: [user.uid],
       },
-      limit: 5,
+      limit: 3,
     };
   }, [user]);
 
@@ -103,7 +103,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             </ItemList>
           </Section>
 
-          <Section header="History">
+          <Section header="Check ins">
             <ItemList>
               {checkInHistory.map(({ checkIn, article }) => {
                 return (
