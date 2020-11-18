@@ -11,9 +11,16 @@ const useStyles = makeStyles({
 
 interface FileSelectProps {
   onFile: (file: File) => void;
+  accept?: string;
+  capture?: "environment" | "user";
 }
 
-const FileSelect: React.FC<FileSelectProps> = ({ onFile, children }) => {
+const FileSelect: React.FC<FileSelectProps> = ({
+  onFile,
+  children,
+  accept,
+  capture,
+}) => {
   const inputElement = useRef<HTMLInputElement>(null);
 
   const handleInitiate = useCallback(() => {
@@ -43,7 +50,13 @@ const FileSelect: React.FC<FileSelectProps> = ({ onFile, children }) => {
       onClick={handleInitiate}
       type="button"
     >
-      <input ref={inputElement} type="file" onChange={handleChange} />
+      <input
+        ref={inputElement}
+        type="file"
+        onChange={handleChange}
+        accept={accept}
+        capture={capture}
+      />
       {children}
     </button>
   );
