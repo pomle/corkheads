@@ -2,12 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  section: {
+  Section: {
     "& > header": {
       background: "#fff",
       color: "#838383",
-      fontSize: "20px",
-      fontWeight: 700,
       padding: "16px 20px",
     },
   },
@@ -26,7 +24,7 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({ header, children }) => {
   const classes = useStyles();
   return (
-    <section className={classes.section}>
+    <section className={classes.Section}>
       <header>{header}</header>
       <div className={classes.content}>{children}</div>
     </section>
