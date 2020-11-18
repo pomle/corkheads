@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDB } from "../useDB";
 
-type UserData = {
+export type UserData = {
+  displayName?: string;
   photoURL?: string;
 };
 
