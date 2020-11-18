@@ -1,17 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-
-type StyleProps = {
-  photoURL?: string;
-};
-
-function backgroundImage({ photoURL }: StyleProps) {
-  if (photoURL) {
-    return `url(${photoURL})`;
-  }
-
-  return "none";
-}
+import { useUserData } from "components/hooks/db/useUserData";
 
 const useStyles = makeStyles({
   profileHead: {
@@ -22,14 +11,15 @@ const useStyles = makeStyles({
   },
   photo: {
     backgroundColor: "#fff",
-    backgroundImage,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
     borderRadius: "50%",
     margin: "24px",
     overflow: "hidden",
     height: "120px",
     width: "120px",
+    "& > img": {
+      objectFit: "cover",
+      objectPosition: "center",
+    },
   },
   identity: {
     color: "#5a5a5a",
@@ -55,13 +45,17 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
-  const classes = useStyles({
-    photoURL: user.photoURL || undefined,
-  });
+  const [userData] = useUserData(user.uid);
+
+  const { photoURL } = userData;
+
+  const classes = useStyles();
 
   return (
     <div className={classes.profileHead}>
-      <div className={classes.photo}></div>
+      <div className={classes.photo}>
+        {photoURL && <img src={photoURL} alt="Profile" />}
+      </div>
       <h2 className={classes.identity}>{resolveTitle(user)}</h2>
     </div>
   );
