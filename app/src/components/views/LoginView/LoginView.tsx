@@ -12,6 +12,8 @@ import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
 import * as Text from "./locales";
 import ActionButton from "components/ui/trigger/ActionButton";
 
+const version = process.env.REACT_APP_VERSION;
+
 const useStyles = makeStyles({
   loginView: {
     alignItems: "center",
@@ -39,6 +41,12 @@ const useStyles = makeStyles({
   forgotPassword: {
     fontSize: 16,
     marginTop: 20,
+  },
+  version: {
+    color: "#c4c4c4",
+    fontSize: "9px",
+    fontWeight: 500,
+    margin: "16px",
   },
 });
 
@@ -116,6 +124,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
               <Text.ForgotPassword />
             </button>
           </form>
+          <div className={classes.version}>Version: {version}</div>
         </div>
       </FullScreenLayout>
 
