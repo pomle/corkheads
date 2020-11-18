@@ -83,15 +83,15 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
             Check in
           </ActionButton>
           <NameValueList>
-            <NameValue name="Manufacturer" value={data.manufacturer} />
             <NameValue
-              name="Average rating"
+              name="Global rating"
               value={
                 <>
                   <Rating rating={averageRating} />
                 </>
               }
             />
+            <NameValue name="Brand" value={data.manufacturer} />
           </NameValueList>
         </div>
       </ViewBody>

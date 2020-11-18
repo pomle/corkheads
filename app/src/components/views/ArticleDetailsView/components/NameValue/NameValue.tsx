@@ -4,6 +4,7 @@ import React from "react";
 const useStyles = makeStyles({
   NameValue: {
     display: "flex",
+    fontSize: "14px",
     justifyContent: "space-between",
     padding: "12px 20px",
   },
