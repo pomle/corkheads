@@ -1,19 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type StyleProps = {
+  bottom?: boolean;
+  top?: boolean;
+};
+
 const useStyles = makeStyles({
-  root: {
+  ViewCap: {
     background: "#e2e2e2",
-    borderColor: "#CCCCCC",
-    borderStyle: "solid",
-    borderWidth: 0,
+    borderBottom: (props: StyleProps) =>
+      props.top ? "solid 2px #CCCCCC" : "none",
+    borderTop: (props: StyleProps) =>
+      props.bottom ? "solid 2px #CCCCCC" : "none",
     minHeight: 54,
-  },
-  bottomBorder: {
-    borderBottomWidth: "1px",
-  },
-  topBorder: {
-    borderTopWidth: "1px",
   },
 });
 
@@ -23,17 +23,9 @@ interface ViewCapProps {
 }
 
 const ViewCap: React.FC<ViewCapProps> = ({ top, bottom, children }) => {
-  const classes = useStyles();
+  const classes = useStyles({ top, bottom });
 
-  const classNames = [classes.root];
-  if (top) {
-    classNames.push(classes.bottomBorder);
-  }
-  if (bottom) {
-    classNames.push(classes.topBorder);
-  }
-
-  return <div className={classNames.join(" ")}>{children}</div>;
+  return <div className={classes.ViewCap}>{children}</div>;
 };
 
 export default ViewCap;
