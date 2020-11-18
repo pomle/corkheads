@@ -3,17 +3,16 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   root: {
+    background: "#e2e2e2",
     borderColor: "#CCCCCC",
     borderStyle: "solid",
     borderWidth: 0,
     minHeight: 54,
   },
   bottomBorder: {
-    background: "#FFF",
     borderBottomWidth: "1px",
   },
   topBorder: {
-    background: "#FFF",
     borderTopWidth: "1px",
   },
 });
