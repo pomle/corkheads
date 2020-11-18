@@ -15,19 +15,31 @@ import { useCommitCheckIn } from "./hooks";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 
 const useStyles = makeStyles({
-  main: {
+  content: {
     background: "#fff",
     color: "#5a5a5a",
+    display: "flex",
+    flexFlow: "column",
     height: "100vw",
     maxHeight: "400px",
     padding: "24px",
-    "& > .content": {
-      display: "flex",
-      flexFlow: "column",
-      height: "100%",
-      justifyContent: "space-between",
-      textAlign: "center",
-    },
+    justifyContent: "space-between",
+    textAlign: "center",
+  },
+  meta: {
+    lineHeight: 1.4,
+    marginTop: "20%",
+  },
+  displayName: {
+    fontSize: "20px",
+    fontWeight: 700,
+  },
+  manufacturer: {
+    fontSize: "16px",
+    fontWeight: 500,
+  },
+  rating: {
+    margin: "0 10% 20% 10%",
   },
   photo: {
     background: "#c9c9c9",
@@ -131,26 +143,30 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
         <ViewTitle title="Check In" />
       </ViewCap>
       <ViewBody>
-        <div className={classes.main}>
-          <div className="content">
-            <div>
-              <h3>{article.data.displayName}</h3>
-              <h5>{article.data.manufacturer}</h5>
+        <div className={classes.content}>
+          <div className={classes.meta}>
+            <div className={classes.displayName}>
+              {article.data.displayName}
             </div>
+            <div className={classes.manufacturer}>
+              {article.data.manufacturer}
+            </div>
+          </div>
 
+          <div className={classes.rating}>
             <RatingInput
               rating={checkIn.data.rating || 0}
               onChange={setRating}
             />
-
-            <ActionButton
-              disabled={!canCheckIn}
-              variant="action"
-              onClick={handleCheckIn}
-            >
-              Check in now
-            </ActionButton>
           </div>
+
+          <ActionButton
+            disabled={!canCheckIn}
+            variant="action"
+            onClick={handleCheckIn}
+          >
+            Check in now
+          </ActionButton>
         </div>
 
         <SectionList>
