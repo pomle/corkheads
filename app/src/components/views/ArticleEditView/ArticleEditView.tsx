@@ -9,7 +9,7 @@ import { Article } from "types/article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { User } from "types/user";
-import FileSelect from "components/ui/trigger/FileSelect";
+import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useCommitArticle } from "./hooks";
 
 const useStyles = makeStyles({
@@ -167,9 +167,9 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
                 <img src={photoURL} alt="Preview" />
               </div>
             ) : (
-              <FileSelect onFile={handleFile}>
+              <ImageSelect onFile={handleFile}>
                 <div className="photo">Upload Photo</div>
-              </FileSelect>
+              </ImageSelect>
             )}
 
             <ActionButton

@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { UserData, useUserData } from "components/hooks/db/useUserData";
-import FileSelect from "components/ui/trigger/FileSelect";
+import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useUserUpload } from "components/hooks/useUserUpload";
 
 const useStyles = makeStyles({
@@ -53,7 +53,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
 
   const uploadFile = useUserUpload();
 
-  const handleFileSelect = useCallback(
+  const handleImageSelect = useCallback(
     async (file: File) => {
       const result = await uploadFile(user, file);
       const photoURL = await result.ref.getDownloadURL();
@@ -68,11 +68,11 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
 
   return (
     <div className={classes.profileHead}>
-      <FileSelect onFile={handleFileSelect}>
+      <ImageSelect onFile={handleImageSelect}>
         <div className={classes.photo}>
           {photoURL && <img src={photoURL} alt="Profile" />}
         </div>
-      </FileSelect>
+      </ImageSelect>
 
       <h2 className={classes.identity}>{resolveTitle(user, userData)}</h2>
     </div>
