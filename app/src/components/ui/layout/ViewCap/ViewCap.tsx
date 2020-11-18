@@ -9,7 +9,7 @@ type StyleProps = {
 const useStyles = makeStyles({
   ViewCap: {
     background: (props: StyleProps) =>
-      props.bottom || props.top ? "#fff" : "none",
+      props.bottom || props.top ? "#f9f9f9" : "none",
     borderBottom: (props: StyleProps) =>
       props.top ? "solid 2px #CCCCCC" : "none",
     borderTop: (props: StyleProps) =>
