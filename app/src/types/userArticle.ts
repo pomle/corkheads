@@ -3,12 +3,14 @@ import { Container, Converter } from "./types";
 type UserArticleData = {
   checkIns: number;
   owner: boolean;
+  rating?: number;
 };
 
 export type UserArticle = Container<UserArticleData>;
 
 const DEFAULTS: UserArticleData = {
   checkIns: 0,
+  rating: 1,
   owner: false,
 };
 
