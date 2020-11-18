@@ -4,13 +4,14 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
   root: {
     alignItems: "center",
-    color: "#BBB",
+    color: "#838383",
     display: "flex",
-    fontSize: 20,
-    fontWeight: 500,
+    fontSize: "22px",
+    fontWeight: 400,
     justifyContent: "center",
-    padding: 40,
+    margin: "16px auto",
     textAlign: "center",
+    width: "260px",
   },
 });
 
