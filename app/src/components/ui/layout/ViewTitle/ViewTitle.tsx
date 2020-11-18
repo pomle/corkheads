@@ -4,7 +4,7 @@ import ViewHead from "components/ui/layout/ViewHead";
 
 const useStyles = makeStyles({
   caption: {
-    color: "#5a5a5a",
+    color: "#303030",
     fontSize: "24px",
     overflow: "hidden",
     textOverflow: "ellipsis",
