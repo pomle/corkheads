@@ -13,6 +13,8 @@ import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/user";
+import CollectionList from "components/ui/layout/CollectionList";
+import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -116,6 +118,46 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 );
               })}
             </ItemList>
+          </Section>
+
+          <Section header="Collection">
+            <CollectionList>
+              {checkInHistory.map(({ checkIn, article }) => {
+                const photoURL = checkIn.data.photoURL;
+                return (
+                  <CollectionItem
+                    key={checkIn.id}
+                    image={
+                      photoURL && (
+                        <img src={photoURL} alt={article.data.displayName} />
+                      )
+                    }
+                  >
+                    {article.data.displayName}
+                  </CollectionItem>
+                );
+              })}
+            </CollectionList>
+          </Section>
+
+          <Section header="Wishlist">
+            <CollectionList>
+              {checkInHistory.map(({ checkIn, article }) => {
+                const photoURL = checkIn.data.photoURL;
+                return (
+                  <CollectionItem
+                    key={checkIn.id}
+                    image={
+                      photoURL && (
+                        <img src={photoURL} alt={article.data.displayName} />
+                      )
+                    }
+                  >
+                    {article.data.displayName}
+                  </CollectionItem>
+                );
+              })}
+            </CollectionList>
           </Section>
         </SectionList>
       </ViewBody>
