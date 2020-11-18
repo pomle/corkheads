@@ -8,8 +8,9 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
-import { useDB } from "components/hooks/useDB";
 import { User } from "types/user";
+import FileSelect from "components/ui/trigger/FileSelect";
+import { useCommitArticle } from "./hooks";
 
 const useStyles = makeStyles({
   form: {
@@ -44,6 +45,12 @@ const useStyles = makeStyles({
       height: "200px",
       margin: "auto",
       width: "200px",
+      "& > img": {
+        height: "100%",
+        objectFit: "contain",
+        objectPosition: "center",
+        width: "100%",
+      },
     },
   },
 });
@@ -74,6 +81,8 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     [history]
   );
 
+  const [photoURL, setPhotoURL] = useState<string>();
+  const [file, setFile] = useState<File>();
   const [article, setArticle] = useState<Article>(initial);
 
   const updateArticle = useCallback(
@@ -103,20 +112,26 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     [updateArticle]
   );
 
-  const db = useDB();
+  const handleFile = useCallback((file: File) => {
+    setFile(file);
 
-  const commitArticle = useCallback(() => {
-    const data = {
-      ...article.data,
-      userId: user.uid,
-    };
+    const url = URL.createObjectURL(file);
+    setPhotoURL(url);
+  }, []);
 
-    db.collection("articles")
-      .add(data)
-      .then((result) => {
-        goToArticle(result.id);
-      });
-  }, [user, article, goToArticle, db]);
+  const clearPhoto = useCallback(() => {
+    setFile(undefined);
+    setPhotoURL(undefined);
+  }, [setFile, setPhotoURL]);
+
+  const commitArticle = useCommitArticle();
+
+  const handleSave = useCallback(() => {
+    commitArticle({ user, article, file }).then((result) => {
+      const articleId = result.id;
+      goToArticle(articleId);
+    });
+  }, [file, user, article, commitArticle, goToArticle]);
 
   const canSave = isArticleValid(article);
 
@@ -147,12 +162,20 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               />
             </div>
 
-            <div className="photo">Upload Photo</div>
+            {photoURL ? (
+              <div className="photo" onClick={clearPhoto}>
+                <img src={photoURL} alt="Preview" />
+              </div>
+            ) : (
+              <FileSelect onFile={handleFile}>
+                <div className="photo">Upload Photo</div>
+              </FileSelect>
+            )}
 
             <ActionButton
               disabled={!canSave}
               variant="action"
-              onClick={commitArticle}
+              onClick={handleSave}
             >
               Add drink
             </ActionButton>
