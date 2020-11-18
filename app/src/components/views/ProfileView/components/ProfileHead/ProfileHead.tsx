@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useUserData } from "components/hooks/db/useUserData";
+import FileSelect from "components/ui/trigger/FileSelect";
+import { useUserUpload } from "components/hooks/useUserUpload";
 
 const useStyles = makeStyles({
   profileHead: {
@@ -17,8 +19,10 @@ const useStyles = makeStyles({
     height: "120px",
     width: "120px",
     "& > img": {
+      height: "100%",
       objectFit: "cover",
       objectPosition: "center",
+      width: "100%",
     },
   },
   identity: {
@@ -45,7 +49,18 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
-  const [userData] = useUserData(user.uid);
+  const [userData, setUserData] = useUserData(user.uid);
+
+  const uploadFile = useUserUpload();
+
+  const handleFileSelect = useCallback(
+    async (file: File) => {
+      const result = await uploadFile(user, file);
+      const photoURL = await result.ref.getDownloadURL();
+      setUserData({ ...userData, photoURL });
+    },
+    [user, userData, setUserData, uploadFile]
+  );
 
   const { photoURL } = userData;
 
@@ -53,9 +68,12 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
 
   return (
     <div className={classes.profileHead}>
-      <div className={classes.photo}>
-        {photoURL && <img src={photoURL} alt="Profile" />}
-      </div>
+      <FileSelect onFile={handleFileSelect}>
+        <div className={classes.photo}>
+          {photoURL && <img src={photoURL} alt="Profile" />}
+        </div>
+      </FileSelect>
+
       <h2 className={classes.identity}>{resolveTitle(user)}</h2>
     </div>
   );
