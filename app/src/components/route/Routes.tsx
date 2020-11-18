@@ -7,7 +7,7 @@ import { Article } from "types/article";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ViewStack from "components/ui/layout/ViewStack";
 import ArticlePage from "./routes/AppRoute/pages/ArticlePage";
-import CheckInPage from "./routes/AppRoute/pages/CheckInPage";
+import CheckInCreatePage from "./routes/AppRoute/pages/CheckInCreatePage";
 import FindPage from "./routes/AppRoute/pages/FindPage";
 import ProfilePage from "./routes/AppRoute/pages/ProfilePage/ProfilePage";
 import ArticleCreatePage from "./routes/AppRoute/pages/ArticleCreatePage/ArticleCreatePage";
@@ -30,7 +30,7 @@ const Routes: React.FC = () => {
           {(params) => <ArticlePage articleId={params.articleId} />}
         </Screen>
         <Screen path={paths.articleCheckIn} transition={SlideRight}>
-          {(params) => <CheckInPage articleId={params.articleId} />}
+          {(params) => <CheckInCreatePage articleId={params.articleId} />}
         </Screen>
         <Screen path={paths.articleCreate} transition={SlideDown}>
           {() => <ArticleCreatePage />}

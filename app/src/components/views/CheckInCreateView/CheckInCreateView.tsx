@@ -44,13 +44,6 @@ const useStyles = makeStyles({
   },
 });
 
-interface CheckInViewProps {
-  nav: React.ReactNode;
-  article: Article;
-  user: User;
-  onSuccess: () => void;
-}
-
 function isCheckInValid(checkIn: CheckIn) {
   const data = checkIn.data;
   return !!data.rating;
@@ -82,7 +75,14 @@ function copyPosition(position: Position) {
   };
 }
 
-const CheckInView: React.FC<CheckInViewProps> = ({
+interface CheckInCreateViewProps {
+  nav: React.ReactNode;
+  article: Article;
+  user: User;
+  onSuccess: () => void;
+}
+
+const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   nav,
   article,
   user,
@@ -220,4 +220,4 @@ const CheckInView: React.FC<CheckInViewProps> = ({
   );
 };
 
-export default CheckInView;
+export default CheckInCreateView;

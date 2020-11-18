@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useArticle } from "components/hooks/db/useArticles";
 import LoadingView from "components/views/LoadingView";
-import CheckInView from "components/views/CheckInView";
+import CheckInCreateView from "components/views/CheckInCreateView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
@@ -9,7 +9,11 @@ import { useHistory } from "react-router-dom";
 import { useUser } from "components/hooks/useUser";
 import ErrorView from "components/views/ErrorView";
 
-const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
+interface CheckInCreatePageProps {
+  articleId: string;
+}
+
+const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
   const history = useHistory();
 
   const goToArticle = useCallback(() => {
@@ -46,7 +50,7 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
   }
 
   return (
-    <CheckInView
+    <CheckInCreateView
       key={history.location.key}
       nav={nav}
       article={article}
@@ -56,4 +60,4 @@ const CheckInPage: React.FC<{ articleId: string }> = ({ articleId }) => {
   );
 };
 
-export default CheckInPage;
+export default CheckInCreatePage;
