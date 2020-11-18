@@ -41,7 +41,7 @@ const ArticleSelect: React.FC<ArticleSelectProps> = ({ onSelect }) => {
       {query.length >= MIN_QUERY_LENGTH ? (
         <ArticleResults query={query} onSelect={onSelect} />
       ) : (
-        <ResultStatement message="Type something to search." />
+        <ResultStatement message="Type in the name of a drink or manufacturer." />
       )}
     </div>
   );
