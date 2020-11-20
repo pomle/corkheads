@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDB } from "../useDB";
-import { createStoreHook, QueryResult, toList } from "../createStoreHook";
+import {
+  createStoreHook,
+  QueryResult,
+  toList,
+  useFlatResult,
+} from "../createStoreHook";
 import { converter, CheckIn } from "types/checkIn";
 
 export function useCheckInCollection() {
@@ -11,6 +16,11 @@ export function useCheckInCollection() {
 }
 
 export const useCheckInStore = createStoreHook<CheckIn>(useCheckInCollection);
+
+export function useCheckIn(checkInId: string) {
+  const result = useCheckInStore([checkInId]);
+  return useFlatResult(checkInId, result);
+}
 
 type SortQuery = { [key: string]: "asc" | "desc" };
 
