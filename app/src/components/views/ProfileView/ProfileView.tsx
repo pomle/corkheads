@@ -46,11 +46,41 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
       filters: {
         userId: user.uid,
       },
+      order: [
+        {
+          field: "checkIns",
+          dir: "desc",
+        },
+      ],
       limit: 3,
     };
   }, [user]);
 
   const topArticlesResult = useUserArticleQuery(topArticlesQuery);
+
+  const ownedArticlesQuery = useMemo(() => {
+    return {
+      filters: {
+        userId: user.uid,
+        owner: true,
+      },
+      limit: 3,
+    };
+  }, [user]);
+
+  const ownedArticlesResult = useUserArticleQuery(ownedArticlesQuery);
+
+  const wishlistArticlesQuery = useMemo(() => {
+    return {
+      filters: {
+        userId: user.uid,
+        wishlist: true,
+      },
+      limit: 3,
+    };
+  }, [user]);
+
+  const wishlistArticlesResult = useUserArticleQuery(wishlistArticlesQuery);
 
   const checkInHistoryQuery = useMemo(() => {
     return {
@@ -152,12 +182,17 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <CollectionList>
-              {checkInHistory.map(({ checkIn, article }) => {
-                const photoURL = checkIn.data.photoURL;
+              {ownedArticlesResult.data.map(({ article, userArticle }) => {
+                const photoURL = article.data.photoURL;
                 return (
-                  <CollectionItem key={checkIn.id} imageURL={photoURL}>
-                    {article.data.displayName}
-                  </CollectionItem>
+                  <button
+                    key={article.id}
+                    onClick={() => goToArticle(article.id)}
+                  >
+                    <CollectionItem key={article.id} imageURL={photoURL}>
+                      {article.data.displayName}
+                    </CollectionItem>
+                  </button>
                 );
               })}
             </CollectionList>
@@ -169,12 +204,17 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <CollectionList>
-              {checkInHistory.map(({ checkIn, article }) => {
-                const photoURL = checkIn.data.photoURL;
+              {wishlistArticlesResult.data.map(({ article }) => {
+                const photoURL = article.data.photoURL;
                 return (
-                  <CollectionItem key={checkIn.id} imageURL={photoURL}>
-                    {article.data.displayName}
-                  </CollectionItem>
+                  <button
+                    key={article.id}
+                    onClick={() => goToArticle(article.id)}
+                  >
+                    <CollectionItem key={article.id} imageURL={photoURL}>
+                      {article.data.displayName}
+                    </CollectionItem>
+                  </button>
                 );
               })}
             </CollectionList>
