@@ -8,6 +8,7 @@ type CheckInData = {
   articleId: string;
   timestamp?: Moment;
   rating?: number;
+  loveIt: boolean;
   placeId?: string;
   comment?: string;
   position?: Position;
@@ -19,6 +20,7 @@ export type CheckIn = Container<CheckInData>;
 const DEFAULT_CHECKIN = {
   userId: "",
   articleId: "",
+  loveIt: false,
 };
 
 export const converter: Converter<CheckInData> = {

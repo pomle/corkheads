@@ -15,6 +15,14 @@ import { useCommitCheckIn } from "./hooks";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 
 const useStyles = makeStyles({
+  "@keyframes beat": {
+    "0%": {
+      transform: "scale(1)",
+    },
+    "100%": {
+      transform: "scale(1.5)",
+    },
+  },
   content: {
     background: "#fff",
     color: "#5a5a5a",
@@ -28,7 +36,7 @@ const useStyles = makeStyles({
   },
   meta: {
     lineHeight: 1.4,
-    marginTop: "20%",
+    marginTop: "10%",
   },
   displayName: {
     fontSize: "20px",
@@ -41,6 +49,15 @@ const useStyles = makeStyles({
   rating: {
     "& button": {
       fontSize: "40px",
+    },
+    "& button.loveIt": {
+      filter: "grayscale(1) opacity(0.3)",
+      fontSize: "60px",
+      transition: "filter 0.2s ease",
+      "&.active": {
+        animation: `$beat 2000ms ease infinite alternate`,
+        filter: "none",
+      },
     },
     margin: "0 10% 20% 10%",
   },
@@ -69,6 +86,7 @@ function createCheckIn(article: Article, user: User): CheckIn {
     data: {
       userId: user.uid,
       articleId: article.id,
+      loveIt: false,
     },
   };
 }
@@ -109,9 +127,16 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const setRating = useCallback(
     (rating: number) => {
       updateCheckIn({ rating });
+      if (rating < 5) {
+        updateCheckIn({ loveIt: false });
+      }
     },
     [updateCheckIn]
   );
+
+  const setLoveIt = useCallback(() => {
+    updateCheckIn({ loveIt: true });
+  }, [updateCheckIn]);
 
   const handleFile = useCallback((file: File) => {
     setFile(file);
@@ -137,6 +162,11 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   const canCheckIn = isCheckInValid(checkIn);
 
+  const canLoveIt = checkIn.data.rating === 5;
+
+  const { displayName, manufacturer } = article.data;
+  const { rating, loveIt } = checkIn.data;
+
   const classes = useStyles();
 
   return (
@@ -148,19 +178,21 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
       <ViewBody>
         <div className={classes.content}>
           <div className={classes.meta}>
-            <div className={classes.displayName}>
-              {article.data.displayName}
-            </div>
-            <div className={classes.manufacturer}>
-              {article.data.manufacturer}
-            </div>
+            <div className={classes.displayName}>{displayName}</div>
+            <div className={classes.manufacturer}>{manufacturer}</div>
           </div>
 
           <div className={classes.rating}>
-            <RatingInput
-              rating={checkIn.data.rating || 0}
-              onChange={setRating}
-            />
+            <RatingInput rating={rating || 0} onChange={setRating} />
+            {canLoveIt && (
+              <button
+                type="button"
+                className={loveIt ? "loveIt active" : "loveIt"}
+                onClick={setLoveIt}
+              >
+                💖
+              </button>
+            )}
           </div>
 
           <ActionButton

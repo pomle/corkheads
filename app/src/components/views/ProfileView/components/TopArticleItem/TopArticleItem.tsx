@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   rating: {
     alignItems: "center",
     display: "flex",
+    fontSize: "10px",
     gridColumn: "1 / 3",
     margin: "-4px",
     "& > *": {
@@ -41,7 +42,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   userArticle,
 }) => {
   const { displayName, manufacturer, photoURL } = article.data;
-  const { checkIns, rating } = userArticle.data;
+  const { checkIns, rating, loveIt } = userArticle.data;
 
   const classes = useStyles();
 
@@ -51,6 +52,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
       <div className={classes.manufacturer}>{manufacturer}</div>
       <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>
+        {loveIt && <span>💖</span>}
         {rating && <Rating rating={rating / 5} />}
       </div>
     </ImageItem>
