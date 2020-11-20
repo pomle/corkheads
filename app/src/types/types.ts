@@ -18,3 +18,8 @@ export function clone<T>(container: Container<T>): Container<T> {
     },
   };
 }
+
+export type RatingAggregate = {
+  count: number;
+  sum: number;
+};
