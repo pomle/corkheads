@@ -52,6 +52,7 @@ export function useCommitCheckIn() {
         userArticleRef,
         {
           checkIns: firebase.firestore.FieldValue.increment(1),
+          rating: checkIn.data.rating || firebase.firestore.FieldValue.delete(),
         },
         { merge: true }
       );
