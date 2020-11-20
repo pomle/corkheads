@@ -10,7 +10,6 @@ export type UserArticle = Container<UserArticleData>;
 
 const DEFAULTS: UserArticleData = {
   checkIns: 0,
-  rating: 1,
   owner: false,
 };
 
