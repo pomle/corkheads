@@ -40,22 +40,18 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   article,
   userArticle,
 }) => {
-  const { data } = article;
-  const { photoURL } = data;
+  const { displayName, manufacturer, photoURL } = article.data;
+  const { checkIns, rating } = userArticle.data;
 
   const classes = useStyles();
 
   return (
-    <ImageItem
-      image={photoURL && <img src={photoURL} alt={data.displayName} />}
-    >
-      <div className={classes.displayName}>{article.data.displayName}</div>
-      <div className={classes.manufacturer}>{article.data.manufacturer}</div>
-      <div className={classes.checkIns}>
-        {userArticle.data.checkIns} check ins
-      </div>
+    <ImageItem image={photoURL && <img src={photoURL} alt={displayName} />}>
+      <div className={classes.displayName}>{displayName}</div>
+      <div className={classes.manufacturer}>{manufacturer}</div>
+      <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>
-        {userArticle.data.rating && <Rating rating={userArticle.data.rating} />}
+        {rating && <Rating rating={rating / 5} />}
       </div>
     </ImageItem>
   );
