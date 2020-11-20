@@ -40,7 +40,7 @@ const useStyles = makeStyles({
     margin: "auto",
     marginTop: "-80px",
     overflow: "hidden",
-    width: "80%",
+    width: "calc(100% - 40px)",
   },
 });
 
