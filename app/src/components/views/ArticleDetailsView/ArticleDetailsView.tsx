@@ -8,9 +8,10 @@ import { Article } from "types/article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
-import Rating from "components/ui/indicators/Rating";
 import NameValue from "./components/NameValue";
 import NameValueList from "./components/NameValueList";
+import { RatingAggregate } from "types/types";
+import NumberedRating from "./components/NumberedRating";
 
 type StyleProps = {
   photoURL?: string;
@@ -49,6 +50,10 @@ const useStyles = makeStyles({
   },
 });
 
+function calcAverageRating(agg: RatingAggregate): number {
+  return agg.sum / agg.count;
+}
+
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
   article: Article;
@@ -66,7 +71,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
   const data = article.data;
 
-  const averageRating = 0.7;
+  const averageRating = article.data.ratingAggregate
+    ? calcAverageRating(article.data.ratingAggregate)
+    : null;
 
   const classes = useStyles({ photoURL: article.data.photoURL });
 
@@ -86,9 +93,11 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
             <NameValue
               name="Global rating"
               value={
-                <>
-                  <Rating rating={averageRating} />
-                </>
+                averageRating ? (
+                  <NumberedRating value={averageRating} max={5} />
+                ) : (
+                  "-"
+                )
               }
             />
             <NameValue name="Brand" value={data.manufacturer} />
