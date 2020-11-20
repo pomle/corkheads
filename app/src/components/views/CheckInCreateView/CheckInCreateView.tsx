@@ -13,6 +13,7 @@ import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import { useCommitCheckIn } from "./hooks";
 import ImageSelect from "components/ui/trigger/ImageSelect";
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   "@keyframes beat": {
@@ -62,16 +63,8 @@ const useStyles = makeStyles({
     margin: "0 10% 20% 10%",
   },
   photo: {
-    background: "#c9c9c9",
     height: "100vw",
     maxHeight: "400px",
-    overflow: "hidden",
-    "& > img": {
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-      width: "100%",
-    },
   },
 });
 
@@ -208,7 +201,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
           <Section header="Photo">
             <ImageSelect onFile={handleFile}>
               <div className={classes.photo}>
-                {photoURL && <img src={photoURL} alt="Your picked upload" />}
+                <Photo url={photoURL} />
               </div>
             </ImageSelect>
           </Section>

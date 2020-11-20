@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { UserData, useUserData } from "components/hooks/db/useUserData";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useUserUpload } from "components/hooks/useUserUpload";
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   profileHead: {
@@ -18,12 +19,6 @@ const useStyles = makeStyles({
     overflow: "hidden",
     height: "140px",
     width: "140px",
-    "& > img": {
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-      width: "100%",
-    },
   },
   identity: {
     color: "#5a5a5a",
@@ -70,7 +65,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
     <div className={classes.profileHead}>
       <ImageSelect onFile={handleImageSelect}>
         <div className={classes.photo}>
-          {photoURL && <img src={photoURL} alt="Profile" />}
+          <Photo url={photoURL} />
         </div>
       </ImageSelect>
 

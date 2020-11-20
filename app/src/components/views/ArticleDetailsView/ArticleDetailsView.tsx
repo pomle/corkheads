@@ -12,24 +12,10 @@ import NameValue from "./components/NameValue";
 import NameValueList from "./components/NameValueList";
 import { RatingAggregate } from "types/types";
 import NumberedRating from "./components/NumberedRating";
-
-type StyleProps = {
-  photoURL?: string;
-};
-
-function backgroundImage({ photoURL }: StyleProps) {
-  if (photoURL) {
-    return `url(${photoURL})`;
-  }
-  return "none";
-}
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   photo: {
-    background: "#c9c9c9",
-    backgroundImage,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
     height: "100vw",
     maxHeight: "400px",
   },
@@ -75,7 +61,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
     ? calcAverageRating(article.data.ratingAggregate)
     : null;
 
-  const classes = useStyles({ photoURL: article.data.photoURL });
+  const classes = useStyles();
 
   return (
     <HeaderLayout>
@@ -84,7 +70,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         <ViewTitle title={data.displayName} />
       </ViewCap>
       <ViewBody>
-        <div className={classes.photo}></div>
+        <div className={classes.photo}>
+          <Photo url={article.data.photoURL} />
+        </div>
         <div className={classes.actionBox}>
           <ActionButton variant="action" onClick={goToCheckIn}>
             Check in

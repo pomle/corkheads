@@ -11,6 +11,7 @@ import * as paths from "components/route/paths";
 import { User } from "types/user";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useCommitArticle } from "./hooks";
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   form: {
@@ -36,7 +37,6 @@ const useStyles = makeStyles({
     },
     "& .photo": {
       alignItems: "center",
-      backgroundColor: "#f9f9f9",
       border: "dashed 2px #e2e2e2",
       display: "flex",
       fontSize: "18px",
@@ -45,12 +45,6 @@ const useStyles = makeStyles({
       height: "200px",
       margin: "auto",
       width: "200px",
-      "& > img": {
-        height: "100%",
-        objectFit: "contain",
-        objectPosition: "center",
-        width: "100%",
-      },
     },
   },
 });
@@ -164,7 +158,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
             {photoURL ? (
               <div className="photo" onClick={clearPhoto}>
-                <img src={photoURL} alt="Preview" />
+                <Photo url={photoURL} />
               </div>
             ) : (
               <ImageSelect onFile={handleFile}>
