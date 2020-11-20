@@ -4,6 +4,10 @@ type ArticleData = {
   displayName: string;
   manufacturer: string;
   photoURL?: string;
+  rating?: {
+    count: number;
+    sum: number;
+  };
 };
 
 export type Article = Container<ArticleData>;
