@@ -33,6 +33,14 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
     [history]
   );
 
+  const goToCheckIn = useCallback(
+    (checkInId: string) => {
+      const url = paths.checkInView.url({ checkInId });
+      history.push(url);
+    },
+    [history]
+  );
+
   const topArticlesQuery = useMemo(() => {
     return {
       filters: {
@@ -126,7 +134,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 return (
                   <button
                     key={checkIn.id}
-                    onClick={() => goToArticle(article.id)}
+                    onClick={() => goToCheckIn(checkIn.id)}
                   >
                     <CheckInItem checkIn={checkIn} article={article} />
                   </button>
