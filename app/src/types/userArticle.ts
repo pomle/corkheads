@@ -4,6 +4,7 @@ type UserArticleData = {
   checkIns: number;
   owner: boolean;
   loveIt: boolean;
+  tryIt?: boolean;
   rating?: number;
 };
 

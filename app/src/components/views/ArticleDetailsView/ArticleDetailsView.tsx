@@ -13,11 +13,19 @@ import NameValueList from "./components/NameValueList";
 import { RatingAggregate } from "types/types";
 import NumberedRating from "./components/NumberedRating";
 import Photo from "components/ui/layout/Photo";
+import Collection from "./components/Collection";
 
 const useStyles = makeStyles({
   photo: {
     height: "100vw",
     maxHeight: "400px",
+  },
+  collection: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridAutoFlow: "column",
+    gridGap: "16px",
+    padding: "16px",
   },
   actionBox: {
     background: "#fff",
@@ -55,7 +63,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
     history.push(url);
   }, [article.id, history]);
 
-  const data = article.data;
+  const { displayName, manufacturer, photoURL } = article.data;
 
   const averageRating = article.data.ratingAggregate
     ? calcAverageRating(article.data.ratingAggregate)
@@ -67,17 +75,19 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
     <HeaderLayout>
       <ViewCap top>
         {nav}
-        <ViewTitle title={data.displayName} />
+        <ViewTitle title={displayName} />
       </ViewCap>
       <ViewBody>
         <div className={classes.photo}>
-          <Photo url={article.data.photoURL} />
+          <Photo url={photoURL} />
         </div>
         <div className={classes.actionBox}>
           <ActionButton variant="action" onClick={goToCheckIn}>
             Check in
           </ActionButton>
           <NameValueList>
+            <Collection articleId={article.id} />
+
             <NameValue
               name="Global rating"
               value={
@@ -88,7 +98,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
                 )
               }
             />
-            <NameValue name="Brand" value={data.manufacturer} />
+            <NameValue name="Brand" value={manufacturer} />
           </NameValueList>
         </div>
       </ViewBody>
