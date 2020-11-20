@@ -24,9 +24,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
   const classes = useStyles();
 
   return (
-    <ImageItem
-      image={photoURL && <img src={photoURL} alt={article.data.displayName} />}
-    >
+    <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{article.data.displayName}</div>
       <div className={classes.manufacturer}>{article.data.manufacturer}</div>
     </ImageItem>

@@ -47,7 +47,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem image={photoURL && <img src={photoURL} alt={displayName} />}>
+    <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
       <div className={classes.manufacturer}>{manufacturer}</div>
       <div className={classes.checkIns}>{checkIns} check ins</div>

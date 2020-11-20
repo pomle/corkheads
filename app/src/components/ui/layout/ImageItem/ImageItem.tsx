@@ -1,6 +1,17 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type StyleProps = {
+  imageURL?: string;
+};
+
+function backgroundImage({ imageURL }: StyleProps) {
+  if (imageURL) {
+    return `url(${imageURL})`;
+  }
+  return "none";
+}
+
 const useStyles = makeStyles({
   ImageItem: {
     alignItems: "center",
@@ -9,6 +20,9 @@ const useStyles = makeStyles({
   },
   photo: {
     background: "#c9c9c9",
+    backgroundImage,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     overflow: "hidden",
     height: "85px",
     width: "85px",
@@ -31,14 +45,14 @@ const useStyles = makeStyles({
 });
 
 interface ImageItemProps {
-  image: React.ReactNode;
+  imageURL?: string;
 }
 
-const ImageItem: React.FC<ImageItemProps> = ({ image, children }) => {
-  const classes = useStyles();
+const ImageItem: React.FC<ImageItemProps> = ({ imageURL, children }) => {
+  const classes = useStyles({ imageURL });
   return (
     <div className={classes.ImageItem}>
-      <div className={classes.photo}>{image}</div>
+      <div className={classes.photo} />
       <div className={classes.meta}>{children}</div>
     </div>
   );

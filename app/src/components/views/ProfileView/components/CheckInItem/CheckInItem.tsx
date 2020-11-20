@@ -59,7 +59,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const classes = useStyles();
 
   return (
-    <ImageItem image={photoURL && <img src={photoURL} alt={displayName} />}>
+    <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
       <div className={classes.manufacturer}>{manufacturer}</div>
       <div className={classes.timestamp}>
