@@ -9,24 +9,10 @@ import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
 import { CheckIn } from "types/checkIn";
-
-type StyleProps = {
-  photoURL?: string;
-};
-
-function backgroundImage({ photoURL }: StyleProps) {
-  if (photoURL) {
-    return `url(${photoURL})`;
-  }
-  return "none";
-}
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   photo: {
-    background: "#c9c9c9",
-    backgroundImage,
-    backgroundPosition: "center",
-    backgroundSize: "cover",
     height: "100vw",
     maxHeight: "400px",
   },
@@ -82,7 +68,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
 
   const photoURL = resolvePhotoURL(checkIn, article);
 
-  const classes = useStyles({ photoURL: photoURL });
+  const classes = useStyles();
 
   return (
     <HeaderLayout>
@@ -91,7 +77,9 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
         <ViewTitle title="Check in" />
       </ViewCap>
       <ViewBody>
-        <div className={classes.photo} />
+        <div className={classes.photo}>
+          <Photo url={photoURL} />
+        </div>
         <div className={classes.actionBox}>
           <ActionButton
             variant="action"

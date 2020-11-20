@@ -1,28 +1,35 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type StyleProps = {
+  imageURL?: string;
+};
+
+function backgroundImage({ imageURL }: StyleProps) {
+  if (imageURL) {
+    return `url(${imageURL})`;
+  }
+  return "none";
+}
+
 const useStyles = makeStyles({
   Photo: {
     background: "#c9c9c9",
-    overflow: "hidden",
+    backgroundImage,
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     height: "100%",
     width: "100%",
-    "& > img": {
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-      width: "100%",
-    },
   },
 });
 
 interface PhotoProps {
-  image: React.ReactNode;
+  url?: string;
 }
 
-const Photo: React.FC<PhotoProps> = ({ image, children }) => {
-  const classes = useStyles();
-  return <div className={classes.Photo}>{image}</div>;
+const Photo: React.FC<PhotoProps> = ({ url, children }) => {
+  const classes = useStyles({ imageURL: url });
+  return <div className={classes.Photo} />;
 };
 
 export default Photo;

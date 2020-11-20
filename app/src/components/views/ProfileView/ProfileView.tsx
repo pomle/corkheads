@@ -155,14 +155,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
               {checkInHistory.map(({ checkIn, article }) => {
                 const photoURL = checkIn.data.photoURL;
                 return (
-                  <CollectionItem
-                    key={checkIn.id}
-                    image={
-                      photoURL && (
-                        <img src={photoURL} alt={article.data.displayName} />
-                      )
-                    }
-                  >
+                  <CollectionItem key={checkIn.id} imageURL={photoURL}>
                     {article.data.displayName}
                   </CollectionItem>
                 );
@@ -179,14 +172,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
               {checkInHistory.map(({ checkIn, article }) => {
                 const photoURL = checkIn.data.photoURL;
                 return (
-                  <CollectionItem
-                    key={checkIn.id}
-                    image={
-                      photoURL && (
-                        <img src={photoURL} alt={article.data.displayName} />
-                      )
-                    }
-                  >
+                  <CollectionItem key={checkIn.id} imageURL={photoURL}>
                     {article.data.displayName}
                   </CollectionItem>
                 );

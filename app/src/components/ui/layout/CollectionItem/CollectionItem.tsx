@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import Photo from "../Photo";
 
 const useStyles = makeStyles({
   CollectionItem: {
@@ -10,16 +11,8 @@ const useStyles = makeStyles({
     flexFlow: "column",
   },
   photo: {
-    background: "#c9c9c9",
-    overflow: "hidden",
     height: "85px",
     width: "100%",
-    "& > img": {
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-      width: "100%",
-    },
   },
   meta: {
     color: "#5a5a5a",
@@ -36,14 +29,20 @@ const useStyles = makeStyles({
 });
 
 interface CollectionItemProps {
-  image: React.ReactNode;
+  imageURL?: string;
 }
 
-const CollectionItem: React.FC<CollectionItemProps> = ({ image, children }) => {
+const CollectionItem: React.FC<CollectionItemProps> = ({
+  imageURL,
+  children,
+}) => {
   const classes = useStyles();
+
   return (
     <div className={classes.CollectionItem}>
-      <div className={classes.photo}>{image}</div>
+      <div className={classes.photo}>
+        <Photo url={imageURL} />
+      </div>
       <div className={classes.meta}>{children}</div>
     </div>
   );
