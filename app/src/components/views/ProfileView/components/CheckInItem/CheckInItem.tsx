@@ -24,6 +24,7 @@ const useStyles = makeStyles({
   rating: {
     alignItems: "center",
     display: "flex",
+    fontSize: "10px",
     gridColumn: "1 / 3",
     margin: "-4px",
     "& > *": {

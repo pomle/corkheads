@@ -39,6 +39,9 @@ const useStyles = makeStyles({
     fontWeight: 500,
   },
   rating: {
+    "& button": {
+      fontSize: "40px",
+    },
     margin: "0 10% 20% 10%",
   },
   photo: {

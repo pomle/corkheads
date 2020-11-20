@@ -19,7 +19,6 @@ const RatingInput: React.FC<RatingInputProps> = ({ rating, onChange }) => {
         <button
           style={{
             filter: rating >= r ? "grayscale(0%)" : "grayscale(100%)",
-            fontSize: "40px",
           }}
           key={r}
           onClick={() => onChange(r)}
