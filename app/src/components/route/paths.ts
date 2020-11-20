@@ -14,10 +14,15 @@ const articleView = createPath("/article/view/:articleId", {
 
 const articleCheckIn = articleView.append("/check-in", {});
 
+const checkInView = createPath("/checkIn/view/:checkInId", {
+  checkInId: stringCodec,
+});
+
 export {
   profileView,
   exploreArticles,
   articleCreate,
   articleView,
   articleCheckIn,
+  checkInView,
 };
