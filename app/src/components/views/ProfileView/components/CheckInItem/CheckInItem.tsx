@@ -53,19 +53,21 @@ interface CheckInItemProps {
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
+  const { displayName, manufacturer } = article.data;
+  const { rating, loveIt, timestamp } = checkIn.data;
+
   const classes = useStyles();
 
   return (
-    <ImageItem
-      image={photoURL && <img src={photoURL} alt={article.data.displayName} />}
-    >
-      <div className={classes.displayName}>{article.data.displayName}</div>
-      <div className={classes.manufacturer}>{article.data.manufacturer}</div>
+    <ImageItem image={photoURL && <img src={photoURL} alt={displayName} />}>
+      <div className={classes.displayName}>{displayName}</div>
+      <div className={classes.manufacturer}>{manufacturer}</div>
       <div className={classes.timestamp}>
-        {checkIn.data.timestamp && <PassedTime date={checkIn.data.timestamp} />}
+        {timestamp && <PassedTime date={timestamp} />}
       </div>
       <div className={classes.rating}>
-        {checkIn.data.rating && <Rating rating={checkIn.data.rating / 5} />}
+        {loveIt && <span>💖</span>}
+        {rating && <Rating rating={rating / 5} />}
       </div>
     </ImageItem>
   );
