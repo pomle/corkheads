@@ -1,13 +1,10 @@
-import { Container, Converter } from "./types";
+import { Container, Converter, RatingAggregate } from "./types";
 
 type ArticleData = {
   displayName: string;
   manufacturer: string;
   photoURL?: string;
-  rating?: {
-    count: number;
-    sum: number;
-  };
+  ratingAggregate?: RatingAggregate;
 };
 
 export type Article = Container<ArticleData>;
