@@ -4,6 +4,7 @@ import { useDB } from "components/hooks/useDB";
 import ToggleButton from "components/ui/trigger/ToggleButton";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { useUser } from "components/hooks/useUser";
+import { User } from "types/user";
 
 const useStyles = makeStyles({
   Collection: {
@@ -42,6 +43,20 @@ interface CollectionProps {
 
 const Collection: React.FC<CollectionProps> = ({ articleId }) => {
   const user = useUser();
+
+  if (!user) {
+    return null;
+  }
+
+  return <CollectionUser user={user} articleId={articleId} />;
+};
+
+export default Collection;
+
+const CollectionUser: React.FC<{ user: User; articleId: string }> = ({
+  user,
+  articleId,
+}) => {
   const userArticleResult = useUserArticle(user?.uid || "", articleId);
   const userArticle = userArticleResult.data;
 
@@ -80,5 +95,3 @@ const Collection: React.FC<CollectionProps> = ({ articleId }) => {
     </div>
   );
 };
-
-export default Collection;
