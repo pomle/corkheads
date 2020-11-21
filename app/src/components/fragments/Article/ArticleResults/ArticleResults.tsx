@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import ItemList from "components/ui/layout/ItemList";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import { useArticleSearch } from "components/hooks/db/useArticleSearch";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import * as paths from "components/route/paths";
 import SearchArticleItem from "./components/SearchArticleItem";
 import TextItem from "./components/TextItem";
@@ -37,7 +37,7 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
     <ItemList>
       {articles.map((article) => {
         return (
-          <button key={article.id} onClick={() => onSelect(article)}>
+          <button key={article.id} onClick={() => onSelect(article.data)}>
             <SearchArticleItem article={article} />
           </button>
         );

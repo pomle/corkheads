@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import AppRoute from "./routes/AppRoute";
 import Screen from "./Screen";
 import * as paths from "components/route/paths";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ViewStack from "components/ui/layout/ViewStack";
 import ArticlePage from "./routes/AppRoute/pages/ArticlePage";

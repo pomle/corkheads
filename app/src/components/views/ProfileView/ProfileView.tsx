@@ -1,21 +1,22 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { useCheckInSearch } from "components/hooks/db/useCheckIns";
+import { useCheckInSearch } from "components/hooks/db/useCheckInSearch";
 import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
-import { useArticleStore } from "components/hooks/db/useArticles";
+import { useArticles } from "components/hooks/db/useArticles";
 import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
 import TopArticleItem from "./components/TopArticleItem";
-import { User } from "types/user";
+import { User } from "types/User";
 import CollectionList from "components/ui/layout/CollectionList";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 import SectionTitle from "components/ui/layout/SectionTitle";
+import { notNull } from "components/hooks/createStoreHook";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -99,7 +100,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
     );
   }, [checkInHistoryResult.data]);
 
-  const articleHistoryResult = useArticleStore(articleIds);
+  const articleHistoryResult = useArticles(articleIds);
 
   const topArticles = useMemo(() => {
     if (topArticlesResult.busy) {
@@ -112,10 +113,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
     if (checkInHistoryResult.busy || articleHistoryResult.busy) {
       return [];
     }
-    return checkInHistoryResult.data.map((checkIn) => ({
-      checkIn,
-      article: articleHistoryResult.data[checkIn.data.articleId],
-    }));
+    return checkInHistoryResult.data
+      .map((checkIn) => {
+        const article = articleHistoryResult.data[checkIn.data.articleId];
+        if (article) {
+          return {
+            checkIn,
+            article,
+          };
+        }
+        return null;
+      })
+      .filter(notNull);
   }, [checkInHistoryResult, articleHistoryResult]);
 
   return (
@@ -142,8 +151,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     onClick={() => goToArticle(article.id)}
                   >
                     <TopArticleItem
-                      article={article}
-                      userArticle={userArticle}
+                      article={article.data}
+                      userArticle={userArticle.data}
                     />
                   </button>
                 );
@@ -166,7 +175,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     key={checkIn.id}
                     onClick={() => goToCheckIn(checkIn.id)}
                   >
-                    <CheckInItem checkIn={checkIn} article={article} />
+                    <CheckInItem
+                      checkIn={checkIn.data}
+                      article={article.data}
+                    />
                   </button>
                 );
               })}

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { UserArticle } from "types/userArticle";
-import { Article } from "types/article";
+import { UserArticle } from "types/UserArticle";
+import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
 import Rating from "components/ui/indicators/Rating";
 
@@ -41,8 +41,8 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   article,
   userArticle,
 }) => {
-  const { displayName, manufacturer, photoURL } = article.data;
-  const { checkIns, rating, loveIt } = userArticle.data;
+  const { displayName, manufacturer, photoURL } = article;
+  const { checkIns, rating, loveIt } = userArticle;
 
   const classes = useStyles();
 

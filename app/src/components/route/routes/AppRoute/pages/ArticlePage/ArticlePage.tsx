@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
-import { useArticle } from "components/hooks/db/useArticles";
+import { useHistory } from "react-router-dom";
 import ArticleDetailsView from "components/views/ArticleDetailsView";
 import LoadingView from "components/views/LoadingView";
 import ErrorView from "components/views/ErrorView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
-import { useHistory } from "react-router-dom";
+import { useArticle } from "components/hooks/db/useArticles";
 
 const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
   const history = useHistory();
@@ -23,11 +23,12 @@ const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
   );
 
   const articleResult = useArticle(articleId);
-  const article = articleResult.data;
 
   if (articleResult.busy) {
     return <LoadingView nav={nav} />;
   }
+
+  const article = articleResult.data;
 
   if (!article) {
     return <ErrorView nav={nav}>Not found</ErrorView>;

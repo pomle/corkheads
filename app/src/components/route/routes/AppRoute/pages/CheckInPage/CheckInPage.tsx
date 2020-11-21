@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { useArticleStore } from "components/hooks/db/useArticles";
+import { useArticles } from "components/hooks/db/useArticles";
 import CheckInDetailsView from "components/views/CheckInDetailsView";
 import LoadingView from "components/views/LoadingView";
 import ErrorView from "components/views/ErrorView";
@@ -27,7 +27,7 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const checkIn = checkInResult.data;
   const articleId = checkIn ? checkIn.data.articleId : undefined;
 
-  const articlesResult = useArticleStore(articleId ? [articleId] : []);
+  const articlesResult = useArticles(articleId ? [articleId] : []);
   const article = articleId ? articlesResult.data[articleId] : undefined;
 
   if (checkInResult.busy || articlesResult.busy) {
@@ -38,7 +38,13 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 
-  return <CheckInDetailsView nav={nav} checkIn={checkIn} article={article} />;
+  return (
+    <CheckInDetailsView
+      nav={nav}
+      checkIn={checkIn.data}
+      article={article.data}
+    />
+  );
 };
 
 export default CheckInPage;

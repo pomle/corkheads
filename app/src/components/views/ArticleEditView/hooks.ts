@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import { User } from "types/user";
+import { User } from "types/User";
 import { useUserUpload } from "components/hooks/useUserUpload";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import { useDB } from "components/hooks/useDB";
 
 type Payload = {
@@ -22,7 +22,7 @@ export function useCommitArticle() {
         (uploadResult.ref.getDownloadURL() as Promise<string>));
 
       const data = {
-        ...article.data,
+        ...article,
         userId: user.uid,
       };
 

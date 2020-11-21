@@ -5,10 +5,10 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
-import { User } from "types/user";
+import { User } from "types/User";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useCommitArticle } from "./hooks";
 import Photo from "components/ui/layout/Photo";
@@ -50,8 +50,7 @@ const useStyles = makeStyles({
 });
 
 function isArticleValid(article: Article) {
-  const data = article.data;
-  return data.displayName.length > 0;
+  return article.displayName.length > 0;
 }
 
 interface ArticleEditViewProps {
@@ -80,13 +79,10 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   const [article, setArticle] = useState<Article>(initial);
 
   const updateArticle = useCallback(
-    (update: Partial<Article["data"]>) => {
+    (update: Partial<Article>) => {
       setArticle((article) => ({
         ...article,
-        data: {
-          ...article.data,
-          ...update,
-        },
+        ...update,
       }));
     },
     [setArticle]
@@ -144,14 +140,14 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               <input
                 type="text"
                 placeholder="Drink name"
-                value={article.data.displayName}
+                value={article.displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
               />
 
               <input
                 type="text"
                 placeholder="Manufacturer"
-                value={article.data.manufacturer}
+                value={article.manufacturer}
                 onChange={(event) => setManufacturer(event.target.value)}
               />
             </div>

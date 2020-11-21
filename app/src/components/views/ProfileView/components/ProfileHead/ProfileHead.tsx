@@ -4,6 +4,7 @@ import { UserData, useUserData } from "components/hooks/db/useUserData";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useUserUpload } from "components/hooks/useUserUpload";
 import Photo from "components/ui/layout/Photo";
+import { User } from "types/User";
 
 const useStyles = makeStyles({
   profileHead: {
@@ -40,7 +41,7 @@ function resolveTitle(user: firebase.User, userData: UserData) {
 }
 
 interface ProfileHeadProps {
-  user: firebase.User;
+  user: User;
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {

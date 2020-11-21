@@ -1,9 +1,10 @@
 import * as firebase from "firebase/app";
 import { Moment } from "moment";
 import { toMoment } from "./convert";
-import { Container, Converter } from "./types";
+import { createConverter } from "./types";
 
-type CheckInData = {
+export type CheckIn = {
+  id: string;
   userId: string;
   articleId: string;
   timestamp?: Moment;
@@ -15,32 +16,27 @@ type CheckInData = {
   photoURL?: string;
 };
 
-export type CheckIn = Container<CheckInData>;
-
-const DEFAULT_CHECKIN = {
+const DEFAULTS = {
+  id: "",
   userId: "",
   articleId: "",
   loveIt: false,
 };
 
-export const converter: Converter<CheckInData> = {
-  toFirestore(checkIn) {
-    const data = checkIn.data;
+export const converter = createConverter<CheckIn>({
+  to(checkIn) {
     return {
-      ...data,
+      ...checkIn,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
   },
 
-  fromFirestore(snapshot) {
+  from(snapshot) {
     const data = snapshot.data();
     return {
-      id: snapshot.id,
-      data: {
-        ...DEFAULT_CHECKIN,
-        ...data,
-        timestamp: data.timestamp ? toMoment(data.timestamp) : undefined,
-      },
+      ...DEFAULTS,
+      ...data,
+      timestamp: data.timestamp ? toMoment(data.timestamp) : undefined,
     };
   },
-};
+});
