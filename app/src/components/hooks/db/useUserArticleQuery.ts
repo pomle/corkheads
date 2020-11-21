@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Article } from "types/article";
-import { UserArticle } from "types/userArticle";
-import { QueryResult } from "../createStoreHook";
+import { Article } from "types/Article";
+import { Container } from "types/types";
+import { UserArticle } from "types/UserArticle";
+import { notNull, QueryResult } from "../createStoreHook";
 import { useDB } from "../useDB";
-import { useArticleStore } from "./useArticles";
-import { useUserArticleStore } from "./useUserArticles";
+import { useArticles } from "./useArticles";
+import { useUserArticles } from "./useUserArticles";
 
 type SortOrder = {
   field: string;
@@ -24,8 +25,8 @@ type UserArticleQuery = {
 export function useUserArticleQuery(
   query: UserArticleQuery
 ): QueryResult<{
-  article: Article;
-  userArticle: UserArticle;
+  article: Container<Article>;
+  userArticle: Container<UserArticle>;
 }> {
   const [busy, setBusy] = useState<boolean>(true);
   const [ids, setIds] = useState<string[]>([]);
@@ -62,22 +63,25 @@ export function useUserArticleQuery(
   }, [db, query]);
 
   const userId = query.filters.userId;
-  const articlesResult = useArticleStore(ids);
-  const userArticlesResult = useUserArticleStore(userId, ids);
+  const articlesResult = useArticles(ids);
+  const userArticlesResult = useUserArticles(userId, ids);
 
   const list = useMemo(() => {
-    const u = userArticlesResult.data;
-    const a = articlesResult.data;
     return ids
-      .filter((id) => {
-        return u[id] && a[id];
-      })
       .map((id) => {
-        return {
-          userArticle: u[id],
-          article: a[id],
-        };
-      });
+        const article = articlesResult.data[id];
+        const userArticle = userArticlesResult.data[id];
+
+        if (userArticle && article) {
+          return {
+            article,
+            userArticle,
+          };
+        }
+
+        return null;
+      })
+      .filter(notNull);
   }, [ids, userArticlesResult.data, articlesResult.data]);
 
   return useMemo(

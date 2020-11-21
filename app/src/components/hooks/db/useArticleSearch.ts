@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { Article } from "types/article";
+import { Article } from "types/Article";
+import { Container } from "types/types";
 import { useArticleIndex } from "../algolia";
-import { QueryResult, toList } from "../createStoreHook";
-import { useArticleStore } from "./useArticles";
+import { notNull, QueryResult } from "../createStoreHook";
+import { useArticles } from "./useArticles";
 
 type ArticlesQuery = {
   search: {
@@ -10,7 +11,9 @@ type ArticlesQuery = {
   };
 };
 
-export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
+export function useArticleSearch(
+  query: ArticlesQuery
+): QueryResult<Container<Article>> {
   const [ids, setIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);
   const searchIndex = useArticleIndex();
@@ -29,12 +32,12 @@ export function useArticleSearch(query: ArticlesQuery): QueryResult<Article> {
       });
   }, [searchIndex, query]);
 
-  const articlesResult = useArticleStore(ids);
+  const articlesResult = useArticles(ids);
 
-  const list = useMemo(() => toList(ids, articlesResult.data), [
-    ids,
-    articlesResult.data,
-  ]);
+  const list = useMemo(
+    () => ids.map((id) => articlesResult.data[id]).filter(notNull),
+    [ids, articlesResult.data]
+  );
 
   return useMemo(
     () => ({

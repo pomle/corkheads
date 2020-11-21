@@ -2,11 +2,10 @@ import { useCallback } from "react";
 import moment from "moment";
 import * as firebase from "firebase/app";
 import { useDB } from "components/hooks/useDB";
-import { User } from "types/user";
-import { CheckIn } from "types/checkIn";
+import { User } from "types/User";
+import { CheckIn } from "types/CheckIn";
 import { useUserUpload } from "components/hooks/useUserUpload";
-import { useCheckInCollection } from "components/hooks/db/useCheckIns";
-import { clone } from "types/types";
+import { useCollection } from "components/hooks/db/useCollection";
 
 type Payload = {
   user: User;
@@ -18,12 +17,12 @@ export function useCommitCheckIn() {
   const db = useDB();
   const uploadFile = useUserUpload();
 
-  const checkInsCollection = useCheckInCollection();
+  const checkInsCollection = useCollection().checkIn;
 
   return useCallback(
     async ({ user, checkIn: checkInSource, file }: Payload) => {
       // Make a deep copy because it may be mutated in the photoURL assign.
-      const checkIn = clone(checkInSource);
+      const checkIn = { ...checkInSource };
 
       const uploadResult = await (file && uploadFile(user, file));
 
@@ -31,7 +30,7 @@ export function useCommitCheckIn() {
         (uploadResult.ref.getDownloadURL() as Promise<string>));
 
       if (photoURL) {
-        checkIn.data.photoURL = photoURL;
+        checkIn.photoURL = photoURL;
       }
 
       const checkInResult = await checkInsCollection.add(checkIn);
@@ -40,7 +39,7 @@ export function useCommitCheckIn() {
       const userCheckInsRef = userRef.collection("check-ins");
       const userArticlesRef = userRef.collection("articles");
       const userCheckInRef = userCheckInsRef.doc(checkInResult.id);
-      const userArticleRef = userArticlesRef.doc(checkIn.data.articleId);
+      const userArticleRef = userArticlesRef.doc(checkIn.articleId);
 
       const batch = db.batch();
 
@@ -52,8 +51,8 @@ export function useCommitCheckIn() {
         userArticleRef,
         {
           checkIns: firebase.firestore.FieldValue.increment(1),
-          rating: checkIn.data.rating || firebase.firestore.FieldValue.delete(),
-          loveIt: !!checkIn.data.loveIt,
+          rating: checkIn.rating || firebase.firestore.FieldValue.delete(),
+          loveIt: !!checkIn.loveIt,
         },
         { merge: true }
       );

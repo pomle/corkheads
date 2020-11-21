@@ -1,7 +1,7 @@
 import React from "react";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import { useHistory } from "react-router-dom";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import ExploreArticlesView from "components/views/ExploreArticlesView";
 
 interface FindPageProps {

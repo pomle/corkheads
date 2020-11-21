@@ -5,7 +5,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import * as Locales from "./locales";
 import ArticleSelect from "components/fragments/Article/ArticleSelect";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 
 interface ExploreArticlesViewProps {
   nav: React.ReactNode;

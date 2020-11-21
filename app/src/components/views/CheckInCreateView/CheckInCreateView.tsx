@@ -3,9 +3,9 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { User } from "types/user";
-import { Article } from "types/article";
-import { CheckIn } from "types/checkIn";
+import { User } from "types/User";
+import { Article } from "types/Article";
+import { CheckIn } from "types/CheckIn";
 import ActionButton from "components/ui/trigger/ActionButton";
 import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
@@ -69,18 +69,15 @@ const useStyles = makeStyles({
 });
 
 function isCheckInValid(checkIn: CheckIn) {
-  const data = checkIn.data;
-  return !!data.rating;
+  return !!checkIn.rating;
 }
 
 function createCheckIn(article: Article, user: User): CheckIn {
   return {
     id: "",
-    data: {
-      userId: user.uid,
-      articleId: article.id,
-      loveIt: false,
-    },
+    userId: user.uid,
+    articleId: article.id,
+    loveIt: false,
   };
 }
 
@@ -105,13 +102,10 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const [checkIn, setCheckIn] = useState<CheckIn>(initial);
 
   const updateCheckIn = useCallback(
-    (update: Partial<CheckIn["data"]>) => {
+    (update: Partial<CheckIn>) => {
       setCheckIn((checkIn) => ({
         ...checkIn,
-        data: {
-          ...checkIn.data,
-          ...update,
-        },
+        ...update,
       }));
     },
     [setCheckIn]
@@ -155,10 +149,10 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   const canCheckIn = isCheckInValid(checkIn);
 
-  const canLoveIt = checkIn.data.rating === 5;
+  const canLoveIt = checkIn.rating === 5;
 
-  const { displayName, manufacturer } = article.data;
-  const { rating, loveIt } = checkIn.data;
+  const { displayName, manufacturer } = article;
+  const { rating, loveIt } = checkIn;
 
   const classes = useStyles();
 
@@ -210,7 +204,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
         <SectionList>
           <Section header="Comment">
             <textarea
-              value={checkIn.data.comment || ""}
+              value={checkIn.comment || ""}
               onChange={(event) => setComment(event?.target.value)}
             />
           </Section>

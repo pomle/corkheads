@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Article } from "types/article";
-import { CheckIn } from "types/checkIn";
+import { Article } from "types/Article";
+import { CheckIn } from "types/CheckIn";
 import Rating from "components/ui/indicators/Rating";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
@@ -34,12 +34,12 @@ const useStyles = makeStyles({
 });
 
 function resolvePhotoURL(checkIn: CheckIn, article: Article) {
-  if (checkIn.data.photoURL) {
-    return checkIn.data.photoURL;
+  if (checkIn.photoURL) {
+    return checkIn.photoURL;
   }
 
-  if (article.data.photoURL) {
-    return article.data.photoURL;
+  if (article.photoURL) {
+    return article.photoURL;
   }
 
   return;
@@ -53,8 +53,8 @@ interface CheckInItemProps {
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
-  const { displayName, manufacturer } = article.data;
-  const { rating, loveIt, timestamp } = checkIn.data;
+  const { displayName, manufacturer } = article;
+  const { rating, loveIt, timestamp } = checkIn;
 
   const classes = useStyles();
 

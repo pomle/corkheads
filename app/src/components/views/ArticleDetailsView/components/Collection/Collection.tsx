@@ -4,7 +4,7 @@ import { useDB } from "components/hooks/useDB";
 import ToggleButton from "components/ui/trigger/ToggleButton";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { useUser } from "components/hooks/useUser";
-import { User } from "types/user";
+import { User } from "types/User";
 
 const useStyles = makeStyles({
   Collection: {

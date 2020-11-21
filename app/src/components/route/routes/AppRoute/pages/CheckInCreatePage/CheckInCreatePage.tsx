@@ -53,7 +53,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
     <CheckInCreateView
       key={history.location.key}
       nav={nav}
-      article={article}
+      article={article.data}
       user={user}
       onSuccess={goToProfile}
     />

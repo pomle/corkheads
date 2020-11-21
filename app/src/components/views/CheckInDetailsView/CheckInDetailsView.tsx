@@ -4,11 +4,11 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
-import { CheckIn } from "types/checkIn";
+import { CheckIn } from "types/CheckIn";
 import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
@@ -34,12 +34,12 @@ const useStyles = makeStyles({
 });
 
 function resolvePhotoURL(checkIn: CheckIn, article: Article) {
-  if (checkIn.data.photoURL) {
-    return checkIn.data.photoURL;
+  if (checkIn.photoURL) {
+    return checkIn.photoURL;
   }
 
-  if (article.data.photoURL) {
-    return article.data.photoURL;
+  if (article.photoURL) {
+    return article.photoURL;
   }
 
   return;
@@ -83,7 +83,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
         <div className={classes.actionBox}>
           <ActionButton
             variant="action"
-            onClick={() => goToArticle(checkIn.data.articleId)}
+            onClick={() => goToArticle(checkIn.articleId)}
           >
             Go to Article
           </ActionButton>

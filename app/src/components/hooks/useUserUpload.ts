@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStorage } from "components/hooks/useStorage";
-import { User } from "types/user";
+import { User } from "types/User";
 
 export function useUserUpload() {
   const storage = useStorage();

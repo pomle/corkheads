@@ -1,21 +1,12 @@
-import { useMemo } from "react";
-import {
-  createStoreHook,
-  useFlatResult,
-} from "components/hooks/createStoreHook";
-import { converter, Article } from "types/article";
-import { useDB } from "../useDB";
+import { useFlatResult, useStore } from "components/hooks/createStoreHook";
+import { Article } from "types/Article";
+import { useCollection } from "./useCollection";
 
-export function useArticleCollection() {
-  const db = useDB();
-  return useMemo(() => db.collection("articles").withConverter(converter), [
-    db,
-  ]);
+export function useArticles(articleIds: string[]) {
+  return useStore<Article>(useCollection().article, articleIds);
 }
 
-export const useArticleStore = createStoreHook<Article>(useArticleCollection);
-
 export function useArticle(articleId: string) {
-  const result = useArticleStore([articleId]);
+  const result = useArticles([articleId]);
   return useFlatResult(articleId, result);
 }

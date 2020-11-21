@@ -4,13 +4,13 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/article";
+import { Article } from "types/Article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
 import NameValue from "./components/NameValue";
 import NameValueList from "./components/NameValueList";
-import { RatingAggregate } from "types/types";
+import { Container, RatingAggregate } from "types/types";
 import NumberedRating from "./components/NumberedRating";
 import Photo from "components/ui/layout/Photo";
 import Collection from "./components/Collection";
@@ -50,7 +50,7 @@ function calcAverageRating(agg: RatingAggregate): number {
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
-  article: Article;
+  article: Container<Article>;
 }
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
@@ -63,10 +63,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
     history.push(url);
   }, [article.id, history]);
 
-  const { displayName, manufacturer, photoURL } = article.data;
+  const { displayName, manufacturer, photoURL, ratingAggregate } = article.data;
 
-  const averageRating = article.data.ratingAggregate
-    ? calcAverageRating(article.data.ratingAggregate)
+  const averageRating = ratingAggregate
+    ? calcAverageRating(ratingAggregate)
     : null;
 
   const classes = useStyles();
