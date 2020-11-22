@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import moment from "moment";
 import * as firebase from "firebase/app";
 import { useDB } from "components/hooks/useDB";
 import { User } from "types/User";
@@ -33,19 +32,16 @@ export function useCommitCheckIn() {
         checkIn.photoURL = photoURL;
       }
 
-      const checkInResult = await checkInsCollection.add(checkIn);
-
-      const userRef = db.collection("users").doc(user.uid);
-      const userCheckInsRef = userRef.collection("check-ins");
-      const userArticlesRef = userRef.collection("articles");
-      const userCheckInRef = userCheckInsRef.doc(checkInResult.id);
-      const userArticleRef = userArticlesRef.doc(checkIn.articleId);
-
       const batch = db.batch();
 
-      batch.set(userCheckInRef, {
-        createdAt: moment().toISOString(),
-      });
+      const checkInRef = checkInsCollection.doc();
+      const userArticleRef = db
+        .collection("users")
+        .doc(user.uid)
+        .collection("articles")
+        .doc(checkIn.articleId);
+
+      batch.set(checkInRef, checkIn);
 
       batch.set(
         userArticleRef,
