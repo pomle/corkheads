@@ -5,6 +5,7 @@ import Rating from "components/ui/indicators/Rating";
 const useStyles = makeStyles({
   NumberedRating: {
     display: "flex",
+    lineHeight: 1,
   },
 });
 
