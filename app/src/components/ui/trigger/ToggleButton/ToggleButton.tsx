@@ -35,6 +35,7 @@ const useStyles = makeStyles({
     textAlign: "center",
     "&[disabled]": {
       background: "#EAEAEA",
+      borderColor: "#EAEAEA",
       color: "#999999",
     },
   },

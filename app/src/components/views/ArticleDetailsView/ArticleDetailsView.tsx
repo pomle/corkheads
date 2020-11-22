@@ -1,74 +1,33 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
-import ActionButton from "components/ui/trigger/ActionButton";
-import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
-import NameValue from "./components/NameValue";
-import NameValueList from "./components/NameValueList";
-import { Container } from "types/types";
-import NumberedRating from "./components/NumberedRating";
 import Photo from "components/ui/layout/Photo";
-import Collection from "./components/Collection";
-import { RatingAggregate } from "types/RatingAggregate";
+import ActionBox from "./components/ActionBox";
+import { useUser } from "components/hooks/useUser";
 
 const useStyles = makeStyles({
   photo: {
     height: "100vw",
     maxHeight: "400px",
   },
-  collection: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gridAutoFlow: "column",
-    gridGap: "16px",
-    padding: "16px",
-  },
-  actionBox: {
-    background: "#fff",
-    borderRadius: "5px",
-    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
-    color: "#838383",
-    display: "flex",
-    flexFlow: "column",
-    fontSize: "12px",
-    fontWeight: 500,
-    justifyContent: "stretch",
-    margin: "auto",
-    marginTop: "-80px",
-    overflow: "hidden",
-    width: "80%",
-  },
 });
-
-function calcAverageRating(agg: RatingAggregate): number {
-  return agg.sum / agg.count;
-}
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
-  article: Container<Article>;
+  article: Article;
 }
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
   article,
 }) => {
-  const history = useHistory();
-  const goToCheckIn = useCallback(() => {
-    const url = paths.articleCheckIn.url({ articleId: article.id });
-    history.push(url);
-  }, [article.id, history]);
+  const user = useUser();
 
-  const { displayName, manufacturer, photoURL, ratingAggregate } = article.data;
-
-  const averageRating = ratingAggregate
-    ? calcAverageRating(ratingAggregate)
-    : null;
+  const { displayName, photoURL } = article;
 
   const classes = useStyles();
 
@@ -82,26 +41,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         <div className={classes.photo}>
           <Photo url={photoURL} />
         </div>
-        <div className={classes.actionBox}>
-          <ActionButton variant="action" onClick={goToCheckIn}>
-            Check in
-          </ActionButton>
-          <NameValueList>
-            <Collection articleId={article.id} />
-
-            <NameValue
-              name="Global rating"
-              value={
-                averageRating ? (
-                  <NumberedRating value={averageRating} max={5} />
-                ) : (
-                  "-"
-                )
-              }
-            />
-            <NameValue name="Brand" value={manufacturer} />
-          </NameValueList>
-        </div>
+        {user && <ActionBox article={article} user={user} />}
       </ViewBody>
     </HeaderLayout>
   );

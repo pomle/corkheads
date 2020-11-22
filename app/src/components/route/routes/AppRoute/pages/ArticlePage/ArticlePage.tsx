@@ -28,13 +28,13 @@ const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
     return <LoadingView nav={nav} />;
   }
 
-  const article = articleResult.data;
+  const articleEntry = articleResult.data;
 
-  if (!article) {
+  if (!articleEntry) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 
-  return <ArticleDetailsView nav={nav} article={article} />;
+  return <ArticleDetailsView nav={nav} article={articleEntry.data} />;
 };
 
 export default ArticlePage;
