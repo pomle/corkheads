@@ -1,10 +1,8 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { useDB } from "components/hooks/useDB";
 import ToggleButton from "components/ui/trigger/ToggleButton";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
-import { useUser } from "components/hooks/useUser";
-import { User } from "types/User";
+import { UserArticle } from "types/UserArticle";
+import { Container } from "types/types";
 
 const useStyles = makeStyles({
   Collection: {
@@ -16,51 +14,19 @@ const useStyles = makeStyles({
   },
 });
 
-type Payload = {
-  owner?: boolean;
-  tryIt?: boolean;
-};
-
-export function useUpdate(userId: string, articleId: string) {
-  const db = useDB();
-
-  return useCallback(
-    (meta: Payload) => {
-      return db
-        .collection("users")
-        .doc(userId)
-        .collection("articles")
-        .doc(articleId)
-        .set(meta, { merge: true });
-    },
-    [db, userId, articleId]
-  );
-}
-
 interface CollectionProps {
-  articleId: string;
+  userArticle: Container<UserArticle> | null;
 }
 
-const Collection: React.FC<CollectionProps> = ({ articleId }) => {
-  const user = useUser();
-
-  if (!user) {
-    return null;
-  }
-
-  return <CollectionUser user={user} articleId={articleId} />;
-};
-
-export default Collection;
-
-const CollectionUser: React.FC<{ user: User; articleId: string }> = ({
-  user,
-  articleId,
-}) => {
-  const userArticleResult = useUserArticle(user?.uid || "", articleId);
-  const userArticle = userArticleResult.data;
-
-  const updateMeta = useUpdate(user?.uid || "", articleId);
+const Collection: React.FC<CollectionProps> = ({ userArticle }) => {
+  const updateMeta = useCallback(
+    (data: Partial<UserArticle>) => {
+      if (userArticle) {
+        userArticle.ref.set(data, { merge: true });
+      }
+    },
+    [userArticle]
+  );
 
   const setOwner = useCallback(
     (owner: boolean) => {
@@ -76,22 +42,30 @@ const CollectionUser: React.FC<{ user: User; articleId: string }> = ({
     [updateMeta]
   );
 
+  const canInteract = !!userArticle;
+
+  const { owner, tryIt } = userArticle?.data || {};
+
   const classes = useStyles();
-
-  if (!userArticle) {
-    return null;
-  }
-
-  const { owner, tryIt } = userArticle.data;
 
   return (
     <div className={classes.Collection}>
-      <ToggleButton toggled={owner} onClick={() => setOwner(!owner)}>
+      <ToggleButton
+        disabled={!canInteract}
+        toggled={owner}
+        onClick={() => setOwner(!owner)}
+      >
         I own it
       </ToggleButton>
-      <ToggleButton toggled={tryIt} onClick={() => setTryer(!tryIt)}>
+      <ToggleButton
+        disabled={!canInteract}
+        toggled={tryIt}
+        onClick={() => setTryer(!tryIt)}
+      >
         I want to try it
       </ToggleButton>
     </div>
   );
 };
+
+export default Collection;
