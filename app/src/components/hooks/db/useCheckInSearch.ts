@@ -38,7 +38,6 @@ export function useCheckInSearch(
       .limit(query.limit || 10)
       .onSnapshot((result) => {
         const ids = result.docs.map((doc) => doc.id);
-        console.log("Updating search ids");
         setIds(ids);
         setBusy(false);
       });
