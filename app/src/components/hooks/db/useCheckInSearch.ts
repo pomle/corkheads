@@ -31,10 +31,9 @@ export function useCheckInSearch(
     const userId = query.filters.userIds[0];
 
     return db
-      .collection("users")
-      .doc(userId)
       .collection("check-ins")
-      .orderBy("createdAt", "desc")
+      .where("userId", "==", userId)
+      .orderBy("timestamp", "desc")
       .limit(query.limit || 10)
       .onSnapshot((result) => {
         const ids = result.docs.map((doc) => doc.id);
