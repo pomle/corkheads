@@ -10,10 +10,11 @@ import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
 import NameValue from "./components/NameValue";
 import NameValueList from "./components/NameValueList";
-import { Container, RatingAggregate } from "types/types";
+import { Container } from "types/types";
 import NumberedRating from "./components/NumberedRating";
 import Photo from "components/ui/layout/Photo";
 import Collection from "./components/Collection";
+import { RatingAggregate } from "types/RatingAggregate";
 
 const useStyles = makeStyles({
   photo: {

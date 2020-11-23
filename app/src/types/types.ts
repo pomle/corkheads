@@ -51,8 +51,3 @@ export function toContainer<T>(
     metadata: snapshot.metadata,
   };
 }
-
-export type RatingAggregate = {
-  count: number;
-  sum: number;
-};
