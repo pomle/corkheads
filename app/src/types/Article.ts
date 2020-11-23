@@ -1,5 +1,5 @@
+import { createConverter } from "lib/firestore/converter";
 import { RatingAggregate } from "./RatingAggregate";
-import { createConverter } from "./types";
 
 export type Article = {
   id: string;
