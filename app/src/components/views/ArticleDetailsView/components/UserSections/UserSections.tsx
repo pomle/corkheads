@@ -4,8 +4,8 @@ import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import UserArticleEntries from "../UserArticleEntries";
-import { Article } from "types/Article";
-import { User } from "types/User";
+import { Container } from "types/Container";
+import { UserArticle } from "types/UserArticle";
 
 const useStyles = makeStyles({
   collection: {
@@ -15,11 +15,10 @@ const useStyles = makeStyles({
 });
 
 interface UserSectionsProps {
-  user: User;
-  article: Article;
+  userArticleEntry: Container<UserArticle>;
 }
 
-const UserSections: React.FC<UserSectionsProps> = ({ user, article }) => {
+const UserSections: React.FC<UserSectionsProps> = ({ userArticleEntry }) => {
   const classes = useStyles();
 
   return (

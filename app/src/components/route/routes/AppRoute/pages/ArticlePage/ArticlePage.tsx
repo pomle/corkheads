@@ -7,8 +7,25 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
 import { useArticle } from "components/hooks/db/useArticles";
+import { useUser } from "components/hooks/useUser";
+import { User } from "types/User";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
-const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
+const WithUser: React.FC<{ children: React.FC<{ user: User }> }> = ({
+  children: render,
+}) => {
+  const user = useUser();
+  if (!user) {
+    return null;
+  }
+
+  return render({ user });
+};
+
+const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
+  userId,
+  articleId,
+}) => {
   const history = useHistory();
 
   const goToProfile = useCallback(() => {
@@ -23,18 +40,34 @@ const ArticlePage: React.FC<{ articleId: string }> = ({ articleId }) => {
   );
 
   const articleResult = useArticle(articleId);
+  const userArticleResult = useUserArticle(userId, articleId);
 
-  if (articleResult.busy) {
+  if (userArticleResult.busy || articleResult.busy) {
     return <LoadingView nav={nav} />;
   }
 
   const articleEntry = articleResult.data;
+  const userArticleEntry = userArticleResult.data;
 
-  if (!articleEntry) {
+  if (!articleEntry || !userArticleEntry) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 
-  return <ArticleDetailsView nav={nav} article={articleEntry.data} />;
+  return (
+    <ArticleDetailsView
+      nav={nav}
+      articleEntry={articleEntry}
+      userArticleEntry={userArticleEntry}
+    />
+  );
 };
 
-export default ArticlePage;
+const ArticleRoute: React.FC<{ articleId: string }> = ({ articleId }) => {
+  return (
+    <WithUser>
+      {({ user }) => <ArticlePage userId={user.uid} articleId={articleId} />}
+    </WithUser>
+  );
+};
+
+export default ArticleRoute;

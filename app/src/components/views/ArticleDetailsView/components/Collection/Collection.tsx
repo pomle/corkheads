@@ -15,17 +15,15 @@ const useStyles = makeStyles({
 });
 
 interface CollectionProps {
-  userArticle: Container<UserArticle> | null;
+  userArticleEntry: Container<UserArticle>;
 }
 
-const Collection: React.FC<CollectionProps> = ({ userArticle }) => {
+const Collection: React.FC<CollectionProps> = ({ userArticleEntry }) => {
   const updateMeta = useCallback(
     (data: Partial<UserArticle>) => {
-      if (userArticle) {
-        userArticle.ref.set(data, { merge: true });
-      }
+      userArticleEntry.ref.set(data, { merge: true });
     },
-    [userArticle]
+    [userArticleEntry]
   );
 
   const setOwner = useCallback(
@@ -42,26 +40,16 @@ const Collection: React.FC<CollectionProps> = ({ userArticle }) => {
     [updateMeta]
   );
 
-  const canInteract = !!userArticle;
-
-  const { owner, tryIt } = userArticle?.data || {};
+  const { owner, tryIt } = userArticleEntry.data;
 
   const classes = useStyles();
 
   return (
     <div className={classes.Collection}>
-      <ToggleButton
-        disabled={!canInteract}
-        toggled={owner}
-        onClick={() => setOwner(!owner)}
-      >
+      <ToggleButton toggled={owner} onClick={() => setOwner(!owner)}>
         I own it
       </ToggleButton>
-      <ToggleButton
-        disabled={!canInteract}
-        toggled={tryIt}
-        onClick={() => setTryer(!tryIt)}
-      >
+      <ToggleButton toggled={tryIt} onClick={() => setTryer(!tryIt)}>
         I want to try it
       </ToggleButton>
     </div>

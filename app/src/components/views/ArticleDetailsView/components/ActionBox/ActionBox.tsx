@@ -9,8 +9,8 @@ import NameValueList from "../NameValueList";
 import { RatingAggregate } from "types/RatingAggregate";
 import NumberedRating from "../NumberedRating";
 import Collection from "../Collection";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
-import { User } from "types/User";
+import { UserArticle } from "types/UserArticle";
+import { Container } from "types/Container";
 
 const useStyles = makeStyles({
   ActionBox: {
@@ -39,27 +39,27 @@ function calcAverageRating(agg: RatingAggregate): number {
 }
 
 interface ActionBoxProps {
-  article: Article;
-  user: User;
+  articleEntry: Container<Article>;
+  userArticleEntry: Container<UserArticle>;
 }
 
-const ActionBox: React.FC<ActionBoxProps> = ({ article, user }) => {
+const ActionBox: React.FC<ActionBoxProps> = ({
+  articleEntry,
+  userArticleEntry,
+}) => {
   const history = useHistory();
   const goToCheckIn = useCallback(() => {
-    const url = paths.articleCheckIn.url({ articleId: article.id });
+    const url = paths.articleCheckIn.url({ articleId: articleEntry.id });
     history.push(url);
-  }, [article.id, history]);
+  }, [articleEntry.id, history]);
 
-  const { manufacturer, ratingAggregate } = article;
-
-  const userArticleResult = useUserArticle(user.uid, article.id);
-  const userArticleEntry = userArticleResult.data;
+  const { manufacturer, ratingAggregate } = articleEntry.data;
 
   const averageRating = ratingAggregate
     ? calcAverageRating(ratingAggregate)
     : null;
 
-  const myRating = userArticleEntry?.data?.rating;
+  const myRating = userArticleEntry.data.rating;
 
   const classes = useStyles();
 
@@ -69,7 +69,7 @@ const ActionBox: React.FC<ActionBoxProps> = ({ article, user }) => {
         Check in
       </ActionButton>
       <NameValueList>
-        <Collection userArticle={userArticleEntry} />
+        <Collection userArticleEntry={userArticleEntry} />
 
         <NameValue
           name="Global rating"
