@@ -15,11 +15,15 @@ const useStyles = makeStyles({
   photo: {
     height: "100vw",
     maxHeight: "400px",
+    position: "relative",
+    zIndex: 2,
   },
   actionBox: {
     margin: "auto",
     marginTop: "-80px",
     width: "80%",
+    position: "relative",
+    zIndex: 3,
   },
   userSection: {
     margin: "32px 0",
