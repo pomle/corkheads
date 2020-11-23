@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import { useUser } from "components/hooks/useUser";
+import UserSections from "./components/UserSections";
 
 const useStyles = makeStyles({
   photo: {
@@ -18,6 +19,9 @@ const useStyles = makeStyles({
     margin: "auto",
     marginTop: "-80px",
     width: "80%",
+  },
+  userSection: {
+    margin: "32px 0",
   },
 });
 
@@ -50,6 +54,12 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         <div className={classes.actionBox}>
           {user && <ActionBox article={article} user={user} />}
         </div>
+
+        {user && (
+          <div className={classes.userSection}>
+            <UserSections user={user} article={article} />
+          </div>
+        )}
       </ViewBody>
     </HeaderLayout>
   );
