@@ -1,86 +1,133 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
-import { UserArticle, UserCollectionEntry } from "types/UserArticle";
+import { UserArticle } from "types/UserArticle";
 import { Container } from "types/Container";
+
+type Entries = {
+  bottles: string;
+  aged: string;
+  bottled: string;
+  abv: string;
+};
+
+function toEntries(source: UserArticle["collection"]): Entries {
+  return {
+    abv: source.abv?.toFixed ? (source.abv * 100).toFixed(0) : "",
+    aged: source.aged?.years?.toString() || "",
+    bottled: source.bottled?.year?.toString() || "",
+    bottles: source.bottles?.count?.toString() || "",
+  };
+}
+
+/*
+function entriesEqual(a: Record<string, any>, b: Record<string, any>) {
+  for (const key of Object.keys(a)) {
+    if (a[key] !== b[key]) {
+      return false;
+    }
+  }
+  return true;
+}
+*/
+
+const SAVE_TIMEOUT = 5000;
+
+function toCollection(source: Entries): UserArticle["collection"] {
+  return {
+    abv: parseFloat(source.abv) / 100,
+    aged: {
+      years: parseFloat(source.aged),
+    },
+    bottled: {
+      year: parseFloat(source.bottled),
+    },
+    bottles: {
+      count: parseFloat(source.bottles),
+    },
+  };
+}
 
 interface UserArticleEntriesProps {
   userArticleEntry: Container<UserArticle>;
 }
 
-function getBottleCount(bottles: any): string {
-  return bottles?.count?.toString() || "";
-}
-
-function getAge(aged: any): string {
-  return aged?.years?.toString() || "";
-}
-
-function getABV(abv: any): string {
-  return typeof abv === "number" ? (abv * 100).toString() : "";
-}
-
-function getBottled(bottled: any): string {
-  return bottled?.year?.toString() || "";
-}
-
 const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
   userArticleEntry,
 }) => {
-  const { bottles, bottled, aged, abv } = userArticleEntry.data.collection;
+  const initial = useMemo((): Entries => {
+    return toEntries(userArticleEntry.data.collection);
+  }, [userArticleEntry]);
 
-  const save = useCallback(
-    (data: Partial<UserCollectionEntry>) => {
+  const [entries, setEntries] = useState<Entries>(initial);
+
+  useEffect(() => {
+    setEntries(initial);
+  }, [initial]);
+
+  const store = useCallback(
+    (entries: Entries) => {
+      const collection = toCollection(entries);
       userArticleEntry.ref.set(
         {
-          collection: data,
+          collection,
         },
         { merge: true }
       );
     },
-    [userArticleEntry.ref]
+    [userArticleEntry]
   );
 
-  const handleBottleCount = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      save({
-        bottles: {
-          count: parseFloat(event.target.value),
-        },
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      store(entries);
+    }, SAVE_TIMEOUT);
+    return () => clearTimeout(timer);
+  }, [entries, store]);
+
+  const updateEntries = useCallback(
+    (data: Partial<Entries>) => {
+      setEntries((entries) => {
+        return { ...entries, ...data };
       });
     },
-    [save]
+    [setEntries]
+  );
+
+  const handleBottles = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      updateEntries({
+        bottles: event.target.value,
+      });
+    },
+    [updateEntries]
   );
 
   const handleAged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      save({
-        aged: {
-          years: parseFloat(event.target.value),
-        },
+      updateEntries({
+        aged: event.target.value,
       });
     },
-    [save]
+    [updateEntries]
   );
 
   const handleBottled = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      save({
-        bottled: {
-          year: parseFloat(event.target.value),
-        },
+      updateEntries({
+        bottled: event.target.value,
       });
     },
-    [save]
+    [updateEntries]
   );
 
   const handleABV = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      save({
-        abv: parseFloat(event.target.value) / 100,
+      updateEntries({
+        abv: event.target.value,
       });
     },
-    [save]
+    [updateEntries]
   );
 
   return (
@@ -89,8 +136,8 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
         <input
           type="number"
           placeholder="# of bottles"
-          value={getBottleCount(bottles)}
-          onChange={handleBottleCount}
+          value={entries.bottles}
+          onChange={handleBottles}
         />
       </Entry>
       <Entry name="Series">
@@ -103,7 +150,7 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
         <input
           type="text"
           placeholder="Year"
-          value={getBottled(bottled)}
+          value={entries.bottled}
           onChange={handleBottled}
         />
       </Entry>
@@ -111,7 +158,7 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
         <input
           type="number"
           placeholder="# of years"
-          value={getAge(aged)}
+          value={entries.aged}
           onChange={handleAged}
         />
       </Entry>
@@ -119,7 +166,7 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
         <input
           type="number"
           placeholder="%"
-          value={getABV(abv)}
+          value={entries.abv}
           onChange={handleABV}
         />
       </Entry>
