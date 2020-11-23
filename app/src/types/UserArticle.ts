@@ -1,4 +1,4 @@
-import { createConverter } from "./types";
+import { createConverter } from "lib/firestore/converter";
 
 export type UserArticle = {
   id: string;

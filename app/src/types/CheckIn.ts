@@ -1,7 +1,7 @@
 import * as firebase from "firebase/app";
 import { Moment } from "moment";
+import { createConverter } from "lib/firestore/converter";
 import { toMoment } from "./convert";
-import { createConverter } from "./types";
 
 export type CheckIn = {
   id: string;
