@@ -3,7 +3,7 @@ import { useDB } from "../useDB";
 import { notNull, QueryResult } from "../createStoreHook";
 import { CheckIn } from "types/CheckIn";
 import { useCheckIns } from "./useCheckIns";
-import { Container } from "types/types";
+import { Container } from "types/Container";
 
 type SortQuery = { [key: string]: "asc" | "desc" };
 

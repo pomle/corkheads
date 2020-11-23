@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ToggleButton from "components/ui/trigger/ToggleButton";
 import { UserArticle } from "types/UserArticle";
-import { Container } from "types/types";
+import { Container } from "types/Container";
 
 const useStyles = makeStyles({
   Collection: {

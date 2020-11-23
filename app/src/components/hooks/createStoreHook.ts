@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { firestore } from "firebase/app";
 import { useObjectIndex } from "components/context/ObjectStoreContext";
 import { listEquals } from "lib/equality";
-import { Container, toContainer } from "types/types";
+import { Container, toContainer } from "types/Container";
 
 type Index<T> = Record<string, T>;
 
