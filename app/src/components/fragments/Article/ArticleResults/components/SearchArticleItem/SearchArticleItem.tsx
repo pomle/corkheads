@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
-import { Container } from "types/types";
+import { Container } from "types/Container";
 
 const useStyles = makeStyles({
   displayName: {

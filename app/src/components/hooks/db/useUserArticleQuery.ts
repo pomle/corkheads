@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Article } from "types/Article";
-import { Container } from "types/types";
+import { Container } from "types/Container";
 import { UserArticle } from "types/UserArticle";
 import { notNull, QueryResult } from "../createStoreHook";
 import { useDB } from "../useDB";

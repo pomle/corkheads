@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Article } from "types/Article";
-import { Container } from "types/types";
+import { Container } from "types/Container";
 import { useArticleIndex } from "../algolia";
 import { notNull, QueryResult } from "../createStoreHook";
 import { useArticles } from "./useArticles";
