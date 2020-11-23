@@ -23,10 +23,7 @@ const useStyles = makeStyles({
     fontSize: "12px",
     fontWeight: 500,
     justifyContent: "stretch",
-    margin: "auto",
-    marginTop: "-80px",
     overflow: "hidden",
-    width: "80%",
   },
   collection: {
     display: "grid",

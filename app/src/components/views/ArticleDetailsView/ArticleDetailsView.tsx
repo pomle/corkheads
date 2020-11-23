@@ -14,6 +14,11 @@ const useStyles = makeStyles({
     height: "100vw",
     maxHeight: "400px",
   },
+  actionBox: {
+    margin: "auto",
+    marginTop: "-80px",
+    width: "80%",
+  },
 });
 
 interface ArticleDetailsViewProps {
@@ -41,7 +46,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         <div className={classes.photo}>
           <Photo url={photoURL} />
         </div>
-        {user && <ActionBox article={article} user={user} />}
+
+        <div className={classes.actionBox}>
+          {user && <ActionBox article={article} user={user} />}
+        </div>
       </ViewBody>
     </HeaderLayout>
   );
