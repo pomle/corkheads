@@ -3,9 +3,11 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   sectionList: {
-    marginTop: "16px",
     "& > section": {
       marginBottom: "16px",
+      "&:last-child": {
+        marginBottom: 0,
+      },
     },
   },
 });
