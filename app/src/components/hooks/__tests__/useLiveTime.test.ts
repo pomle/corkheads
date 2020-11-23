@@ -11,13 +11,13 @@ jest.mock("moment", () => {
   return () => jest.requireActual("moment")("2020-01-01T00:00:27.000Z");
 });
 
-jest.useFakeTimers();
-
 describe("useLiveTime", () => {
   let hook: RenderHookResult<{ unit: Unit }, Moment>;
 
   describe("when mounted", () => {
     beforeEach(() => {
+      jest.useFakeTimers();
+
       hook = renderHook(({ unit }) => useLiveTime(unit), {
         initialProps: {
           unit: "minute" as Unit,
