@@ -1,5 +1,17 @@
 import { createConverter } from "lib/firestore/converter";
 
+export type UserCollectionEntry = {
+  bottles?: {
+    count: number;
+  };
+  bottled?: {
+    year: number;
+  };
+  aged?: {
+    years: number;
+  };
+};
+
 export type UserArticle = {
   id: string;
   checkIns: number;
@@ -7,6 +19,7 @@ export type UserArticle = {
   loveIt: boolean;
   tryIt?: boolean;
   rating?: number;
+  collection: UserCollectionEntry;
 };
 
 const DEFAULTS: UserArticle = {
@@ -14,6 +27,7 @@ const DEFAULTS: UserArticle = {
   checkIns: 0,
   owner: false,
   loveIt: false,
+  collection: {},
 };
 
 export const converter = createConverter<UserArticle>({
