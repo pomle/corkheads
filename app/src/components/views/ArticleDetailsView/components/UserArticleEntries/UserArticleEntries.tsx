@@ -16,6 +16,10 @@ function getAge(aged: any): string {
   return aged?.years?.toString() || "";
 }
 
+function getABV(abv: any): string {
+  return typeof abv === "number" ? (abv * 100).toString() : "";
+}
+
 function getBottled(bottled: any): string {
   return bottled?.year?.toString() || "";
 }
@@ -23,7 +27,7 @@ function getBottled(bottled: any): string {
 const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
   userArticleEntry,
 }) => {
-  const { bottles, bottled, aged } = userArticleEntry.data.collection;
+  const { bottles, bottled, aged, abv } = userArticleEntry.data.collection;
 
   const save = useCallback(
     (data: Partial<UserCollectionEntry>) => {
@@ -70,6 +74,15 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
     [save]
   );
 
+  const handleABV = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      save({
+        abv: parseFloat(event.target.value) / 100,
+      });
+    },
+    [save]
+  );
+
   return (
     <EntryList>
       <Entry name="Bottles">
@@ -103,7 +116,12 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
         />
       </Entry>
       <Entry name="Alcohol">
-        <input type="number" placeholder="%" />
+        <input
+          type="number"
+          placeholder="%"
+          value={getABV(abv)}
+          onChange={handleABV}
+        />
       </Entry>
     </EntryList>
   );

@@ -10,6 +10,7 @@ export type UserCollectionEntry = {
   aged?: {
     years: number;
   };
+  abv?: number;
 };
 
 export type UserArticle = {
