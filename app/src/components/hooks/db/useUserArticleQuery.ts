@@ -8,11 +8,11 @@ import { useArticles } from "./useArticles";
 import { useUserArticles } from "./useUserArticles";
 
 type SortOrder = {
-  field: string;
+  field: keyof UserArticle;
   dir?: string;
 };
 
-type UserArticleQuery = {
+export type UserArticleQuery = {
   filters: {
     userId: string;
     owner?: boolean;

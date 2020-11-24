@@ -8,7 +8,10 @@ import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
 import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
-import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
+import {
+  UserArticleQuery,
+  useUserArticleQuery,
+} from "components/hooks/db/useUserArticleQuery";
 import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/User";
 import CollectionList from "components/ui/layout/CollectionList";
@@ -43,7 +46,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
     [history]
   );
 
-  const topArticlesQuery = useMemo(() => {
+  const topArticlesQuery = useMemo((): UserArticleQuery => {
     return {
       filters: {
         userId: user.uid,
@@ -101,13 +104,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const checkInHistoryResult = useCheckInQuery(checkInHistoryQuery);
 
-  const topArticles = useMemo(() => {
-    if (topArticlesResult.busy) {
-      return [];
-    }
-    return topArticlesResult.data;
-  }, [topArticlesResult]);
-
   return (
     <FullScreenLayout>
       <ViewBody>
@@ -125,7 +121,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <ItemList>
-              {topArticles.map(({ article, userArticle }) => {
+              {topArticlesResult.data.map(({ article, userArticle }) => {
                 return (
                   <button
                     key={userArticle.id}
