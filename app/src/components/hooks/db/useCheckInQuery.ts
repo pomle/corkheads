@@ -15,6 +15,7 @@ type SortOrder = {
 export type CheckInQuery = {
   filters: {
     userIds: string[];
+    articleIds?: string[];
     owner?: boolean;
     wishlist?: boolean;
   };
@@ -45,11 +46,16 @@ export function useCheckInQuery(
 
     let q = db.collection("check-ins").where("userId", "==", userId);
 
+    if (query.filters.articleIds) {
+      q = q.where("articleId", "in", query.filters.articleIds);
+    }
+
     if (query.order) {
       for (const sort of query.order) {
         q = q.orderBy(sort.field, sort.dir as "asc" | "desc");
       }
     }
+
     if (query.limit) {
       q = q.limit(query.limit);
     }
