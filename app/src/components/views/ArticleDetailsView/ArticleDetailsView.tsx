@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   actionBox: {
     margin: "auto",
     marginTop: "-80px",
-    width: "80%",
+    width: "calc(100% - 48px)",
     position: "relative",
     zIndex: 3,
   },
