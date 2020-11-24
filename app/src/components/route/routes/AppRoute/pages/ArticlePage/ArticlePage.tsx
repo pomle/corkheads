@@ -65,7 +65,9 @@ const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
 const ArticleRoute: React.FC<{ articleId: string }> = ({ articleId }) => {
   return (
     <WithUser>
-      {({ user }) => <ArticlePage userId={user.uid} articleId={articleId} />}
+      {({ user }) => (
+        <ArticlePage key={articleId} userId={user.uid} articleId={articleId} />
+      )}
     </WithUser>
   );
 };
