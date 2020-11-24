@@ -1,13 +1,11 @@
 import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { useCheckInSearch } from "components/hooks/db/useCheckInSearch";
 import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import * as paths from "components/route/paths";
 import ProfileHead from "./components/ProfileHead";
-import { useArticles } from "components/hooks/db/useArticles";
 import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleQuery } from "components/hooks/db/useUserArticleQuery";
@@ -16,7 +14,10 @@ import { User } from "types/User";
 import CollectionList from "components/ui/layout/CollectionList";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import { notNull } from "components/hooks/createStoreHook";
+import {
+  CheckInQuery,
+  useCheckInQuery,
+} from "components/hooks/db/useCheckInQuery";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -83,24 +84,22 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const wishlistArticlesResult = useUserArticleQuery(wishlistArticlesQuery);
 
-  const checkInHistoryQuery = useMemo(() => {
+  const checkInHistoryQuery = useMemo((): CheckInQuery => {
     return {
       filters: {
         userIds: [user.uid],
       },
+      order: [
+        {
+          field: "timestamp",
+          dir: "desc",
+        },
+      ],
       limit: 3,
     };
   }, [user]);
 
-  const checkInHistoryResult = useCheckInSearch(checkInHistoryQuery);
-
-  const articleIds = useMemo(() => {
-    return Object.values(checkInHistoryResult.data).map(
-      (checkIn) => checkIn.data.articleId
-    );
-  }, [checkInHistoryResult.data]);
-
-  const articleHistoryResult = useArticles(articleIds);
+  const checkInHistoryResult = useCheckInQuery(checkInHistoryQuery);
 
   const topArticles = useMemo(() => {
     if (topArticlesResult.busy) {
@@ -108,24 +107,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
     }
     return topArticlesResult.data;
   }, [topArticlesResult]);
-
-  const checkInHistory = useMemo(() => {
-    if (checkInHistoryResult.busy || articleHistoryResult.busy) {
-      return [];
-    }
-    return checkInHistoryResult.data
-      .map((checkIn) => {
-        const article = articleHistoryResult.data[checkIn.data.articleId];
-        if (article) {
-          return {
-            checkIn,
-            article,
-          };
-        }
-        return null;
-      })
-      .filter(notNull);
-  }, [checkInHistoryResult, articleHistoryResult]);
 
   return (
     <FullScreenLayout>
@@ -169,7 +150,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <ItemList>
-              {checkInHistory.map(({ checkIn, article }) => {
+              {checkInHistoryResult.data.map(({ checkIn, article }) => {
                 return (
                   <button
                     key={checkIn.id}
