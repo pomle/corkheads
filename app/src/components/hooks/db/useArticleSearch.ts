@@ -5,14 +5,14 @@ import { useArticleIndex } from "../algolia";
 import { notNull, QueryResult } from "../createStoreHook";
 import { useArticles } from "./useArticles";
 
-type ArticlesQuery = {
+export type ArticleSearchQuery = {
   search: {
     text: string;
   };
 };
 
 export function useArticleSearch(
-  query: ArticlesQuery
+  query: ArticleSearchQuery
 ): QueryResult<Container<Article>> {
   const [ids, setIds] = useState<string[]>([]);
   const [busy, setBusy] = useState<boolean>(false);
