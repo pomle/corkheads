@@ -2,7 +2,10 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import ItemList from "components/ui/layout/ItemList";
 import ResultStatement from "components/ui/typography/ResultStatement";
-import { useArticleSearch } from "components/hooks/db/useArticleSearch";
+import {
+  ArticleSearchQuery,
+  useArticleSearch,
+} from "components/hooks/db/useArticleSearch";
 import { Article } from "types/Article";
 import * as paths from "components/route/paths";
 import SearchArticleItem from "./components/SearchArticleItem";
@@ -17,7 +20,7 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
   const createURL = useMemo(() => paths.articleCreate.url({}), []);
 
   const searchQuery = useMemo(
-    () => ({
+    (): ArticleSearchQuery => ({
       search: {
         text: query,
       },
