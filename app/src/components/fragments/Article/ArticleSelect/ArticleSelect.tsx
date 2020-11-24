@@ -31,7 +31,7 @@ const ArticleSelect: React.FC<ArticleSelectProps> = ({ onSelect }) => {
     <div className={classes.ArticleSelect}>
       <div className={classes.searchBar}>
         <input
-          type="text"
+          type="search"
           placeholder="Search"
           value={query}
           onChange={(event) => setQuery(event.currentTarget.value)}
