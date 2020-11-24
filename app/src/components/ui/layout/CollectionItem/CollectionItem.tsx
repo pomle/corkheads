@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     border: "solid 1px #e2e2e2",
     display: "flex",
     flexFlow: "column",
+    height: "100%",
   },
   photo: {
     height: "85px",
