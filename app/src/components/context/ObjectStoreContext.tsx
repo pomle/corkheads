@@ -30,12 +30,7 @@ export function useObjectStore() {
 export function useObjectIndex<T>(
   ids: string[],
   namespace: string
-): [
-  {
-    [key: string]: T;
-  },
-  (id: string, object: T) => void
-] {
+): [Record<string, T>, (id: string, object: T) => void] {
   const path = useCallback((id: string) => `${namespace}/${id}`, [namespace]);
 
   const [store, setStore] = useObjectStore();
