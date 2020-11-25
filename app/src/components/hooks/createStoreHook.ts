@@ -67,7 +67,11 @@ function createStore() {
     );
 
     useEffect(() => {
-      const subs: Subscriber[] = [];
+      if (ids.length === 0) {
+        return;
+      }
+
+      const keys: string[] = [];
       for (const id of ids) {
         const doc = collection.doc(id);
         const key = doc.path;
@@ -82,16 +86,16 @@ function createStore() {
         }
 
         subscribers[key].count++;
-        subs.push(subscribers[key]);
+        keys.push(key);
       }
 
       return () => {
-        for (const sub of subs) {
-          const p = subscribers[sub.key];
-          p.count--;
-          if (p.count === 0) {
-            p.unsub();
-            delete subscribers[sub.key];
+        for (const key of keys) {
+          const sub = subscribers[key];
+          sub.count--;
+          if (sub.count === 0) {
+            sub.unsub();
+            delete subscribers[key];
           }
         }
       };
