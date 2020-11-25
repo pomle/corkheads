@@ -1,5 +1,4 @@
 import { useFlatResult, useStore } from "components/hooks/createStoreHook";
-import { useEffect } from "react";
 import { UserArticle } from "types/UserArticle";
 import { useUserCollection } from "./useCollection";
 
