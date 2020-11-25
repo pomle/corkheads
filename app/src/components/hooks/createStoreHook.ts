@@ -36,10 +36,14 @@ export function toList<T>(ids: string[], index: Record<string, T | null>): T[] {
 }
 
 export function useFlatResult<T>(id: string, result: StoreResult<T>) {
-  return {
-    busy: result.busy,
-    data: id in result.data ? result.data[id] : null,
-  };
+  const data = id in result.data ? result.data[id] : null;
+  return useMemo(
+    () => ({
+      busy: result.busy,
+      data,
+    }),
+    [result.busy, data]
+  );
 }
 
 export function useStore<T>(
