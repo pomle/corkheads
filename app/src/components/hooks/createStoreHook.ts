@@ -61,7 +61,7 @@ function createStore() {
   ): StoreResult<Container<T>> {
     const ids = useEqualList(unstableIds);
 
-    const [index, updateIndex] = useObjectIndex<firestore.DocumentSnapshot<T>>(
+    const [index, updateIndex] = useObjectIndex<Container<T> | null>(
       ids,
       collection.path
     );
@@ -75,7 +75,7 @@ function createStore() {
           subscribers[key] = {
             key,
             unsub: doc.onSnapshot((snap) => {
-              updateIndex(id, snap);
+              updateIndex(id, toContainer<T>(snap));
             }),
             count: 0,
           };
@@ -100,15 +100,9 @@ function createStore() {
     }, [ids, collection, updateIndex]);
 
     return useMemo(() => {
-      const output: Record<string, Container<T> | null> = Object.create(null);
-      console.log("To container");
-      for (const id of Object.keys(index)) {
-        output[id] = toContainer<T>(index[id]);
-      }
-
       return {
         busy: !ids.every((id) => id in index),
-        data: output,
+        data: index,
       };
     }, [ids, index]);
   };
