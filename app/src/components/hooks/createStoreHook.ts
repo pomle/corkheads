@@ -46,34 +46,72 @@ export function useFlatResult<T>(id: string, result: StoreResult<T>) {
   );
 }
 
-export function useStore<T>(
-  collection: firestore.CollectionReference<T>,
-  unstableIds: string[]
-): StoreResult<Container<T>> {
-  const ids = useEqualList(unstableIds);
+type Subscriber = {
+  key: string;
+  unsub: () => void;
+  count: number;
+};
 
-  const [index, updateIndex] = useObjectIndex<Container<T> | null>(
-    ids,
-    collection.path
-  );
+function createStore() {
+  const subscribers: Record<string, Subscriber> = Object.create(null);
 
-  useEffect(() => {
-    const unsubs = ids.map((id) =>
-      collection.doc(id).onSnapshot((snap) => {
-        updateIndex(id, toContainer<T>(snap));
-      })
+  return function useStore<T>(
+    collection: firestore.CollectionReference<T>,
+    unstableIds: string[]
+  ): StoreResult<Container<T>> {
+    const ids = useEqualList(unstableIds);
+
+    const [index, updateIndex] = useObjectIndex<firestore.DocumentSnapshot<T>>(
+      ids,
+      collection.path
     );
 
-    return () => {
-      unsubs.forEach((unsub) => unsub());
-    };
-  }, [ids, collection, updateIndex]);
+    useEffect(() => {
+      const subs: Subscriber[] = [];
+      for (const id of ids) {
+        const doc = collection.doc(id);
+        const key = doc.path;
+        if (!subscribers[key]) {
+          subscribers[key] = {
+            key,
+            unsub: doc.onSnapshot((snap) => {
+              updateIndex(id, snap);
+            }),
+            count: 0,
+          };
+          console.log("Subscriber Created", key);
+        }
 
-  return useMemo(
-    () => ({
-      busy: !ids.every((id) => id in index),
-      data: index,
-    }),
-    [ids, index]
-  );
+        subscribers[key].count++;
+        subs.push(subscribers[key]);
+      }
+
+      return () => {
+        for (const sub of subs) {
+          const p = subscribers[sub.key];
+          p.count--;
+          if (p.count === 0) {
+            p.unsub();
+            delete subscribers[sub.key];
+            console.log("Subscriber Deleted", sub.key);
+          }
+        }
+      };
+    }, [ids, collection, updateIndex]);
+
+    return useMemo(() => {
+      const output: Record<string, Container<T> | null> = Object.create(null);
+      console.log("To container");
+      for (const id of Object.keys(index)) {
+        output[id] = toContainer<T>(index[id]);
+      }
+
+      return {
+        busy: !ids.every((id) => id in index),
+        data: output,
+      };
+    }, [ids, index]);
+  };
 }
+
+export const useStore = createStore();
