@@ -79,7 +79,6 @@ function createStore() {
             }),
             count: 0,
           };
-          console.log("Subscriber Created", key);
         }
 
         subscribers[key].count++;
@@ -93,7 +92,6 @@ function createStore() {
           if (p.count === 0) {
             p.unsub();
             delete subscribers[sub.key];
-            console.log("Subscriber Deleted", sub.key);
           }
         }
       };
