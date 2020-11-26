@@ -10,7 +10,7 @@ import { RatingAggregate } from "types/RatingAggregate";
 import NumberedRating from "../NumberedRating";
 import Collection from "../Collection";
 import { UserArticle } from "types/UserArticle";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 
 const useStyles = makeStyles({
   ActionBox: {
@@ -39,8 +39,8 @@ function calcAverageRating(agg: RatingAggregate): number {
 }
 
 interface ActionBoxProps {
-  articleEntry: Container<Article>;
-  userArticleEntry: Container<UserArticle>;
+  articleEntry: Entry<Article>;
+  userArticleEntry: Entry<UserArticle>;
 }
 
 const ActionBox: React.FC<ActionBoxProps> = ({
@@ -53,13 +53,13 @@ const ActionBox: React.FC<ActionBoxProps> = ({
     history.push(url);
   }, [articleEntry.id, history]);
 
-  const { manufacturer, ratingAggregate } = articleEntry.data;
+  const article = articleEntry.data;
 
-  const averageRating = ratingAggregate
-    ? calcAverageRating(ratingAggregate)
+  const averageRating = article?.ratingAggregate
+    ? calcAverageRating(article.ratingAggregate)
     : null;
 
-  const myRating = userArticleEntry.data.rating;
+  const myRating = userArticleEntry.data?.rating;
 
   const classes = useStyles();
 
@@ -85,7 +85,7 @@ const ActionBox: React.FC<ActionBoxProps> = ({
           name="My rating"
           value={myRating ? <NumberedRating value={myRating} max={5} /> : "-"}
         />
-        <NameValue name="Brand" value={manufacturer} />
+        <NameValue name="Brand" value={article?.manufacturer || "-"} />
       </NameValueList>
     </div>
   );

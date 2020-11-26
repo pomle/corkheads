@@ -30,17 +30,22 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
 
   const result = useArticleSearch(searchQuery);
 
-  if (result.busy) {
+  if (!result) {
     return <ResultStatement message="Searching..." />;
   }
 
-  const articles = result.data;
+  const articles = result.reduce((articles, entry) => {
+    if (entry.data) {
+      articles.push(entry.data);
+    }
+    return articles;
+  }, [] as Article[]);
 
   return (
     <ItemList>
       {articles.map((article) => {
         return (
-          <button key={article.id} onClick={() => onSelect(article.data)}>
+          <button key={article.id} onClick={() => onSelect(article)}>
             <SearchArticleItem article={article} />
           </button>
         );

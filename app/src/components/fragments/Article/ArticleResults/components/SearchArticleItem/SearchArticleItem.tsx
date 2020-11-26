@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
-import { Container } from "types/Container";
 
 const useStyles = makeStyles({
   displayName: {
@@ -16,18 +15,18 @@ const useStyles = makeStyles({
 });
 
 interface SearchArticleItemProps {
-  article: Container<Article>;
+  article: Article;
 }
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
-  const { photoURL } = article.data;
+  const { displayName, manufacturer, photoURL } = article;
 
   const classes = useStyles();
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>{article.data.displayName}</div>
-      <div className={classes.manufacturer}>{article.data.manufacturer}</div>
+      <div className={classes.displayName}>{displayName}</div>
+      <div className={classes.manufacturer}>{manufacturer}</div>
     </ImageItem>
   );
 };

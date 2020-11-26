@@ -9,7 +9,7 @@ import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
 import { UserArticle } from "types/UserArticle";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 
 const useStyles = makeStyles({
   photo: {
@@ -32,16 +32,22 @@ const useStyles = makeStyles({
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
-  articleEntry: Container<Article>;
-  userArticleEntry: Container<UserArticle>;
+  articleEntry: Entry<Article>;
+  userArticleEntry: Entry<UserArticle>;
 }
+
+const PLACEHOLDER: Article = {
+  id: "",
+  displayName: "Yeet",
+  manufacturer: "",
+};
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
   articleEntry,
   userArticleEntry,
 }) => {
-  const { displayName, photoURL } = articleEntry.data;
+  const { displayName, photoURL } = articleEntry.data || PLACEHOLDER;
 
   const classes = useStyles();
 

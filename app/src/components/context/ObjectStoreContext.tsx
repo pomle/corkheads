@@ -4,9 +4,6 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
-  useCallback,
-  useMemo,
-  useRef,
 } from "react";
 
 type Store = Record<string, unknown>;
@@ -24,44 +21,4 @@ export const ObjectStoreContext: React.FC = ({ children }) => {
 
 export function useObjectStore() {
   return useContext(Context);
-}
-
-export function useObjectIndex<T>(
-  ids: string[],
-  namespace: string
-): [Record<string, T>, (id: string, object: T) => void] {
-  const [store, setStore] = useObjectStore();
-  const index = useRef<Record<string, T>>(EMPTY);
-  const path = useCallback((id: string) => `${namespace}/${id}`, [namespace]);
-
-  const data = useMemo(() => {
-    const newIndex = Object.create(null);
-    let updateIndex = false;
-
-    for (const id of ids) {
-      const key = path(id);
-      if (store[key]) {
-        newIndex[id] = store[key];
-        if (newIndex[id] !== index.current[id]) {
-          updateIndex = true;
-        }
-      }
-    }
-
-    if (updateIndex) {
-      index.current = newIndex;
-    }
-
-    return index.current;
-  }, [path, ids, store]);
-
-  const updateIndex = useCallback(
-    (id: string, object: T) => {
-      const key = path(id);
-      setStore((store) => ({ ...store, [key]: object }));
-    },
-    [path, setStore]
-  );
-
-  return [data, updateIndex];
 }

@@ -39,17 +39,14 @@ const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
     />
   );
 
-  const articleResult = useArticle(articleId);
-  const userArticleResult = useUserArticle(userId, articleId);
+  const articleEntry = useArticle(articleId);
+  const userArticleEntry = useUserArticle(userId, articleId);
 
-  if (userArticleResult.busy || articleResult.busy) {
+  if (!articleEntry || !userArticleEntry) {
     return <LoadingView nav={nav} />;
   }
 
-  const articleEntry = articleResult.data;
-  const userArticleEntry = userArticleResult.data;
-
-  if (!articleEntry || !userArticleEntry) {
+  if (!articleEntry.data) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 

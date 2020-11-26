@@ -121,19 +121,26 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <ItemList>
-              {topArticlesResult.data.map(({ article, userArticle }) => {
-                return (
-                  <button
-                    key={userArticle.id}
-                    onClick={() => goToArticle(article.id)}
-                  >
-                    <TopArticleItem
-                      article={article.data}
-                      userArticle={userArticle.data}
-                    />
-                  </button>
-                );
-              })}
+              {topArticlesResult &&
+                topArticlesResult.map(({ articleEntry, userArticleEntry }) => {
+                  const article = articleEntry.data;
+                  const userArticle = userArticleEntry.data;
+                  if (!article || !userArticle) {
+                    return <div />;
+                  }
+
+                  return (
+                    <button
+                      key={userArticle.id}
+                      onClick={() => goToArticle(article.id)}
+                    >
+                      <TopArticleItem
+                        article={article}
+                        userArticle={userArticle}
+                      />
+                    </button>
+                  );
+                })}
             </ItemList>
           </Section>
 
@@ -146,19 +153,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <ItemList>
-              {checkInHistoryResult.data.map(({ checkIn, article }) => {
-                return (
-                  <button
-                    key={checkIn.id}
-                    onClick={() => goToCheckIn(checkIn.id)}
-                  >
-                    <CheckInItem
-                      checkIn={checkIn.data}
-                      article={article.data}
-                    />
-                  </button>
-                );
-              })}
+              {checkInHistoryResult &&
+                checkInHistoryResult.map(({ checkInEntry, articleEntry }) => {
+                  const article = articleEntry.data;
+                  const checkIn = checkInEntry.data;
+                  if (!article || !checkIn) {
+                    return <div />;
+                  }
+
+                  return (
+                    <button
+                      key={checkIn.id}
+                      onClick={() => goToCheckIn(checkIn.id)}
+                    >
+                      <CheckInItem checkIn={checkIn} article={article} />
+                    </button>
+                  );
+                })}
             </ItemList>
           </Section>
 
@@ -171,19 +182,27 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <CollectionList>
-              {ownedArticlesResult.data.map(({ article, userArticle }) => {
-                const photoURL = article.data.photoURL;
-                return (
-                  <button
-                    key={article.id}
-                    onClick={() => goToArticle(article.id)}
-                  >
-                    <CollectionItem key={article.id} imageURL={photoURL}>
-                      {article.data.displayName}
-                    </CollectionItem>
-                  </button>
-                );
-              })}
+              {ownedArticlesResult &&
+                ownedArticlesResult.map(
+                  ({ articleEntry, userArticleEntry }) => {
+                    const article = articleEntry.data;
+                    if (!article) {
+                      return <div />;
+                    }
+
+                    const photoURL = article.photoURL;
+                    return (
+                      <button
+                        key={article.id}
+                        onClick={() => goToArticle(article.id)}
+                      >
+                        <CollectionItem key={article.id} imageURL={photoURL}>
+                          {article.displayName}
+                        </CollectionItem>
+                      </button>
+                    );
+                  }
+                )}
             </CollectionList>
           </Section>
 
@@ -193,19 +212,25 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
             }
           >
             <CollectionList>
-              {wishlistArticlesResult.data.map(({ article }) => {
-                const photoURL = article.data.photoURL;
-                return (
-                  <button
-                    key={article.id}
-                    onClick={() => goToArticle(article.id)}
-                  >
-                    <CollectionItem key={article.id} imageURL={photoURL}>
-                      {article.data.displayName}
-                    </CollectionItem>
-                  </button>
-                );
-              })}
+              {wishlistArticlesResult &&
+                wishlistArticlesResult.map(({ articleEntry }) => {
+                  const article = articleEntry.data;
+                  if (!article) {
+                    return <div />;
+                  }
+
+                  const photoURL = article.photoURL;
+                  return (
+                    <button
+                      key={article.id}
+                      onClick={() => goToArticle(article.id)}
+                    >
+                      <CollectionItem key={article.id} imageURL={photoURL}>
+                        {article.displayName}
+                      </CollectionItem>
+                    </button>
+                  );
+                })}
             </CollectionList>
           </Section>
         </SectionList>
