@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import EntryList from "components/ui/layout/EntryList";
-import Entry from "components/ui/layout/Entry";
+import EntryItem from "components/ui/layout/Entry";
 import { UserArticle } from "types/UserArticle";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 
 type Entries = {
   bottles: string;
@@ -74,14 +74,14 @@ function toCollection(source: Entries): UserArticle["collection"] {
 }
 
 interface UserArticleEntriesProps {
-  userArticleEntry: Container<UserArticle>;
+  userArticleEntry: Entry<UserArticle>;
 }
 
 const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
   userArticleEntry,
 }) => {
   const initial = useMemo((): Entries => {
-    return toEntries(userArticleEntry.data.collection);
+    return toEntries(userArticleEntry.data?.collection || {});
   }, [userArticleEntry]);
 
   const [entries, setEntries] = useState<Entries>(initial);
@@ -93,7 +93,7 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
   const store = useCallback(
     (entries: Entries) => {
       const collection = toCollection(entries);
-      userArticleEntry.ref.update({
+      userArticleEntry.doc.update({
         collection,
       });
     },
@@ -154,44 +154,44 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
 
   return (
     <EntryList>
-      <Entry name="Bottles">
+      <EntryItem name="Bottles">
         <input
           type="number"
           placeholder="# of bottles"
           value={entries.bottles}
           onChange={handleBottles}
         />
-      </Entry>
-      <Entry name="Series">
+      </EntryItem>
+      <EntryItem name="Series">
         <input type="text" placeholder="Enter information" />
-      </Entry>
-      <Entry name="Distilled">
+      </EntryItem>
+      <EntryItem name="Distilled">
         <input type="text" placeholder="Enter information" />
-      </Entry>
-      <Entry name="Bottled">
+      </EntryItem>
+      <EntryItem name="Bottled">
         <input
           type="text"
           placeholder="Year"
           value={entries.bottled}
           onChange={handleBottled}
         />
-      </Entry>
-      <Entry name="Aged">
+      </EntryItem>
+      <EntryItem name="Aged">
         <input
           type="number"
           placeholder="# of years"
           value={entries.aged}
           onChange={handleAged}
         />
-      </Entry>
-      <Entry name="Alcohol">
+      </EntryItem>
+      <EntryItem name="Alcohol">
         <input
           type="number"
           placeholder="%"
           value={entries.abv}
           onChange={handleABV}
         />
-      </Entry>
+      </EntryItem>
     </EntryList>
   );
 };

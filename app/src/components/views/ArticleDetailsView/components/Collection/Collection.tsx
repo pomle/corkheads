@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ToggleButton from "components/ui/trigger/ToggleButton";
 import { UserArticle } from "types/UserArticle";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 
 const useStyles = makeStyles({
   Collection: {
@@ -15,32 +15,38 @@ const useStyles = makeStyles({
 });
 
 interface CollectionProps {
-  userArticleEntry: Container<UserArticle>;
+  userArticleEntry: Entry<UserArticle>;
 }
 
 const Collection: React.FC<CollectionProps> = ({ userArticleEntry }) => {
-  const updateMeta = useCallback(
-    (data: Partial<UserArticle>) => {
-      userArticleEntry.ref.set(data, { merge: true });
+  const setOwner = useCallback(
+    (owner: boolean) => {
+      userArticleEntry.doc.set(
+        {
+          owner,
+        },
+        { merge: true }
+      );
     },
     [userArticleEntry]
   );
 
-  const setOwner = useCallback(
-    (owner: boolean) => {
-      updateMeta({ owner });
-    },
-    [updateMeta]
-  );
-
   const setTryer = useCallback(
     (tryIt: boolean) => {
-      updateMeta({ tryIt });
+      userArticleEntry.doc.set(
+        {
+          tryIt,
+        },
+        { merge: true }
+      );
     },
-    [updateMeta]
+    [userArticleEntry]
   );
 
-  const { owner, tryIt } = userArticleEntry.data;
+  const { owner, tryIt } = userArticleEntry.data || {
+    owner: false,
+    tryIt: false,
+  };
 
   const classes = useStyles();
 

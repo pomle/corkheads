@@ -4,7 +4,7 @@ import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import UserArticleEntries from "../UserArticleEntries";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 import { UserArticle } from "types/UserArticle";
 
 type StyleProps = {
@@ -25,11 +25,11 @@ const useStyles = makeStyles({
 });
 
 interface UserSectionsProps {
-  userArticleEntry: Container<UserArticle>;
+  userArticleEntry: Entry<UserArticle>;
 }
 
 const UserSections: React.FC<UserSectionsProps> = ({ userArticleEntry }) => {
-  const { owner } = userArticleEntry.data;
+  const { owner } = userArticleEntry.data || { owner: false };
 
   const classes = useStyles({ owner });
 

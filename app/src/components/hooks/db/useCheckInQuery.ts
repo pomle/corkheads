@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Article } from "types/Article";
-import { Container } from "types/Container";
 import { CheckIn } from "types/CheckIn";
-import { notNull, QueryResult } from "../createStoreHook";
 import { useDB } from "../useDB";
 import { useArticles } from "./useArticles";
 import { useCheckIns } from "./useCheckIns";
+import { Entry } from "types/Entry";
 
 type SortOrder = {
   field: keyof CheckIn;
@@ -23,13 +22,14 @@ export type CheckInQuery = {
   limit?: number;
 };
 
+type CheckInQueryResult = {
+  articleEntry: Entry<Article>;
+  checkInEntry: Entry<CheckIn>;
+};
+
 export function useCheckInQuery(
   query: CheckInQuery
-): QueryResult<{
-  article: Container<Article>;
-  checkIn: Container<CheckIn>;
-}> {
-  const [busy, setBusy] = useState<boolean>(true);
+): CheckInQueryResult[] | null {
   const [checkInIds, setCheckInIds] = useState<string[]>([]);
   const [articleIds, setArticleIds] = useState<string[]>([]);
 
@@ -39,8 +39,6 @@ export function useCheckInQuery(
     if (query.filters.userIds.length === 0) {
       return;
     }
-
-    setBusy(true);
 
     const userId = query.filters.userIds[0];
 
@@ -74,40 +72,41 @@ export function useCheckInQuery(
 
       setArticleIds(articleIds);
       setCheckInIds(checkInIds);
-
-      setBusy(false);
     });
   }, [db, query]);
 
-  const articlesResult = useArticles(articleIds);
-  const checkInsResult = useCheckIns(checkInIds);
+  const articleEntries = useArticles(articleIds);
+  const checkInEntries = useCheckIns(checkInIds);
 
-  const list = useMemo(() => {
-    return checkInIds
-      .map((id) => {
-        const checkIn = checkInsResult.data[id];
-        if (!checkIn) {
-          return null;
-        }
+  return useMemo(() => {
+    if (!articleEntries || !checkInEntries) {
+      return null;
+    }
 
-        const article = articlesResult.data[checkIn.data.articleId];
-        if (!article) {
-          return null;
-        }
+    const result: CheckInQueryResult[] = [];
 
-        return {
-          article,
-          checkIn,
-        };
-      })
-      .filter(notNull);
-  }, [checkInIds, checkInsResult.data, articlesResult.data]);
+    for (const id of checkInIds) {
+      const checkInEntry = checkInEntries[id];
+      if (!checkInEntry) {
+        return null;
+      }
 
-  return useMemo(
-    () => ({
-      busy: busy || articlesResult.busy || checkInsResult.busy,
-      data: list,
-    }),
-    [articlesResult.busy, checkInsResult.busy, list, busy]
-  );
+      const checkIn = checkInEntry.data;
+      if (!checkIn) {
+        return null;
+      }
+
+      const articleEntry = articleEntries[checkIn.articleId];
+      if (!articleEntry) {
+        return null;
+      }
+
+      result.push({
+        articleEntry,
+        checkInEntry,
+      });
+    }
+
+    return result;
+  }, [checkInIds, articleEntries, checkInEntries]);
 }

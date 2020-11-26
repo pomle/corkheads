@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { Container } from "types/Container";
-import { useArticleIndex } from "../algolia";
-import { notNull, QueryResult } from "../createStoreHook";
+import { Entry } from "types/Entry";
 import { useArticles } from "./useArticles";
+import { useArticleIndex } from "../algolia";
 
 export type ArticleSearchQuery = {
   search: {
@@ -13,37 +12,45 @@ export type ArticleSearchQuery = {
 
 export function useArticleSearch(
   query: ArticleSearchQuery
-): QueryResult<Container<Article>> {
+): Entry<Article>[] | null {
   const [ids, setIds] = useState<string[]>([]);
-  const [busy, setBusy] = useState<boolean>(false);
   const searchIndex = useArticleIndex();
+  const list = useRef<Entry<Article>[]>([]);
 
   useEffect(() => {
-    setBusy(true);
-
     searchIndex
       .search(query.search.text)
       .then((results) => {
         return results.hits.map((hit) => hit.objectID);
       })
-      .then(setIds)
-      .finally(() => {
-        setBusy(false);
-      });
-  }, [searchIndex, query]);
+      .then(setIds);
+  }, [setIds, searchIndex, query]);
 
   const articlesResult = useArticles(ids);
 
-  const list = useMemo(
-    () => ids.map((id) => articlesResult.data[id]).filter(notNull),
-    [ids, articlesResult.data]
-  );
+  return useMemo(() => {
+    if (!articlesResult) {
+      return null;
+    }
 
-  return useMemo(
-    () => ({
-      busy: busy || articlesResult.busy,
-      data: list,
-    }),
-    [articlesResult.busy, list, busy]
-  );
+    const newList: Entry<Article>[] = [];
+
+    let updateList = list.current.length !== ids.length;
+    for (let index = 0; index < ids.length; index += 1) {
+      const id = ids[index];
+      const entry = articlesResult[id];
+      if (entry) {
+        newList.push(entry);
+        if (newList[index] !== list.current[index]) {
+          updateList = true;
+        }
+      }
+    }
+
+    if (updateList) {
+      list.current = newList;
+    }
+
+    return list.current;
+  }, [ids, articlesResult]);
 }

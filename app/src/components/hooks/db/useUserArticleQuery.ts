@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Article } from "types/Article";
-import { Container } from "types/Container";
+import { Entry } from "types/Entry";
 import { UserArticle } from "types/UserArticle";
-import { notNull, QueryResult } from "../createStoreHook";
 import { useDB } from "../useDB";
 import { useArticles } from "./useArticles";
 import { useUserArticles } from "./useUserArticles";
@@ -22,13 +21,14 @@ export type UserArticleQuery = {
   limit?: number;
 };
 
+type UserArticleQueryResult = {
+  articleEntry: Entry<Article>;
+  userArticleEntry: Entry<UserArticle>;
+};
+
 export function useUserArticleQuery(
   query: UserArticleQuery
-): QueryResult<{
-  article: Container<Article>;
-  userArticle: Container<UserArticle>;
-}> {
-  const [busy, setBusy] = useState<boolean>(true);
+): UserArticleQueryResult[] | null {
   const [ids, setIds] = useState<string[]>([]);
 
   const db = useDB();
@@ -58,37 +58,34 @@ export function useUserArticleQuery(
     return q.onSnapshot((result) => {
       const ids = result.docs.map((doc) => doc.id);
       setIds(ids);
-      setBusy(false);
     });
   }, [db, query]);
 
   const userId = query.filters.userId;
-  const articlesResult = useArticles(ids);
-  const userArticlesResult = useUserArticles(userId, ids);
+  const articleEntries = useArticles(ids);
+  const userArticleEntries = useUserArticles(userId, ids);
 
-  const list = useMemo(() => {
-    return ids
-      .map((id) => {
-        const article = articlesResult.data[id];
-        const userArticle = userArticlesResult.data[id];
+  return useMemo(() => {
+    if (!articleEntries || !userArticleEntries) {
+      return null;
+    }
 
-        if (userArticle && article) {
-          return {
-            article,
-            userArticle,
-          };
-        }
+    const results: UserArticleQueryResult[] = [];
 
+    for (const id of ids) {
+      const articleEntry = articleEntries[id];
+      const userArticleEntry = userArticleEntries[id];
+
+      if (!articleEntry || !userArticleEntry) {
         return null;
-      })
-      .filter(notNull);
-  }, [ids, userArticlesResult.data, articlesResult.data]);
+      }
 
-  return useMemo(
-    () => ({
-      busy: busy || articlesResult.busy || userArticlesResult.busy,
-      data: list,
-    }),
-    [articlesResult.busy, userArticlesResult.busy, list, busy]
-  );
+      results.push({
+        articleEntry,
+        userArticleEntry,
+      });
+    }
+
+    return results;
+  }, [ids, articleEntries, userArticleEntries]);
 }

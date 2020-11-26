@@ -23,28 +23,24 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
     />
   );
 
-  const checkInResult = useCheckIn(checkInId);
-  const checkIn = checkInResult.data;
-  const articleId = checkIn ? checkIn.data.articleId : undefined;
+  const checkInEntry = useCheckIn(checkInId);
+  const articleId = checkInEntry ? checkInEntry?.data?.articleId : undefined;
 
-  const articlesResult = useArticles(articleId ? [articleId] : []);
-  const article = articleId ? articlesResult.data[articleId] : undefined;
+  const articleEntries = useArticles(articleId ? [articleId] : []);
+  const articleEntry = articleId && articleEntries && articleEntries[articleId];
 
-  if (checkInResult.busy || articlesResult.busy) {
+  if (!articleEntry || !checkInEntry) {
     return <LoadingView nav={nav} />;
   }
+
+  const checkIn = checkInEntry.data;
+  const article = articleEntry.data;
 
   if (!checkIn || !article) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
 
-  return (
-    <CheckInDetailsView
-      nav={nav}
-      checkIn={checkIn.data}
-      article={article.data}
-    />
-  );
+  return <CheckInDetailsView nav={nav} checkIn={checkIn} article={article} />;
 };
 
 export default CheckInPage;

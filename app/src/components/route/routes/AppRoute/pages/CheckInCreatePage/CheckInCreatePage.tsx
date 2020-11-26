@@ -26,14 +26,13 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
     history.push(url);
   }, [history]);
 
-  const result = useArticle(articleId);
-  const article = result.data;
+  const articleEntry = useArticle(articleId);
 
   const nav = (
     <NavigationBar
       back={
         <BackButton onClick={goToArticle}>
-          {article ? article.data.displayName : "Article"}
+          {articleEntry?.data?.displayName || "Article"}
         </BackButton>
       }
     />
@@ -41,10 +40,11 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
 
   const user = useUser();
 
-  if (result.busy || !user) {
+  if (!articleEntry || !user) {
     return <LoadingView nav={nav} />;
   }
 
+  const article = articleEntry.data;
   if (!article) {
     return <ErrorView nav={nav}>Not found</ErrorView>;
   }
@@ -53,7 +53,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
     <CheckInCreateView
       key={history.location.key}
       nav={nav}
-      article={article.data}
+      article={article}
       user={user}
       onSuccess={goToProfile}
     />
