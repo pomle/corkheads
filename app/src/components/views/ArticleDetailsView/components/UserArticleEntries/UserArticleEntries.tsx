@@ -33,19 +33,44 @@ function entriesEqual(a: Record<string, any>, b: Record<string, any>) {
 
 const SAVE_TIMEOUT = 5000;
 
+function toNumberMaybe(source: unknown) {
+  const maybeNumber = parseFloat(source as string);
+  if (isFinite(maybeNumber)) {
+    return maybeNumber as number;
+  }
+  return NaN;
+}
+
 function toCollection(source: Entries): UserArticle["collection"] {
-  return {
-    abv: parseFloat(source.abv) / 100,
-    aged: {
-      years: parseFloat(source.aged),
-    },
-    bottled: {
-      year: parseFloat(source.bottled),
-    },
-    bottles: {
-      count: parseFloat(source.bottles),
-    },
-  };
+  const collection: UserArticle["collection"] = Object.create(null);
+
+  const alcoholPercentage = toNumberMaybe(source.abv);
+  if (!isNaN(alcoholPercentage)) {
+    collection.abv = alcoholPercentage / 100;
+  }
+
+  const agedTimeYears = toNumberMaybe(source.aged);
+  if (!isNaN(agedTimeYears)) {
+    collection.aged = {
+      years: agedTimeYears,
+    };
+  }
+
+  const yearBottled = toNumberMaybe(source.bottled);
+  if (!isNaN(yearBottled)) {
+    collection.bottled = {
+      year: yearBottled,
+    };
+  }
+
+  const bottleCount = toNumberMaybe(source.bottles);
+  if (!isNaN(bottleCount)) {
+    collection.bottles = {
+      count: bottleCount,
+    };
+  }
+
+  return collection;
 }
 
 interface UserArticleEntriesProps {
