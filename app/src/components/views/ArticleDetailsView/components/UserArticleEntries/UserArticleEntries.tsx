@@ -93,12 +93,9 @@ const UserArticleEntries: React.FC<UserArticleEntriesProps> = ({
   const store = useCallback(
     (entries: Entries) => {
       const collection = toCollection(entries);
-      userArticleEntry.ref.set(
-        {
-          collection,
-        },
-        { merge: true }
-      );
+      userArticleEntry.ref.update({
+        collection,
+      });
     },
     [userArticleEntry]
   );
