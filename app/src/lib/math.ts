@@ -44,3 +44,33 @@ export const clamp = (value: number, min: number, max: number) => {
   }
   return value;
 };
+
+type Rect = {
+  x: number;
+  y: number;
+};
+
+export function fitRect(rect: Rect, bounds: Rect): Rect {
+  const aspectRatio = rect.x / rect.y;
+
+  const size = {
+    x: bounds.y * aspectRatio,
+    y: bounds.x / aspectRatio,
+  };
+
+  if (size.y > bounds.y) {
+    size.y = bounds.y;
+  } else {
+    size.x = bounds.x;
+  }
+
+  return { ...size };
+}
+
+export function shrinkToFitRect(rect: Rect, bounds: Rect): Rect {
+  if (rect.x < bounds.x && rect.y < bounds.y) {
+    return { ...rect };
+  }
+
+  return fitRect(rect, bounds);
+}
