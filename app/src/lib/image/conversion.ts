@@ -1,7 +1,4 @@
-export type Size = {
-  width: number;
-  height: number;
-};
+import { Size } from "./size";
 
 type Format = "image/jpeg" | "image/png" | "image/webp";
 

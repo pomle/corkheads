@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useStorage } from "components/hooks/useStorage";
 import { User } from "types/User";
-import { downscale, loadFileAsImage } from "lib/imageFormat";
-import { Size } from "lib/image";
+import { Size } from "lib/image/size";
+import { downscale, loadFileAsImage } from "lib/image/format";
 
 export type ImageUpload = {
   fileId: string;
