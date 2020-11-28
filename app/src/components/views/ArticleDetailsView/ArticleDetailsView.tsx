@@ -70,7 +70,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         </div>
 
         <div className={classes.userSection}>
-          <UserSections userArticleEntry={userArticleEntry} />
+          <UserSections
+            articleEntry={articleEntry}
+            userArticleEntry={userArticleEntry}
+          />
         </div>
       </ViewBody>
     </HeaderLayout>
