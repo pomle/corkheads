@@ -115,7 +115,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
           <Section
             header={
               <SectionTitle
-                main="Top drinks"
+                main="Favorites"
                 context={<a href="/">See all</a>}
               />
             }
