@@ -1,8 +1,12 @@
 import { useCallback } from "react";
 import { User } from "types/User";
-import { useUserUpload } from "components/hooks/useUserUpload";
 import { Article } from "types/Article";
 import { useDB } from "components/hooks/useDB";
+import {
+  ImageUpload,
+  useUserImageUpload,
+} from "components/hooks/useUserImageUpload";
+import { findBestSizeMatch, Size } from "lib/image/size";
 
 type Payload = {
   user: User;
@@ -10,16 +14,30 @@ type Payload = {
   file?: File;
 };
 
+function findIdealUpload(uploads: ImageUpload[], imageSize: Size) {
+  const sizes = uploads.map((u) => u.size);
+  const size = findBestSizeMatch(sizes, imageSize);
+  return uploads.find((u) => u.size === size);
+}
+
+function getPhotoURL(uploads: ImageUpload[]) {
+  const upload = findIdealUpload(uploads, { width: 1280, height: 1280 });
+  return upload?.task.then((snap) => {
+    return snap.ref.getDownloadURL() as Promise<string>;
+  });
+}
+
 export function useCommitArticle() {
-  const uploadFile = useUserUpload();
+  const uploadFile = useUserImageUpload();
   const db = useDB();
 
   return useCallback(
     async ({ user, article, file }: Payload) => {
-      const uploadResult = await (file && uploadFile(user, file));
-
-      const photoURL = await (uploadResult &&
-        (uploadResult.ref.getDownloadURL() as Promise<string>));
+      let photoURL;
+      if (file) {
+        const result = await uploadFile(user, file);
+        photoURL = await getPhotoURL(result);
+      }
 
       const data = {
         ...article,
