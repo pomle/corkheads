@@ -1,5 +1,6 @@
-import { shrinkToFitRect } from "./math";
-import { createBlob, loadImage, resize, Size } from "./image";
+import { shrinkToFitRect } from "lib/math";
+import { createBlob, loadImage, resize } from "./conversion";
+import { Size } from "./size";
 
 export function loadFileAsImage(file: File): Promise<HTMLImageElement> {
   const fileURL = URL.createObjectURL(file);
