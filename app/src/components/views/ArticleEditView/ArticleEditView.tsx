@@ -12,6 +12,8 @@ import { User } from "types/User";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useCommitArticle } from "./hooks";
 import Photo from "components/ui/layout/Photo";
+import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
+import { Bottling } from "types/Bottling";
 
 const useStyles = makeStyles({
   form: {
@@ -95,9 +97,9 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     [updateArticle]
   );
 
-  const setManufacturer = useCallback(
-    (manufacturer: string) => {
-      updateArticle({ manufacturer });
+  const setBottling = useCallback(
+    (bottling: Bottling) => {
+      updateArticle({ bottling });
     },
     [updateArticle]
   );
@@ -139,18 +141,18 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
             <div className="fields">
               <input
                 type="text"
-                placeholder="Drink name"
+                placeholder="Display name"
                 value={article.displayName}
                 onChange={(event) => setDisplayName(event.target.value)}
               />
-
-              <input
-                type="text"
-                placeholder="Manufacturer"
-                value={article.manufacturer}
-                onChange={(event) => setManufacturer(event.target.value)}
-              />
             </div>
+
+            {article.bottling && (
+              <BottlingUserInput
+                bottling={article.bottling}
+                onChange={setBottling}
+              />
+            )}
 
             {photoURL ? (
               <div className="photo" onClick={clearPhoto}>

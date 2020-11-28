@@ -6,12 +6,14 @@ import ArticleEditView from "components/views/ArticleEditView";
 import { Article } from "types/Article";
 import LoadingView from "components/views/LoadingView";
 import { useUser } from "components/hooks/useUser";
+import { createBottling } from "types/Bottling";
 
 function createDefaultArticle(): Article {
   return {
     id: "",
     displayName: "",
     manufacturer: "",
+    bottling: createBottling(),
   };
 }
 
