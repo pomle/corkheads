@@ -3,8 +3,8 @@ import * as firebase from "firebase/app";
 import { useDB } from "components/hooks/useDB";
 import { User } from "types/User";
 import { CheckIn } from "types/CheckIn";
-import { useUserUpload } from "components/hooks/useUserUpload";
 import { useCollection } from "components/hooks/db/useCollection";
+import { usePhotoUpload } from "components/hooks/usePhotoUpload";
 
 type Payload = {
   user: User;
@@ -14,7 +14,7 @@ type Payload = {
 
 export function useCommitCheckIn() {
   const db = useDB();
-  const uploadFile = useUserUpload();
+  const uploadFile = usePhotoUpload();
 
   const checkInsCollection = useCollection().checkIn;
 
@@ -23,13 +23,8 @@ export function useCommitCheckIn() {
       // Make a deep copy because it may be mutated in the photoURL assign.
       const checkIn = { ...checkInSource };
 
-      const uploadResult = await (file && uploadFile(user, file));
-
-      const photoURL = await (uploadResult &&
-        (uploadResult.ref.getDownloadURL() as Promise<string>));
-
-      if (photoURL) {
-        checkIn.photoURL = photoURL;
+      if (file) {
+        checkIn.photoURL = await uploadFile(file);
       }
 
       const batch = db.batch();
