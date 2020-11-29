@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-function resolveTitle(user: firebase.User, userData: UserData) {
+function resolveDisplayName(user: User, userData: UserData) {
   if (userData.displayName) {
     return userData.displayName;
   }
@@ -69,7 +69,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
         </div>
       </ImageSelect>
 
-      <h2 className={classes.identity}>{resolveTitle(user, userData)}</h2>
+      <h2 className={classes.identity}>{resolveDisplayName(user, userData)}</h2>
     </div>
   );
 };
