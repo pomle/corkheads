@@ -22,10 +22,13 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
     history.push(url);
   }, [articleId, history]);
 
-  const goToProfile = useCallback(() => {
-    const url = paths.profileView.url({});
-    history.push(url);
-  }, [history]);
+  const goToCheckIn = useCallback(
+    (checkInId: string) => {
+      const url = paths.checkInView.url({ checkInId });
+      history.push(url);
+    },
+    [history]
+  );
 
   const articleEntry = useArticle(articleId);
 
@@ -59,7 +62,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
             nav={nav}
             article={article}
             user={user}
-            onSuccess={goToProfile}
+            onSuccess={goToCheckIn}
           />
         );
       }}

@@ -42,7 +42,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   userArticle,
 }) => {
   const { displayName, manufacturer, photoURL } = article;
-  const { checkIns, rating, loveIt } = userArticle;
+  const { checkIns, rating } = userArticle;
 
   const classes = useStyles();
 
@@ -52,8 +52,8 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
       <div className={classes.manufacturer}>{manufacturer}</div>
       <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>
-        {loveIt && <span>💖</span>}
-        {rating && <Rating rating={rating / 5} />}
+        {rating?.love && <span>💖</span>}
+        {rating?.score && <Rating rating={rating.score / 5} />}
       </div>
     </ImageItem>
   );
