@@ -8,8 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
-import { UserArticle } from "types/UserArticle";
-import { Entry } from "types/Entry";
+import { useArticle } from "components/hooks/db/useArticles";
 
 const useStyles = makeStyles({
   photo: {
@@ -32,8 +31,8 @@ const useStyles = makeStyles({
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
-  articleEntry: Entry<Article>;
-  userArticleEntry: Entry<UserArticle>;
+  userId: string;
+  articleId: string;
 }
 
 const PLACEHOLDER: Article = {
@@ -44,10 +43,12 @@ const PLACEHOLDER: Article = {
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
-  articleEntry,
-  userArticleEntry,
+  userId,
+  articleId,
 }) => {
-  const { displayName, photoURL } = articleEntry.data || PLACEHOLDER;
+  const articleEntry = useArticle(articleId);
+
+  const { displayName, photoURL } = articleEntry?.data || PLACEHOLDER;
 
   const classes = useStyles();
 
@@ -63,17 +64,11 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         </div>
 
         <div className={classes.actionBox}>
-          <ActionBox
-            articleEntry={articleEntry}
-            userArticleEntry={userArticleEntry}
-          />
+          <ActionBox userId={userId} articleId={articleId} />
         </div>
 
         <div className={classes.userSection}>
-          <UserSections
-            articleEntry={articleEntry}
-            userArticleEntry={userArticleEntry}
-          />
+          <UserSections userId={userId} articleId={articleId} />
         </div>
       </ViewBody>
     </HeaderLayout>

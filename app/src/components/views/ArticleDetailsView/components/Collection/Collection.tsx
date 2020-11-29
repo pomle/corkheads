@@ -52,7 +52,7 @@ const Collection: React.FC<CollectionProps> = ({ userId, articleId }) => {
     [userArticleEntry]
   );
 
-  const { owner, tryIt } = userArticleEntry.data || {
+  const { owner, tryIt } = userArticleEntry?.data || {
     owner: false,
     tryIt: false,
   };
