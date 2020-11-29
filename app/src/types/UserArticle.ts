@@ -1,14 +1,15 @@
 import { createConverter } from "lib/firestore/converter";
+import { upgrade } from "./versioning/UserArticle/upgrade";
 import { Bottling } from "./Bottling";
 import { Inventory } from "./Inventory";
+import { Rating } from "./Rating";
 
 export type UserArticle = {
   id: string;
   checkIns: number;
   owner: boolean;
-  loveIt: boolean;
   tryIt?: boolean;
-  rating?: number;
+  rating?: Rating;
   bottling?: Bottling;
   inventory?: Inventory;
 };
@@ -17,7 +18,6 @@ const DEFAULTS: UserArticle = {
   id: "",
   checkIns: 0,
   owner: false,
-  loveIt: false,
 };
 
 export const converter = createConverter<UserArticle>({
@@ -26,9 +26,9 @@ export const converter = createConverter<UserArticle>({
   },
 
   from(snapshot) {
-    return {
+    return upgrade({
       ...DEFAULTS,
       ...snapshot.data({ serverTimestamps: "estimate" }),
-    };
+    });
   },
 });

@@ -27,7 +27,7 @@ export function useUserData(
 
   const updateUser = useCallback(
     async (userData: UserData) => {
-      return userRef.set(userData);
+      return userRef.set(userData, { merge: true });
     },
     [userRef]
   );

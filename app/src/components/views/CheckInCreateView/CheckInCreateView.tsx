@@ -14,6 +14,7 @@ import SectionList from "components/ui/layout/SectionList";
 import { useCommitCheckIn } from "./hooks";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import Photo from "components/ui/layout/Photo";
+import { Rating } from "types/Rating";
 
 const useStyles = makeStyles({
   "@keyframes beat": {
@@ -77,7 +78,10 @@ function createCheckIn(article: Article, user: User): CheckIn {
     id: "",
     userId: user.uid,
     articleId: article.id,
-    loveIt: false,
+    rating: {
+      score: undefined,
+      love: false,
+    },
   };
 }
 
@@ -85,7 +89,7 @@ interface CheckInCreateViewProps {
   nav: React.ReactNode;
   article: Article;
   user: User;
-  onSuccess: () => void;
+  onSuccess: (checkInId: string) => void;
 }
 
 const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
@@ -100,6 +104,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const [file, setFile] = useState<File>();
 
   const [checkIn, setCheckIn] = useState<CheckIn>(initial);
+  const { rating } = checkIn;
 
   const updateCheckIn = useCallback(
     (update: Partial<CheckIn>) => {
@@ -111,19 +116,26 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
     [setCheckIn]
   );
 
-  const setRating = useCallback(
-    (rating: number) => {
-      updateCheckIn({ rating });
-      if (rating < 5) {
-        updateCheckIn({ loveIt: false });
-      }
+  const updateRating = useCallback(
+    (data: Partial<Rating>) => {
+      updateCheckIn({ rating: { ...rating, ...data } });
     },
-    [updateCheckIn]
+    [rating, updateCheckIn]
+  );
+
+  const setScore = useCallback(
+    (score: number) => {
+      if (score !== 5) {
+        updateRating({ love: true });
+      }
+      updateRating({ score });
+    },
+    [updateRating]
   );
 
   const setLoveIt = useCallback(() => {
-    updateCheckIn({ loveIt: true });
-  }, [updateCheckIn]);
+    updateRating({ love: true });
+  }, [updateRating]);
 
   const handleFile = useCallback((file: File) => {
     setFile(file);
@@ -142,17 +154,15 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const commitCheckIn = useCommitCheckIn();
 
   const handleCheckIn = useCallback(() => {
-    commitCheckIn({ user, checkIn, file }).then(() => {
-      onSuccess();
+    commitCheckIn({ user, checkIn, file }).then((ref) => {
+      onSuccess(ref.id);
     });
   }, [file, user, checkIn, commitCheckIn, onSuccess]);
 
   const canCheckIn = isCheckInValid(checkIn);
-
-  const canLoveIt = checkIn.rating === 5;
+  const canLoveIt = rating.score === 5;
 
   const { displayName, manufacturer } = article;
-  const { rating, loveIt } = checkIn;
 
   const classes = useStyles();
 
@@ -170,11 +180,11 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
           </div>
 
           <div className={classes.rating}>
-            <RatingInput rating={rating || 0} onChange={setRating} />
+            <RatingInput rating={rating.score || 0} onChange={setScore} />
             {canLoveIt && (
               <button
                 type="button"
-                className={loveIt ? "loveIt active" : "loveIt"}
+                className={rating.love ? "loveIt active" : "loveIt"}
                 onClick={setLoveIt}
               >
                 💖

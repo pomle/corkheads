@@ -83,7 +83,13 @@ const ActionBox: React.FC<ActionBoxProps> = ({
         />
         <NameValue
           name="My rating"
-          value={myRating ? <NumberedRating value={myRating} max={5} /> : "-"}
+          value={
+            myRating?.score ? (
+              <NumberedRating value={myRating.score} max={5} />
+            ) : (
+              "-"
+            )
+          }
         />
         <NameValue name="Brand" value={article?.manufacturer || "-"} />
       </NameValueList>

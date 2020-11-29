@@ -6,6 +6,7 @@ import {
   ensureRatingAggregate,
   ensureScore,
   getRating,
+  getScore,
 } from "../integrity";
 
 describe("#ensureScore", () => {
@@ -84,6 +85,28 @@ describe("#getRating", () => {
   });
 });
 
+describe("#getScore", () => {
+  it("returns number if object is a number", () => {
+    expect(getScore(5)).toBe(5);
+  });
+
+  it("returns score from rating object", () => {
+    expect(getScore({ score: 5 })).toBe(5);
+  });
+
+  it("returns undefined from rating object", () => {
+    expect(getScore({ score: undefined })).toBe(undefined);
+  });
+
+  it("returns undefined if score is flat undefined", () => {
+    expect(getScore(undefined)).toBe(undefined);
+  });
+
+  it("returns undefined if score is emtpy rating", () => {
+    expect(getScore({})).toBe(undefined);
+  });
+});
+
 describe("#createRatingAggregateDelta", () => {
   it("returns blank score for no input", () => {
     expect(createRatingAggregateDelta(undefined, undefined)).toEqual({
@@ -145,25 +168,25 @@ describe("#createRatingAggregateDelta", () => {
 describe("#createNewAggregate", () => {
   it("returns a new aggregate a new rating that is not existing", () => {
     const aggregate = createNewAggregate(
-        ({
-          before: {
-            data() {
-              return undefined;
-            },
-          },
-          after: {
-            data() {
-              return { rating: 5 };
-            },
-          },
-        } as unknown) as Change<DocumentSnapshot>,
-
-        ({
+      ({
+        before: {
           data() {
             return undefined;
           },
-        } as unknown) as DocumentSnapshot
-      );
+        },
+        after: {
+          data() {
+            return { rating: 5 };
+          },
+        },
+      } as unknown) as Change<DocumentSnapshot>,
+
+      ({
+        data() {
+          return undefined;
+        },
+      } as unknown) as DocumentSnapshot
+    );
     expect(aggregate).toEqual({ sum: 5, count: 1 });
   });
 
@@ -213,5 +236,53 @@ describe("#createNewAggregate", () => {
       } as unknown) as DocumentSnapshot
     );
     expect(aggregate).toEqual({ sum: 2, count: 1 });
+  });
+
+  it("handles transition to new Rating type", () => {
+    const aggregate = createNewAggregate(
+      ({
+        before: {
+          data() {
+            return { rating: 5 };
+          },
+        },
+        after: {
+          data() {
+            return { rating: { score: 3, love: false } };
+          },
+        },
+      } as unknown) as Change<DocumentSnapshot>,
+
+      ({
+        data() {
+          return { ratingAggregate: { sum: 5, count: 1 } };
+        },
+      } as unknown) as DocumentSnapshot
+    );
+    expect(aggregate).toEqual({ sum: 3, count: 1 });
+  });
+
+  it("handles Rating type", () => {
+    const aggregate = createNewAggregate(
+      ({
+        before: {
+          data() {
+            return { rating: { score: 5, love: true } };
+          },
+        },
+        after: {
+          data() {
+            return { rating: { score: 3, love: false } };
+          },
+        },
+      } as unknown) as Change<DocumentSnapshot>,
+
+      ({
+        data() {
+          return { ratingAggregate: { sum: 5, count: 1 } };
+        },
+      } as unknown) as DocumentSnapshot
+    );
+    expect(aggregate).toEqual({ sum: 3, count: 1 });
   });
 });

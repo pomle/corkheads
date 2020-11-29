@@ -54,7 +54,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
   const { displayName, manufacturer } = article;
-  const { rating, loveIt, timestamp } = checkIn;
+  const { rating, timestamp } = checkIn;
 
   const classes = useStyles();
 
@@ -66,8 +66,8 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
         {timestamp && <PassedTime date={timestamp} />}
       </div>
       <div className={classes.rating}>
-        {loveIt && <span>💖</span>}
-        {rating && <Rating rating={rating / 5} />}
+        {rating.love && <span>💖</span>}
+        {rating.score && <Rating rating={rating.score / 5} />}
       </div>
     </ImageItem>
   );

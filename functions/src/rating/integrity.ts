@@ -50,9 +50,12 @@ export function getRating(data: any): RatingAggregate {
 }
 
 export function createRatingAggregateDelta(
-  prevScore: number | undefined,
-  nextScore: number | undefined
+  prevRating: unknown,
+  nextRating: unknown
 ) {
+  const prevScore = getScore(prevRating);
+  const nextScore = getScore(nextRating);
+
   const ratingDelta: RatingAggregate = {
     count: 0,
     sum: 0,
@@ -89,6 +92,17 @@ export function sumRatingAggregates(
     count: a.count + b.count,
     sum: a.sum + b.sum,
   };
+}
+
+export function getScore(ratingField: unknown): number | undefined {
+  if (typeof ratingField === "object") {
+    const rating = ratingField ? (ratingField as { score?: number }) : {};
+    return rating?.score;
+  }
+  if (typeof ratingField === "number") {
+    return ratingField;
+  }
+  return;
 }
 
 export function createNewAggregate(
