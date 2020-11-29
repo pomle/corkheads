@@ -1,8 +1,7 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ToggleButton from "components/ui/trigger/ToggleButton";
-import { UserArticle } from "types/UserArticle";
-import { Entry } from "types/Entry";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 const useStyles = makeStyles({
   Collection: {
@@ -15,12 +14,19 @@ const useStyles = makeStyles({
 });
 
 interface CollectionProps {
-  userArticleEntry: Entry<UserArticle>;
+  userId: string;
+  articleId: string;
 }
 
-const Collection: React.FC<CollectionProps> = ({ userArticleEntry }) => {
+const Collection: React.FC<CollectionProps> = ({ userId, articleId }) => {
+  const userArticleEntry = useUserArticle(userId, articleId);
+
   const setOwner = useCallback(
     (owner: boolean) => {
+      if (!userArticleEntry) {
+        return;
+      }
+
       userArticleEntry.doc.set(
         {
           owner,
@@ -33,6 +39,9 @@ const Collection: React.FC<CollectionProps> = ({ userArticleEntry }) => {
 
   const setTryer = useCallback(
     (tryIt: boolean) => {
+      if (!userArticleEntry) {
+        return;
+      }
       userArticleEntry.doc.set(
         {
           tryIt,
