@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Rating from "components/ui/indicators/Rating";
+import Number from "components/ui/format/Number";
 
 const useStyles = makeStyles({
   NumberedRating: {
@@ -20,7 +21,10 @@ const NumberedRating: React.FC<NumberedRatingProps> = ({ value, max }) => {
   return (
     <div className={classes.NumberedRating}>
       <Rating rating={value / max} />
-      <div>&nbsp;{value.toFixed(1)}</div>
+      <div>
+        &nbsp;
+        <Number value={value} decimals={1} />
+      </div>
     </div>
   );
 };
