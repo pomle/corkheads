@@ -14,10 +14,7 @@ module.exports = {
     project: "tsconfig.json",
     sourceType: "module",
   },
-  plugins: [
-    "@typescript-eslint",
-    "import",
-  ],
+  plugins: ["@typescript-eslint", "import"],
   rules: {
     "@typescript-eslint/adjacent-overload-signatures": "error",
     "@typescript-eslint/no-empty-function": "error",
@@ -28,7 +25,7 @@ module.exports = {
     "@typescript-eslint/prefer-for-of": "warn",
     "@typescript-eslint/triple-slash-reference": "error",
     "@typescript-eslint/unified-signatures": "warn",
-    "comma-dangle": "warn",
+    "comma-dangle": 0,
     "constructor-super": "error",
     eqeqeq: ["warn", "always"],
     "import/no-deprecated": "warn",
