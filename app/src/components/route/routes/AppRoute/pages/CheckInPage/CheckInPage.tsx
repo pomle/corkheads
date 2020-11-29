@@ -8,6 +8,7 @@ import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
 import { useHistory } from "react-router-dom";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
+import ErrorBoundary from "components/views/ErrorBoundaryView";
 
 const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const history = useHistory();
@@ -29,18 +30,26 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const articleEntries = useArticles(articleId ? [articleId] : []);
   const articleEntry = articleId && articleEntries && articleEntries[articleId];
 
-  if (!articleEntry || !checkInEntry) {
-    return <LoadingView nav={nav} />;
-  }
+  return (
+    <ErrorBoundary nav={nav}>
+      {() => {
+        if (!articleEntry || !checkInEntry) {
+          return <LoadingView nav={nav} />;
+        }
 
-  const checkIn = checkInEntry.data;
-  const article = articleEntry.data;
+        const checkIn = checkInEntry.data;
+        const article = articleEntry.data;
 
-  if (!checkIn || !article) {
-    return <ErrorView nav={nav}>Not found</ErrorView>;
-  }
+        if (!checkIn || !article) {
+          return <ErrorView nav={nav}>Not found</ErrorView>;
+        }
 
-  return <CheckInDetailsView nav={nav} checkIn={checkIn} article={article} />;
+        return (
+          <CheckInDetailsView nav={nav} checkIn={checkIn} article={article} />
+        );
+      }}
+    </ErrorBoundary>
+  );
 };
 
 export default CheckInPage;

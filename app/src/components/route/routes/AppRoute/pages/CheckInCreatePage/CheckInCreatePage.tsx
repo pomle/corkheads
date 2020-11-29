@@ -8,6 +8,7 @@ import * as paths from "components/route/paths";
 import { useHistory } from "react-router-dom";
 import { useUser } from "components/hooks/useUser";
 import ErrorView from "components/views/ErrorView";
+import ErrorBoundary from "components/views/ErrorBoundaryView";
 
 interface CheckInCreatePageProps {
   articleId: string;
@@ -40,23 +41,29 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
 
   const user = useUser();
 
-  if (!articleEntry || !user) {
-    return <LoadingView nav={nav} />;
-  }
-
-  const article = articleEntry.data;
-  if (!article) {
-    return <ErrorView nav={nav}>Not found</ErrorView>;
-  }
-
   return (
-    <CheckInCreateView
-      key={history.location.key}
-      nav={nav}
-      article={article}
-      user={user}
-      onSuccess={goToProfile}
-    />
+    <ErrorBoundary nav={nav}>
+      {() => {
+        if (!articleEntry || !user) {
+          return <LoadingView nav={nav} />;
+        }
+
+        const article = articleEntry.data;
+        if (!article) {
+          return <ErrorView nav={nav}>Not found</ErrorView>;
+        }
+
+        return (
+          <CheckInCreateView
+            key={history.location.key}
+            nav={nav}
+            article={article}
+            user={user}
+            onSuccess={goToProfile}
+          />
+        );
+      }}
+    </ErrorBoundary>
   );
 };
 

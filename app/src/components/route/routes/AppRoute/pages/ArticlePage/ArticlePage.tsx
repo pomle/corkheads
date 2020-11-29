@@ -10,6 +10,7 @@ import { useArticle } from "components/hooks/db/useArticles";
 import { useUser } from "components/hooks/useUser";
 import { User } from "types/User";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
+import ErrorBoundary from "components/views/ErrorBoundaryView";
 
 const WithUser: React.FC<{ children: React.FC<{ user: User }> }> = ({
   children: render,
@@ -42,20 +43,26 @@ const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
   const articleEntry = useArticle(articleId);
   const userArticleEntry = useUserArticle(userId, articleId);
 
-  if (!articleEntry || !userArticleEntry) {
-    return <LoadingView nav={nav} />;
-  }
-
-  if (!articleEntry.data) {
-    return <ErrorView nav={nav}>Not found</ErrorView>;
-  }
-
   return (
-    <ArticleDetailsView
-      nav={nav}
-      articleEntry={articleEntry}
-      userArticleEntry={userArticleEntry}
-    />
+    <ErrorBoundary nav={nav}>
+      {() => {
+        if (!articleEntry || !userArticleEntry) {
+          return <LoadingView nav={nav} />;
+        }
+
+        if (!articleEntry.data) {
+          return <ErrorView nav={nav}>Not found</ErrorView>;
+        }
+
+        return (
+          <ArticleDetailsView
+            nav={nav}
+            articleEntry={articleEntry}
+            userArticleEntry={userArticleEntry}
+          />
+        );
+      }}
+    </ErrorBoundary>
   );
 };
 
