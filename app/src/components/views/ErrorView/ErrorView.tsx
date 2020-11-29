@@ -10,11 +10,13 @@ const useStyles = makeStyles({
     margin: 24,
     "& h3": {
       color: "#BBB",
+      margin: "32px",
       textAlign: "center",
     },
     "& p": {
       color: "#666",
       lineHeight: 1.4,
+      textAlign: "center",
     },
   },
 });
