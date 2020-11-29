@@ -6,7 +6,7 @@ export function toMoment(timestamp: firebase.firestore.Timestamp) {
     return moment(timestamp.toDate());
   } catch (error) {
     console.error("Invalid timestamp", timestamp);
-    return undefined;
+    return moment.invalid();
   }
 }
 
