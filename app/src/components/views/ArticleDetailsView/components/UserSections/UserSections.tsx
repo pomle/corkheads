@@ -3,15 +3,14 @@ import { makeStyles } from "@material-ui/styles";
 import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import { Entry } from "types/Entry";
-import { UserArticle } from "types/UserArticle";
 import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
-import { Article } from "types/Article";
 import { Bottling } from "types/Bottling";
 import InventoryUserInput from "components/fragments/Inventory/InventoryUserInput";
 import { Inventory } from "types/Inventory";
 import { diffBottling, getBottling } from "lib/patch";
 import { debounce } from "lib/debounce";
+import { useArticle } from "components/hooks/db/useArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 const useStyles = makeStyles({
   section: {
@@ -23,18 +22,16 @@ const useStyles = makeStyles({
 const STORE_DELAY = 5000;
 
 interface UserSectionsProps {
-  articleEntry: Entry<Article>;
-  userArticleEntry: Entry<UserArticle>;
+  userId: string;
+  articleId: string;
 }
 
-const UserSections: React.FC<UserSectionsProps> = ({
-  articleEntry,
-  userArticleEntry,
-}) => {
-  const { owner } = userArticleEntry.data || { owner: false };
+const UserSections: React.FC<UserSectionsProps> = ({ userId, articleId }) => {
+  const articleEntry = useArticle(articleId);
+  const userArticleEntry = useUserArticle(userId, articleId);
 
-  const article = articleEntry.data;
-  const userArticle = userArticleEntry.data;
+  const article = articleEntry?.data;
+  const userArticle = userArticleEntry?.data;
 
   const initialBottling = useMemo(() => {
     if (article && userArticle) {
@@ -49,13 +46,22 @@ const UserSections: React.FC<UserSectionsProps> = ({
     setBottling(initialBottling);
   }, [initialBottling]);
 
-  const inventory = userArticleEntry.data?.inventory || { bottlesOwned: 0 };
-
   const handleChangeBottling = useMemo(() => {
-    const existingBottling = article?.bottling;
+    if (!userArticleEntry) {
+      return;
+    }
+
+    const article = articleEntry?.data;
+    const userArticle = userArticleEntry?.data;
+
+    if (!article || !userArticle) {
+      return;
+    }
+
     return debounce((bottling: Bottling) => {
       let effective = bottling;
 
+      const existingBottling = article?.bottling;
       if (existingBottling) {
         effective = diffBottling(existingBottling, effective);
       }
@@ -64,23 +70,29 @@ const UserSections: React.FC<UserSectionsProps> = ({
         bottling: effective,
       });
     }, STORE_DELAY);
-  }, [article, userArticleEntry.doc]);
+  }, [articleEntry, userArticleEntry]);
+
+  const inventory = userArticleEntry?.data?.inventory;
 
   const handleChangeInventory = useMemo(() => {
+    if (!userArticleEntry) {
+      return;
+    }
+
     return debounce((inventory: Inventory) => {
       userArticleEntry.doc.update({
         inventory,
       });
     }, STORE_DELAY);
-  }, [userArticleEntry.doc]);
+  }, [userArticleEntry]);
 
-  const classes = useStyles({ owner });
+  const classes = useStyles();
 
   return (
     <SectionList>
       <Section header={<SectionTitle main="My collection" />}>
         <div className={classes.section}>
-          {inventory && (
+          {inventory && handleChangeInventory && (
             <InventoryUserInput
               inventory={inventory}
               onChange={handleChangeInventory}
@@ -91,7 +103,7 @@ const UserSections: React.FC<UserSectionsProps> = ({
 
       <Section header={<SectionTitle main="Whiskey data" />}>
         <div className={classes.section}>
-          {bottling && (
+          {bottling && handleChangeBottling && (
             <BottlingUserInput
               bottling={bottling}
               onChange={handleChangeBottling}

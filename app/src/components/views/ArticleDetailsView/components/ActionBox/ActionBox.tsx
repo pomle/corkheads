@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import { Article } from "types/Article";
 import ActionButton from "components/ui/trigger/ActionButton";
 import NameValueList from "components/ui/layout/NameValueList";
 import NameValue from "components/ui/layout/NameValue";
@@ -9,8 +8,8 @@ import { makeStyles } from "@material-ui/styles";
 import { RatingAggregate } from "types/RatingAggregate";
 import NumberedRating from "../NumberedRating";
 import Collection from "../Collection";
-import { UserArticle } from "types/UserArticle";
-import { Entry } from "types/Entry";
+import { useArticle } from "components/hooks/db/useArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 const useStyles = makeStyles({
   ActionBox: {
@@ -39,27 +38,27 @@ function calcAverageRating(agg: RatingAggregate): number {
 }
 
 interface ActionBoxProps {
-  articleEntry: Entry<Article>;
-  userArticleEntry: Entry<UserArticle>;
+  userId: string;
+  articleId: string;
 }
 
-const ActionBox: React.FC<ActionBoxProps> = ({
-  articleEntry,
-  userArticleEntry,
-}) => {
+const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
+  const articleEntry = useArticle(articleId);
+  const userArticleEntry = useUserArticle(userId, articleId);
+
   const history = useHistory();
   const goToCheckIn = useCallback(() => {
-    const url = paths.articleCheckIn.url({ articleId: articleEntry.id });
+    const url = paths.articleCheckIn.url({ articleId });
     history.push(url);
-  }, [articleEntry.id, history]);
+  }, [articleId, history]);
 
-  const article = articleEntry.data;
+  const article = articleEntry?.data;
 
   const averageRating = article?.ratingAggregate
     ? calcAverageRating(article.ratingAggregate)
     : null;
 
-  const myRating = userArticleEntry.data?.rating;
+  const myRating = userArticleEntry?.data?.rating;
 
   const classes = useStyles();
 
@@ -69,7 +68,7 @@ const ActionBox: React.FC<ActionBoxProps> = ({
         Check in
       </ActionButton>
       <NameValueList>
-        <Collection userArticleEntry={userArticleEntry} />
+        <Collection userId={userId} articleId={articleId} />
 
         <NameValue
           name="Global rating"
