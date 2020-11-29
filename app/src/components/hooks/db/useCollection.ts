@@ -3,6 +3,7 @@ import { useDB } from "components/hooks/useDB";
 import { converter as article } from "types/Article";
 import { converter as checkIn } from "types/CheckIn";
 import { converter as userArticle } from "types/UserArticle";
+import { converter as userCollectionArticle } from "types/UserCollectionArticle";
 import { converter as userWishlistArticle } from "types/UserWishlistArticle";
 
 export function useCollection() {
@@ -26,6 +27,9 @@ export function useUserCollection(userId: string) {
       userArticle: userCollection
         .collection("articles")
         .withConverter(userArticle),
+      userCollectionArticle: userCollection
+        .collection("collection")
+        .withConverter(userCollectionArticle),
       userWishlistArticle: userCollection
         .collection("wishlist")
         .withConverter(userWishlistArticle),
