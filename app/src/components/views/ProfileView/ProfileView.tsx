@@ -25,6 +25,10 @@ import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
+import {
+  UserCollectionArticleQuery,
+  useUserCollectionArticleQuery,
+} from "components/hooks/db/useUserCollectionArticleQuery";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -67,17 +71,17 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const topArticlesResult = useUserArticleQuery(topArticlesQuery);
 
-  const ownedArticlesQuery = useMemo(() => {
+  const ownedArticlesQuery = useMemo((): UserCollectionArticleQuery => {
     return {
       filters: {
         userId: user.uid,
-        owner: true,
       },
+      order: [{ field: "addedTimestamp", dir: "desc" }],
       limit: 3,
     };
   }, [user]);
 
-  const ownedArticlesResult = useUserArticleQuery(ownedArticlesQuery);
+  const ownedArticlesResult = useUserCollectionArticleQuery(ownedArticlesQuery);
 
   const wishlistArticlesQuery = useMemo((): UserWishlistArticleQuery => {
     return {
