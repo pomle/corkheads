@@ -8,7 +8,6 @@ export type UserArticle = {
   id: string;
   checkIns: number;
   owner: boolean;
-  tryIt?: boolean;
   rating?: Rating;
   bottling?: Bottling;
   inventory?: Inventory;

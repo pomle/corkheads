@@ -21,6 +21,10 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
+import {
+  UserWishlistArticleQuery,
+  useUserWishlistArticleQuery,
+} from "components/hooks/db/useUserWishlistArticleQuery";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -75,17 +79,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
 
   const ownedArticlesResult = useUserArticleQuery(ownedArticlesQuery);
 
-  const wishlistArticlesQuery = useMemo(() => {
+  const wishlistArticlesQuery = useMemo((): UserWishlistArticleQuery => {
     return {
       filters: {
         userId: user.uid,
-        wishlist: true,
       },
+      order: [{ field: "addedTimestamp", dir: "desc" }],
       limit: 3,
     };
   }, [user]);
 
-  const wishlistArticlesResult = useUserArticleQuery(wishlistArticlesQuery);
+  const wishlistArticlesResult = useUserWishlistArticleQuery(
+    wishlistArticlesQuery
+  );
 
   const checkInHistoryQuery = useMemo((): CheckInQuery => {
     return {
