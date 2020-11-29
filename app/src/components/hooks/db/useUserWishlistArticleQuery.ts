@@ -2,32 +2,34 @@ import { useEffect, useMemo, useState } from "react";
 import { Article } from "types/Article";
 import { Entry } from "types/Entry";
 import { UserArticle } from "types/UserArticle";
+import { UserWishlistArticle } from "types/UserWishlistArticle";
 import { useDB } from "../useDB";
 import { useArticles } from "./useArticles";
 import { useUserArticles } from "./useUserArticles";
 
 type SortOrder = {
-  field: keyof UserArticle;
+  field: keyof UserWishlistArticle;
   dir?: string;
 };
 
-export type UserArticleQuery = {
+export type UserWishlistArticleQuery = {
   filters: {
     userId: string;
     owner?: boolean;
+    wishlist?: boolean;
   };
   order?: SortOrder[];
   limit?: number;
 };
 
-type UserArticleQueryResult = {
+type UserWishlistArticleQueryResult = {
   articleEntry: Entry<Article>;
   userArticleEntry: Entry<UserArticle>;
 };
 
-export function useUserArticleQuery(
-  query: UserArticleQuery
-): UserArticleQueryResult[] | null {
+export function useUserWishlistArticleQuery(
+  query: UserWishlistArticleQuery
+): UserWishlistArticleQueryResult[] | null {
   const [ids, setIds] = useState<string[]>([]);
 
   const db = useDB();
@@ -35,11 +37,9 @@ export function useUserArticleQuery(
   useEffect(() => {
     const userId = query.filters.userId;
 
-    let q = db.collection("users").doc(userId).collection("articles").limit(20);
+    let q = db.collection("users").doc(userId).collection("wishlist").limit(20);
 
-    if (query.filters.owner !== undefined) {
-      q = q.where("owner", "==", query.filters.owner);
-    }
+    q = q.where("active", "==", true);
 
     if (query.order) {
       for (const sort of query.order) {
@@ -65,7 +65,7 @@ export function useUserArticleQuery(
       return null;
     }
 
-    const results: UserArticleQueryResult[] = [];
+    const results: UserWishlistArticleQueryResult[] = [];
 
     for (const id of ids) {
       const articleEntry = articleEntries[id];

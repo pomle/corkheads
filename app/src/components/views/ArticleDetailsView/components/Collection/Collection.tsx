@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ToggleButton from "components/ui/trigger/ToggleButton";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
+import { useUserWishlistArticle } from "components/hooks/db/useUserWishlistArticles";
 
 const useStyles = makeStyles({
   Collection: {
@@ -20,6 +21,7 @@ interface CollectionProps {
 
 const Collection: React.FC<CollectionProps> = ({ userId, articleId }) => {
   const userArticleEntry = useUserArticle(userId, articleId);
+  const userWishlistArticleEntry = useUserWishlistArticle(userId, articleId);
 
   const setOwner = useCallback(
     (owner: boolean) => {
@@ -37,25 +39,24 @@ const Collection: React.FC<CollectionProps> = ({ userId, articleId }) => {
     [userArticleEntry]
   );
 
-  const setTryer = useCallback(
-    (tryIt: boolean) => {
-      if (!userArticleEntry) {
+  const setWishlist = useCallback(
+    (active: boolean) => {
+      if (!userWishlistArticleEntry) {
         return;
       }
-      userArticleEntry.doc.set(
+      userWishlistArticleEntry.doc.set(
         {
-          tryIt,
+          active,
         },
         { merge: true }
       );
     },
-    [userArticleEntry]
+    [userWishlistArticleEntry]
   );
 
-  const { owner, tryIt } = userArticleEntry?.data || {
-    owner: false,
-    tryIt: false,
-  };
+  const owner = !!userArticleEntry?.data?.owner;
+
+  const onWishlist = !!userWishlistArticleEntry?.data?.active;
 
   const classes = useStyles();
 
@@ -64,7 +65,10 @@ const Collection: React.FC<CollectionProps> = ({ userId, articleId }) => {
       <ToggleButton toggled={owner} onClick={() => setOwner(!owner)}>
         I own it
       </ToggleButton>
-      <ToggleButton toggled={tryIt} onClick={() => setTryer(!tryIt)}>
+      <ToggleButton
+        toggled={onWishlist}
+        onClick={() => setWishlist(!onWishlist)}
+      >
         I want to try it
       </ToggleButton>
     </div>
