@@ -137,7 +137,7 @@ function createStore() {
         };
 
         if (entries[id].data !== index[id]) {
-          entries[id].data = index[id] as T | null;
+          entries[id].data = index[id] as T | undefined;
           if (entries[id].data !== cache.current[id]?.data) {
             updateCache = true;
           }
