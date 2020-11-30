@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { firestore } from "firebase";
+import { firestore } from "firebase/app";
 import { useDB } from "components/hooks/useDB";
 import { User } from "types/User";
 import { CheckIn } from "types/CheckIn";
