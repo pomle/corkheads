@@ -1,5 +1,5 @@
-import { diffBottling } from "lib/patch";
 import { useCallback } from "react";
+import { getEffectiveBottlingChanges } from "lib/patch";
 import { Bottling } from "types/Bottling";
 import { useArticle } from "./useArticles";
 import { useUserArticle } from "./useUserArticles";
@@ -17,15 +17,8 @@ export function useUserArticleBottlingUpdate(
         return;
       }
 
-      let effective = bottling;
-
-      const existingBottling = article?.bottling;
-      if (existingBottling) {
-        effective = diffBottling(existingBottling, effective);
-      }
-
       userArticleEntry.doc.update({
-        bottling: effective,
+        bottling: getEffectiveBottlingChanges(bottling, article),
       });
     },
     [article, userArticleEntry]
