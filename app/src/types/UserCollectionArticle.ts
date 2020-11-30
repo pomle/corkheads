@@ -1,4 +1,4 @@
-import { firestore } from "firebase";
+import { firestore } from "firebase/app";
 import moment, { Moment } from "moment";
 import { createConverter } from "lib/firestore/converter";
 import { toMoment } from "./convert";
