@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
 import { useUserInput } from "components/hooks/useUserInput";
 import { Bottling } from "types/Bottling";
-import { Entries } from "./types";
 import { toBottling, toEntries } from "./conversion";
 
 interface BottlingUserInputProps {
@@ -15,17 +14,13 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
   bottling,
   onChange,
 }) => {
-  const initial = useMemo(() => {
+  const entries = useMemo(() => {
     return toEntries(bottling);
   }, [bottling]);
 
-  const state = useState<Entries>(initial);
-  const userInput = useUserInput(state);
-
-  const [entries] = state;
-  useEffect(() => {
+  const userInput = useUserInput(entries, (entries) => {
     onChange(toBottling(entries));
-  }, [entries, onChange]);
+  });
 
   return (
     <EntryList>
