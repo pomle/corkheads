@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
 import { Inventory } from "types/Inventory";
-import { Entries } from "./types";
 import { toInventory, toEntries } from "./conversion";
 import { useUserInput } from "components/hooks/useUserInput";
 
@@ -15,17 +14,13 @@ const InventoryUserInput: React.FC<InventoryUserInputProps> = ({
   inventory,
   onChange,
 }) => {
-  const initial = useMemo(() => {
+  const entries = useMemo(() => {
     return toEntries(inventory);
   }, [inventory]);
 
-  const state = useState<Entries>(initial);
-  const userInput = useUserInput(state);
-
-  const [entries] = state;
-  useEffect(() => {
+  const userInput = useUserInput(entries, (entries) => {
     onChange(toInventory(entries));
-  }, [entries, onChange]);
+  });
 
   return (
     <EntryList>

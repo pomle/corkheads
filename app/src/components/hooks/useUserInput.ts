@@ -1,37 +1,35 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useMemo,
-  ChangeEvent,
-} from "react";
-
-type State<S> = [S, Dispatch<SetStateAction<S>>];
+import { useCallback, useMemo, ChangeEvent, useState, useEffect } from "react";
 
 type InputProps = {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function useUserInput<T extends Record<string, string>>([
-  value,
-  setValue,
-]: State<T>) {
+export function useUserInput<T extends Record<string, string>>(
+  initial: T,
+  onChange: (value: T) => void
+) {
+  const [values, setValues] = useState<T>(initial);
+
+  useEffect(() => {
+    setValues(initial);
+  }, [initial]);
+
   const merge = useCallback(
     (key: keyof T, value: string) => {
-      setValue((values) => {
-        return { ...values, ...{ [key]: value } };
-      });
+      const nextValues = { ...values, ...{ [key]: value } };
+      setValues(nextValues);
+      onChange(nextValues);
     },
-    [setValue]
+    [values, onChange]
   );
 
   return useMemo(() => {
     const userInput = {} as Record<keyof T, InputProps>;
 
-    for (let key in value) {
+    for (let key in values) {
       userInput[key] = {
-        value: value[key],
+        value: values[key],
         onChange: (event: ChangeEvent<HTMLInputElement>) => {
           merge(key, event.target.value);
         },
@@ -39,5 +37,5 @@ export function useUserInput<T extends Record<string, string>>([
     }
 
     return userInput;
-  }, [merge, value]);
+  }, [merge, values]);
 }
