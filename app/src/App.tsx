@@ -6,6 +6,7 @@ import { InternationalizationContext } from "components/context/Internationaliza
 import { FirebaseContext } from "components/context/FirebaseContext";
 import { ObjectStoreContext } from "components/context/ObjectStoreContext";
 import { SessionContext } from "components/context/SessionContext";
+import * as Sentry from "@sentry/react";
 
 const contexts = [
   FirebaseContext,
@@ -23,4 +24,4 @@ const App: React.FC = ({ children }) => {
   }, <>{children}</>);
 };
 
-export default App;
+export default Sentry.withProfiler(App);
