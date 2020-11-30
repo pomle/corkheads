@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
 import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
@@ -7,10 +7,12 @@ import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
 import InventoryUserInput from "components/fragments/Inventory/InventoryUserInput";
 import { Inventory } from "types/Inventory";
-import { diffBottling, getBottling } from "lib/patch";
 import { debounce } from "lib/debounce";
 import { useArticle } from "components/hooks/db/useArticles";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
+
+import { useUserArticleBottlingUpdate } from "components/hooks/db/useUserArticleBottlingUpdate";
+import { getPreferredBottling } from "lib/patch";
 
 const useStyles = makeStyles({
   section: {
@@ -33,44 +35,14 @@ const UserSections: React.FC<UserSectionsProps> = ({ userId, articleId }) => {
   const article = articleEntry?.data;
   const userArticle = userArticleEntry?.data;
 
-  const initialBottling = useMemo(() => {
-    if (article && userArticle) {
-      return getBottling(article, userArticle);
-    }
-    return;
+  const bottling = useMemo((): Bottling => {
+    return getPreferredBottling(article, userArticle);
   }, [article, userArticle]);
 
-  const [bottling, setBottling] = useState<Bottling>();
-
-  useEffect(() => {
-    setBottling(initialBottling);
-  }, [initialBottling]);
-
+  const updateBottling = useUserArticleBottlingUpdate(userId, articleId);
   const handleChangeBottling = useMemo(() => {
-    if (!userArticleEntry) {
-      return;
-    }
-
-    const article = articleEntry?.data;
-    const userArticle = userArticleEntry?.data;
-
-    if (!article || !userArticle) {
-      return;
-    }
-
-    return debounce((bottling: Bottling) => {
-      let effective = bottling;
-
-      const existingBottling = article?.bottling;
-      if (existingBottling) {
-        effective = diffBottling(existingBottling, effective);
-      }
-
-      userArticleEntry.doc.update({
-        bottling: effective,
-      });
-    }, STORE_DELAY);
-  }, [articleEntry, userArticleEntry]);
+    return debounce(updateBottling, STORE_DELAY);
+  }, [updateBottling]);
 
   const inventory = userArticleEntry?.data?.inventory;
 
