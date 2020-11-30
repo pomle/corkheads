@@ -11,8 +11,9 @@ import BackButton from "components/ui/trigger/BackButton";
 import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
 import * as Text from "./locales";
 import ActionButton from "components/ui/trigger/ActionButton";
+import config from "config/app.config.js";
 
-const version = process.env.REACT_APP_VERSION;
+const version = config.version;
 
 const useStyles = makeStyles({
   loginView: {
