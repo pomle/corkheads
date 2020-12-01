@@ -4,6 +4,9 @@ import { useDB } from "../useDB";
 export type UserData = {
   displayName?: string;
   photoURL?: string;
+  readonly collectionSize?: number;
+  readonly wishlistSize?: number;
+  readonly checkInCount?: number;
 };
 
 const EMPTY = Object.create(null);
