@@ -4,7 +4,24 @@
 name: Pre-Merge Requirements
 "on": pull_request
 jobs:
-  test:
+  test-functions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install
+        working-directory: ./functions
+        run: npm install
+
+      - name: Lint
+        working-directory: ./functions
+        run: npm run lint
+
+      - name: Test
+        working-directory: ./functions
+        run: npm run test
+
+  test-app:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
