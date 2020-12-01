@@ -3,13 +3,6 @@ import { makeStyles } from "@material-ui/styles";
 import ViewHead from "components/ui/layout/ViewHead";
 
 const useStyles = makeStyles({
-  caption: {
-    color: "#303030",
-    fontSize: "24px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  },
   content: {
     alignItems: "center",
     display: "flex",
@@ -28,7 +21,7 @@ const ViewTitle: React.FC<ViewTitleProps> = ({ title, next }) => {
   return (
     <ViewHead>
       <div className={classes.content}>
-        <h1 className={classes.caption}>{title}</h1>
+        <h1>{title}</h1>
 
         {next}
       </div>

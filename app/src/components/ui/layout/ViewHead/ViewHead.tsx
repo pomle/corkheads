@@ -4,6 +4,13 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
   ViewHead: {
     padding: "16px 16px",
+    "& h1": {
+      color: "#303030",
+      fontSize: "24px",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    },
   },
 });
 
