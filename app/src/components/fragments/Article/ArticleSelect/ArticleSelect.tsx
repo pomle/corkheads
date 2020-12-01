@@ -4,17 +4,14 @@ import { useSharedInput } from "components/hooks/useSharedInput";
 import ResultStatement from "components/ui/typography/ResultStatement";
 import ArticleResults from "components/fragments/Article/ArticleResults";
 import { Article } from "types/Article";
+import SearchInput from "components/ui/input/SearchInput";
 
 const MIN_QUERY_LENGTH = 3;
 
 const useStyles = makeStyles({
   ArticleSelect: {},
   searchBar: {
-    display: "flex",
     padding: "24px",
-    "& > input": {
-      flex: "1",
-    },
   },
 });
 
@@ -30,12 +27,7 @@ const ArticleSelect: React.FC<ArticleSelectProps> = ({ onSelect }) => {
   return (
     <div className={classes.ArticleSelect}>
       <div className={classes.searchBar}>
-        <input
-          type="search"
-          placeholder="Search"
-          value={query}
-          onChange={(event) => setQuery(event.currentTarget.value)}
-        />
+        <SearchInput query={query} onChange={setQuery} />
       </div>
 
       {query.length >= MIN_QUERY_LENGTH ? (
