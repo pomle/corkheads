@@ -46,7 +46,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
       </ViewCap>
       <ViewBody>
         <div className={classes.searchBar}>
-          <SearchInput query={query} onChange={setQuery} />
+          <SearchInput query={query} onQueryChange={setQuery} />
         </div>
         <div className={classes.searchResults}>
           {query.length >= MIN_QUERY_LENGTH ? (

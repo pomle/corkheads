@@ -10,29 +10,28 @@ const useStyles = makeStyles({
   },
 });
 
-interface SearchInputProps {
+interface SearchInputProps extends React.InputHTMLAttributes<unknown> {
   query: string;
-  onChange: (query: string) => void;
+  onQueryChange: (query: string) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ query, onChange }) => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  query,
+  onQueryChange,
+  ...props
+}) => {
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange(event.target.value);
+      onQueryChange(event.target.value);
     },
-    [onChange]
+    [onQueryChange]
   );
 
   const classes = useStyles();
 
   return (
     <div className={classes.SearchInput}>
-      <input
-        type="search"
-        placeholder="Search"
-        value={query}
-        onChange={handleChange}
-      />
+      <input {...props} type="search" value={query} onChange={handleChange} />
     </div>
   );
 };
