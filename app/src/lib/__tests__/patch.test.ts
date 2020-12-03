@@ -179,16 +179,6 @@ describe("getEffectiveBottlingChanges", () => {
   });
 
   it("works for article without bottling", () => {
-    const bottling = {
-      barcodes: [],
-      bottler: {},
-      distill: {
-        distillery: {},
-      },
-      series: {},
-      bottlesProduced: 2000,
-    };
-
     const effective = getEffectiveBottlingChanges(
       { bottlesProduced: 1337 },
       {} as Article
