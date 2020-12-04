@@ -5,7 +5,6 @@ import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import CheckInItem from "components/fragments/CheckIn/CheckInItem";
-import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import * as paths from "components/route/paths";
 import ItemList from "components/ui/layout/ItemList";
@@ -19,14 +18,11 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
-import {
-  UserWishlistArticleQuery,
-  useUserWishlistArticleQuery,
-} from "components/hooks/db/useUserWishlistArticleQuery";
 import Themer from "components/ui/theme/Themer";
 import ProfileHead from "./components/ProfileHead";
 import Panel from "./components/Panel";
 import CollectionSection from "./components/CollectionSection";
+import WishlistSection from "./components/WishlistSection";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -68,20 +64,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   }, [user]);
 
   const topArticlesResult = useUserArticleQuery(topArticlesQuery);
-
-  const wishlistArticlesQuery = useMemo((): UserWishlistArticleQuery => {
-    return {
-      filters: {
-        userId: user.uid,
-      },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
-      limit: 3,
-    };
-  }, [user]);
-
-  const wishlistArticlesResult = useUserWishlistArticleQuery(
-    wishlistArticlesQuery
-  );
 
   const checkInHistoryQuery = useMemo((): CheckInQuery => {
     return {
@@ -196,23 +178,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <ItemList>
-                    {wishlistArticlesResult &&
-                      wishlistArticlesResult.map(({ articleEntry }) => {
-                        const article = articleEntry.data;
-
-                        return (
-                          <button
-                            key={articleEntry.id}
-                            onClick={() => goToArticle(articleEntry.id)}
-                          >
-                            {article && (
-                              <WishlistArticleItem article={article} />
-                            )}
-                          </button>
-                        );
-                      })}
-                  </ItemList>
+                  <WishlistSection userId={user.uid} />
                 </Section>
               </SectionList>
             </Panel>
