@@ -8,11 +8,13 @@ import ImageItem from "components/ui/layout/ImageItem";
 
 const useStyles = makeStyles({
   displayName: {
-    fontSize: "17px",
+    color: "#1b2230",
+    fontSize: "14px",
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
   manufacturer: {
+    color: "#727985",
     fontSize: "12px",
     fontWeight: 500,
   },

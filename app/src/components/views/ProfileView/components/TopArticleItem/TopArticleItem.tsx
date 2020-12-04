@@ -4,14 +4,17 @@ import { UserArticle } from "types/UserArticle";
 import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
 import Rating from "components/ui/indicators/Rating";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
-    fontSize: "17px",
+    color: theme.color.action,
+    fontSize: "14px",
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
   manufacturer: {
+    color: theme.color.text,
     fontSize: "12px",
     fontWeight: 500,
   },
@@ -30,7 +33,7 @@ const useStyles = makeStyles({
       margin: "4px",
     },
   },
-});
+}));
 
 interface TopArticleItemProps {
   article: Article;

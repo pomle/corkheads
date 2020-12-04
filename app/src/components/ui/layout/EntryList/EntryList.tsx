@@ -1,17 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import DividedList from "../DividedList";
 
 const useStyles = makeStyles({
-  EntryList: {
-    "& tbody": {
-      "& tr": {
-        borderBottom: "solid 1px #e2e2e2",
-        "&:last-child": {
-          border: "none",
-        },
-      },
-    },
-  },
+  EntryList: {},
 });
 
 interface EntryListProps {}
@@ -19,9 +11,9 @@ interface EntryListProps {}
 const EntryList: React.FC<EntryListProps> = ({ children }) => {
   const classes = useStyles();
   return (
-    <table className={classes.EntryList}>
-      <tbody>{children}</tbody>
-    </table>
+    <div className={classes.EntryList}>
+      <DividedList>{children}</DividedList>
+    </div>
   );
 };
 

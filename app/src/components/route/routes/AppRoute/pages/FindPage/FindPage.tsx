@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Article } from "types/Article";
 import ExploreArticlesView from "components/views/ExploreArticlesView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
+import CancelButton from "components/ui/trigger/CancelButton/CancelButton";
 
 interface FindPageProps {
   onSelect: (article: Article) => void;
@@ -13,7 +14,9 @@ const FindPage: React.FC<FindPageProps> = ({ onSelect }) => {
   const history = useHistory();
 
   const nav = (
-    <NavigationBar back={<button onClick={history.goBack}>Cancel</button>} />
+    <NavigationBar
+      back={<CancelButton onClick={history.goBack}>Cancel</CancelButton>}
+    />
   );
 
   return (

@@ -5,13 +5,14 @@ import Photo from "../Photo";
 const useStyles = makeStyles({
   ImageItem: {
     alignItems: "center",
-    background: "#fff",
     display: "flex",
   },
   photo: {
-    background: "#c9c9c9",
-    height: "85px",
-    width: "85px",
+    background: "#fff1",
+    borderRadius: "20px",
+    overflow: "hidden",
+    height: "64px",
+    width: "64px",
   },
   meta: {
     color: "#5a5a5a",

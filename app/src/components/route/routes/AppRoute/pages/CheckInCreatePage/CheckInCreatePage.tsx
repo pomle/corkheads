@@ -33,13 +33,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
   const articleEntry = useArticle(articleId);
 
   const nav = (
-    <NavigationBar
-      back={
-        <BackButton onClick={goToArticle}>
-          {articleEntry?.data?.displayName || "Article"}
-        </BackButton>
-      }
-    />
+    <NavigationBar back={<BackButton onClick={goToArticle}>Back</BackButton>} />
   );
 
   const user = useUser();

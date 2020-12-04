@@ -31,7 +31,7 @@ const OfflineView = () => {
         <h2>Offline</h2>
         <p>Please check your connection</p>
 
-        <ActionButton variant="safe">Try again</ActionButton>
+        <ActionButton>Try again</ActionButton>
       </div>
     </FullScreenLayout>
   );

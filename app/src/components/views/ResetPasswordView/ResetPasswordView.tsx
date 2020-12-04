@@ -12,7 +12,6 @@ import ActionButton from "components/ui/trigger/ActionButton";
 const useStyles = makeStyles({
   resetPasswordView: {
     alignItems: "center",
-    background: "#e2e2e2",
     display: "flex",
     flexFlow: "column",
     height: "100%",

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { DocumentType } from "types/DocumentType";
 import { useDB } from "../useDB";
 
 export type UserData = {
@@ -13,7 +14,7 @@ const EMPTY = Object.create(null);
 
 export function useUserData(
   userId: string
-): [UserData, (userData: UserData) => Promise<void>] {
+): [UserData, (userData: DocumentType<UserData>) => Promise<void>] {
   const [userData, setUserData] = useState<UserData>(EMPTY);
 
   const db = useDB();
@@ -29,7 +30,7 @@ export function useUserData(
   }, [userRef]);
 
   const updateUser = useCallback(
-    async (userData: UserData) => {
+    async (userData: DocumentType<UserData>) => {
       return userRef.set(userData, { merge: true });
     },
     [userRef]

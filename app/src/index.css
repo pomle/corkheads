@@ -13,6 +13,7 @@ body,
 }
 
 body {
+  background: #000;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24,7 +25,7 @@ code {
 }
 
 a {
-  color: #f76640;
+  color: #dac076;
   font-weight: 500;
   text-decoration: none;
 }
@@ -39,13 +40,13 @@ input {
 }
 
 input {
-  color: #838383;
-  border: solid 1px #f6f6f6;
-  border-radius: 2px;
-  font-size: 18px;
+  background: none;
+  color: #3d4351;
+  border: solid 1px #3d4351;
+  border-radius: 4px;
+  font-size: 14px;
   font-weight: 500;
   outline: none;
-  padding: 16px;
 }
 
 button {
@@ -70,16 +71,9 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "Bree Serif";
+  font-weight: normal;
   margin: 0;
-}
-
-h1 {
-  font-size: 36px;
-}
-
-h3 {
-  font-size: 24px;
-  font-weight: 400;
 }
 
 table {

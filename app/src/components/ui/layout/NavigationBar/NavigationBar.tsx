@@ -5,7 +5,6 @@ const useStyles = makeStyles({
   NavigationBar: {
     alignItems: "center",
     display: "flex",
-    fontSize: "16px",
     justifyContent: "space-between",
     minHeight: "24px",
     padding: "16px 16px 6px 16px",

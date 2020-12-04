@@ -6,7 +6,7 @@ const filter = ({ active }: TransitionEffectProps) => {
   if (active) {
     return "none";
   }
-  return "contrast(0.5) grayscale(0.8)";
+  return "brightness(0.8) grayscale(0.6)";
 };
 
 const useStyles = makeStyles({

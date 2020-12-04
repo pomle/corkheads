@@ -13,11 +13,11 @@ import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 import { useUserArticleBottlingUpdate } from "components/hooks/db/useUserArticleBottlingUpdate";
 import { getPreferredBottling } from "lib/patch";
+import Themer from "components/ui/theme/Themer";
 
 const useStyles = makeStyles({
   section: {
-    background: "#fff",
-    padding: "24px",
+    margin: "0 32px",
   },
 });
 
@@ -61,29 +61,31 @@ const UserSections: React.FC<UserSectionsProps> = ({ userId, articleId }) => {
   const classes = useStyles();
 
   return (
-    <SectionList>
-      <Section header={<SectionTitle main="My collection" />}>
-        <div className={classes.section}>
-          {inventory && handleChangeInventory && (
-            <InventoryUserInput
-              inventory={inventory}
-              onChange={handleChangeInventory}
-            />
-          )}
-        </div>
-      </Section>
+    <Themer theme="pure">
+      <SectionList>
+        <Section header={<SectionTitle main="Collection" />}>
+          <div className={classes.section}>
+            {inventory && handleChangeInventory && (
+              <InventoryUserInput
+                inventory={inventory}
+                onChange={handleChangeInventory}
+              />
+            )}
+          </div>
+        </Section>
 
-      <Section header={<SectionTitle main="Whiskey data" />}>
-        <div className={classes.section}>
-          {bottling && handleChangeBottling && (
-            <BottlingUserInput
-              bottling={bottling}
-              onChange={handleChangeBottling}
-            />
-          )}
-        </div>
-      </Section>
-    </SectionList>
+        <Section header={<SectionTitle main="About this bottling" />}>
+          <div className={classes.section}>
+            {bottling && handleChangeBottling && (
+              <BottlingUserInput
+                bottling={bottling}
+                onChange={handleChangeBottling}
+              />
+            )}
+          </div>
+        </Section>
+      </SectionList>
+    </Themer>
   );
 };
 

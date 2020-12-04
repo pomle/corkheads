@@ -1,11 +1,17 @@
-import React from "react";
+import React, { Children } from "react";
 import { makeStyles } from "@material-ui/styles";
+import DividedList from "../DividedList";
 
 const useStyles = makeStyles({
   ItemList: {
-    display: "grid",
-    gridAutoFlow: "row",
-    gridGap: "2px",
+    margin: "-8px 0",
+  },
+  Item: {
+    padding: "8px 0",
+    "& > *": {
+      display: "block",
+      width: "100%",
+    },
   },
 });
 
@@ -13,7 +19,15 @@ interface ItemListProps {}
 
 const ItemList: React.FC<ItemListProps> = ({ children }) => {
   const classes = useStyles();
-  return <div className={classes.ItemList}>{children}</div>;
+  return (
+    <div className={classes.ItemList}>
+      <DividedList>
+        {Children.map(children, (child) => {
+          return <div className={classes.Item}>{child}</div>;
+        })}
+      </DividedList>
+    </div>
+  );
 };
 
 export default ItemList;

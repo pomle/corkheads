@@ -18,7 +18,7 @@ const LanguageSelectView: React.FC<LanguageSelectViewProps> = ({
 }) => {
   return (
     <HeaderLayout>
-      <ViewCap top>
+      <ViewCap>
         {nav}
         <ViewTitle title={<Text.SelectLanguage />} />
       </ViewCap>

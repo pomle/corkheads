@@ -1,45 +1,43 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { Theme } from "components/ui/theme/themes";
+import { ReactComponent as CheckIcon } from "assets/graphics/icons/check.svg";
+import { ReactComponent as PlusIcon } from "assets/graphics/icons/plus.svg";
 
-const calculateBackgroundColor = ({ toggled }: ToggleButtonProps) => {
-  if (toggled) {
-    return "#5acf99";
-  }
-  return "#fff";
-};
-
-const calculateBorderColor = ({ toggled }: ToggleButtonProps) => {
-  if (toggled) {
-    return "#5acf99";
-  }
-  return "#ff6a41";
-};
-
-const calculateFontColor = ({ toggled }: ToggleButtonProps) => {
-  if (toggled) {
-    return "#fff";
-  }
-  return "#ff6a41";
-};
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   ToggleButton: {
-    background: calculateBackgroundColor,
-    border: "solid 2px",
-    borderColor: calculateBorderColor,
+    alignItems: "center",
+    background: (props: ToggleButtonProps) => {
+      if (props.toggled) {
+        return theme.color.surface;
+      }
+      return "none";
+    },
+    border: "solid 1px",
+    borderColor: theme.color.surface,
     borderRadius: "3px",
-    color: calculateFontColor,
+    color: (props: ToggleButtonProps) => {
+      if (props.toggled) {
+        return theme.color.text;
+      }
+      return theme.color.action;
+    },
+    display: "flex",
     fontSize: "12px",
     fontWeight: 700,
+    justifyContent: "center",
     padding: "12px",
     textAlign: "center",
     "&[disabled]": {
-      background: "#EAEAEA",
-      borderColor: "#EAEAEA",
-      color: "#999999",
+      opacity: 0.3,
+    },
+    "& svg": {
+      height: "1em",
+      marginRight: "0.4em",
+      width: "1em",
     },
   },
-});
+}));
 
 interface ToggleButtonProps extends React.ButtonHTMLAttributes<any> {
   toggled?: boolean;
@@ -54,7 +52,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
 
   return (
     <button type="button" className={classes.ToggleButton} {...props}>
-      {children}
+      {toggled ? <CheckIcon /> : <PlusIcon />} {children}
     </button>
   );
 };

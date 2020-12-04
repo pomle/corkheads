@@ -6,8 +6,7 @@ const useStyles = makeStyles({
     background: "#fff",
     display: "grid",
     gridGap: "16px",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    padding: "16px",
+    gridTemplateColumns: "1fr 1fr",
   },
 });
 
