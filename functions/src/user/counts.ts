@@ -36,3 +36,19 @@ export const wishlistSizeAggregate = functions.firestore
       });
     });
   });
+
+export const checkInCountAggregate = functions.firestore
+  .document("users/{userId}/check-ins/{checkInId}")
+  .onWrite(async (change, context) => {
+    const { userId } = context.params;
+    const userRef = db.collection("users").doc(userId);
+
+    const diff = calculateActiveDiff(change);
+
+    await db.runTransaction(async (transaction) => {
+      const checkInCount = admin.firestore.FieldValue.increment(diff);
+      transaction.update(userRef, {
+        checkInCount,
+      });
+    });
+  });
