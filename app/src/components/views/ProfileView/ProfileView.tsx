@@ -4,7 +4,6 @@ import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
-import CheckInItem from "components/fragments/CheckIn/CheckInItem";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import * as paths from "components/route/paths";
 import ItemList from "components/ui/layout/ItemList";
@@ -14,15 +13,12 @@ import {
 } from "components/hooks/db/useUserArticleQuery";
 import { User } from "types/User";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import {
-  CheckInQuery,
-  useCheckInQuery,
-} from "components/hooks/db/useCheckInQuery";
 import Themer from "components/ui/theme/Themer";
 import ProfileHead from "./components/ProfileHead";
 import Panel from "./components/Panel";
 import CollectionSection from "./components/CollectionSection";
 import WishlistSection from "./components/WishlistSection";
+import CheckInSection from "./components/CheckInSection";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -35,14 +31,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   const goToArticle = useCallback(
     (articleId: string) => {
       const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
-  const goToCheckIn = useCallback(
-    (checkInId: string) => {
-      const url = paths.checkInView.url({ checkInId });
       history.push(url);
     },
     [history]
@@ -64,23 +52,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   }, [user]);
 
   const topArticlesResult = useUserArticleQuery(topArticlesQuery);
-
-  const checkInHistoryQuery = useMemo((): CheckInQuery => {
-    return {
-      filters: {
-        userIds: [user.uid],
-      },
-      order: [
-        {
-          field: "timestamp",
-          dir: "desc",
-        },
-      ],
-      limit: 3,
-    };
-  }, [user]);
-
-  const checkInHistoryResult = useCheckInQuery(checkInHistoryQuery);
 
   return (
     <Themer theme="dusk">
@@ -134,29 +105,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <ItemList>
-                    {checkInHistoryResult &&
-                      checkInHistoryResult.map(
-                        ({ checkInEntry, articleEntry }) => {
-                          const article = articleEntry.data;
-                          const checkIn = checkInEntry.data;
-
-                          return (
-                            <button
-                              key={checkInEntry.id}
-                              onClick={() => goToCheckIn(checkInEntry.id)}
-                            >
-                              {article && checkIn && (
-                                <CheckInItem
-                                  checkIn={checkIn}
-                                  article={article}
-                                />
-                              )}
-                            </button>
-                          );
-                        }
-                      )}
-                  </ItemList>
+                  <CheckInSection userId={user.uid} />
                 </Section>
 
                 <Section
