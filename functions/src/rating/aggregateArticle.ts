@@ -1,8 +1,7 @@
 import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import { admin } from "../admin";
 import { createNewAggregate } from "./integrity";
 
-admin.initializeApp();
 const db = admin.firestore();
 
 export const aggregateArticle = functions.firestore
@@ -14,13 +13,10 @@ export const aggregateArticle = functions.firestore
     await db.runTransaction(async (transaction) => {
       const articleDoc = await transaction.get(articleRef);
 
-      const newRatingAggregate = createNewAggregate(
-        change,
-        articleDoc,
-      )
+      const newRatingAggregate = createNewAggregate(change, articleDoc);
 
       transaction.update(articleRef, {
-        ratingAggregate: newRatingAggregate
+        ratingAggregate: newRatingAggregate,
       });
     });
   });
