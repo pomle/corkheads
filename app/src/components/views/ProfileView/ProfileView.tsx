@@ -1,16 +1,8 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
-import TopArticleItem from "components/fragments/Article/TopArticleItem";
-import * as paths from "components/route/paths";
-import ItemList from "components/ui/layout/ItemList";
-import {
-  UserArticleQuery,
-  useUserArticleQuery,
-} from "components/hooks/db/useUserArticleQuery";
 import { User } from "types/User";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import Themer from "components/ui/theme/Themer";
@@ -19,6 +11,7 @@ import Panel from "./components/Panel";
 import CollectionSection from "./components/CollectionSection";
 import WishlistSection from "./components/WishlistSection";
 import CheckInSection from "./components/CheckInSection";
+import ToplistSection from "./components/ToplistSection";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -26,33 +19,6 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
-  const topArticlesQuery = useMemo((): UserArticleQuery => {
-    return {
-      filters: {
-        userId: user.uid,
-      },
-      order: [
-        {
-          field: "checkIns",
-          dir: "desc",
-        },
-      ],
-      limit: 3,
-    };
-  }, [user]);
-
-  const topArticlesResult = useUserArticleQuery(topArticlesQuery);
-
   return (
     <Themer theme="dusk">
       <FullScreenLayout>
@@ -72,29 +38,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <ItemList>
-                    {topArticlesResult &&
-                      topArticlesResult.map(
-                        ({ articleEntry, userArticleEntry }) => {
-                          const article = articleEntry.data;
-                          const userArticle = userArticleEntry.data;
-
-                          return (
-                            <button
-                              key={articleEntry.id}
-                              onClick={() => goToArticle(articleEntry.id)}
-                            >
-                              {article && userArticle && (
-                                <TopArticleItem
-                                  article={article}
-                                  userArticle={userArticle}
-                                />
-                              )}
-                            </button>
-                          );
-                        }
-                      )}
-                  </ItemList>
+                  <ToplistSection userId={user.uid} />
                 </Section>
 
                 <Section
