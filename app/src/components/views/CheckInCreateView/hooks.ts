@@ -43,6 +43,7 @@ export function useCommitCheckIn() {
       const batch = db.batch();
 
       const checkInRef = checkInsCollection.doc();
+      const checkInId = checkInRef.id;
       batch.set(checkInRef, checkIn);
 
       const userArticleRef = db
@@ -53,7 +54,20 @@ export function useCommitCheckIn() {
 
       batch.set(userArticleRef, userArticle, { merge: true });
 
-      console.log(userArticle);
+      const userCheckInRef = db
+        .collection("users")
+        .doc(userId)
+        .collection("check-ins")
+        .doc(checkInId);
+
+      batch.set(
+        userCheckInRef,
+        {
+          active: true,
+          addedTimestamp: firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true }
+      );
 
       await batch.commit();
 
