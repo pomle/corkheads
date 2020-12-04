@@ -3,7 +3,6 @@ import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
-import { User } from "types/User";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import Themer from "components/ui/theme/Themer";
 import ProfileHead from "./components/ProfileHead";
@@ -16,11 +15,11 @@ import { useUserData } from "components/hooks/db/useUserData";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
-  user: User;
+  userId: string;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
-  const [userData] = useUserData(user.uid);
+const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
+  const [userData] = useUserData(userId);
 
   const { collectionSize, checkInCount, wishlistSize } = userData;
 
@@ -30,7 +29,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
         <ViewBody>
           {nav}
 
-          <ProfileHead user={user} />
+          <ProfileHead userId={userId} />
 
           <Themer theme="pure">
             <Panel>
@@ -43,7 +42,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <ToplistSection userId={user.uid} />
+                  <ToplistSection userId={userId} />
                 </Section>
 
                 <Section
@@ -54,7 +53,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <CheckInSection userId={user.uid} />
+                  <CheckInSection userId={userId} />
                 </Section>
 
                 <Section
@@ -65,7 +64,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <CollectionSection userId={user.uid} />
+                  <CollectionSection userId={userId} />
                 </Section>
 
                 <Section
@@ -76,7 +75,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <WishlistSection userId={user.uid} />
+                  <WishlistSection userId={userId} />
                 </Section>
               </SectionList>
             </Panel>
