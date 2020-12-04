@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
@@ -15,10 +16,14 @@ import { useUserData } from "components/hooks/db/useUserData";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
+  routes: {
+    collection: string;
+    checkIns: string;
+  };
   userId: string;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
   const [userData] = useUserData(userId);
 
   const { collectionSize, checkInCount, wishlistSize } = userData;
@@ -36,10 +41,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
               <SectionList>
                 <Section
                   header={
-                    <SectionTitle
-                      main="Top drinks"
-                      context={<a href="/">See all ›</a>}
-                    />
+                    <SectionTitle main="Top drinks" context="See all ›" />
                   }
                 >
                   <ToplistSection userId={userId} />
@@ -49,7 +51,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
                   header={
                     <SectionTitle
                       main={<>Check ins ({checkInCount})</>}
-                      context={<a href="/">See all ›</a>}
+                      context={<Link to={routes.checkIns}>See all ›</Link>}
                     />
                   }
                 >
@@ -60,7 +62,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
                   header={
                     <SectionTitle
                       main={<>Collection ({collectionSize})</>}
-                      context={<a href="/">See all ›</a>}
+                      context={<Link to={routes.collection}>See all ›</Link>}
                     />
                   }
                 >
@@ -71,7 +73,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, userId }) => {
                   header={
                     <SectionTitle
                       main={<>Wish list ({wishlistSize})</>}
-                      context={<a href="/">See all › </a>}
+                      context="See all ›"
                     />
                   }
                 >

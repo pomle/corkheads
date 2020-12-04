@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { useUser } from "components/hooks/useUser";
 import ProfileView from "components/views/ProfileView";
 import ViewStack from "components/ui/layout/ViewStack";
@@ -9,6 +9,7 @@ import LoadingView from "components/views/LoadingView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import NavButton from "components/ui/trigger/NavButton";
 import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
+import * as paths from "components/route/paths";
 
 const ProfilePage: React.FC = () => {
   const element = useRef<React.ReactElement>();
@@ -27,13 +28,21 @@ const ProfilePage: React.FC = () => {
     />
   );
 
+  const routes = useMemo(
+    () => ({
+      collection: paths.collectionView.url({}),
+      checkIns: paths.checkInsView.url({}),
+    }),
+    []
+  );
+
   return (
     <ErrorBoundary nav={nav}>
       {() => {
         if (user) {
           element.current = (
             <ViewStack>
-              <ProfileView nav={nav} userId={user.uid} />
+              <ProfileView nav={nav} routes={routes} userId={user.uid} />
               <FindDrinkOverlayView />
             </ViewStack>
           );
