@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.surface,
     color: theme.color.text,
     height: "100%",
-    overflow: "scroll",
+    overflow: "auto",
     position: "relative", // Creates link to children's offsetParent
   },
 }));
