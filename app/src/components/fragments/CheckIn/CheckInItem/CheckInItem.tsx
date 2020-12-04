@@ -5,21 +5,22 @@ import { CheckIn } from "types/CheckIn";
 import Rating from "components/ui/indicators/Rating";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
-    color: "#1b2230",
+    color: theme.color.action,
     fontSize: "14px",
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
   manufacturer: {
-    color: "#727985",
+    color: theme.color.text,
     fontSize: "12px",
     fontWeight: 500,
   },
   timestamp: {
-    color: "#e2e2e2",
+    color: theme.color.text + "60",
     fontSize: "10px",
     textAlign: "right",
   },
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
       margin: "4px",
     },
   },
-});
+}));
 
 function resolvePhotoURL(checkIn: CheckIn, article: Article) {
   if (checkIn.photoURL) {
