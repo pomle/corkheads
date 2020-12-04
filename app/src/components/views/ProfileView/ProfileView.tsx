@@ -4,15 +4,16 @@ import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
+import CheckInItem from "components/fragments/CheckIn/CheckInItem";
+import CollectionArticleItem from "components/fragments/Article/CollectionArticleItem";
+import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
+import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import * as paths from "components/route/paths";
-import ProfileHead from "./components/ProfileHead";
-import CheckInItem from "./components/CheckInItem";
 import ItemList from "components/ui/layout/ItemList";
 import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
-import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/User";
 import CollectionList from "components/ui/layout/CollectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
@@ -28,10 +29,9 @@ import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
-import Panel from "./components/Panel";
-import CollectionArticleItem from "./components/CollectionArticleItem";
-import WishlistArticleItem from "./components/WishlistArticleItem";
 import Themer from "components/ui/theme/Themer";
+import ProfileHead from "./components/ProfileHead";
+import Panel from "./components/Panel";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
