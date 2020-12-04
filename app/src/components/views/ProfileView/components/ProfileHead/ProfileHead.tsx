@@ -11,6 +11,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { Theme } from "components/ui/theme/themes";
+import { useUser } from "components/hooks/useUser";
 
 type StyleProps = {
   canClear: boolean;
@@ -69,12 +70,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function resolveDisplayName(user: User, userData: UserData) {
+function resolveDisplayName(userData: UserData, user?: User) {
   if (userData.displayName) {
     return userData.displayName;
   }
 
-  if (user.email) {
+  if (user?.email) {
     return user.email;
   }
 
@@ -82,12 +83,12 @@ function resolveDisplayName(user: User, userData: UserData) {
 }
 
 interface ProfileHeadProps {
-  user: User;
+  userId: string;
 }
 
-const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
-  const [userData, setUserData] = useUserData(user.uid);
-  const { photoURL } = userData;
+const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
+  const user = useUser();
+  const [userData, setUserData] = useUserData(userId);
 
   const clearControl = useSwitch(false);
 
@@ -116,6 +117,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
     clearControl.off();
   }, [clearControl, userData, setUserData]);
 
+  const { photoURL } = userData;
   const hasPhoto = !!photoURL;
   const canClear = clearControl.active && hasPhoto;
 
@@ -142,7 +144,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
         </ImageSelect>
       </div>
 
-      <h2 className={classes.identity}>{resolveDisplayName(user, userData)}</h2>
+      <h2 className={classes.identity}>{resolveDisplayName(userData, user)}</h2>
     </div>
   );
 };

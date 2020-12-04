@@ -33,7 +33,7 @@ const ProfilePage: React.FC = () => {
         if (user) {
           element.current = (
             <ViewStack>
-              <ProfileView nav={nav} user={user} />
+              <ProfileView nav={nav} userId={user.uid} />
               <FindDrinkOverlayView />
             </ViewStack>
           );
