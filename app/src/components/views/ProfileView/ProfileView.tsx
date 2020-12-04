@@ -5,7 +5,6 @@ import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import CheckInItem from "components/fragments/CheckIn/CheckInItem";
-import CollectionArticleItem from "components/fragments/Article/CollectionArticleItem";
 import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import * as paths from "components/route/paths";
@@ -15,7 +14,6 @@ import {
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
 import { User } from "types/User";
-import CollectionList from "components/ui/layout/CollectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import {
   CheckInQuery,
@@ -25,13 +23,10 @@ import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
-import {
-  UserCollectionArticleQuery,
-  useUserCollectionArticleQuery,
-} from "components/hooks/db/useUserCollectionArticleQuery";
 import Themer from "components/ui/theme/Themer";
 import ProfileHead from "./components/ProfileHead";
 import Panel from "./components/Panel";
+import CollectionSection from "./components/CollectionSection";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -73,18 +68,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   }, [user]);
 
   const topArticlesResult = useUserArticleQuery(topArticlesQuery);
-
-  const ownedArticlesQuery = useMemo((): UserCollectionArticleQuery => {
-    return {
-      filters: {
-        userId: user.uid,
-      },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
-      limit: 3,
-    };
-  }, [user]);
-
-  const ownedArticlesResult = useUserCollectionArticleQuery(ownedArticlesQuery);
 
   const wishlistArticlesQuery = useMemo((): UserWishlistArticleQuery => {
     return {
@@ -202,23 +185,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                     />
                   }
                 >
-                  <CollectionList>
-                    {ownedArticlesResult &&
-                      ownedArticlesResult.map(({ articleEntry }) => {
-                        const article = articleEntry.data;
-
-                        return (
-                          <button
-                            key={articleEntry.id}
-                            onClick={() => goToArticle(articleEntry.id)}
-                          >
-                            {article && (
-                              <CollectionArticleItem article={article} />
-                            )}
-                          </button>
-                        );
-                      })}
-                  </CollectionList>
+                  <CollectionSection userId={user.uid} />
                 </Section>
 
                 <Section
