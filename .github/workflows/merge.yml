@@ -8,21 +8,6 @@ name: Deploy on merge
       - master
 
 jobs:
-  deploy-functions:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Install NPM packages
-        run: |
-          cd functions
-          npm install
-
-      - name: Deploy to Firebase
-        run: |
-          cd functions
-          npm run deploy -- --token "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CORKHEADS }}$"
-
   deploy-app:
     runs-on: ubuntu-latest
     steps:
