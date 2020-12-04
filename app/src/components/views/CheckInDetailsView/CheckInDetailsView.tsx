@@ -5,31 +5,32 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
-import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
 import { CheckIn } from "types/CheckIn";
 import Photo from "components/ui/layout/Photo";
+import CheckInItem from "components/fragments/CheckIn/CheckInItem";
+import { Colors } from "components/ui/theme/themes";
 
 const useStyles = makeStyles({
   photo: {
     height: "100vw",
     maxHeight: "400px",
   },
-  actionBox: {
-    background: "#fff",
-    borderRadius: "5px",
-    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
-    color: "#838383",
+  checkIn: {
+    background: "#0003",
+    borderRadius: "16px",
     display: "flex",
     flexFlow: "column",
-    fontSize: "12px",
-    fontWeight: 500,
     justifyContent: "stretch",
-    margin: "auto",
-    marginTop: "-80px",
-    overflow: "hidden",
-    width: "80%",
+    margin: "16px",
+    padding: "8px",
+  },
+  comment: {
+    color: Colors.Gold,
+    fontFamily: "Bree Serif",
+    fontSize: "16px",
+    margin: "16px",
   },
 });
 
@@ -80,14 +81,16 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
         <div className={classes.photo}>
           <Photo url={photoURL} />
         </div>
-        <div className={classes.actionBox}>
-          <ActionButton
-            variant="action"
-            onClick={() => goToArticle(checkIn.articleId)}
-          >
-            Go to Article
-          </ActionButton>
+
+        <div className={classes.checkIn}>
+          <button type="button" onClick={() => goToArticle(checkIn.articleId)}>
+            <CheckInItem checkIn={checkIn} article={article} />
+          </button>
         </div>
+
+        {checkIn.comment && (
+          <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
+        )}
       </ViewBody>
     </HeaderLayout>
   );
