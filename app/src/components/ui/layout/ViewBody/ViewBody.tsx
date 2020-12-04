@@ -11,6 +11,9 @@ const useStyles = makeStyles({
     height: "100%",
     overflow: "scroll",
     position: "relative", // Creates link to children's offsetParent
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
   },
 });
 
