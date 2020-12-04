@@ -12,6 +12,7 @@ import CollectionSection from "./components/CollectionSection";
 import WishlistSection from "./components/WishlistSection";
 import CheckInSection from "./components/CheckInSection";
 import ToplistSection from "./components/ToplistSection";
+import { useUserData } from "components/hooks/db/useUserData";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -19,6 +20,10 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
+  const [userData] = useUserData(user.uid);
+
+  const { collectionSize, checkInCount, wishlistSize } = userData;
+
   return (
     <Themer theme="dusk">
       <FullScreenLayout>
@@ -44,7 +49,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 <Section
                   header={
                     <SectionTitle
-                      main="Check ins"
+                      main={<>Check ins ({checkInCount})</>}
                       context={<a href="/">See all ›</a>}
                     />
                   }
@@ -55,7 +60,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 <Section
                   header={
                     <SectionTitle
-                      main="Collection"
+                      main={<>Collection ({collectionSize})</>}
                       context={<a href="/">See all ›</a>}
                     />
                   }
@@ -66,7 +71,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
                 <Section
                   header={
                     <SectionTitle
-                      main="Wish list"
+                      main={<>Wish list ({wishlistSize})</>}
                       context={<a href="/">See all › </a>}
                     />
                   }
