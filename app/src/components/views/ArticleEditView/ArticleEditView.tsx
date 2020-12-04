@@ -2,23 +2,23 @@ import React, { useCallback, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 import ViewTitle from "components/ui/layout/ViewTitle";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
-import ActionButton from "components/ui/trigger/ActionButton";
 import * as paths from "components/route/paths";
 import { User } from "types/User";
-import ImageSelect from "components/ui/trigger/ImageSelect";
 import { useCommitArticle } from "./hooks";
-import Photo from "components/ui/layout/Photo";
 import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
+import PhotoInput from "../CheckInCreateView/component/PhotoInput";
+import BurgerLayout from "components/ui/layout/BurgerLayout";
+import Themer from "components/ui/theme/Themer";
+import ButtonField from "components/ui/layout/ButtonField";
+import MainButton from "components/ui/trigger/MainButton/MainButton";
+import Input from "components/ui/input/Input/Input";
 
 const useStyles = makeStyles({
   form: {
-    background: "#fff",
-    color: "#5a5a5a",
     padding: "24px",
     "& > .content": {
       display: "grid",
@@ -31,23 +31,10 @@ const useStyles = makeStyles({
       gridGap: "16px",
     },
     "& input": {
-      background: "#f9f9f9",
-      border: "solid 2px #e2e2e2",
-      color: "#838383",
       fontSize: "16px",
-      fontWeight: 400,
+      textAlign: "center",
     },
-    "& .photo": {
-      alignItems: "center",
-      border: "dashed 2px #e2e2e2",
-      display: "flex",
-      fontSize: "18px",
-      fontWeight: 500,
-      justifyContent: "center",
-      height: "200px",
-      margin: "auto",
-      width: "200px",
-    },
+    "& .photo": {},
   },
 });
 
@@ -130,21 +117,27 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   const classes = useStyles();
 
   return (
-    <HeaderLayout>
-      <ViewCap top>
-        {nav}
-        <ViewTitle title="Add drink" />
-      </ViewCap>
+    <BurgerLayout>
+      <Themer theme="dusk">
+        <ViewCap>
+          {nav}
+          <ViewTitle title="Add drink" />
+        </ViewCap>
+      </Themer>
       <ViewBody>
         <form className={classes.form}>
           <div className="content">
             <div className="fields">
-              <input
+              <Input
                 type="text"
                 placeholder="Display name"
                 value={article.displayName}
-                onChange={(event) => setDisplayName(event.target.value)}
+                onChange={setDisplayName}
               />
+            </div>
+
+            <div className="photo" onClick={clearPhoto}>
+              <PhotoInput photoURL={photoURL} onFile={handleFile} />
             </div>
 
             {article.bottling && (
@@ -153,28 +146,15 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
                 onChange={setBottling}
               />
             )}
-
-            {photoURL ? (
-              <div className="photo" onClick={clearPhoto}>
-                <Photo url={photoURL} />
-              </div>
-            ) : (
-              <ImageSelect onFile={handleFile}>
-                <div className="photo">Upload Photo</div>
-              </ImageSelect>
-            )}
-
-            <ActionButton
-              disabled={!canSave}
-              variant="action"
-              onClick={handleSave}
-            >
-              Add drink
-            </ActionButton>
           </div>
         </form>
       </ViewBody>
-    </HeaderLayout>
+      <ButtonField>
+        <MainButton disabled={!canSave} onClick={handleSave}>
+          Add now
+        </MainButton>
+      </ButtonField>
+    </BurgerLayout>
   );
 };
 

@@ -7,26 +7,20 @@ const useStyles = makeStyles({
     alignItems: "center",
     background: "#fff",
     border: "solid 1px #e2e2e2",
+    borderRadius: "16px",
+    boxShadow: "0 0 10px #fdfdfd",
     display: "flex",
     flexFlow: "column",
     height: "100%",
+    padding: "4px",
   },
   photo: {
-    height: "85px",
-    width: "100%",
+    borderRadius: "12px",
+    overflow: "hidden",
+    height: "144px",
+    width: "144px",
   },
-  meta: {
-    color: "#5a5a5a",
-    display: "grid",
-    flex: "1",
-    fontSize: "14px",
-    fontWeight: 500,
-    gridAutoFlow: "row",
-    gridGap: "6px",
-    lineHeight: 1.3,
-    padding: "12px",
-    textAlign: "center",
-  },
+  content: {},
 });
 
 interface CollectionItemProps {
@@ -44,7 +38,7 @@ const CollectionItem: React.FC<CollectionItemProps> = ({
       <div className={classes.photo}>
         <Photo url={imageURL} />
       </div>
-      <div className={classes.meta}>{children}</div>
+      <div className={classes.content}>{children}</div>
     </div>
   );
 };

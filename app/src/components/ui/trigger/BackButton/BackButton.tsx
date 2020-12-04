@@ -1,54 +1,15 @@
-import React, { useCallback } from "react";
-import { makeStyles } from "@material-ui/styles";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { ReactComponent as ArrowBack } from "assets/graphics/icons/arrow-nav-back.svg";
+import NavButton from "../NavButton";
 
-const useStyles = makeStyles({
-  root: {
-    alignItems: "center",
-    display: "flex",
-    fontSize: 17,
-  },
-  icon: {
-    marginRight: 5,
-    "& > svg": {
-      display: "block",
-      "& > path": {
-        fill: "#838383",
-      },
-    },
-  },
-});
-
-interface BackButtonProps {
-  onClick?: () => void;
-  to?: string;
-}
-
-const BackButton: React.FC<BackButtonProps> = ({
-  onClick,
-  to: path,
+const BackButton: React.FC<React.ButtonHTMLAttributes<unknown>> = ({
   children,
+  ...props
 }) => {
-  const classes = useStyles();
-
-  const history = useHistory();
-  const handleClick = useCallback(() => {
-    if (onClick) {
-      onClick();
-    }
-    if (path) {
-      history.push(path);
-    }
-  }, [history, path, onClick]);
-
   return (
-    <button type="button" onClick={handleClick} className={classes.root}>
-      <div className={classes.icon}>
-        <ArrowBack />
-      </div>
+    <NavButton {...props} icon={<ArrowBack />}>
       {children}
-    </button>
+    </NavButton>
   );
 };
 

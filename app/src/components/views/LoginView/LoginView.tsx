@@ -6,19 +6,22 @@ import { useSharedInput } from "components/hooks/useSharedInput";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import ButtonSet from "components/ui/layout/ButtonSet";
+import ViewBody from "components/ui/layout/ViewBody";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
-import * as Text from "./locales";
 import ActionButton from "components/ui/trigger/ActionButton";
+import Input from "components/ui/input/Input/Input";
+import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
+import { ReactComponent as PasswordIcon } from "assets/graphics/icons/padlock.svg";
 import config from "config/app.config.js";
+import * as Text from "./locales";
 
 const version = config.version;
 
 const useStyles = makeStyles({
   loginView: {
     alignItems: "center",
-    background: "#e2e2e2",
     display: "flex",
     flexFlow: "column",
     height: "100%",
@@ -44,7 +47,7 @@ const useStyles = makeStyles({
     marginTop: 20,
   },
   version: {
-    color: "#c4c4c4",
+    color: "#3d435199",
     fontSize: "9px",
     fontWeight: 500,
     margin: "16px",
@@ -81,52 +84,56 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
   return (
     <ViewStack>
       <FullScreenLayout>
-        <div className={classes.loginView}>
-          <form className={classes.content}>
-            <div className={classes.logo}>
-              <img src={logo} alt="Corkheads logo" width="200" height="200" />
-            </div>
+        <ViewBody>
+          <div className={classes.loginView}>
+            <form className={classes.content}>
+              <div className={classes.logo}>
+                <img src={logo} alt="Corkheads logo" width="200" height="200" />
+              </div>
 
-            <div className={classes.fields}>
-              <input
-                type="email"
-                name="login-email"
-                placeholder="Email"
-                autoComplete="login-email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              />
+              <div className={classes.fields}>
+                <Input
+                  symbol={<EmailIcon />}
+                  type="email"
+                  name="login-email"
+                  placeholder="Email"
+                  autoComplete="login-email"
+                  value={email}
+                  onChange={setEmail}
+                />
 
-              <input
-                type="password"
-                name="login-password"
-                placeholder="Password"
-                autoComplete="login-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
+                <Input
+                  symbol={<PasswordIcon />}
+                  type="password"
+                  name="login-password"
+                  placeholder="Password"
+                  autoComplete="login-password"
+                  value={password}
+                  onChange={setPassword}
+                />
 
-              <ButtonSet>
-                <ActionButton
-                  variant="action"
-                  onClick={handleSubmit}
-                  disabled={!canAttemptLogin}
-                >
-                  <Text.DoLogin />
-                </ActionButton>
-              </ButtonSet>
-            </div>
+                <ButtonSet>
+                  <ActionButton
+                    variant="action"
+                    onClick={handleSubmit}
+                    disabled={!canAttemptLogin}
+                  >
+                    <Text.DoLogin />
+                  </ActionButton>
+                </ButtonSet>
+              </div>
 
-            <button
-              type="button"
-              className={classes.forgotPassword}
-              onClick={handleReset}
-            >
-              <Text.ForgotPassword />
-            </button>
-          </form>
-          <div className={classes.version}>Version: {version}</div>
-        </div>
+              <button
+                type="button"
+                className={classes.forgotPassword}
+                onClick={handleReset}
+              >
+                <Text.ForgotPassword />
+              </button>
+            </form>
+            <div className={classes.version}>Version: {version}</div>
+          </div>
+        </ViewBody>
       </FullScreenLayout>
 
       <SlideRight active={showPasswordReset}>

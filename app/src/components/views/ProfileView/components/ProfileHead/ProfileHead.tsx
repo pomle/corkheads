@@ -1,32 +1,73 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
+import { firestore } from "firebase/app";
 import { makeStyles } from "@material-ui/styles";
 import { UserData, useUserData } from "components/hooks/db/useUserData";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import Photo from "components/ui/layout/Photo";
 import { User } from "types/User";
 import { usePhotoUpload } from "components/hooks/usePhotoUpload";
+import { useSwitch } from "components/hooks/useSwitch";
+import ViewStack from "components/ui/layout/ViewStack";
+import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
+import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+type StyleProps = {
+  canClear: boolean;
+  hasPhoto: boolean;
+};
+
+const useStyles = makeStyles((theme: Theme) => ({
   profileHead: {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    marginBottom: "40px",
+    marginBottom: "48px",
+  },
+  photoControl: {
+    position: "relative",
+    "& button.clear": {
+      opacity: (props: StyleProps) => (props.canClear ? 1 : 0),
+      padding: "8px",
+      position: "absolute",
+      pointerEvents: (props: StyleProps) => (props.canClear ? "all" : "none"),
+      right: 0,
+      top: 0,
+      transition: "opacity 0.3s ease",
+      "& svg": {
+        height: "12px",
+        width: "12px",
+        "& path": {
+          fill: theme.color.accent,
+        },
+      },
+    },
   },
   photo: {
-    backgroundColor: "#fff",
+    border: "dashed 1px",
+    borderColor: (props: StyleProps) =>
+      props.hasPhoto ? "transparent" : theme.color.text,
     borderRadius: "50%",
-    margin: "24px",
+    margin: "8px",
     overflow: "hidden",
-    height: "140px",
-    width: "140px",
+    height: "128px",
+    transition: "all 1s ease",
+    width: "128px",
+    "& .placeholder": {
+      alignItems: "center",
+      display: "flex",
+      justifyContent: "center",
+      "& svg": {
+        width: "50%",
+      },
+    },
   },
   identity: {
-    color: "#5a5a5a",
-    fontSize: "17px",
-    fontWeight: 700,
+    color: theme.color.accent,
+    fontSize: "20px",
+    margin: "16px",
   },
-});
+}));
 
 function resolveDisplayName(user: User, userData: UserData) {
   if (userData.displayName) {
@@ -46,6 +87,16 @@ interface ProfileHeadProps {
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
   const [userData, setUserData] = useUserData(user.uid);
+  const { photoURL } = userData;
+
+  const clearControl = useSwitch(false);
+
+  useEffect(() => {
+    if (clearControl.active) {
+      const timer = setTimeout(clearControl.off, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [clearControl]);
 
   const uploadFile = usePhotoUpload();
 
@@ -57,17 +108,39 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ user }) => {
     [userData, setUserData, uploadFile]
   );
 
-  const { photoURL } = userData;
+  const handleRemove = useCallback(() => {
+    setUserData({
+      ...userData,
+      photoURL: firestore.FieldValue.delete(),
+    });
+    clearControl.off();
+  }, [clearControl, userData, setUserData]);
 
-  const classes = useStyles();
+  const hasPhoto = !!photoURL;
+  const canClear = clearControl.active && hasPhoto;
+
+  const classes = useStyles({ canClear, hasPhoto });
 
   return (
     <div className={classes.profileHead}>
-      <ImageSelect onFile={handleImageSelect}>
-        <div className={classes.photo}>
-          <Photo url={photoURL} />
-        </div>
-      </ImageSelect>
+      <div className={classes.photoControl}>
+        <button type="button" className="clear" onClick={handleRemove}>
+          <CancelIcon />
+        </button>
+
+        <ImageSelect onFile={handleImageSelect}>
+          <div className={classes.photo}>
+            <ViewStack>
+              <div className="placeholder">
+                <CameraIcon />
+              </div>
+              <div className="image">
+                <Photo url={photoURL} />
+              </div>
+            </ViewStack>
+          </div>
+        </ImageSelect>
+      </div>
 
       <h2 className={classes.identity}>{resolveDisplayName(user, userData)}</h2>
     </div>

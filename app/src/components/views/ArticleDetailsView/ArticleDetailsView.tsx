@@ -1,5 +1,4 @@
 import React from "react";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -9,8 +8,14 @@ import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
 import { useArticle } from "components/hooks/db/useArticles";
+import Themer from "components/ui/theme/Themer";
+import { Theme } from "components/ui/theme/themes";
+import ViewHead from "components/ui/layout/ViewHead";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
+  head: {
+    textAlign: "center",
+  },
   photo: {
     height: "100vw",
     maxHeight: "400px",
@@ -27,7 +32,7 @@ const useStyles = makeStyles({
   userSection: {
     margin: "32px 0",
   },
-});
+}));
 
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
@@ -53,25 +58,33 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   const classes = useStyles();
 
   return (
-    <HeaderLayout>
-      <ViewCap top>
-        {nav}
-        <ViewTitle title={displayName} />
-      </ViewCap>
-      <ViewBody>
-        <div className={classes.photo}>
-          <Photo url={photoURL} />
-        </div>
+    <Themer theme="cream">
+      <HeaderLayout>
+        <ViewCap>
+          {nav}
+          <ViewHead>
+            <div className={classes.head}>
+              <h1>{displayName}</h1>
+            </div>
+          </ViewHead>
+        </ViewCap>
+        <ViewBody>
+          <div className={classes.photo}>
+            <Photo url={photoURL} />
+          </div>
 
-        <div className={classes.actionBox}>
-          <ActionBox userId={userId} articleId={articleId} />
-        </div>
+          <div className={classes.actionBox}>
+            <Themer theme="pure">
+              <ActionBox userId={userId} articleId={articleId} />
+            </Themer>
+          </div>
 
-        <div className={classes.userSection}>
-          <UserSections userId={userId} articleId={articleId} />
-        </div>
-      </ViewBody>
-    </HeaderLayout>
+          <div className={classes.userSection}>
+            <UserSections userId={userId} articleId={articleId} />
+          </div>
+        </ViewBody>
+      </HeaderLayout>
+    </Themer>
   );
 };
 

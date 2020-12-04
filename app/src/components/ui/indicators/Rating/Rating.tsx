@@ -1,11 +1,46 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
+import { Colors, Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
-  rating: {
-    display: "inline-flex",
-    justifyContent: "space-around",
-  },
+function getEmptyColor(theme: Theme) {
+  if (theme.color.surface === Colors.Milk) {
+    return Colors.Cream;
+  }
+  return Colors.Milk;
+}
+
+function getFilledColor(theme: Theme) {
+  if (theme.color.surface === Colors.Milk) {
+    return Colors.Gold;
+  }
+  return Colors.ShinyGold;
+}
+
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    rating: {
+      display: "inline-flex",
+      justifyContent: "space-around",
+      "& .star": {
+        "& svg": {
+          margin: "0.5px",
+          height: "1em",
+          width: "1em",
+        },
+        "&.empty": {
+          "& svg path": {
+            fill: getEmptyColor(theme),
+          },
+        },
+        "&.filled": {
+          "& svg path": {
+            fill: getFilledColor(theme),
+          },
+        },
+      },
+    },
+  };
 });
 
 interface RatingProps {
@@ -25,12 +60,10 @@ const Rating: React.FC<RatingProps> = ({ rating }) => {
       {RATINGS.map((rating) => {
         return (
           <div
-            style={{
-              filter: score >= rating ? "grayscale(0%)" : "grayscale(100%)",
-            }}
             key={rating}
+            className={score >= rating ? "star filled" : "star empty"}
           >
-            ⭐
+            <Star />
           </div>
         );
       })}

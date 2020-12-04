@@ -1,41 +1,43 @@
 import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import ActionButton from "components/ui/trigger/ActionButton";
-import NameValueList from "components/ui/layout/NameValueList";
-import NameValue from "components/ui/layout/NameValue";
 import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
-import { RatingAggregate } from "types/RatingAggregate";
-import NumberedRating from "../NumberedRating";
-import Collection from "../Collection";
-import { useArticle } from "components/hooks/db/useArticles";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
+import { Colors, Theme } from "components/ui/theme/themes";
+import Themer from "components/ui/theme/Themer";
+import CollectionToggleButton from "./components/CollectionToggleButton";
+import WishlistToggleButton from "./components/WishlistToggleButton";
+import Ratings from "./components/Ratings";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   ActionBox: {
-    background: "#fff",
+    background: theme.color.surface,
     borderRadius: "5px",
-    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+    boxShadow: "0 0 4px rgba(0, 0, 0, 0.2)",
     color: "#838383",
     display: "flex",
     flexFlow: "column",
     fontSize: "12px",
     fontWeight: 500,
     justifyContent: "stretch",
-    overflow: "hidden",
   },
-  collection: {
+  control: {
     display: "grid",
+    gridGap: "8px",
     gridTemplateColumns: "1fr 1fr",
-    gridAutoFlow: "column",
-    gridGap: "16px",
+    "& > *:first-child": {
+      gridColumn: "1 / 3",
+    },
     padding: "16px",
   },
-});
-
-function calcAverageRating(agg: RatingAggregate): number {
-  return agg.sum / agg.count;
-}
+  split: {
+    border: `dashed 1px ${Colors.Milk}`,
+  },
+  ratings: {
+    fontSize: "12px",
+    padding: "16px",
+  },
+}));
 
 interface ActionBoxProps {
   userId: string;
@@ -43,55 +45,31 @@ interface ActionBoxProps {
 }
 
 const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
-  const articleEntry = useArticle(articleId);
-  const userArticleEntry = useUserArticle(userId, articleId);
-
   const history = useHistory();
   const goToCheckIn = useCallback(() => {
     const url = paths.articleCheckIn.url({ articleId });
     history.push(url);
   }, [articleId, history]);
 
-  const article = articleEntry?.data;
-
-  const averageRating = article?.ratingAggregate
-    ? calcAverageRating(article.ratingAggregate)
-    : null;
-
-  const myRating = userArticleEntry?.data?.rating;
-
   const classes = useStyles();
 
   return (
     <div className={classes.ActionBox}>
-      <ActionButton variant="action" onClick={goToCheckIn}>
-        Check in
-      </ActionButton>
-      <NameValueList>
-        <Collection userId={userId} articleId={articleId} />
+      <div className={classes.control}>
+        <ActionButton onClick={goToCheckIn}>Check in</ActionButton>
+        <Themer theme="sky">
+          <CollectionToggleButton userId={userId} articleId={articleId} />
+          <WishlistToggleButton userId={userId} articleId={articleId} />
+        </Themer>
+      </div>
 
-        <NameValue
-          name="Global rating"
-          value={
-            averageRating ? (
-              <NumberedRating value={averageRating} max={5} />
-            ) : (
-              "-"
-            )
-          }
-        />
-        <NameValue
-          name="My rating"
-          value={
-            myRating?.score ? (
-              <NumberedRating value={myRating.score} max={5} />
-            ) : (
-              "-"
-            )
-          }
-        />
-        <NameValue name="Brand" value={article?.manufacturer || "-"} />
-      </NameValueList>
+      <hr className={classes.split} />
+
+      <div className={classes.ratings}>
+        <Themer theme="cream">
+          <Ratings userId={userId} articleId={articleId} />
+        </Themer>
+      </div>
     </div>
   );
 };

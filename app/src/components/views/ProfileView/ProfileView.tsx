@@ -15,7 +15,6 @@ import {
 import TopArticleItem from "./components/TopArticleItem";
 import { User } from "types/User";
 import CollectionList from "components/ui/layout/CollectionList";
-import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import {
   CheckInQuery,
@@ -29,6 +28,10 @@ import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
+import Panel from "./components/Panel";
+import CollectionArticleItem from "./components/CollectionArticleItem";
+import WishlistArticleItem from "./components/WishlistArticleItem";
+import Themer from "components/ui/theme/Themer";
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -115,137 +118,141 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, user }) => {
   const checkInHistoryResult = useCheckInQuery(checkInHistoryQuery);
 
   return (
-    <FullScreenLayout>
-      <ViewBody>
-        {nav}
+    <Themer theme="dusk">
+      <FullScreenLayout>
+        <ViewBody>
+          {nav}
 
-        <ProfileHead user={user} />
+          <ProfileHead user={user} />
 
-        <SectionList>
-          <Section
-            header={
-              <SectionTitle
-                main="Top drinks"
-                context={<a href="/">See all</a>}
-              />
-            }
-          >
-            <ItemList>
-              {topArticlesResult &&
-                topArticlesResult.map(({ articleEntry, userArticleEntry }) => {
-                  const article = articleEntry.data;
-                  const userArticle = userArticleEntry.data;
-                  if (!article || !userArticle) {
-                    return <div />;
+          <Themer theme="pure">
+            <Panel>
+              <SectionList>
+                <Section
+                  header={
+                    <SectionTitle
+                      main="Top drinks"
+                      context={<a href="/">See all ›</a>}
+                    />
                   }
+                >
+                  <ItemList>
+                    {topArticlesResult &&
+                      topArticlesResult.map(
+                        ({ articleEntry, userArticleEntry }) => {
+                          const article = articleEntry.data;
+                          const userArticle = userArticleEntry.data;
 
-                  return (
-                    <button
-                      key={userArticle.id}
-                      onClick={() => goToArticle(article.id)}
-                    >
-                      <TopArticleItem
-                        article={article}
-                        userArticle={userArticle}
-                      />
-                    </button>
-                  );
-                })}
-            </ItemList>
-          </Section>
+                          return (
+                            <button
+                              key={articleEntry.id}
+                              onClick={() => goToArticle(articleEntry.id)}
+                            >
+                              {article && userArticle && (
+                                <TopArticleItem
+                                  article={article}
+                                  userArticle={userArticle}
+                                />
+                              )}
+                            </button>
+                          );
+                        }
+                      )}
+                  </ItemList>
+                </Section>
 
-          <Section
-            header={
-              <SectionTitle
-                main="Check ins"
-                context={<a href="/">See all</a>}
-              />
-            }
-          >
-            <ItemList>
-              {checkInHistoryResult &&
-                checkInHistoryResult.map(({ checkInEntry, articleEntry }) => {
-                  const article = articleEntry.data;
-                  const checkIn = checkInEntry.data;
-                  if (!article || !checkIn) {
-                    return <div />;
+                <Section
+                  header={
+                    <SectionTitle
+                      main="Check ins"
+                      context={<a href="/">See all ›</a>}
+                    />
                   }
+                >
+                  <ItemList>
+                    {checkInHistoryResult &&
+                      checkInHistoryResult.map(
+                        ({ checkInEntry, articleEntry }) => {
+                          const article = articleEntry.data;
+                          const checkIn = checkInEntry.data;
 
-                  return (
-                    <button
-                      key={checkIn.id}
-                      onClick={() => goToCheckIn(checkIn.id)}
-                    >
-                      <CheckInItem checkIn={checkIn} article={article} />
-                    </button>
-                  );
-                })}
-            </ItemList>
-          </Section>
+                          return (
+                            <button
+                              key={checkInEntry.id}
+                              onClick={() => goToCheckIn(checkInEntry.id)}
+                            >
+                              {article && checkIn && (
+                                <CheckInItem
+                                  checkIn={checkIn}
+                                  article={article}
+                                />
+                              )}
+                            </button>
+                          );
+                        }
+                      )}
+                  </ItemList>
+                </Section>
 
-          <Section
-            header={
-              <SectionTitle
-                main="Collection"
-                context={<a href="/">See all</a>}
-              />
-            }
-          >
-            <CollectionList>
-              {ownedArticlesResult &&
-                ownedArticlesResult.map(
-                  ({ articleEntry, userArticleEntry }) => {
-                    const article = articleEntry.data;
-                    if (!article) {
-                      return <div />;
-                    }
-
-                    const photoURL = article.photoURL;
-                    return (
-                      <button
-                        key={article.id}
-                        onClick={() => goToArticle(article.id)}
-                      >
-                        <CollectionItem key={article.id} imageURL={photoURL}>
-                          {article.displayName}
-                        </CollectionItem>
-                      </button>
-                    );
+                <Section
+                  header={
+                    <SectionTitle
+                      main="Collection"
+                      context={<a href="/">See all ›</a>}
+                    />
                   }
-                )}
-            </CollectionList>
-          </Section>
+                >
+                  <CollectionList>
+                    {ownedArticlesResult &&
+                      ownedArticlesResult.map(({ articleEntry }) => {
+                        const article = articleEntry.data;
 
-          <Section
-            header={
-              <SectionTitle main="Wishlist" context={<a href="/">See all</a>} />
-            }
-          >
-            <CollectionList>
-              {wishlistArticlesResult &&
-                wishlistArticlesResult.map(({ articleEntry }) => {
-                  const article = articleEntry.data;
-                  if (!article) {
-                    return <div />;
+                        return (
+                          <button
+                            key={articleEntry.id}
+                            onClick={() => goToArticle(articleEntry.id)}
+                          >
+                            {article && (
+                              <CollectionArticleItem article={article} />
+                            )}
+                          </button>
+                        );
+                      })}
+                  </CollectionList>
+                </Section>
+
+                <Section
+                  header={
+                    <SectionTitle
+                      main="Wish list"
+                      context={<a href="/">See all › </a>}
+                    />
                   }
+                >
+                  <ItemList>
+                    {wishlistArticlesResult &&
+                      wishlistArticlesResult.map(({ articleEntry }) => {
+                        const article = articleEntry.data;
 
-                  const photoURL = article.photoURL;
-                  return (
-                    <button
-                      key={article.id}
-                      onClick={() => goToArticle(article.id)}
-                    >
-                      <CollectionItem key={article.id} imageURL={photoURL}>
-                        {article.displayName}
-                      </CollectionItem>
-                    </button>
-                  );
-                })}
-            </CollectionList>
-          </Section>
-        </SectionList>
-      </ViewBody>
-    </FullScreenLayout>
+                        return (
+                          <button
+                            key={articleEntry.id}
+                            onClick={() => goToArticle(articleEntry.id)}
+                          >
+                            {article && (
+                              <WishlistArticleItem article={article} />
+                            )}
+                          </button>
+                        );
+                      })}
+                  </ItemList>
+                </Section>
+              </SectionList>
+            </Panel>
+          </Themer>
+        </ViewBody>
+      </FullScreenLayout>
+    </Themer>
   );
 };
 

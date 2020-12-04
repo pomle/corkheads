@@ -1,20 +1,22 @@
 import React, { useCallback, useMemo, useState } from "react";
-import ViewTitle from "components/ui/layout/ViewTitle";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/User";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import ActionButton from "components/ui/trigger/ActionButton";
 import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
-import Section from "components/ui/layout/Section";
-import SectionList from "components/ui/layout/SectionList";
 import { useCommitCheckIn } from "./hooks";
-import ImageSelect from "components/ui/trigger/ImageSelect";
-import Photo from "components/ui/layout/Photo";
 import { Rating } from "types/Rating";
+import ViewHead from "components/ui/layout/ViewHead";
+import Themer from "components/ui/theme/Themer";
+import { Colors } from "components/ui/theme/themes";
+import Divider from "components/ui/layout/Divider";
+import Input from "components/ui/input/Input/Input";
+import BurgerLayout from "components/ui/layout/BurgerLayout";
+import ButtonField from "components/ui/layout/ButtonField";
+import PhotoInput from "./component/PhotoInput";
+import MainButton from "components/ui/trigger/MainButton/MainButton";
 
 const useStyles = makeStyles({
   "@keyframes beat": {
@@ -25,33 +27,23 @@ const useStyles = makeStyles({
       transform: "scale(1.5)",
     },
   },
-  content: {
-    background: "#fff",
-    color: "#5a5a5a",
-    display: "flex",
-    flexFlow: "column",
-    height: "100vw",
-    maxHeight: "400px",
-    padding: "24px",
-    justifyContent: "space-between",
+  head: {
     textAlign: "center",
   },
-  meta: {
-    lineHeight: 1.4,
-    marginTop: "10%",
-  },
-  displayName: {
-    fontSize: "20px",
-    fontWeight: 700,
-  },
-  manufacturer: {
-    fontSize: "16px",
-    fontWeight: 500,
+  content: {
+    background: Colors.BlueSmoke,
+    borderRadius: "8px",
+    color: "#5a5a5a",
+    display: "grid",
+    gridAutoFlow: "row",
+    gridGap: "24px",
+    margin: "28px",
+    padding: "24px",
+    textAlign: "center",
   },
   rating: {
-    "& button": {
-      fontSize: "40px",
-    },
+    margin: "0 auto",
+    width: "75%",
     "& button.loveIt": {
       filter: "grayscale(1) opacity(0.3)",
       fontSize: "60px",
@@ -59,18 +51,15 @@ const useStyles = makeStyles({
       "&.active": {
         animation: `$beat 2000ms ease infinite alternate`,
         filter: "none",
+        pointerEvents: "none", // Button may cover when pulsating
       },
     },
-    margin: "0 10% 20% 10%",
   },
-  photo: {
-    height: "100vw",
-    maxHeight: "400px",
-  },
+  photo: {},
 });
 
 function isCheckInValid(checkIn: CheckIn) {
-  return !!checkIn.rating;
+  return checkIn.rating.score !== undefined;
 }
 
 function createCheckIn(article: Article, user: User): CheckIn {
@@ -162,65 +151,60 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const canCheckIn = isCheckInValid(checkIn);
   const canLoveIt = rating.score === 5;
 
-  const { displayName, manufacturer } = article;
-
   const classes = useStyles();
 
   return (
-    <HeaderLayout>
-      <ViewCap top>
-        {nav}
-        <ViewTitle title="Check In" />
-      </ViewCap>
+    <BurgerLayout>
+      <Themer theme="dusk">
+        <ViewCap>
+          {nav}
+          <ViewHead>
+            <div className={classes.head}>
+              <h1>{article.displayName}</h1>
+            </div>
+          </ViewHead>
+        </ViewCap>
+      </Themer>
       <ViewBody>
-        <div className={classes.content}>
-          <div className={classes.meta}>
-            <div className={classes.displayName}>{displayName}</div>
-            <div className={classes.manufacturer}>{manufacturer}</div>
+        <Themer theme="dusk">
+          <div className={classes.content}>
+            <div className={classes.rating}>
+              <RatingInput rating={rating.score || 0} onChange={setScore} />
+              {canLoveIt && (
+                <button
+                  type="button"
+                  className={rating.love ? "loveIt active" : "loveIt"}
+                  onClick={setLoveIt}
+                >
+                  💖
+                </button>
+              )}
+            </div>
+
+            <Divider />
+
+            <div className={classes.photo}>
+              <PhotoInput photoURL={photoURL} onFile={handleFile} />
+            </div>
+
+            <div>
+              <Input
+                type="text"
+                placeholder="Enter comment"
+                value={checkIn.comment || ""}
+                onChange={setComment}
+              />
+            </div>
           </div>
-
-          <div className={classes.rating}>
-            <RatingInput rating={rating.score || 0} onChange={setScore} />
-            {canLoveIt && (
-              <button
-                type="button"
-                className={rating.love ? "loveIt active" : "loveIt"}
-                onClick={setLoveIt}
-              >
-                💖
-              </button>
-            )}
-          </div>
-
-          <ActionButton
-            disabled={!canCheckIn}
-            variant="action"
-            onClick={handleCheckIn}
-          >
-            Check in now
-          </ActionButton>
-        </div>
-
-        <SectionList>
-          <Section header="Photo">
-            <ImageSelect onFile={handleFile}>
-              <div className={classes.photo}>
-                <Photo url={photoURL} />
-              </div>
-            </ImageSelect>
-          </Section>
-        </SectionList>
-
-        <SectionList>
-          <Section header="Comment">
-            <textarea
-              value={checkIn.comment || ""}
-              onChange={(event) => setComment(event?.target.value)}
-            />
-          </Section>
-        </SectionList>
+        </Themer>
       </ViewBody>
-    </HeaderLayout>
+
+      <ButtonField>
+        <MainButton disabled={!canCheckIn} onClick={handleCheckIn}>
+          Check in now
+        </MainButton>
+      </ButtonField>
+    </BurgerLayout>
   );
 };
 

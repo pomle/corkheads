@@ -5,6 +5,7 @@ import Number from "components/ui/format/Number";
 
 const useStyles = makeStyles({
   NumberedRating: {
+    alignItems: "center",
     display: "flex",
     lineHeight: 1,
   },
@@ -20,11 +21,11 @@ const NumberedRating: React.FC<NumberedRatingProps> = ({ value, max }) => {
 
   return (
     <div className={classes.NumberedRating}>
-      <Rating rating={value / max} />
       <div>
-        &nbsp;
         <Number value={value} decimals={1} />
+        &nbsp;
       </div>
+      <Rating rating={value / max} />
     </div>
   );
 };

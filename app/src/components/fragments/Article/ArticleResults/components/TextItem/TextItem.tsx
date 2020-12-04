@@ -3,9 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   TextItem: {
-    background: "#fff",
-    fontSize: "14px",
-    padding: "32px",
+    fontSize: "12px",
+    padding: "24px 8px",
     textAlign: "center",
   },
 });

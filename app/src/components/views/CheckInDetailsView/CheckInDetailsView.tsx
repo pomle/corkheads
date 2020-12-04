@@ -72,7 +72,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
 
   return (
     <HeaderLayout>
-      <ViewCap top>
+      <ViewCap>
         {nav}
         <ViewTitle title="Check in" />
       </ViewCap>

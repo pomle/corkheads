@@ -4,15 +4,17 @@ import {
   useScrollHandle,
   ScrollContext,
 } from "components/context/ScrollContext";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   ViewBody: {
-    background: "#e2e2e2",
+    background: theme.color.surface,
+    color: theme.color.text,
     height: "100%",
     overflow: "scroll",
     position: "relative", // Creates link to children's offsetParent
   },
-});
+}));
 
 const ViewBody: React.FC = ({ children }) => {
   const classes = useStyles();

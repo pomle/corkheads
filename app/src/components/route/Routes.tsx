@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import AppRoute from "./routes/AppRoute";
 import Screen from "./Screen";
+import Themer from "components/ui/theme/Themer";
 import * as paths from "components/route/paths";
 import { Article } from "types/Article";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
@@ -24,26 +25,28 @@ const Routes: React.FC = () => {
   );
 
   return (
-    <AppRoute>
-      <ViewStack>
-        <ProfilePage />
-        <Screen path={paths.articleView} transition={SlideRight}>
-          {(params) => <ArticlePage articleId={params.articleId} />}
-        </Screen>
-        <Screen path={paths.checkInView} transition={SlideRight}>
-          {(params) => <CheckInPage checkInId={params.checkInId} />}
-        </Screen>
-        <Screen path={paths.articleCheckIn} transition={SlideRight}>
-          {(params) => <CheckInCreatePage articleId={params.articleId} />}
-        </Screen>
-        <Screen path={paths.articleCreate} transition={SlideDown}>
-          {() => <ArticleCreatePage />}
-        </Screen>
-        <Screen path={paths.exploreArticles} transition={SlideDown}>
-          {() => <FindPage onSelect={handleSelect} />}
-        </Screen>
-      </ViewStack>
-    </AppRoute>
+    <Themer theme="storm">
+      <AppRoute>
+        <ViewStack>
+          <ProfilePage />
+          <Screen path={paths.articleView} transition={SlideRight}>
+            {(params) => <ArticlePage articleId={params.articleId} />}
+          </Screen>
+          <Screen path={paths.checkInView} transition={SlideRight}>
+            {(params) => <CheckInPage checkInId={params.checkInId} />}
+          </Screen>
+          <Screen path={paths.articleCheckIn} transition={SlideRight}>
+            {(params) => <CheckInCreatePage articleId={params.articleId} />}
+          </Screen>
+          <Screen path={paths.articleCreate} transition={SlideDown}>
+            {() => <ArticleCreatePage />}
+          </Screen>
+          <Screen path={paths.exploreArticles} transition={SlideDown}>
+            {() => <FindPage onSelect={handleSelect} />}
+          </Screen>
+        </ViewStack>
+      </AppRoute>
+    </Themer>
   );
 };
 

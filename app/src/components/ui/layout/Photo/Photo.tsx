@@ -1,8 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type Size = "cover" | "contain";
+
 type StyleProps = {
   imageURL?: string;
+  size: Size;
 };
 
 function backgroundImage({ imageURL }: StyleProps) {
@@ -14,10 +17,10 @@ function backgroundImage({ imageURL }: StyleProps) {
 
 const useStyles = makeStyles({
   Photo: {
-    background: "#c9c9c9",
     backgroundImage,
     backgroundPosition: "center",
-    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: (props: StyleProps) => props.size,
     height: "100%",
     width: "100%",
   },
@@ -25,11 +28,12 @@ const useStyles = makeStyles({
 
 interface PhotoProps {
   url?: string;
+  size?: Size;
 }
 
-const Photo: React.FC<PhotoProps> = ({ url, children }) => {
-  const classes = useStyles({ imageURL: url });
-  return <div className={classes.Photo} />;
+const Photo: React.FC<PhotoProps> = ({ url, size = "cover", children }) => {
+  const classes = useStyles({ imageURL: url, size });
+  return <div className={classes.Photo}>{children}</div>;
 };
 
 export default Photo;

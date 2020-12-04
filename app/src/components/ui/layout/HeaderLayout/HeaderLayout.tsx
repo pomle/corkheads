@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  HeaderLayout: {
     display: "flex",
     flexFlow: "column",
     height: "100%",
@@ -28,7 +28,7 @@ const HeaderLayout: React.FC<HeaderLayoutProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.HeaderLayout}>
       <div className={classes.header}>{header}</div>
       <div className={classes.content}>{content}</div>
     </div>

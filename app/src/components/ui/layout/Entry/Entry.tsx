@@ -1,32 +1,34 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { Colors, Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   Entry: {
-    "& th": {
-      color: "#838383",
-      fontSize: "16px",
-      fontWeight: 400,
-      textAlign: "left",
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "space-between",
+    "& dt": {
+      color: Colors.Sot,
+      fontSize: "12px",
+      fontWeight: 700,
     },
-    "& td": {
-      alignItems: "center",
-      display: "flex",
+    "& dd": {
       "& input": {
         background: "none",
         border: "none",
-        color: "#ff6a41",
+        color: theme.color.action,
         flex: 1,
-        fontSize: "16px",
-        padding: "8px 0",
+        fontSize: "14px",
+        padding: "12px 0",
         textAlign: "right",
         "&::placeholder": {
-          color: "#ff6a41",
+          color: theme.color.action + "90",
+          fontWeight: 400,
         },
       },
     },
   },
-});
+}));
 
 interface EntryProps {
   name: React.ReactNode;
@@ -35,10 +37,10 @@ interface EntryProps {
 const Entry: React.FC<EntryProps> = ({ name, children }) => {
   const classes = useStyles();
   return (
-    <tr className={classes.Entry}>
-      <th>{name}</th>
-      <td>{children}</td>
-    </tr>
+    <dl className={classes.Entry}>
+      <dt>{name}</dt>
+      <dd>{children}</dd>
+    </dl>
   );
 };
 

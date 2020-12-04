@@ -1,30 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { Theme } from "components/ui/theme/themes";
 
-type StyleProps = {
-  bottom?: boolean;
-  top?: boolean;
-};
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   ViewCap: {
-    background: (props: StyleProps) =>
-      props.bottom || props.top ? "#f9f9f9" : "none",
-    borderBottom: (props: StyleProps) =>
-      props.top ? "solid 2px #CCCCCC" : "none",
-    borderTop: (props: StyleProps) =>
-      props.bottom ? "solid 2px #CCCCCC" : "none",
+    background: theme.color.surface,
     minHeight: 54,
   },
-});
+}));
 
-interface ViewCapProps {
-  bottom?: boolean;
-  top?: boolean;
-}
+interface ViewCapProps {}
 
-const ViewCap: React.FC<ViewCapProps> = ({ top, bottom, children }) => {
-  const classes = useStyles({ top, bottom });
+const ViewCap: React.FC<ViewCapProps> = ({ children }) => {
+  const classes = useStyles();
 
   return <div className={classes.ViewCap}>{children}</div>;
 };

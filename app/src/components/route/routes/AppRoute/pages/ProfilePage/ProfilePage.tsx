@@ -7,6 +7,8 @@ import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import LoadingView from "components/views/LoadingView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
+import NavButton from "components/ui/trigger/NavButton";
+import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
 
 const ProfilePage: React.FC = () => {
   const element = useRef<React.ReactElement>();
@@ -16,7 +18,13 @@ const ProfilePage: React.FC = () => {
   const signOut = useExplicitLogout();
 
   const nav = (
-    <NavigationBar forward={<button onClick={signOut}>Log out</button>} />
+    <NavigationBar
+      forward={
+        <NavButton icon={<SignOutIcon />} onClick={signOut}>
+          Sign out
+        </NavButton>
+      }
+    />
   );
 
   return (

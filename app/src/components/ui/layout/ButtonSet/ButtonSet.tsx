@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  root: {
+  ButtonSet: {
     display: "grid",
     gridAutoFlow: "column",
     justifyContent: "stretch",
@@ -21,7 +21,7 @@ const ButtonSet: React.FC = ({ children }) => {
     return null;
   }
 
-  return <div className={classes.root}>{nodes}</div>;
+  return <div className={classes.ButtonSet}>{nodes}</div>;
 };
 
 export default ButtonSet;

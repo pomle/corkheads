@@ -30,7 +30,7 @@ const ErrorView: React.FC<ErrorViewProps> = ({ nav, children }) => {
 
   return (
     <HeaderLayout>
-      <ViewCap top>{nav}</ViewCap>
+      <ViewCap>{nav}</ViewCap>
       <ViewBody>
         <div className={classes.body}>
           <h3>
