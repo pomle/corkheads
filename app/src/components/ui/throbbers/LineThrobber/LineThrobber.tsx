@@ -1,6 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
+type StyleProps = {
+  color: string;
+};
+
 const useStyles = makeStyles({
   "@keyframes travel": {
     "0%": { left: "-50%", right: "100%" },
@@ -15,14 +19,18 @@ const useStyles = makeStyles({
   },
   indicator: {
     animation: "$travel 1s linear infinite",
-    background: "#2A2A2A",
+    background: (props: StyleProps) => props.color,
     height: "100%",
     position: "absolute",
   },
 });
 
-const LineThrobber: React.FC = () => {
-  const classes = useStyles();
+interface LineThrobberProps {
+  color?: string;
+}
+
+const LineThrobber: React.FC<LineThrobberProps> = ({ color = "#2A2A2A" }) => {
+  const classes = useStyles({ color });
 
   return (
     <div className={classes.track}>
