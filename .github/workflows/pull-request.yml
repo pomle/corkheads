@@ -44,6 +44,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: cd app && make build
         env:
+          REACT_APP_ENVIRONMENT: preview
           CI:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
