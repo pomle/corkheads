@@ -10,12 +10,16 @@ export type UserData = {
   readonly checkInCount?: number;
 };
 
-const EMPTY = Object.create(null);
+const DEFAULT: UserData = {
+  checkInCount: 0,
+  collectionSize: 0,
+  wishlistSize: 0,
+};
 
 export function useUserData(
   userId: string
 ): [UserData, (userData: DocumentType<UserData>) => Promise<void>] {
-  const [userData, setUserData] = useState<UserData>(EMPTY);
+  const [userData, setUserData] = useState<UserData>(DEFAULT);
 
   const db = useDB();
 
@@ -25,7 +29,7 @@ export function useUserData(
 
   useEffect(() => {
     return userRef.onSnapshot((snapshot) => {
-      setUserData(snapshot.data() || EMPTY);
+      setUserData(snapshot.data() || DEFAULT);
     });
   }, [userRef]);
 
