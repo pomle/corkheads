@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   CollectionList: {
-    background: "#fff",
     display: "grid",
     gridGap: "16px",
     gridTemplateColumns: "1fr 1fr",
