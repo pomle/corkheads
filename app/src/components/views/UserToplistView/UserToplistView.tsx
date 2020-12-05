@@ -20,6 +20,19 @@ const useStyles = makeStyles((theme: Theme) => ({
   body: {
     margin: "0 16px",
   },
+  item: {
+    alignItems: "center",
+    display: "flex",
+    "& .rank": {
+      color: theme.color.accent + "80",
+      fontFamily: "Bree Serif",
+      fontSize: "24px",
+      paddingRight: "16px",
+    },
+    "& > :last-child": {
+      flex: 1,
+    },
+  },
 }));
 
 interface UserToplistViewProps {
@@ -69,15 +82,17 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
           <div className={classes.body}>
             <ItemList>
               {result &&
-                result.map(({ articleEntry, userArticleEntry }) => {
+                result.map(({ articleEntry, userArticleEntry }, index) => {
                   const article = articleEntry.data;
                   const userArticle = userArticleEntry.data;
 
                   return (
                     <button
                       key={articleEntry.id}
+                      className={classes.item}
                       onClick={() => routes.article(articleEntry.id)}
                     >
+                      <div className="rank">{index + 1}</div>
                       {article && userArticle && (
                         <TopArticleItem
                           article={article}
