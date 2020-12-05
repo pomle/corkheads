@@ -5,6 +5,7 @@ const stringCodec = createCodec(encodeURIComponent, decodeURIComponent);
 const profileView = createPath("/", {});
 const collectionView = createPath("/collection", {});
 const checkInsView = createPath("/checkIns", {});
+const wishlistView = createPath("/wishlist", {});
 
 const exploreArticles = createPath("/explore", {});
 
@@ -24,6 +25,7 @@ export {
   profileView,
   collectionView,
   checkInsView,
+  wishlistView,
   exploreArticles,
   articleCreate,
   articleView,
