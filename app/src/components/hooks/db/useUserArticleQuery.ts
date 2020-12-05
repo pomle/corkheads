@@ -1,10 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Article } from "types/Article";
-import { Entry } from "types/Entry";
+import { useEffect, useState } from "react";
 import { UserArticle } from "types/UserArticle";
 import { useDB } from "../useDB";
-import { useArticles } from "./useArticles";
-import { useUserArticles } from "./useUserArticles";
+import { useUserArticleTuple } from "./useUserArticles";
 
 type SortOrder = {
   field: keyof UserArticle;
@@ -20,14 +17,7 @@ export type UserArticleQuery = {
   limit?: number;
 };
 
-type UserArticleQueryResult = {
-  articleEntry: Entry<Article>;
-  userArticleEntry: Entry<UserArticle>;
-};
-
-export function useUserArticleQuery(
-  query: UserArticleQuery
-): UserArticleQueryResult[] | null {
+export function useUserArticleQuery(query: UserArticleQuery) {
   const [ids, setIds] = useState<string[]>([]);
 
   const db = useDB();
@@ -57,30 +47,5 @@ export function useUserArticleQuery(
   }, [db, query]);
 
   const userId = query.filters.userId;
-  const articleEntries = useArticles(ids);
-  const userArticleEntries = useUserArticles(userId, ids);
-
-  return useMemo(() => {
-    if (!articleEntries || !userArticleEntries) {
-      return null;
-    }
-
-    const results: UserArticleQueryResult[] = [];
-
-    for (const id of ids) {
-      const articleEntry = articleEntries[id];
-      const userArticleEntry = userArticleEntries[id];
-
-      if (!articleEntry || !userArticleEntry) {
-        return null;
-      }
-
-      results.push({
-        articleEntry,
-        userArticleEntry,
-      });
-    }
-
-    return results;
-  }, [ids, articleEntries, userArticleEntries]);
+  return useUserArticleTuple(userId, ids);
 }
