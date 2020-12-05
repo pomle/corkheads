@@ -20,7 +20,7 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const result = useUserArticleToplistQuery(userId, 10);
+  const result = useUserArticleToplistQuery(userId, 3);
 
   return (
     <ItemList>
