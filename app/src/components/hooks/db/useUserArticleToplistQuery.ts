@@ -9,6 +9,10 @@ export function useUserArticleToplistQuery(userId: string, limit: number) {
       },
       order: [
         {
+          field: "rating.love",
+          dir: "desc",
+        },
+        {
           field: "rating.score",
           dir: "desc",
         },
