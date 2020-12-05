@@ -19,6 +19,7 @@ interface ProfileViewProps {
   routes: {
     collection: string;
     checkIns: string;
+    wishlist: string;
   };
   userId: string;
 }
@@ -73,7 +74,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                   header={
                     <SectionTitle
                       main={<>Wish list ({wishlistSize})</>}
-                      context="See all ›"
+                      context={<Link to={routes.wishlist}>See all ›</Link>}
                     />
                   }
                 >

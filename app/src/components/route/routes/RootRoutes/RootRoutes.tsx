@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
 import CollectionPage from "./pages/CollectionPage";
 import CheckInsPage from "./pages/CheckInsPage";
+import WishlistPage from "./pages/WishlistPage";
 
 const RootRoutes: React.FC = () => {
   const history = useHistory();
@@ -32,6 +33,9 @@ const RootRoutes: React.FC = () => {
       </Screen>
       <Screen path={paths.checkInsView} transition={SlideRight}>
         {() => <CheckInsPage />}
+      </Screen>
+      <Screen path={paths.wishlistView} transition={SlideRight}>
+        {() => <WishlistPage />}
       </Screen>
       <Screen path={paths.articleView} transition={SlideRight}>
         {(params) => <ArticlePage articleId={params.articleId} />}
