@@ -32,6 +32,7 @@ const ProfilePage: React.FC = () => {
     () => ({
       collection: paths.collectionView.url({}),
       checkIns: paths.checkInsView.url({}),
+      toplist: paths.toplistView.url({}),
       wishlist: paths.wishlistView.url({}),
     }),
     []

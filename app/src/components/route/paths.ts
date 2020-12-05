@@ -3,6 +3,7 @@ import { createPath, createCodec } from "lib/path";
 const stringCodec = createCodec(encodeURIComponent, decodeURIComponent);
 
 const profileView = createPath("/", {});
+const toplistView = createPath("/toplist", {});
 const collectionView = createPath("/collection", {});
 const checkInsView = createPath("/checkIns", {});
 const wishlistView = createPath("/wishlist", {});
@@ -23,6 +24,7 @@ const checkInView = createPath("/checkIn/view/:checkInId", {
 
 export {
   profileView,
+  toplistView,
   collectionView,
   checkInsView,
   wishlistView,
