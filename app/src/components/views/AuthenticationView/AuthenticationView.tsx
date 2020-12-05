@@ -1,13 +1,13 @@
 import React, { useCallback } from "react";
 import LoginView from "components/views/LoginView";
-import { useHandler } from "components/hooks/useHandler";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { useSession } from "components/context/SessionContext";
 import Lock from "components/ui/transitions/Lock";
 
 const AuthenticationView: React.FC = () => {
   const session = useSession();
 
-  const submitHandle = useHandler(
+  const submitHandle = useAsyncCallback(
     useCallback(
       (credentials: { username: string; password: string }) => {
         return session.auth.signInWithEmailAndPassword(
