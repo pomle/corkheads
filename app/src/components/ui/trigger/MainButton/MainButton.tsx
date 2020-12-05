@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Colors, Theme } from "components/ui/theme/themes";
+import ButtonContent from "components/ui/layout";
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -17,14 +18,20 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-interface MainButtonProps extends React.ButtonHTMLAttributes<any> {}
+interface MainButtonProps extends React.ButtonHTMLAttributes<any> {
+  busy?: boolean;
+}
 
-const MainButton: React.FC<MainButtonProps> = ({ children, ...props }) => {
+const MainButton: React.FC<MainButtonProps> = ({
+  children,
+  busy = false,
+  ...props
+}) => {
   const classes = useStyles();
 
   return (
     <button className={classes.MainButton} type="button" {...props}>
-      {children}
+      <ButtonContent busy={busy}> {children}</ButtonContent>
     </button>
   );
 };
