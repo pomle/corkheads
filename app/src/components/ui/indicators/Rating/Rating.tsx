@@ -6,6 +6,8 @@ import { Colors, Theme } from "components/ui/theme/themes";
 function getEmptyColor(theme: Theme) {
   if (theme.color.surface === Colors.Milk) {
     return Colors.Cream;
+  } else if (theme.color.surface === Colors.Navy) {
+    return Colors.Milk + "30";
   }
   return Colors.Milk;
 }
