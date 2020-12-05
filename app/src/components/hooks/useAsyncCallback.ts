@@ -3,7 +3,6 @@ import { useCallback, useState, useRef } from "react";
 export type HandlerState<Input extends any[]> = {
   busy: boolean;
   callback: (...args: Input) => void;
-  error: Error | null;
 };
 
 /*
@@ -13,11 +12,10 @@ Wrap a callback in a handler that handles
   * Errors
 in a consistent way.
 */
-export const useHandler = <Input extends any[], Response>(
+export const useAsyncCallback = <Input extends any[], Response>(
   resolver: (...args: Input) => Promise<Response>
 ): HandlerState<Input> => {
   const [busy, setBusy] = useState<boolean>(false);
-  const [error, setError] = useState<Error | null>(null);
   const inFlight = useRef<boolean>(false);
 
   const callback = useCallback(
@@ -28,16 +26,17 @@ export const useHandler = <Input extends any[], Response>(
 
       inFlight.current = true;
       setBusy(true);
-      setError(null);
 
-      try {
-        await resolver(...args);
-      } catch (error) {
-        setError(error);
-      }
+      const promise = new Promise((resolve, reject) => {
+        resolver(...args).then(resolve);
+      });
 
-      inFlight.current = false;
-      setBusy(false);
+      promise.finally(() => {
+        inFlight.current = false;
+        setBusy(false);
+      });
+
+      return promise;
     },
     [resolver]
   );
@@ -45,6 +44,5 @@ export const useHandler = <Input extends any[], Response>(
   return {
     busy,
     callback,
-    error,
   };
 };
