@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -7,11 +7,8 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import ItemList from "components/ui/layout/ItemList";
-import {
-  UserArticleQuery,
-  useUserArticleQuery,
-} from "components/hooks/db/useUserArticleQuery";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
+import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -48,22 +45,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
   routes,
   userId,
 }) => {
-  const query = useMemo((): UserArticleQuery => {
-    return {
-      filters: {
-        userId,
-      },
-      order: [
-        {
-          field: "checkIns",
-          dir: "desc",
-        },
-      ],
-      limit: 10,
-    };
-  }, [userId]);
-
-  const result = useUserArticleQuery(query);
+  const result = useUserArticleToplistQuery(userId, 10);
 
   const classes = useStyles();
 

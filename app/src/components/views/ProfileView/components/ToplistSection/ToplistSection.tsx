@@ -1,12 +1,9 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import ItemList from "components/ui/layout/ItemList";
-import {
-  UserArticleQuery,
-  useUserArticleQuery,
-} from "components/hooks/db/useUserArticleQuery";
 import * as paths from "components/route/paths";
+import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 
 interface ToplistSectionProps {
   userId: string;
@@ -23,27 +20,12 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const topArticlesQuery = useMemo((): UserArticleQuery => {
-    return {
-      filters: {
-        userId,
-      },
-      order: [
-        {
-          field: "checkIns",
-          dir: "desc",
-        },
-      ],
-      limit: 3,
-    };
-  }, [userId]);
-
-  const topArticlesResult = useUserArticleQuery(topArticlesQuery);
+  const result = useUserArticleToplistQuery(userId, 10);
 
   return (
     <ItemList>
-      {topArticlesResult &&
-        topArticlesResult.map(({ articleEntry, userArticleEntry }) => {
+      {result &&
+        result.map(({ articleEntry, userArticleEntry }) => {
           const article = articleEntry.data;
           const userArticle = userArticleEntry.data;
 
