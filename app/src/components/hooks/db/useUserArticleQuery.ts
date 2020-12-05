@@ -3,7 +3,7 @@ import { UserArticle } from "types/UserArticle";
 import { useDB } from "../useDB";
 import { useUserArticleTuple } from "./useUserArticles";
 
-type SortFields = "rating.score" | keyof UserArticle;
+type SortFields = "rating.love" | "rating.score" | keyof UserArticle;
 
 type SortOrder = {
   field: SortFields;
