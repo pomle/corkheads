@@ -13,6 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
 import CollectionPage from "./pages/CollectionPage";
 import CheckInsPage from "./pages/CheckInsPage";
+import ToplistPage from "./pages/ToplistPage";
 import WishlistPage from "./pages/WishlistPage";
 
 const RootRoutes: React.FC = () => {
@@ -28,6 +29,9 @@ const RootRoutes: React.FC = () => {
   return (
     <ViewStack>
       <ProfilePage />
+      <Screen path={paths.toplistView} transition={SlideRight}>
+        {() => <ToplistPage />}
+      </Screen>
       <Screen path={paths.collectionView} transition={SlideRight}>
         {() => <CollectionPage />}
       </Screen>
