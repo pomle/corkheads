@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "../Photo";
+import Photo from "components/ui/layout/Photo";
 
 const useStyles = makeStyles({
   ImageItem: {
