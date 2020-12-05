@@ -5,7 +5,9 @@ import Photo from "../Photo";
 const useStyles = makeStyles({
   ImageItem: {
     alignItems: "center",
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "auto minmax(0, 1fr)",
+    gridGap: "16px",
   },
   photo: {
     background: "#fff1",
@@ -19,9 +21,8 @@ const useStyles = makeStyles({
     display: "grid",
     flex: "1",
     gridAutoFlow: "row",
-    gridGap: "6px",
+    gridGap: "4px",
     lineHeight: 1,
-    padding: "14px 16px",
   },
 });
 
