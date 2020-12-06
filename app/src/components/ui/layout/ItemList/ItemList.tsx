@@ -4,10 +4,10 @@ import DividedList from "../DividedList";
 
 const useStyles = makeStyles({
   ItemList: {
-    margin: "-8px 0",
+    margin: "-12px 0",
   },
   Item: {
-    padding: "8px 0",
+    padding: "12px 0",
     "& > *": {
       display: "block",
       width: "100%",
