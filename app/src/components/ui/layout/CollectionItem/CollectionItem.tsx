@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     flexFlow: "column",
     height: "100%",
     padding: "4px",
+    width: "min-content",
   },
   photo: {
     borderRadius: "12px",
