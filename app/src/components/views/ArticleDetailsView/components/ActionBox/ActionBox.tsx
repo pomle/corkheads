@@ -30,10 +30,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     padding: "16px",
   },
-  split: {
-    border: `dashed 1px ${Colors.Milk}`,
-  },
   ratings: {
+    borderTop: `dashed 1px ${Colors.Milk}`,
     fontSize: "12px",
     padding: "16px",
   },
@@ -62,8 +60,6 @@ const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
           <WishlistToggleButton userId={userId} articleId={articleId} />
         </Themer>
       </div>
-
-      <hr className={classes.split} />
 
       <div className={classes.ratings}>
         <Themer theme="cream">
