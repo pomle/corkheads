@@ -17,8 +17,10 @@ import BurgerLayout from "components/ui/layout/BurgerLayout";
 import ButtonField from "components/ui/layout/ButtonField";
 import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 
 type StyleProps = {
+  busy: boolean;
   love: boolean;
 };
 
@@ -34,11 +36,15 @@ const useStyles = makeStyles({
     borderRadius: "8px",
     color: "#5a5a5a",
     display: "grid",
+    filter: (props: StyleProps) =>
+      props.busy ? "grayscale(0.25) opacity(0.5)" : "none",
     gridAutoFlow: "row",
     gridGap: "24px",
     margin: "28px",
     padding: "24px",
+    pointerEvents: (props: StyleProps) => (props.busy ? "none" : "all"),
     textAlign: "center",
+    transition: "filter 0.5s ease",
   },
   rating: {
     margin: "0 auto",
@@ -117,15 +123,16 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   const commitCheckIn = useCommitCheckIn();
 
-  const handleCheckIn = useCallback(() => {
-    commitCheckIn({ user, checkIn, file }).then((ref) => {
+  const handleCheckIn = useAsyncCallback(
+    useCallback(async () => {
+      const ref = await commitCheckIn({ user, checkIn, file });
       onSuccess(ref.id);
-    });
-  }, [file, user, checkIn, commitCheckIn, onSuccess]);
+    }, [file, user, checkIn, commitCheckIn, onSuccess])
+  );
 
-  const canCheckIn = isCheckInValid(checkIn);
+  const canCheckIn = isCheckInValid(checkIn) && !handleCheckIn.busy;
 
-  const classes = useStyles({ love: rating.love });
+  const classes = useStyles({ love: rating.love, busy: handleCheckIn.busy });
 
   return (
     <BurgerLayout>
@@ -165,7 +172,11 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
       </ViewBody>
 
       <ButtonField>
-        <MainButton disabled={!canCheckIn} onClick={handleCheckIn}>
+        <MainButton
+          disabled={!canCheckIn}
+          busy={handleCheckIn.busy}
+          onClick={handleCheckIn.callback}
+        >
           Check in now
         </MainButton>
       </ButtonField>
