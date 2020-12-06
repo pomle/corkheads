@@ -18,12 +18,19 @@ import ButtonField from "components/ui/layout/ButtonField";
 import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 
+type StyleProps = {
+  love: boolean;
+};
+
 const useStyles = makeStyles({
   head: {
     textAlign: "center",
   },
   content: {
-    background: Colors.BlueSmoke,
+    background: (props: StyleProps) =>
+      props.love
+        ? `linear-gradient(to bottom, rgb(125 11 63 / 30%), ${Colors.BlueSmoke})`
+        : Colors.BlueSmoke,
     borderRadius: "8px",
     color: "#5a5a5a",
     display: "grid",
@@ -118,7 +125,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   const canCheckIn = isCheckInValid(checkIn);
 
-  const classes = useStyles();
+  const classes = useStyles({ love: rating.love });
 
   return (
     <BurgerLayout>
