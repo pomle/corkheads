@@ -4,7 +4,7 @@ import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
 import { Colors } from "components/ui/theme/themes";
 import { Rating, VALID_SCORE } from "types/Rating";
 
-const LOVE_DELAY_MS = 3000;
+const LOVE_DELAY_MS = 1000;
 
 type StyleProps = {
   canLove: boolean;
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
             props.hold ? "scale(1.5)" : "none",
           transition: "transform ease-out",
           transitionDuration: (props: StyleProps) =>
-            props.hold ? `${LOVE_DELAY_MS}ms` : "300ms",
+            props.hold ? `${LOVE_DELAY_MS}ms` : "200ms",
         },
       },
     },
@@ -84,7 +84,7 @@ const RatingInput: React.FC<RatingInputProps> = ({ rating, onChange }) => {
 
   const setScore = useCallback(
     (score: number) => {
-      onChange({ ...rating, score, love: rating.love && score === 5 });
+      onChange({ ...rating, score, love: false });
     },
     [rating, onChange]
   );
