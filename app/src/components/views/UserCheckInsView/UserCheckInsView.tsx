@@ -46,7 +46,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: 3,
+      limit: 50,
     };
   }, [userId]);
 
