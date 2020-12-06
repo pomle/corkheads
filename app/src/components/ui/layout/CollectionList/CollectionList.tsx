@@ -4,8 +4,11 @@ import { makeStyles } from "@material-ui/styles";
 const useStyles = makeStyles({
   CollectionList: {
     display: "grid",
-    gridGap: "16px",
-    gridTemplateColumns: "1fr 1fr",
+    gap: "16px",
+    gridTemplateColumns: "repeat(auto-fit, minmax(154px, 1fr))",
+    "& > *": {
+      justifySelf: "center",
+    },
   },
 });
 

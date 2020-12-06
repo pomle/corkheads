@@ -10,11 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       padding: "16px 4px",
     },
   },
-  content: {
-    display: "grid",
-    gridAutoFlow: "row",
-    gridGap: "2px",
-  },
+  content: {},
 }));
 
 interface SectionProps {
