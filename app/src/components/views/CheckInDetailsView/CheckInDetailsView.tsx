@@ -14,6 +14,7 @@ import { Colors } from "components/ui/theme/themes";
 
 const useStyles = makeStyles({
   photo: {
+    background: "#0003",
     height: "100vw",
     maxHeight: "400px",
   },
@@ -79,7 +80,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
       </ViewCap>
       <ViewBody>
         <div className={classes.photo}>
-          <Photo url={photoURL} />
+          <Photo url={photoURL} size="contain" />
         </div>
 
         <div className={classes.checkIn}>
