@@ -42,7 +42,7 @@ const useStyles = makeStyles({
   },
   rating: {
     margin: "0 auto",
-    width: "75%",
+    width: "90%",
   },
   photo: {},
 });
