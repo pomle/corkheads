@@ -30,6 +30,7 @@ a {
   text-decoration: none;
 }
 
+a,
 button,
 input {
   font-family: inherit;
