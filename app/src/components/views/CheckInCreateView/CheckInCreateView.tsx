@@ -19,14 +19,6 @@ import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 
 const useStyles = makeStyles({
-  "@keyframes beat": {
-    "0%": {
-      transform: "scale(1)",
-    },
-    "100%": {
-      transform: "scale(1.5)",
-    },
-  },
   head: {
     textAlign: "center",
   },
@@ -44,16 +36,6 @@ const useStyles = makeStyles({
   rating: {
     margin: "0 auto",
     width: "75%",
-    "& button.loveIt": {
-      filter: "grayscale(1) opacity(0.3)",
-      fontSize: "60px",
-      transition: "filter 0.2s ease",
-      "&.active": {
-        animation: `$beat 2000ms ease infinite alternate`,
-        filter: "none",
-        pointerEvents: "none", // Button may cover when pulsating
-      },
-    },
   },
   photo: {},
 });
@@ -105,26 +87,12 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
     [setCheckIn]
   );
 
-  const updateRating = useCallback(
-    (data: Partial<Rating>) => {
-      updateCheckIn({ rating: { ...rating, ...data } });
+  const setRating = useCallback(
+    (rating: Rating) => {
+      updateCheckIn({ rating });
     },
-    [rating, updateCheckIn]
+    [updateCheckIn]
   );
-
-  const setScore = useCallback(
-    (score: number) => {
-      if (score !== 5) {
-        updateRating({ love: true });
-      }
-      updateRating({ score });
-    },
-    [updateRating]
-  );
-
-  const setLoveIt = useCallback(() => {
-    updateRating({ love: true });
-  }, [updateRating]);
 
   const handleFile = useCallback((file: File) => {
     setFile(file);
@@ -149,7 +117,6 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   }, [file, user, checkIn, commitCheckIn, onSuccess]);
 
   const canCheckIn = isCheckInValid(checkIn);
-  const canLoveIt = rating.score === 5;
 
   const classes = useStyles();
 
@@ -169,16 +136,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
         <Themer theme="dusk">
           <div className={classes.content}>
             <div className={classes.rating}>
-              <RatingInput rating={rating.score || 0} onChange={setScore} />
-              {canLoveIt && (
-                <button
-                  type="button"
-                  className={rating.love ? "loveIt active" : "loveIt"}
-                  onClick={setLoveIt}
-                >
-                  💖
-                </button>
-              )}
+              <RatingInput rating={rating} onChange={setRating} />
             </div>
 
             <Divider />

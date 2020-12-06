@@ -1,52 +1,148 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
 import { Colors } from "components/ui/theme/themes";
-import { VALID_SCORE } from "types/Rating";
+import { Rating, VALID_SCORE } from "types/Rating";
+
+const LOVE_DELAY_MS = 3000;
+
+type StyleProps = {
+  canLove: boolean;
+  hold: boolean;
+};
 
 const useStyles = makeStyles({
+  "@keyframes heartbeat": {
+    "0%": {
+      transform: "scale(1)",
+    },
+    "100%": {
+      transform: "scale(1.5)",
+    },
+  },
   RatingInput: {
-    display: "flex",
-    justifyContent: "space-around",
-    "& button": {
-      "& svg": {
-        height: "32px",
-        width: "32px",
-        "& path": {
-          fill: "transparent",
-          stroke: Colors.Gold,
-          strokeWidth: "3px",
-          transition: "fill 1s cubic-bezier(0, 0, 0.02, 0.98)",
+    "& .score": {
+      display: "flex",
+      justifyContent: "space-around",
+      "& button": {
+        "& svg": {
+          height: "32px",
+          width: "32px",
+          "& path": {
+            fill: "transparent",
+            stroke: Colors.Gold,
+            strokeWidth: "3px",
+            transition: "fill 1s cubic-bezier(0, 0, 0.02, 0.98)",
+          },
+        },
+        "&.filled": {
+          "& svg path": {
+            fill: Colors.Gold,
+          },
+        },
+        "&.score-5": {
+          transform: (props: StyleProps) =>
+            props.hold ? "scale(1.5)" : "none",
+          transition: "transform ease-out",
+          transitionDuration: (props: StyleProps) =>
+            props.hold ? `${LOVE_DELAY_MS}ms` : "300ms",
         },
       },
-      "&.filled": {
-        "& svg path": {
-          fill: Colors.Gold,
-        },
+    },
+    "& button.love": {
+      display: (props: StyleProps) => (props.canLove ? "initial" : "none"),
+      filter: "grayscale(1) opacity(0.3)",
+      fontSize: "60px",
+      transition: "filter 0.2s ease",
+      "&.active": {
+        animation: "$heartbeat 2000ms ease infinite alternate",
+        filter: "none",
+        pointerEvents: "none", // Button may cover when pulsating
       },
     },
   },
 });
 
 interface RatingInputProps {
-  rating: number;
-  onChange: (rating: number) => void;
+  rating: Rating;
+  onChange: (rating: Rating) => void;
 }
 
 const RatingInput: React.FC<RatingInputProps> = ({ rating, onChange }) => {
-  const classes = useStyles();
+  const [hold, setHold] = useState<boolean>(false);
+  const [canLove, setCanLove] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (hold) {
+      const timer = setTimeout(() => {
+        setHold(false);
+        setCanLove(true);
+      }, LOVE_DELAY_MS);
+      return () => clearTimeout(timer);
+    }
+  }, [hold]);
+
+  const setScore = useCallback(
+    (score: number) => {
+      onChange({ ...rating, score, love: rating.love && score === 5 });
+    },
+    [rating, onChange]
+  );
+
+  const setLove = useCallback(
+    (love: boolean) => {
+      onChange({ ...rating, love });
+    },
+    [rating, onChange]
+  );
+
+  const handlePoint = useCallback(
+    (point: number) => {
+      setScore(point);
+      if (point === 5) {
+        setHold(true);
+      }
+      if (point < 5) {
+        setCanLove(false);
+      }
+    },
+    [setHold, setScore]
+  );
+
+  const handleRelease = useCallback(() => {
+    setHold(false);
+  }, [setHold]);
+
+  const score = rating.score || 0;
+
+  const classes = useStyles({ canLove, hold });
 
   return (
     <div className={classes.RatingInput}>
-      {VALID_SCORE.map((r) => (
+      <div className="score">
+        {VALID_SCORE.map((point) => (
+          <button
+            key={point}
+            className={`star ${
+              score >= point ? "filled" : "empty"
+            } score-${point}`}
+            onPointerDown={() => handlePoint(point)}
+            onContextMenu={(event) => event.preventDefault()}
+            onPointerOut={handleRelease}
+          >
+            <Star />
+          </button>
+        ))}
+      </div>
+      <div className="love">
         <button
-          key={r}
-          className={rating >= r ? "star filled" : "star empty"}
-          onClick={() => onChange(r)}
+          type="button"
+          className={`love ${rating.love ? "active" : "inactive"}`}
+          onPointerDown={() => setLove(true)}
         >
-          <Star />
+          💖
         </button>
-      ))}
+      </div>
     </div>
   );
 };
