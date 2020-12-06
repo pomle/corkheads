@@ -16,14 +16,22 @@ import Themer from "components/ui/theme/Themer";
 import ButtonField from "components/ui/layout/ButtonField";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
+
+type StyleProps = {
+  busy: boolean;
+};
 
 const useStyles = makeStyles({
   form: {
     padding: "24px",
     "& > .content": {
       display: "grid",
+      filter: (props: StyleProps) =>
+        props.busy ? "grayscale(0.25) opacity(0.5)" : "none",
       gridAutoFlow: "row",
       gridGap: "16px",
+      pointerEvents: (props: StyleProps) => (props.busy ? "none" : "all"),
     },
     "& .fields": {
       display: "grid",
@@ -105,16 +113,17 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
   const commitArticle = useCommitArticle();
 
-  const handleSave = useCallback(() => {
-    commitArticle({ user, article, file }).then((result) => {
-      const articleId = result.id;
+  const handleSave = useAsyncCallback(
+    useCallback(async () => {
+      const ref = await commitArticle({ user, article, file });
+      const articleId = ref.id;
       goToArticle(articleId);
-    });
-  }, [file, user, article, commitArticle, goToArticle]);
+    }, [file, user, article, commitArticle, goToArticle])
+  );
 
-  const canSave = isArticleValid(article);
+  const canSave = isArticleValid(article) && !handleSave.busy;
 
-  const classes = useStyles();
+  const classes = useStyles({ busy: handleSave.busy });
 
   return (
     <BurgerLayout>
@@ -150,7 +159,11 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
         </form>
       </ViewBody>
       <ButtonField>
-        <MainButton disabled={!canSave} onClick={handleSave}>
+        <MainButton
+          disabled={!canSave}
+          busy={handleSave.busy}
+          onClick={handleSave.callback}
+        >
           Add now
         </MainButton>
       </ButtonField>
