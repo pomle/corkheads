@@ -44,23 +44,23 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                 <Section
                   header={
                     <SectionTitle
-                      main="Top drinks"
-                      context={<Link to={routes.toplist}>See all ›</Link>}
-                    />
-                  }
-                >
-                  <ToplistSection userId={userId} />
-                </Section>
-
-                <Section
-                  header={
-                    <SectionTitle
                       main={<>Check ins ({checkInCount})</>}
                       context={<Link to={routes.checkIns}>See all ›</Link>}
                     />
                   }
                 >
                   <CheckInSection userId={userId} />
+                </Section>
+
+                <Section
+                  header={
+                    <SectionTitle
+                      main="Top drinks"
+                      context={<Link to={routes.toplist}>See all ›</Link>}
+                    />
+                  }
+                >
+                  <ToplistSection userId={userId} />
                 </Section>
 
                 <Section
