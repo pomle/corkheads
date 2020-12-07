@@ -24,7 +24,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
   return (
     <EntryList>
-      <Entry name="Bottles">
+      <Entry name="Bottles produced">
         <input
           type="number"
           placeholder="# of bottles"
