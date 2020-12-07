@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
@@ -15,9 +15,21 @@ import { useUserArticleBottlingUpdate } from "components/hooks/db/useUserArticle
 import { getPreferredBottling } from "lib/patch";
 import Themer from "components/ui/theme/Themer";
 
+type StyleProps = {
+  folded: number;
+};
+
 const useStyles = makeStyles({
+  fold: (props: StyleProps) => ({
+    marginTop: props.folded ? `-${props.folded}px` : "0",
+    transition: "all 1s",
+    "& .collection": {
+      opacity: props.folded ? 0 : 1,
+      transition: "all 1s ease",
+    },
+  }),
   section: {
-    margin: "0 32px",
+    padding: "0 24px 16px 24px",
   },
 });
 
@@ -29,6 +41,22 @@ interface UserSectionsProps {
 }
 
 const UserSections: React.FC<UserSectionsProps> = ({ userId, articleId }) => {
+  const content = useRef<HTMLDivElement>(null);
+  const [collapse, setCollapse] = useState<number>(0);
+
+  useLayoutEffect(() => {
+    const node = content.current;
+    if (!node) {
+      return;
+    }
+
+    const [collection, about] = Array.from(
+      node.children[0].children
+    ) as HTMLDivElement[];
+    const heightDiff = about.offsetTop - collection.offsetTop;
+    setCollapse(heightDiff);
+  }, []);
+
   const articleEntry = useArticle(articleId);
   const userArticleEntry = useUserArticle(userId, articleId);
   const userCollectionArticleEntry = useUserCollectionArticle(
@@ -68,33 +96,41 @@ const UserSections: React.FC<UserSectionsProps> = ({ userId, articleId }) => {
     }, STORE_DELAY);
   }, [userCollectionArticleEntry]);
 
-  const classes = useStyles();
+  const classes = useStyles({
+    folded: userCollectionArticle?.active ? 0 : collapse,
+  });
 
   return (
     <Themer theme="pure">
-      <SectionList>
-        <Section header={<SectionTitle main="Your Collection" />}>
-          <div className={classes.section}>
-            {inventory && handleChangeInventory && (
-              <InventoryUserInput
-                inventory={inventory}
-                onChange={handleChangeInventory}
-              />
-            )}
+      <div ref={content} className={classes.fold}>
+        <SectionList>
+          <div className="collection">
+            <Section header={<SectionTitle main="Your Collection" />}>
+              <div className={classes.section}>
+                {inventory && handleChangeInventory && (
+                  <InventoryUserInput
+                    inventory={inventory}
+                    onChange={handleChangeInventory}
+                  />
+                )}
+              </div>
+            </Section>
           </div>
-        </Section>
 
-        <Section header={<SectionTitle main="About this bottling" />}>
-          <div className={classes.section}>
-            {bottling && handleChangeBottling && (
-              <BottlingUserInput
-                bottling={bottling}
-                onChange={handleChangeBottling}
-              />
-            )}
+          <div className="about">
+            <Section header={<SectionTitle main="About this bottling" />}>
+              <div className={classes.section}>
+                {bottling && handleChangeBottling && (
+                  <BottlingUserInput
+                    bottling={bottling}
+                    onChange={handleChangeBottling}
+                  />
+                )}
+              </div>
+            </Section>
           </div>
-        </Section>
-      </SectionList>
+        </SectionList>
+      </div>
     </Themer>
   );
 };
