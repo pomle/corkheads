@@ -15,8 +15,6 @@ export type CheckInQuery = {
   filters: {
     userIds: string[];
     articleIds?: string[];
-    owner?: boolean;
-    wishlist?: boolean;
   };
   order?: SortOrder[];
   limit?: number;
