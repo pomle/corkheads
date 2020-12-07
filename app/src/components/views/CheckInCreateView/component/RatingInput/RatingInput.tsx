@@ -99,14 +99,14 @@ const RatingInput: React.FC<RatingInputProps> = ({ rating, onChange }) => {
   const handlePoint = useCallback(
     (point: number) => {
       setScore(point);
-      if (point === 5) {
+      if (!canLove && point === 5) {
         setHold(true);
       }
       if (point < 5) {
         setCanLove(false);
       }
     },
-    [setHold, setScore]
+    [canLove, setHold, setScore]
   );
 
   const handleRelease = useCallback(() => {
