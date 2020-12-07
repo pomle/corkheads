@@ -11,6 +11,7 @@ import { useArticle } from "components/hooks/db/useArticles";
 import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
+import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   userSection: {
     margin: "32px 0",
+  },
+  checkInsSection: {
+    margin: "32px",
   },
 }));
 
@@ -81,6 +85,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
           <div className={classes.userSection}>
             <UserSections userId={userId} articleId={articleId} />
+          </div>
+
+          <div className={classes.checkInsSection}>
+            <ArticleCheckInsSection articleId={articleId} />
           </div>
         </ViewBody>
       </HeaderLayout>
