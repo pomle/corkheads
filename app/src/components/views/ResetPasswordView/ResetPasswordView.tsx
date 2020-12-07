@@ -8,6 +8,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
 import ActionButton from "components/ui/trigger/ActionButton";
+import Input from "components/ui/input/Input/Input";
 
 const useStyles = makeStyles({
   resetPasswordView: {
@@ -66,12 +67,12 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
         <div className={classes.resetPasswordView}>
           <div className={classes.content}>
             <div className={classes.fields}>
-              <input
+              <Input
                 type="email"
                 name="reset-password-email"
                 placeholder="Email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={setEmail}
               />
 
               <ButtonSet>
