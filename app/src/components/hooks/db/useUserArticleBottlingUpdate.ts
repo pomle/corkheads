@@ -17,9 +17,16 @@ export function useUserArticleBottlingUpdate(
         return;
       }
 
-      userArticleEntry.doc.update({
-        bottling: getEffectiveBottlingChanges(bottling, article),
-      });
+      const effectiveBottling = getEffectiveBottlingChanges(bottling, article);
+
+      return userArticleEntry.doc.set(
+        {
+          bottling: effectiveBottling,
+        },
+        {
+          mergeFields: ["bottling"],
+        }
+      );
     },
     [article, userArticleEntry]
   );

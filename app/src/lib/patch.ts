@@ -6,8 +6,10 @@ import { UserArticle } from "types/UserArticle";
 
 const DEFAULT_BOTTLING = createBottling();
 
-export function mergeBottling(bottlings: Bottling[]): Bottling {
-  return merge.all(bottlings) as Bottling;
+export function mergeBottling(
+  bottlings: Partial<Bottling>[]
+): Partial<Bottling> {
+  return merge.all(bottlings);
 }
 
 export function diffBottling(
@@ -21,15 +23,15 @@ export function diffBottling(
 export function getPreferredBottling(
   article?: Article,
   userArticle?: UserArticle
-) {
-  const bottlings: Bottling[] = [DEFAULT_BOTTLING];
+): Bottling {
+  const bottlings: Partial<Bottling>[] = [DEFAULT_BOTTLING];
   if (article?.bottling) {
     bottlings.push(article.bottling);
   }
   if (userArticle?.bottling) {
     bottlings.push(userArticle.bottling);
   }
-  return mergeBottling(bottlings);
+  return mergeBottling(bottlings) as Bottling;
 }
 
 export function getEffectiveBottlingChanges(
