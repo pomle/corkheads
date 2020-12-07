@@ -4,10 +4,10 @@ import { Entries } from "./types";
 export function toEntries(bottling: Bottling): Entries {
   const { distill } = bottling;
 
-  const abvF = distill?.alcoholByVolumeFraction;
+  const abv = distill.alcoholByVolumePercentage;
 
   return {
-    abv: typeof abvF === "number" ? (abvF * 100).toFixed(0) : "",
+    abv: abv?.toString() || "",
     age: distill.age?.toString() || "",
     bottler: bottling.bottler.name || "",
     bottledYear: bottling.year?.toString() || "",
@@ -23,7 +23,7 @@ export function toBottling(entries: Entries): Bottling {
 
   const alcoholPercentage = toNumberMaybe(entries.abv);
   if (!isNaN(alcoholPercentage)) {
-    bottling.distill.alcoholByVolumeFraction = alcoholPercentage / 100;
+    bottling.distill.alcoholByVolumePercentage = alcoholPercentage;
   }
 
   const agedTimeYears = toNumberMaybe(entries.age);

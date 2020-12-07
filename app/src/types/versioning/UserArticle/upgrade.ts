@@ -1,16 +1,22 @@
-import { UserArticle } from "types/UserArticle";
+import { DEFAULTS, UserArticle } from "types/UserArticle";
 import { upgradeRatingV0 } from "../Rating/upgrade";
-import { v1, v2 } from "./revisions";
+import { upgrade as upgradeBottling } from "../Bottling/upgrade";
+import { isObject } from "../identify";
 
-function upgradeV1(source: v2 | v1): UserArticle {
-  let output = { ...source } as any;
+export function upgrade(source: unknown): UserArticle {
+  if (isObject(source)) {
+    let output = { ...source } as any;
 
-  if ("loveIt" in output) {
-    output.rating = upgradeRatingV0(output);
-    delete output.loveIt;
+    if ("bottling" in output) {
+      output.bottling = upgradeBottling(output.bottling);
+    }
+
+    if ("loveIt" in output) {
+      output.rating = upgradeRatingV0(output);
+      delete output.loveIt;
+    }
+
+    return output as UserArticle;
   }
-
-  return output as UserArticle;
+  return DEFAULTS;
 }
-
-export const upgrade = upgradeV1;

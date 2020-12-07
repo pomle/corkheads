@@ -1,6 +1,7 @@
 import { createConverter } from "lib/firestore/converter";
 import { RatingAggregate } from "./RatingAggregate";
 import { Bottling } from "./Bottling";
+import { upgrade } from "./versioning/Article/upgrade";
 
 export type Article = {
   id: string;
@@ -11,7 +12,7 @@ export type Article = {
   ratingAggregate?: RatingAggregate;
 };
 
-const DEFAULTS: Article = {
+export const DEFAULTS: Article = {
   id: "",
   displayName: "",
   manufacturer: "",
@@ -23,9 +24,9 @@ export const converter = createConverter<Article>({
   },
 
   from(snapshot) {
-    return {
+    return upgrade({
       ...DEFAULTS,
       ...snapshot.data({ serverTimestamps: "estimate" }),
-    };
+    });
   },
 });
