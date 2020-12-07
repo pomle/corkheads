@@ -9,7 +9,7 @@ export type UserArticle = {
   checkIns: number;
   owner: boolean;
   rating?: Rating;
-  bottling?: Bottling;
+  bottling?: Partial<Bottling>;
   inventory?: Inventory;
 };
 
