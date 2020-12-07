@@ -1,7 +1,6 @@
 import { createConverter } from "lib/firestore/converter";
 import { upgrade } from "./versioning/UserArticle/upgrade";
 import { Bottling } from "./Bottling";
-import { Inventory } from "./Inventory";
 import { Rating } from "./Rating";
 
 export type UserArticle = {
@@ -10,7 +9,6 @@ export type UserArticle = {
   owner: boolean;
   rating?: Rating;
   bottling?: Partial<Bottling>;
-  inventory?: Inventory;
 };
 
 export const DEFAULTS: UserArticle = {
