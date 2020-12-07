@@ -71,8 +71,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 function resolveDisplayName(userData: UserData, user?: User) {
-  if (userData.displayName) {
-    return userData.displayName;
+  if (userData.profile) {
+    const profile = userData.profile;
+    if (profile.displayName) {
+      return profile.displayName;
+    }
   }
 
   if (user?.email) {
@@ -88,7 +91,7 @@ interface ProfileHeadProps {
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const user = useUser();
-  const [userData, setUserData] = useUserData(userId);
+  const { userData, updateProfile } = useUserData(userId);
 
   const clearControl = useSwitch(false);
 
@@ -104,20 +107,23 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const handleImageSelect = useCallback(
     async (file: File) => {
       const photoURL = await uploadFile(file);
-      setUserData({ ...userData, photoURL });
+      updateProfile({ photoURL });
     },
-    [userData, setUserData, uploadFile]
+    [updateProfile, uploadFile]
   );
 
   const handleRemove = useCallback(() => {
-    setUserData({
-      ...userData,
+    updateProfile({
       photoURL: firestore.FieldValue.delete(),
     });
     clearControl.off();
-  }, [clearControl, userData, setUserData]);
+  }, [clearControl, updateProfile]);
 
-  const { photoURL } = userData;
+  let photoURL;
+  if (userData.profile) {
+    photoURL = userData.profile.photoURL;
+  }
+
   const hasPhoto = !!photoURL;
   const canClear = clearControl.active && hasPhoto;
 

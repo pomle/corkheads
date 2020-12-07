@@ -26,7 +26,7 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
-  const [userData] = useUserData(userId);
+  const { userData } = useUserData(userId);
 
   const { collectionSize, checkInCount, wishlistSize } = userData;
 
