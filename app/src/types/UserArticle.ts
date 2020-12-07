@@ -13,7 +13,7 @@ export type UserArticle = {
   inventory?: Inventory;
 };
 
-const DEFAULTS: UserArticle = {
+export const DEFAULTS: UserArticle = {
   id: "",
   checkIns: 0,
   owner: false,
