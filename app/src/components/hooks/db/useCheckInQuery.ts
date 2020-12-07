@@ -13,7 +13,7 @@ type SortOrder = {
 
 export type CheckInQuery = {
   filters: {
-    userIds: string[];
+    userIds?: string[];
     articleIds?: string[];
     owner?: boolean;
     wishlist?: boolean;
@@ -36,13 +36,11 @@ export function useCheckInQuery(
   const db = useDB();
 
   useEffect(() => {
-    if (query.filters.userIds.length === 0) {
-      return;
+    let q = db.collection("check-ins").limit(10);
+
+    if (query.filters.userIds) {
+      q = q.where("userId", "in", query.filters.userIds);
     }
-
-    const userId = query.filters.userIds[0];
-
-    let q = db.collection("check-ins").where("userId", "==", userId);
 
     if (query.filters.articleIds) {
       q = q.where("articleId", "in", query.filters.articleIds);
