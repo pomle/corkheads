@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => {
   const color = Colors.Navy;
 
   return {
-    findDrinkOverlayView: {
+    FindDrinkOverlayView: {
       height: "100%",
       pointerEvents: "none",
       position: "relative",
@@ -55,7 +55,7 @@ const FindDrinkOverlayView: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.findDrinkOverlayView}>
+    <div className={classes.FindDrinkOverlayView}>
       <button onClick={goToExplore} className={classes.button}>
         <Trans.FindDrink />
       </button>
