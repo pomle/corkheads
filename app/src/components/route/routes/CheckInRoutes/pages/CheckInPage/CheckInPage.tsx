@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useArticles } from "components/hooks/db/useArticles";
 import CheckInDetailsView from "components/views/CheckInDetailsView";
 import LoadingView from "components/views/LoadingView";
@@ -30,6 +30,20 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const articleEntries = useArticles(articleId ? [articleId] : []);
   const articleEntry = articleId && articleEntries && articleEntries[articleId];
 
+  const routes = useMemo(
+    () => ({
+      picture: () => {
+        const url = paths.checkInPicture.url({ checkInId });
+        history.push(url);
+      },
+      article: (articleId: string) => {
+        const url = paths.articleView.url({ articleId });
+        history.push(url);
+      },
+    }),
+    [checkInId, history]
+  );
+
   return (
     <ErrorBoundary nav={nav}>
       {() => {
@@ -45,7 +59,12 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
         }
 
         return (
-          <CheckInDetailsView nav={nav} checkIn={checkIn} article={article} />
+          <CheckInDetailsView
+            nav={nav}
+            routes={routes}
+            checkIn={checkIn}
+            article={article}
+          />
         );
       }}
     </ErrorBoundary>
