@@ -15,6 +15,7 @@ const articleCreate = createPath("/article/create", {});
 const articleView = createPath("/article/view/:articleId", {
   articleId: stringCodec,
 });
+const articlePicture = articleView.append("/picture", {});
 
 const articleCheckIn = articleView.append("/check-in", {});
 
@@ -31,6 +32,7 @@ export {
   exploreArticles,
   articleCreate,
   articleView,
+  articlePicture,
   articleCheckIn,
   checkInView,
 };

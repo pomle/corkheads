@@ -12,6 +12,7 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
+import AreaButton from "components/ui/trigger/AreaButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -47,6 +48,7 @@ const PLACEHOLDER: Article = {
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
   routes: {
+    picture: () => void;
     createCheckIn: () => void;
     checkIn: (checkInId: string) => void;
   };
@@ -78,9 +80,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </ViewHead>
         </ViewCap>
         <ViewBody>
-          <div className={classes.photo}>
+          <AreaButton onClick={routes.picture} className={classes.photo}>
             <Photo url={photoURL} />
-          </div>
+          </AreaButton>
 
           <div className={classes.actionBox}>
             <Themer theme="pure">
