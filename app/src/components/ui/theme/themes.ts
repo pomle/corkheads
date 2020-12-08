@@ -9,7 +9,7 @@ export const Colors = {
   Sky: "#eef2f8",
   Slate: "#3d4351",
   Sot: "#8f96a2",
-  White: "#fff",
+  White: "#ffffff",
 };
 
 type ColorScheme = {
