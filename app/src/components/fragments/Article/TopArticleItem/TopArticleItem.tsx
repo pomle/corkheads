@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { UserArticle } from "types/UserArticle";
 import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
-import Rating from "components/ui/indicators/Rating";
+import Score from "components/ui/indicators/Score";
 import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -56,7 +56,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
       <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>
         {rating?.love && <span>💖</span>}
-        {rating?.score && <Rating rating={rating.score / 5} />}
+        {rating?.score && <Score score={rating.score} />}
       </div>
     </ImageItem>
   );

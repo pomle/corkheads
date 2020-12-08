@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
 import { Colors, Theme } from "components/ui/theme/themes";
+import { VALID_SCORE } from "types/Rating";
 
 function getEmptyColor(theme: Theme) {
   if (theme.color.surface === Colors.Milk) {
@@ -21,7 +22,7 @@ function getFilledColor(theme: Theme) {
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
-    rating: {
+    Score: {
       display: "inline-flex",
       justifyContent: "space-around",
       "& .star": {
@@ -45,25 +46,20 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-interface RatingProps {
-  rating: number;
+interface ScoreProps {
+  score: number;
 }
 
-const SCALE = 5;
-const RATINGS = [1, 2, 3, 4, 5];
-
-const Rating: React.FC<RatingProps> = ({ rating }) => {
+const Score: React.FC<ScoreProps> = ({ score: given }) => {
   const classes = useStyles();
 
-  const score = Math.floor(rating * SCALE);
-
   return (
-    <div className={classes.rating}>
-      {RATINGS.map((rating) => {
+    <div className={classes.Score}>
+      {VALID_SCORE.map((score) => {
         return (
           <div
-            key={rating}
-            className={score >= rating ? "star filled" : "star empty"}
+            key={score}
+            className={given >= score ? "star filled" : "star empty"}
           >
             <Star />
           </div>
@@ -73,4 +69,4 @@ const Rating: React.FC<RatingProps> = ({ rating }) => {
   );
 };
 
-export default Rating;
+export default Score;
