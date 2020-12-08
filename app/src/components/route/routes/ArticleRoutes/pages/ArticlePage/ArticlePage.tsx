@@ -30,6 +30,10 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
 
   const routes = useMemo(
     () => ({
+      picture: () => {
+        const url = paths.articlePicture.url({ articleId });
+        history.push(url);
+      },
       createCheckIn: () => {
         const url = paths.articleCheckIn.url({ articleId });
         history.push(url);
