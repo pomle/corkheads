@@ -22,6 +22,7 @@ const articleCheckIn = articleView.append("/check-in", {});
 const checkInView = createPath("/checkIn/view/:checkInId", {
   checkInId: stringCodec,
 });
+const checkInPicture = checkInView.append("/picture", {});
 
 export {
   profileView,
@@ -35,4 +36,5 @@ export {
   articlePicture,
   articleCheckIn,
   checkInView,
+  checkInPicture,
 };

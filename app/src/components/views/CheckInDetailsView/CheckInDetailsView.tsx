@@ -1,16 +1,15 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
-import * as paths from "components/route/paths";
-import { makeStyles } from "@material-ui/styles";
 import { CheckIn } from "types/CheckIn";
 import Photo from "components/ui/layout/Photo";
 import CheckInItem from "components/fragments/CheckIn/CheckInItem";
 import { Colors } from "components/ui/theme/themes";
+import AreaButton from "components/ui/trigger/AreaButton";
 
 const useStyles = makeStyles({
   photo: {
@@ -49,25 +48,20 @@ function resolvePhotoURL(checkIn: CheckIn, article: Article) {
 
 interface CheckInDetailsViewProps {
   nav: React.ReactNode;
+  routes: {
+    article: (articleId: string) => void;
+    picture: () => void;
+  };
   checkIn: CheckIn;
   article: Article;
 }
 
 const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   nav,
+  routes,
   checkIn,
   article,
 }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
   const photoURL = resolvePhotoURL(checkIn, article);
 
   const classes = useStyles();
@@ -79,12 +73,15 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
         <ViewTitle title="Check in" />
       </ViewCap>
       <ViewBody>
-        <div className={classes.photo}>
+        <AreaButton onClick={routes.picture} className={classes.photo}>
           <Photo url={photoURL} size="contain" />
-        </div>
+        </AreaButton>
 
         <div className={classes.checkIn}>
-          <button type="button" onClick={() => goToArticle(checkIn.articleId)}>
+          <button
+            type="button"
+            onClick={() => routes.article(checkIn.articleId)}
+          >
             <CheckInItem checkIn={checkIn} article={article} />
           </button>
         </div>
