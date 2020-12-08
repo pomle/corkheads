@@ -2,11 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import { Article } from "types/Article";
-import { Theme } from "components/ui/theme/themes";
+import { Colors, Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   WishlistItem: {
     alignItems: "center",
+    background: Colors.White + "a0",
     borderRadius: "16px",
     boxShadow: "0 1px 4px #e7e8e9",
     display: "grid",
