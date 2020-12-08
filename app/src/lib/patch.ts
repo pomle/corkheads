@@ -28,7 +28,7 @@ export function getEffectiveBottlingChanges(
   bottling: Partial<Bottling>,
   article: Article
 ): Partial<Bottling> {
-  const bottlings = [DEFAULT_BOTTLING];
+  const bottlings: Partial<Bottling>[] = [DEFAULT_BOTTLING];
   if (article.bottling) {
     bottlings.push(article.bottling);
   }

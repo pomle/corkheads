@@ -7,7 +7,7 @@ export type Article = {
   id: string;
   displayName: string;
   manufacturer: string;
-  bottling?: Bottling;
+  bottling?: Partial<Bottling>;
   photoURL?: string;
   ratingAggregate?: RatingAggregate;
 };
