@@ -1,3 +1,6 @@
+git_commit := $(shell git rev-parse --short HEAD)
+export REACT_APP_VERSION := $(git_commit)
+
 .PHONY: build
 	build:
 	npm install
