@@ -1,5 +1,9 @@
 import { useFlatResult, useStore } from "components/hooks/createStoreHook";
+import { useMemo } from "react";
+import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
+import { Entry } from "types/Entry";
+import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
 
 export function useCheckIns(articleIds: string[]) {
@@ -9,4 +13,49 @@ export function useCheckIns(articleIds: string[]) {
 export function useCheckIn(checkInId: string) {
   const result = useCheckIns([checkInId]);
   return useFlatResult(checkInId, result);
+}
+
+type CheckInTuple = {
+  checkInEntry: Entry<CheckIn>;
+  articleEntry: Entry<Article>;
+};
+
+export function useCheckInTuple(
+  checkInIds: string[],
+  articleIds: string[]
+): CheckInTuple[] | null {
+  const checkInEntries = useCheckIns(checkInIds);
+  const articleEntries = useArticles(articleIds);
+
+  return useMemo(() => {
+    if (!articleEntries || !checkInEntries) {
+      return null;
+    }
+
+    const result: CheckInTuple[] = [];
+
+    for (const id of checkInIds) {
+      const checkInEntry = checkInEntries[id];
+      if (!checkInEntry) {
+        return null;
+      }
+
+      const checkIn = checkInEntry.data;
+      if (!checkIn) {
+        return null;
+      }
+
+      const articleEntry = articleEntries[checkIn.articleId];
+      if (!articleEntry) {
+        return null;
+      }
+
+      result.push({
+        articleEntry,
+        checkInEntry,
+      });
+    }
+
+    return result;
+  }, [checkInIds, articleEntries, checkInEntries]);
 }

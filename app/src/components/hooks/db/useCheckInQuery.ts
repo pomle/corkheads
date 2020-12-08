@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
 import { useDB } from "../useDB";
-import { useArticles } from "./useArticles";
-import { useCheckIns } from "./useCheckIns";
+import { useCheckInTuple } from "./useCheckIns";
 import { Entry } from "types/Entry";
 
 type SortOrder = {
@@ -71,38 +70,5 @@ export function useCheckInQuery(
     });
   }, [db, query]);
 
-  const articleEntries = useArticles(articleIds);
-  const checkInEntries = useCheckIns(checkInIds);
-
-  return useMemo(() => {
-    if (!articleEntries || !checkInEntries) {
-      return null;
-    }
-
-    const result: CheckInQueryResult[] = [];
-
-    for (const id of checkInIds) {
-      const checkInEntry = checkInEntries[id];
-      if (!checkInEntry) {
-        return null;
-      }
-
-      const checkIn = checkInEntry.data;
-      if (!checkIn) {
-        return null;
-      }
-
-      const articleEntry = articleEntries[checkIn.articleId];
-      if (!articleEntry) {
-        return null;
-      }
-
-      result.push({
-        articleEntry,
-        checkInEntry,
-      });
-    }
-
-    return result;
-  }, [checkInIds, articleEntries, checkInEntries]);
+  return useCheckInTuple(checkInIds, articleIds);
 }
