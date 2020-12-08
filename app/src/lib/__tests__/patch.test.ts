@@ -35,7 +35,6 @@ describe("getEffectiveBottlingChanges", () => {
     const article: Article = {
       id: "",
       displayName: "",
-      manufacturer: "",
       bottling: {
         barcodes: [],
         bottler: {
@@ -71,7 +70,6 @@ describe("getEffectiveBottlingChanges", () => {
     const article: Article = {
       id: "",
       displayName: "",
-      manufacturer: "",
       bottling: {
         barcodes: [],
         bottler: {
@@ -117,7 +115,6 @@ describe("getEffectiveBottlingChanges", () => {
     const article: Article = {
       id: "",
       displayName: "",
-      manufacturer: "",
       bottling: {
         barcodes: [],
         bottler: {

@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const PLACEHOLDER: Article = {
   id: "",
   displayName: "Yeet",
-  manufacturer: "",
 };
 
 interface ArticleDetailsViewProps {

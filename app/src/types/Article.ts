@@ -6,7 +6,6 @@ import { upgrade } from "./versioning/Article/upgrade";
 export type Article = {
   id: string;
   displayName: string;
-  manufacturer: string;
   bottling?: Partial<Bottling>;
   photoURL?: string;
   ratingAggregate?: RatingAggregate;
@@ -15,7 +14,6 @@ export type Article = {
 export const DEFAULTS: Article = {
   id: "",
   displayName: "",
-  manufacturer: "",
 };
 
 export const converter = createConverter<Article>({

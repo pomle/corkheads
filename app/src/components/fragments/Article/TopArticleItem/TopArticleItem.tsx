@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
-  manufacturer: {
+  subText: {
     color: theme.color.text,
     fontSize: "12px",
     fontWeight: 500,
@@ -44,7 +44,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   article,
   userArticle,
 }) => {
-  const { displayName, manufacturer, photoURL } = article;
+  const { displayName, photoURL } = article;
   const { checkIns, rating } = userArticle;
 
   const classes = useStyles();
@@ -52,7 +52,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   return (
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
-      <div className={classes.manufacturer}>{manufacturer}</div>
+      <div></div>
       <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>
         {rating?.love && <span>💖</span>}
