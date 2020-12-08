@@ -17,7 +17,8 @@ const useStyles = makeStyles({
   },
   canvas: {
     background: (props: StyleProps) => (props.hasPhoto ? "#000" : "none"),
-    border: `dashed 1px ${Colors.MarbleBlue}`,
+    border: (props: StyleProps) =>
+      !props.hasPhoto ? `dashed 1px ${Colors.MarbleBlue}` : "none",
     borderRadius: "8px",
     overflow: "hidden",
     position: "relative",
