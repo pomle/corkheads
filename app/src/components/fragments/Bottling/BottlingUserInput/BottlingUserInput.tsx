@@ -44,7 +44,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
         <input type="text" placeholder="Series name" {...userInput.series} />
       </Entry>
 
-      <Entry name="Distilled in">
+      <Entry name="Distilled year">
         <input type="number" placeholder="Year" {...userInput.distillYear} />
       </Entry>
 
@@ -74,19 +74,19 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
       <Entry name="Bottled by">
         <input
-          type="number"
+          type="text"
           placeholder="Bottler name"
           {...userInput.bottlerName}
         />
       </Entry>
 
-      <Entry name="Bottled in">
+      <Entry name="Bottle year">
         <input type="number" placeholder="Year" {...userInput.bottlingYear} />
       </Entry>
 
       <Entry name="Bottle sizes">
         <input
-          type="number"
+          type="text"
           placeholder="Sizes of bottles"
           {...userInput.bottleSize}
         />
@@ -102,7 +102,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
       <Entry name="Distill Cask No.">
         <input
-          type="number"
+          type="text"
           placeholder="Cask serial no."
           {...userInput.distillCaskNo}
         />
@@ -110,7 +110,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
       <Entry name="Distill Cask Type">
         <input
-          type="number"
+          type="text"
           placeholder="Olorosso, Bourbon"
           {...userInput.distillCaskType}
         />
@@ -118,7 +118,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
       <Entry name="Distill Batch No.">
         <input
-          type="number"
+          type="text"
           placeholder="Batch serial no."
           {...userInput.distillBatchNo}
         />
