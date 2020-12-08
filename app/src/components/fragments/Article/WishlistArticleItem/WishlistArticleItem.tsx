@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
-  manufacturer: {
+  subText: {
     color: "#727985",
     fontSize: "12px",
     fontWeight: 500,
@@ -42,7 +42,7 @@ interface WishlistArticleItemProps {
 const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
   article,
 }) => {
-  const { displayName, manufacturer, photoURL } = article;
+  const { displayName, photoURL } = article;
 
   const classes = useStyles();
 
@@ -53,7 +53,7 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
       </div>
       <div className={classes.content}>
         <div className={classes.displayName}>{displayName}</div>
-        <div className={classes.manufacturer}>{manufacturer}</div>
+        <div></div>
       </div>
     </div>
   );

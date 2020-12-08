@@ -12,7 +12,6 @@ function createDefaultArticle(): Article {
   return {
     id: "",
     displayName: "",
-    manufacturer: "",
     bottling: createBottling(),
   };
 }

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
-  manufacturer: {
+  subText: {
     color: theme.color.text,
     fontSize: "12px",
     fontWeight: 500,
@@ -56,7 +56,7 @@ interface CheckInItemProps {
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
-  const { displayName, manufacturer } = article;
+  const { displayName } = article;
   const { rating, timestamp } = checkIn;
 
   const classes = useStyles();
@@ -64,7 +64,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   return (
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
-      <div className={classes.manufacturer}>{manufacturer}</div>
+      <div></div>
       <div className={classes.timestamp}>
         {timestamp && <PassedTime date={timestamp} />}
       </div>

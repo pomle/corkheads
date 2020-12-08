@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
-  manufacturer: {
+  subText: {
     color: "#727985",
     fontSize: "12px",
     fontWeight: 500,
@@ -28,7 +28,7 @@ interface CollectionArticleItemProps {
 const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
   article,
 }) => {
-  const { displayName, manufacturer, photoURL } = article;
+  const { displayName, photoURL } = article;
 
   const classes = useStyles();
 
@@ -36,7 +36,6 @@ const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
     <CollectionItem imageURL={photoURL}>
       <div className={classes.content}>
         <div className={classes.displayName}>{displayName}</div>
-        <div className={classes.manufacturer}>{manufacturer}</div>
       </div>
     </CollectionItem>
   );

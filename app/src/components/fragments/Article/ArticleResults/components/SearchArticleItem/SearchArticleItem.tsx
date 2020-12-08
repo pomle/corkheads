@@ -20,14 +20,14 @@ interface SearchArticleItemProps {
 }
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
-  const { displayName, manufacturer, photoURL } = article;
+  const { displayName, photoURL } = article;
 
   const classes = useStyles();
 
   return (
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
-      <div className={classes.meta}>{manufacturer}</div>
+      <div></div>
     </ImageItem>
   );
 };
