@@ -1,3 +1,5 @@
+import moment from "moment";
+import { Moment } from "moment";
 import { Bottling, createBottling } from "types/Bottling";
 import { Entries } from "./types";
 
@@ -11,14 +13,19 @@ export function toEntries(bottling: Bottling): Entries {
     abv: abv?.toString() || "",
     age: distill.age?.toString() || "",
     bottleCount: bottling.bottlesProduced?.toString() || "",
+    bottleLabel: bottling.label || "",
     bottlerName: bottling.bottler.name || "",
     bottlerCountry: bottling.bottler.country || "",
     bottleSize: bottling.bottleSize || "",
+    bottlingDate: dateToString(bottling.date),
     bottlingYear: bottling.year?.toString() || "",
-    distillBatchNo: distill.batchNo || "",
-    distillCaskNo: distill.caskNo || "",
+    distillBatchNo: distill.batch.number || "",
+    distillCaskNo: distill.cask.number || "",
+    distillCaskType: distill.cask.type || "",
+    distillDate: dateToString(distill.date),
     distillYear: distill.year?.toString() || "",
     distillerCountry: distillery.country || "",
+    distillerDistrict: distillery.district || "",
     distillerName: distillery.name || "",
     series: bottling.series.name || "",
   };
@@ -42,6 +49,11 @@ export function toBottling(entries: Entries): Bottling {
     bottling.bottlesProduced = bottleCount;
   }
 
+  const bottleLabel = entries.bottleLabel;
+  if (bottleLabel.length) {
+    bottling.label = bottleLabel;
+  }
+
   const bottleSize = entries.bottleSize;
   if (bottleSize.length) {
     bottling.bottleSize = bottleSize;
@@ -50,6 +62,11 @@ export function toBottling(entries: Entries): Bottling {
   const bottlingYear = toNumberMaybe(entries.bottlingYear);
   if (!isNaN(bottlingYear)) {
     bottling.year = bottlingYear;
+  }
+
+  const bottlingDate = toDateMaybe(entries.bottlingDate);
+  if (bottlingDate) {
+    bottling.date = bottlingDate;
   }
 
   const bottlerName = entries.bottlerName;
@@ -72,19 +89,34 @@ export function toBottling(entries: Entries): Bottling {
     bottling.distill.distillery.country = distillerCountry;
   }
 
+  const distillerDistrict = entries.distillerDistrict;
+  if (distillerDistrict.length > 0) {
+    bottling.distill.distillery.district = distillerDistrict;
+  }
+
   const distillYear = toNumberMaybe(entries.distillYear);
   if (distillYear) {
     bottling.distill.year = distillYear;
   }
 
+  const distillDate = toDateMaybe(entries.distillDate);
+  if (distillDate) {
+    bottling.distill.date = distillDate;
+  }
+
   const distillCaskNo = entries.distillCaskNo;
   if (distillCaskNo.length > 0) {
-    bottling.distill.caskNo = distillCaskNo;
+    bottling.distill.cask.number = distillCaskNo;
+  }
+
+  const distillCaskType = entries.distillCaskType;
+  if (distillCaskType.length > 0) {
+    bottling.distill.cask.type = distillCaskType;
   }
 
   const distillBatchNo = entries.distillBatchNo;
   if (distillBatchNo.length > 0) {
-    bottling.distill.batchNo = distillBatchNo;
+    bottling.distill.batch.number = distillBatchNo;
   }
 
   const seriesName = entries.series;
@@ -101,4 +133,21 @@ function toNumberMaybe(source: unknown) {
     return maybeNumber as number;
   }
   return NaN;
+}
+
+function toDateMaybe(source: unknown) {
+  const maybeDate = moment(source as string);
+  if (maybeDate.isValid()) {
+    return maybeDate;
+  }
+  return undefined;
+}
+
+function dateToString(date?: Moment) {
+  if (date) {
+    if (date.isValid()) {
+      return date.toISOString();
+    }
+  }
+  return "";
 }

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { Bottling, createBottling } from "types/Bottling";
 import { toBottling, toEntries } from "../conversion";
 import { Entries } from "../types";
@@ -27,6 +28,12 @@ describe("#toEntries", () => {
     expect(result.bottleCount).toEqual("2033");
   });
 
+  it("converts bottle label", () => {
+    bottling.label = "Old Marks";
+    const result = toEntries(bottling);
+    expect(result.bottleLabel).toEqual("Old Marks");
+  });
+
   it("converts bottle size", () => {
     bottling.bottleSize = "75cl";
     const result = toEntries(bottling);
@@ -51,22 +58,52 @@ describe("#toEntries", () => {
     expect(result.bottlingYear).toEqual("1923");
   });
 
+  it("converts bottling date", () => {
+    bottling.date = moment("2002-01-03T16:23:32Z");
+    const result = toEntries(bottling);
+    expect(result.bottlingDate).toEqual("2002-01-03T16:23:32.000Z");
+  });
+
+  it("handles unset bottling date", () => {
+    bottling.date = undefined;
+    const result = toEntries(bottling);
+    expect(result.bottlingDate).toEqual("");
+  });
+
   it("converts distill batch no", () => {
-    bottling.distill.batchNo = "Batch No. 123";
+    bottling.distill.batch.number = "Batch No. 123";
     const result = toEntries(bottling);
     expect(result.distillBatchNo).toEqual("Batch No. 123");
   });
 
   it("converts distill cask no", () => {
-    bottling.distill.caskNo = "Cask No. 6125";
+    bottling.distill.cask.number = "Cask No. 6125";
     const result = toEntries(bottling);
     expect(result.distillCaskNo).toEqual("Cask No. 6125");
+  });
+
+  it("converts distill cask type", () => {
+    bottling.distill.cask.type = "Olorosso";
+    const result = toEntries(bottling);
+    expect(result.distillCaskType).toEqual("Olorosso");
   });
 
   it("converts distill year", () => {
     bottling.distill.year = 1724;
     const result = toEntries(bottling);
     expect(result.distillYear).toEqual("1724");
+  });
+
+  it("converts distill date", () => {
+    bottling.distill.date = moment("1998-11-23T22:01:11Z");
+    const result = toEntries(bottling);
+    expect(result.distillDate).toEqual("1998-11-23T22:01:11.000Z");
+  });
+
+  it("handles unset distill date", () => {
+    bottling.distill.date = undefined;
+    const result = toEntries(bottling);
+    expect(result.distillDate).toEqual("");
   });
 
   it("converts distiller country", () => {
@@ -96,14 +133,19 @@ describe("#toBottling", () => {
       abv: "49.412",
       age: "16",
       bottleCount: "233",
+      bottleLabel: "Grant's",
       bottlerName: "Bottlerama",
       bottlerCountry: "Islas Buteljas",
       bottleSize: "70cl",
+      bottlingDate: "1744-07-15",
       bottlingYear: "2007",
       distillBatchNo: "Batch No. 1337",
       distillCaskNo: "Cask No. 9",
+      distillCaskType: "Olorosso",
+      distillDate: "2005-01-23",
       distillYear: "2005",
       distillerCountry: "Distillville",
+      distillerDistrict: "Islay",
       distillerName: "Distillerama",
       series: "X-Men Edition",
     };
@@ -140,6 +182,17 @@ describe("#toBottling", () => {
     entries.bottleCount = "";
     const bottling = toBottling(entries);
     expect(bottling).not.toHaveProperty("bottleCount");
+  });
+
+  it("finds bottle label", () => {
+    const bottling = toBottling(entries);
+    expect(bottling.label).toEqual("Grant's");
+  });
+
+  it("allows bottle label to be optional", () => {
+    entries.bottleLabel = "";
+    const bottling = toBottling(entries);
+    expect(bottling).not.toHaveProperty("label");
   });
 
   it("finds bottler name", () => {
@@ -186,9 +239,20 @@ describe("#toBottling", () => {
     expect(bottling).not.toHaveProperty("year");
   });
 
+  it("finds bottling date", () => {
+    const bottling = toBottling(entries);
+    expect(moment("1744-07-15T00:00:00.000Z").isSame(bottling.date)).toBe(true);
+  });
+
+  it("allows bottling date to be empty", () => {
+    entries.bottlingDate = "";
+    const bottling = toBottling(entries);
+    expect(bottling).not.toHaveProperty("date");
+  });
+
   it("finds distill batch no", () => {
     const bottling = toBottling(entries);
-    expect(bottling.distill.batchNo).toEqual("Batch No. 1337");
+    expect(bottling.distill.batch.number).toEqual("Batch No. 1337");
   });
 
   it("allows distill batch no to be empty", () => {
@@ -199,7 +263,7 @@ describe("#toBottling", () => {
 
   it("finds distill cask no", () => {
     const bottling = toBottling(entries);
-    expect(bottling.distill.caskNo).toEqual("Cask No. 9");
+    expect(bottling.distill.cask.number).toEqual("Cask No. 9");
   });
 
   it("allows distill cask no to be empty", () => {
@@ -219,6 +283,19 @@ describe("#toBottling", () => {
     expect(bottling.distill).not.toHaveProperty("year");
   });
 
+  it("finds distill date", () => {
+    const bottling = toBottling(entries);
+    expect(
+      moment("2005-01-23T00:00:00.000Z").isSame(bottling.distill.date)
+    ).toBe(true);
+  });
+
+  it("allows distill date to be empty", () => {
+    entries.distillDate = "";
+    const bottling = toBottling(entries);
+    expect(bottling.distill).not.toHaveProperty("date");
+  });
+
   it("finds distillery country", () => {
     const bottling = toBottling(entries);
     expect(bottling.distill.distillery.country).toEqual("Distillville");
@@ -228,6 +305,17 @@ describe("#toBottling", () => {
     entries.distillerCountry = "";
     const bottling = toBottling(entries);
     expect(bottling.distill.distillery).not.toHaveProperty("country");
+  });
+
+  it("finds distillery district", () => {
+    const bottling = toBottling(entries);
+    expect(bottling.distill.distillery.district).toEqual("Islay");
+  });
+
+  it("allows distillery district to be empty", () => {
+    entries.distillerDistrict = "";
+    const bottling = toBottling(entries);
+    expect(bottling.distill.distillery).not.toHaveProperty("district");
   });
 
   it("finds distillery name", () => {
