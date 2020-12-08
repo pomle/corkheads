@@ -2,13 +2,13 @@ git_commit := $(shell git rev-parse --short HEAD)
 export REACT_APP_VERSION := $(git_commit)
 
 .PHONY: build
-	build:
+build:
 	npm install
 	npm run build
 	echo $(REACT_APP_VERSION) > build/version.txt
 
 .PHONY: start
-	start:
+start:
 	npm run start
 
 .PHONY: all
