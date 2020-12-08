@@ -168,6 +168,8 @@ describe("getPreferredBottling", () => {
       barcodes: [],
       bottler: {},
       distill: {
+        batch: {},
+        cask: {},
         distillery: {},
       },
       series: {},
@@ -185,6 +187,8 @@ describe("getPreferredBottling", () => {
           name: "A",
         },
         distill: {
+          batch: {},
+          cask: {},
           distillery: {},
         },
         series: {
@@ -201,6 +205,8 @@ describe("getPreferredBottling", () => {
         name: "A",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {},
       },
       series: {
@@ -221,6 +227,8 @@ describe("getPreferredBottling", () => {
           name: "A",
         },
         distill: {
+          batch: {},
+          cask: {},
           distillery: {},
         },
         series: {
@@ -238,6 +246,8 @@ describe("getPreferredBottling", () => {
         barcodes: [],
         bottler: {},
         distill: {
+          batch: {},
+          cask: {},
           distillery: {
             name: "B",
           },
@@ -256,6 +266,8 @@ describe("getPreferredBottling", () => {
         name: "A",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {
           name: "B",
         },
@@ -282,6 +294,8 @@ describe("getPreferredBottling", () => {
         name: "Foo",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {},
       },
       series: {},
@@ -293,6 +307,8 @@ describe("getPreferredBottling", () => {
         name: "Foo",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {},
       },
       series: {},

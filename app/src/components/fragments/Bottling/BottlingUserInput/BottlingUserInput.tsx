@@ -32,6 +32,14 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
         />
       </Entry>
 
+      <Entry name="Label">
+        <input
+          type="text"
+          placeholder="Label name"
+          {...userInput.bottleLabel}
+        />
+      </Entry>
+
       <Entry name="Series">
         <input type="text" placeholder="Series name" {...userInput.series} />
       </Entry>
@@ -53,6 +61,14 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
           type="text"
           placeholder="Country"
           {...userInput.distillerCountry}
+        />
+      </Entry>
+
+      <Entry name="Distiller district">
+        <input
+          type="text"
+          placeholder="District"
+          {...userInput.distillerDistrict}
         />
       </Entry>
 
@@ -89,6 +105,14 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
           type="number"
           placeholder="Cask serial no."
           {...userInput.distillCaskNo}
+        />
+      </Entry>
+
+      <Entry name="Distill Cask Type">
+        <input
+          type="number"
+          placeholder="Olorosso, Bourbon"
+          {...userInput.distillCaskType}
         />
       </Entry>
 

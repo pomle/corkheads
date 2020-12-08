@@ -16,6 +16,8 @@ export function upgrade(source: unknown): Distill {
   }
 
   return {
+    batch: {},
+    cask: {},
     distillery: {},
   };
 }
