@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
+import ItemRating from "components/fragments/Rating/ItemRating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -20,7 +21,7 @@ interface SearchArticleItemProps {
 }
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
-  const { displayName, photoURL } = article;
+  const { displayName, photoURL, ratingAggregate } = article;
 
   const classes = useStyles();
 
@@ -28,6 +29,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({ article }) => {
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
       <div></div>
+      <ItemRating aggregate={ratingAggregate} />
     </ImageItem>
   );
 };
