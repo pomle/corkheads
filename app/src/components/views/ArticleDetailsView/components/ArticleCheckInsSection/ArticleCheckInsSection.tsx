@@ -5,7 +5,7 @@ import {
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
 import ItemList from "components/ui/layout/ItemList";
-import CheckInItem from "components/fragments/CheckIn/CheckInItem";
+import CheckInItem from "./components/CheckInItem";
 import SectionList from "components/ui/layout/SectionList/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
@@ -47,7 +47,7 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
 
   return (
     <SectionList>
-      <Section header={<SectionTitle main="Check ins" />}>
+      <Section header={<SectionTitle main="Recent Check ins" />}>
         <ItemList>
           {result &&
             result.map(({ checkInEntry, articleEntry }) => {
