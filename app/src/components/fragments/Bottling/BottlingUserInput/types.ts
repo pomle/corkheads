@@ -2,10 +2,15 @@ export type FieldName =
   | "abv"
   | "age"
   | "bottleCount"
-  | "bottledYear"
-  | "bottler"
-  | "distilledYear"
-  | "distillery"
+  | "bottlerName"
+  | "bottlerCountry"
+  | "bottleSize"
+  | "bottlingYear"
+  | "distillBatchNo"
+  | "distillCaskNo"
+  | "distillYear"
+  | "distillerCountry"
+  | "distillerName"
   | "series";
 
 export type Fields<T> = Record<FieldName, T>;
