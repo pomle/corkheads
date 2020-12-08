@@ -1,6 +1,7 @@
 export type FieldName =
   | "abv"
   | "age"
+  | "bottleCode"
   | "bottleCount"
   | "bottleLabel"
   | "bottlerName"
