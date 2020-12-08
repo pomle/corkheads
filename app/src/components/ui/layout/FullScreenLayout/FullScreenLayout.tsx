@@ -5,7 +5,6 @@ const useStyles = makeStyles({
   FullScreenLayout: {
     display: "flex",
     height: "100%",
-    pointerEvents: "all",
     "& > div": {
       flex: "1",
     },

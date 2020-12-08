@@ -6,7 +6,6 @@ const useStyles = makeStyles({
     display: "flex",
     flexFlow: "column",
     height: "100%",
-    pointerEvents: "all",
   },
   header: {
     flex: "0 1",

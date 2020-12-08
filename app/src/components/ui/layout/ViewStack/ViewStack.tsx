@@ -6,7 +6,6 @@ const useStyles = makeStyles({
     height: "100%",
     overflow: "hidden",
     position: "relative",
-    pointerEvents: "none",
     "& > *": {
       height: "100%",
       width: "100%",

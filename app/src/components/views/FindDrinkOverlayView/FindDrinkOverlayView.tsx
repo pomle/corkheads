@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme: Theme) => {
   return {
     findDrinkOverlayView: {
       height: "100%",
+      pointerEvents: "none",
       position: "relative",
       width: "100%",
     },
