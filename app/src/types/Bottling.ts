@@ -5,6 +5,7 @@ export type BarCode = {
 
 export type Distillery = {
   name?: string;
+  country?: string;
 };
 
 export type Distill = {
