@@ -15,6 +15,8 @@ exports[`Screen component when mounted on matching has mounted component 1`] = `
 </div>
 `;
 
+exports[`Screen component when mounted on matching then unmatching after some time is unmounted 1`] = `null`;
+
 exports[`Screen component when mounted on matching then unmatching is still mounted 1`] = `
 <div
   className="content"
