@@ -13,6 +13,7 @@ export type Distill = {
   age?: number;
   year?: number; // Year it was distilled
   alcoholByVolumePercentage?: number;
+  caskNo?: string;
 };
 
 export type Bottler = {
