@@ -78,6 +78,8 @@ describe("getEffectiveBottlingChanges", () => {
           country: "Sweden",
         },
         distill: {
+          batch: {},
+          cask: {},
           distillery: {
             country: "Norway",
           },
@@ -92,6 +94,8 @@ describe("getEffectiveBottlingChanges", () => {
         country: "Sweden",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {
           country: "Svalbard",
         },
@@ -120,6 +124,8 @@ describe("getEffectiveBottlingChanges", () => {
           country: "Sweden",
         },
         distill: {
+          batch: {},
+          cask: {},
           distillery: {
             country: "Norway",
           },
@@ -135,6 +141,8 @@ describe("getEffectiveBottlingChanges", () => {
         country: "Sweden",
       },
       distill: {
+        batch: {},
+        cask: {},
         distillery: {
           country: "Norway",
         },
