@@ -7,11 +7,10 @@ export function toEntries(bottling: Bottling): Entries {
   const { distill } = bottling;
   const { distillery } = distill;
 
-  const abv = distill.alcoholByVolumePercentage;
-
   return {
-    abv: abv?.toString() || "",
+    abv: distill.alcoholByVolumePercentage?.toString() || "",
     age: distill.age?.toString() || "",
+    bottleCode: bottling.code || "",
     bottleCount: bottling.bottlesProduced?.toString() || "",
     bottleLabel: bottling.label || "",
     bottlerName: bottling.bottler.name || "",
@@ -42,6 +41,11 @@ export function toBottling(entries: Entries): Bottling {
   const agedTimeYears = toNumberMaybe(entries.age);
   if (!isNaN(agedTimeYears)) {
     bottling.distill.age = agedTimeYears;
+  }
+
+  const bottleCode = entries.bottleCode;
+  if (bottleCode.length) {
+    bottling.code = bottleCode;
   }
 
   const bottleCount = toNumberMaybe(entries.bottleCount);

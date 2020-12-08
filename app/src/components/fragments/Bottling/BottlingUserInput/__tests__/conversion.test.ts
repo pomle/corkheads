@@ -22,6 +22,12 @@ describe("#toEntries", () => {
     expect(result.age).toEqual("16");
   });
 
+  it("converts bottle code", () => {
+    bottling.code = "L-214LA23";
+    const result = toEntries(bottling);
+    expect(result.bottleCode).toEqual("L-214LA23");
+  });
+
   it("converts bottle count", () => {
     bottling.bottlesProduced = 2033;
     const result = toEntries(bottling);
@@ -132,6 +138,7 @@ describe("#toBottling", () => {
     entries = {
       abv: "49.412",
       age: "16",
+      bottleCode: "12-3L231",
       bottleCount: "233",
       bottleLabel: "Grant's",
       bottlerName: "Bottlerama",
@@ -171,6 +178,17 @@ describe("#toBottling", () => {
     entries.age = "";
     const bottling = toBottling(entries);
     expect(bottling.distill).not.toHaveProperty("age");
+  });
+
+  it("finds bottle code", () => {
+    const bottling = toBottling(entries);
+    expect(bottling.code).toEqual("12-3L231");
+  });
+
+  it("allows bottle code to be optional", () => {
+    entries.bottleCode = "";
+    const bottling = toBottling(entries);
+    expect(bottling).not.toHaveProperty("code");
   });
 
   it("converts bottle count to number", () => {
