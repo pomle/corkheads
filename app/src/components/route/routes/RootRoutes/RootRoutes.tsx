@@ -9,12 +9,8 @@ import ArticlePage from "./pages/ArticlePage";
 import CheckInPage from "./pages/CheckInPage";
 import CheckInCreatePage from "./pages/CheckInCreatePage";
 import FindPage from "./pages/FindPage";
-import ProfilePage from "./pages/ProfilePage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
-import CollectionPage from "./pages/CollectionPage";
-import CheckInsPage from "./pages/CheckInsPage";
-import ToplistPage from "./pages/ToplistPage";
-import WishlistPage from "./pages/WishlistPage";
+import UserRoutes from "../UserRoutes";
 
 const RootRoutes: React.FC = () => {
   const history = useHistory();
@@ -28,19 +24,7 @@ const RootRoutes: React.FC = () => {
 
   return (
     <ViewStack>
-      <ProfilePage />
-      <Screen path={paths.toplistView} transition={SlideRight}>
-        {() => <ToplistPage />}
-      </Screen>
-      <Screen path={paths.collectionView} transition={SlideRight}>
-        {() => <CollectionPage />}
-      </Screen>
-      <Screen path={paths.checkInsView} transition={SlideRight}>
-        {() => <CheckInsPage />}
-      </Screen>
-      <Screen path={paths.wishlistView} transition={SlideRight}>
-        {() => <WishlistPage />}
-      </Screen>
+      <UserRoutes />
       <Screen path={paths.articleView} transition={SlideRight}>
         {(params) => <ArticlePage articleId={params.articleId} />}
       </Screen>
