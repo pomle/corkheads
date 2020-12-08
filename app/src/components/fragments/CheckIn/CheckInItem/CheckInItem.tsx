@@ -2,10 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import Score from "components/ui/indicators/Score";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
+import ItemRating from "components/fragments/Rating/ItemRating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -25,14 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "right",
   },
   rating: {
-    alignItems: "center",
-    display: "flex",
-    fontSize: "10px",
     gridColumn: "1 / 3",
-    margin: "-4px",
-    "& > *": {
-      margin: "4px",
-    },
   },
 }));
 
@@ -69,8 +62,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
         {timestamp && <PassedTime date={timestamp} />}
       </div>
       <div className={classes.rating}>
-        {rating.love && <span>💖</span>}
-        {rating?.score && <Score score={rating.score} />}
+        <ItemRating rating={rating} />
       </div>
     </ImageItem>
   );
