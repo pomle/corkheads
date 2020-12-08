@@ -6,11 +6,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   Section: {
     background: theme.color.surface,
     "& > header": {
-      color: "#8f96a2",
-      padding: "16px 4px",
+      color: theme.color.text,
+      padding: "16px 16px 0 16px",
     },
   },
-  content: {},
+  content: {
+    padding: "16px",
+  },
 }));
 
 interface SectionProps {
