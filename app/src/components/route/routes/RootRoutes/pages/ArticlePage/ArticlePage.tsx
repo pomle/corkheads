@@ -5,30 +5,22 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
 import { useUser } from "components/hooks/useUser";
-import { User } from "types/User";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
+import LoadingView from "components/views/LoadingView";
 
-const WithUser: React.FC<{ children: React.FC<{ user: User }> }> = ({
-  children: render,
-}) => {
-  const user = useUser();
-  if (!user) {
-    return null;
-  }
+interface ArticlePageProps {
+  articleId: string;
+}
 
-  return render({ user });
-};
-
-const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
-  userId,
-  articleId,
-}) => {
+const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
   const history = useHistory();
 
   const goToProfile = useCallback(() => {
     const url = paths.profileView.url({});
     history.push(url);
   }, [history]);
+
+  const user = useUser();
 
   const nav = (
     <NavigationBar
@@ -39,22 +31,20 @@ const ArticlePage: React.FC<{ userId: string; articleId: string }> = ({
   return (
     <ErrorBoundary nav={nav}>
       {() => {
+        if (!user) {
+          return <LoadingView nav={nav} />;
+        }
+
         return (
-          <ArticleDetailsView nav={nav} userId={userId} articleId={articleId} />
+          <ArticleDetailsView
+            nav={nav}
+            userId={user.uid}
+            articleId={articleId}
+          />
         );
       }}
     </ErrorBoundary>
   );
 };
 
-const ArticleRoute: React.FC<{ articleId: string }> = ({ articleId }) => {
-  return (
-    <WithUser>
-      {({ user }) => (
-        <ArticlePage key={articleId} userId={user.uid} articleId={articleId} />
-      )}
-    </WithUser>
-  );
-};
-
-export default ArticleRoute;
+export default ArticlePage;
