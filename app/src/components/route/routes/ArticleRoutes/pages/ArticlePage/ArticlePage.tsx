@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import ArticleDetailsView from "components/views/ArticleDetailsView";
 import NavigationBar from "components/ui/layout/NavigationBar";
@@ -28,6 +28,20 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
     />
   );
 
+  const routes = useMemo(
+    () => ({
+      createCheckIn: () => {
+        const url = paths.articleCheckIn.url({ articleId });
+        history.push(url);
+      },
+      checkIn: (checkInId: string) => {
+        const url = paths.checkInView.url({ checkInId });
+        history.push(url);
+      },
+    }),
+    [history, articleId]
+  );
+
   return (
     <ErrorBoundary nav={nav}>
       {() => {
@@ -38,6 +52,7 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
         return (
           <ArticleDetailsView
             nav={nav}
+            routes={routes}
             userId={user.uid}
             articleId={articleId}
           />

@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useMemo } from "react";
 import {
   CheckInQuery,
   useCheckInQuery,
@@ -9,25 +8,18 @@ import CheckInItem from "./components/CheckInItem";
 import SectionList from "components/ui/layout/SectionList/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import * as paths from "components/route/paths";
 
 interface ArticleCheckInsSectionProps {
+  routes: {
+    checkIn: (checkInId: string) => void;
+  };
   articleId: string;
 }
 
 const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
+  routes,
   articleId,
 }) => {
-  const history = useHistory();
-
-  const goToCheckIn = useCallback(
-    (checkInId: string) => {
-      const url = paths.checkInView.url({ checkInId });
-      history.push(url);
-    },
-    [history]
-  );
-
   const query = useMemo((): CheckInQuery => {
     return {
       filters: {
@@ -57,7 +49,7 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
               return (
                 <button
                   key={checkInEntry.id}
-                  onClick={() => goToCheckIn(checkInEntry.id)}
+                  onClick={() => routes.checkIn(checkInEntry.id)}
                 >
                   {article && checkIn && (
                     <CheckInItem checkIn={checkIn} article={article} />

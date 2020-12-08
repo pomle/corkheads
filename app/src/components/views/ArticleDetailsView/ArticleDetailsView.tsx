@@ -38,20 +38,25 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface ArticleDetailsViewProps {
-  nav: React.ReactNode;
-  userId: string;
-  articleId: string;
-}
-
 const PLACEHOLDER: Article = {
   id: "",
   displayName: "Yeet",
   manufacturer: "",
 };
 
+interface ArticleDetailsViewProps {
+  nav: React.ReactNode;
+  routes: {
+    createCheckIn: () => void;
+    checkIn: (checkInId: string) => void;
+  };
+  userId: string;
+  articleId: string;
+}
+
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
+  routes,
   userId,
   articleId,
 }) => {
@@ -79,7 +84,11 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
           <div className={classes.actionBox}>
             <Themer theme="pure">
-              <ActionBox userId={userId} articleId={articleId} />
+              <ActionBox
+                routes={routes}
+                userId={userId}
+                articleId={articleId}
+              />
             </Themer>
           </div>
 
@@ -88,7 +97,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </div>
 
           <div className={classes.checkInsSection}>
-            <ArticleCheckInsSection articleId={articleId} />
+            <ArticleCheckInsSection routes={routes} articleId={articleId} />
           </div>
         </ViewBody>
       </HeaderLayout>
