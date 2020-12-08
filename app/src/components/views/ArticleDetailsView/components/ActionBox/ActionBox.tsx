@@ -1,7 +1,5 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import ActionButton from "components/ui/trigger/ActionButton";
-import * as paths from "components/route/paths";
 import { makeStyles } from "@material-ui/styles";
 import { Colors, Theme } from "components/ui/theme/themes";
 import Themer from "components/ui/theme/Themer";
@@ -38,23 +36,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ActionBoxProps {
+  routes: {
+    createCheckIn: () => void;
+  };
   userId: string;
   articleId: string;
 }
 
-const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
-  const history = useHistory();
-  const goToCheckIn = useCallback(() => {
-    const url = paths.articleCheckIn.url({ articleId });
-    history.push(url);
-  }, [articleId, history]);
-
+const ActionBox: React.FC<ActionBoxProps> = ({ routes, userId, articleId }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.ActionBox}>
       <div className={classes.control}>
-        <ActionButton onClick={goToCheckIn}>Check in</ActionButton>
+        <ActionButton onClick={routes.createCheckIn}>Check in</ActionButton>
         <Themer theme="sky">
           <CollectionToggleButton userId={userId} articleId={articleId} />
           <WishlistToggleButton userId={userId} articleId={articleId} />
