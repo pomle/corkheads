@@ -28,6 +28,7 @@ export type Bottling = {
   distill: Distill;
   bottler: Bottler;
   series: Series;
+  bottleSize?: string;
   bottlesProduced?: number;
   year?: number;
   barcodes: BarCode[]; // Barcodes printed on bottles in this bottling
