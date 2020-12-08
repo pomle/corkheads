@@ -1,8 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import merge from "deepmerge";
 import { User } from "types/User";
 import { Article } from "types/Article";
 import { useDB } from "components/hooks/useDB";
 import { usePhotoUpload } from "components/hooks/usePhotoUpload";
+import { Bottling, createBottling } from "types/Bottling";
 
 type Payload = {
   user: User;
@@ -34,4 +36,12 @@ export function useCommitArticle() {
     },
     [db, uploadFile]
   );
+}
+
+export function useBottling(article: Article): Bottling {
+  const initial = useMemo(createBottling, []);
+
+  return useMemo((): Bottling => {
+    return merge(initial, article.bottling || {});
+  }, [initial, article.bottling]);
 }

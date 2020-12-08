@@ -7,7 +7,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
 import * as paths from "components/route/paths";
 import { User } from "types/User";
-import { useCommitArticle } from "./hooks";
+import { useBottling, useCommitArticle } from "./hooks";
 import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
 import PhotoInput from "../CheckInCreateView/component/PhotoInput";
@@ -40,7 +40,6 @@ const useStyles = makeStyles({
     },
     "& input": {
       fontSize: "16px",
-      textAlign: "center",
     },
     "& .photo": {},
   },
@@ -121,6 +120,8 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     }, [file, user, article, commitArticle, goToArticle])
   );
 
+  const bottling = useBottling(article);
+
   const canSave = isArticleValid(article) && !handleSave.busy;
 
   const classes = useStyles({ busy: handleSave.busy });
@@ -149,12 +150,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               <PhotoInput photoURL={photoURL} onFile={handleFile} />
             </div>
 
-            {article.bottling && (
-              <BottlingUserInput
-                bottling={article.bottling}
-                onChange={setBottling}
-              />
-            )}
+            <BottlingUserInput bottling={bottling} onChange={setBottling} />
           </div>
         </form>
       </ViewBody>
