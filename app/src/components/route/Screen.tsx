@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PathCodec, Path } from "lib/path";
 
@@ -15,6 +15,8 @@ const Screen = <PathCodecType extends PathCodec>({
     params: ReturnType<Path<PathCodecType>["decode"]>
   ) => React.ReactElement;
 }) => {
+  const [mount, setMount] = useState<boolean>(false);
+
   const element = useRef<React.ReactElement | null>(null);
   const match = useRouteMatch<any>(path.path);
 
@@ -27,11 +29,24 @@ const Screen = <PathCodecType extends PathCodec>({
     }
   }
 
+  useEffect(() => {
+    if (active) {
+      setMount(true);
+    } else {
+      const timer = setTimeout(setMount, 5000, false);
+      return () => clearTimeout(timer);
+    }
+  }, [active, setMount]);
+
+  const visible = active || mount;
+
   if (Transition) {
-    return <Transition active={active}>{element.current}</Transition>;
+    return (
+      <Transition active={active}>{visible && element.current}</Transition>
+    );
   }
 
-  return element.current;
+  return visible ? element.current : null;
 };
 
 export default Screen;
