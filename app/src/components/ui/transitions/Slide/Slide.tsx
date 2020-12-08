@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { TransitionEffectProps } from "../types";
+import { pointerEvents } from "../states";
 
 const transform = ({ active, direction }: SlideProps) => {
   if (active) {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
   Slide: {
     boxShadow: "0 0 20px -10px",
     height: "100%",
+    pointerEvents,
     transform,
     transition: "all 0.3s ease",
   },
