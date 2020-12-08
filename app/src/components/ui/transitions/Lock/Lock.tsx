@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { TransitionEffectProps } from "../types";
+import { pointerEvents } from "../states";
 
 const filter = ({ active }: TransitionEffectProps) => {
   if (active) {
@@ -13,8 +14,7 @@ const useStyles = makeStyles({
   Lock: {
     filter,
     height: "100%",
-    pointerEvents: (props: TransitionEffectProps) =>
-      props.active ? "all" : "none",
+    pointerEvents,
     transition: "filter 0.3s ease",
   },
 });
