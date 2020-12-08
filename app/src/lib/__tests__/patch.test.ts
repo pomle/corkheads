@@ -2,50 +2,166 @@ import { Article } from "types/Article";
 import { Bottling } from "types/Bottling";
 import { UserArticle } from "types/UserArticle";
 import {
-  diffBottling,
+  findDiff,
   getEffectiveBottlingChanges,
   getPreferredBottling,
 } from "../patch";
 
-describe("getPreferredBottling", () => {
-  const article: Article = {
-    id: "",
-    displayName: "A",
-    manufacturer: "A",
-    bottling: {
+describe("findDiff", () => {
+  it("finds an added value", () => {
+    expect(findDiff({ a: 1 }, { b: 2 })).toEqual({ b: 2 });
+    expect(findDiff({ a: { b: { c: 1 } } }, { a: { b: { d: 2 } } })).toEqual({
+      a: { b: { d: 2 } },
+    });
+  });
+
+  it("finds an updated value", () => {
+    expect(findDiff({ a: 1 }, { a: 2 })).toEqual({ a: 2 });
+    expect(findDiff({ a: { b: { c: 1 } } }, { a: { b: { c: 2 } } })).toEqual({
+      a: { b: { c: 2 } },
+    });
+  });
+
+  it("ignores an equal value", () => {
+    expect(findDiff({ a: 1 }, { a: 1 })).toEqual({});
+    expect(findDiff({ a: { b: { c: 1 } } }, { a: { b: { c: 1 } } })).toEqual(
+      {}
+    );
+  });
+});
+
+describe("getEffectiveBottlingChanges", () => {
+  it("ignores values from bottling that are equal in article", () => {
+    const article: Article = {
+      id: "",
+      displayName: "",
+      manufacturer: "",
+      bottling: {
+        barcodes: [],
+        bottler: {
+          country: "Sweden",
+        },
+        distill: {
+          distillery: {
+            country: "Norway",
+          },
+        },
+        series: {},
+      },
+    };
+
+    const bottling: Bottling = {
       barcodes: [],
       bottler: {
-        name: "A",
+        country: "Sweden",
       },
-      distill: {
-        distillery: {},
-      },
-      series: {
-        name: "A",
-      },
-      bottlesProduced: 1000,
-    },
-  };
-
-  const userArticle: UserArticle = {
-    id: "",
-    owner: false,
-    checkIns: 0,
-    bottling: {
-      barcodes: [],
-      bottler: {},
       distill: {
         distillery: {
-          name: "B",
+          country: "Norway",
         },
       },
-      series: {
-        name: "B",
-      },
-      bottlesProduced: 2000,
-    },
-  };
+      series: {},
+    };
 
+    const effective = getEffectiveBottlingChanges(bottling, article);
+    expect(effective).toEqual({});
+  });
+
+  it("uses values from bottling that are updated from article", () => {
+    const article: Article = {
+      id: "",
+      displayName: "",
+      manufacturer: "",
+      bottling: {
+        barcodes: [],
+        bottler: {
+          country: "Sweden",
+        },
+        distill: {
+          distillery: {
+            country: "Norway",
+          },
+        },
+        series: {},
+      },
+    };
+
+    const bottling: Bottling = {
+      barcodes: [],
+      bottler: {
+        country: "Sweden",
+      },
+      distill: {
+        distillery: {
+          country: "Svalbard",
+        },
+      },
+      series: {},
+    };
+
+    const effective = getEffectiveBottlingChanges(bottling, article);
+    expect(effective).toEqual({
+      distill: {
+        distillery: {
+          country: "Svalbard",
+        },
+      },
+    });
+  });
+
+  it("uses values from bottling that are added from article", () => {
+    const article: Article = {
+      id: "",
+      displayName: "",
+      manufacturer: "",
+      bottling: {
+        barcodes: [],
+        bottler: {
+          country: "Sweden",
+        },
+        distill: {
+          distillery: {
+            country: "Norway",
+          },
+        },
+        series: {},
+      },
+    };
+
+    const bottling: Bottling = {
+      barcodes: [],
+      bottler: {
+        name: "Grythyttan",
+        country: "Sweden",
+      },
+      distill: {
+        distillery: {
+          country: "Norway",
+        },
+      },
+      series: {},
+    };
+
+    const effective = getEffectiveBottlingChanges(bottling, article);
+    expect(effective).toEqual({
+      bottler: {
+        name: "Grythyttan",
+      },
+    });
+  });
+
+  it("works for article without bottling", () => {
+    const effective = getEffectiveBottlingChanges(
+      { bottlesProduced: 1337 },
+      {} as Article
+    );
+    expect(effective).toEqual({
+      bottlesProduced: 1337,
+    });
+  });
+});
+
+describe("getPreferredBottling", () => {
   it("returns blank Bottling if no candidate", () => {
     const bottling = getPreferredBottling(undefined, undefined);
     expect(bottling).toEqual({
@@ -59,6 +175,25 @@ describe("getPreferredBottling", () => {
   });
 
   it("returns article data if no userArticle data given", () => {
+    const article: Article = {
+      id: "",
+      displayName: "A",
+      manufacturer: "A",
+      bottling: {
+        barcodes: [],
+        bottler: {
+          name: "A",
+        },
+        distill: {
+          distillery: {},
+        },
+        series: {
+          name: "A",
+        },
+        bottlesProduced: 1000,
+      },
+    };
+
     const bottling = getPreferredBottling(article, undefined);
     expect(bottling).toEqual({
       barcodes: [],
@@ -76,6 +211,44 @@ describe("getPreferredBottling", () => {
   });
 
   it("returns merge of data if both given", () => {
+    const article: Article = {
+      id: "",
+      displayName: "A",
+      manufacturer: "A",
+      bottling: {
+        barcodes: [],
+        bottler: {
+          name: "A",
+        },
+        distill: {
+          distillery: {},
+        },
+        series: {
+          name: "A",
+        },
+        bottlesProduced: 1000,
+      },
+    };
+
+    const userArticle: UserArticle = {
+      id: "",
+      owner: false,
+      checkIns: 0,
+      bottling: {
+        barcodes: [],
+        bottler: {},
+        distill: {
+          distillery: {
+            name: "B",
+          },
+        },
+        series: {
+          name: "B",
+        },
+        bottlesProduced: 2000,
+      },
+    };
+
     const bottling = getPreferredBottling(article, userArticle);
     expect(bottling).toEqual({
       barcodes: [],
@@ -123,119 +296,6 @@ describe("getPreferredBottling", () => {
         distillery: {},
       },
       series: {},
-    });
-  });
-});
-
-describe("getEffectiveBottlingChanges", () => {
-  const article: Article = {
-    id: "",
-    displayName: "",
-    manufacturer: "",
-    bottling: {
-      barcodes: [],
-      bottler: {
-        name: "A",
-      },
-      distill: {
-        distillery: {
-          name: "Initial distillery name",
-        },
-      },
-      series: {
-        name: "Initial series name",
-      },
-      bottlesProduced: 1000,
-    },
-  };
-
-  const bottling = {
-    barcodes: [],
-    bottler: {},
-    distill: {
-      distillery: {
-        name: "Added",
-      },
-    },
-    series: {
-      name: "Updated",
-    },
-    bottlesProduced: 2000,
-  };
-
-  it("returns all values given for bottling that would be effective for article", () => {
-    const effective = getEffectiveBottlingChanges(bottling, article);
-    expect(effective).toEqual({
-      distill: {
-        distillery: {
-          name: "Added",
-        },
-      },
-      series: {
-        name: "Updated",
-      },
-      bottlesProduced: 2000,
-    });
-  });
-
-  it("works for article without bottling", () => {
-    const effective = getEffectiveBottlingChanges(
-      { bottlesProduced: 1337 },
-      {} as Article
-    );
-    expect(effective).toEqual({
-      bottlesProduced: 1337,
-    });
-  });
-});
-
-describe("diffBottling", () => {
-  const bottlingA = {
-    bottler: {
-      name: "Initial",
-    },
-    distill: {
-      distillery: {},
-    },
-    series: {
-      name: "Initial",
-    },
-    bottlesProduced: 1000,
-  } as Bottling;
-
-  const bottlingB = {
-    barcodes: [],
-    bottler: {},
-    distill: {
-      distillery: {
-        name: "Added",
-      },
-    },
-    series: {
-      name: "Updated",
-    },
-    bottlesProduced: 2000,
-  };
-
-  it("returns values from B that are changed from A", () => {
-    const partialBottling = diffBottling(bottlingA, bottlingB);
-    expect(partialBottling).toEqual({
-      distill: {
-        distillery: {
-          name: "Added",
-        },
-      },
-      series: {
-        name: "Updated",
-      },
-      bottlesProduced: 2000,
-    });
-  });
-
-  it("creates minimal objects", () => {
-    const partialBottling = diffBottling(bottlingA, { bottlesProduced: 2 });
-    expect(partialBottling).toEqual({
-      bottlesProduced: 2,
     });
   });
 });
