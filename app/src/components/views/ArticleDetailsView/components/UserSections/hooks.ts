@@ -29,7 +29,7 @@ export function useBottling(userId: string, articleId: string) {
       bottling,
       handleBottlingChange,
     }),
-    [bottling, updateBottling]
+    [bottling, handleBottlingChange]
   );
 }
 
@@ -59,6 +59,6 @@ export function useInventory(userId: string, articleId: string) {
       inventory,
       handleInventoryChange,
     }),
-    [userCollectionArticle, inventory, handleInventoryChange]
+    [inventory, handleInventoryChange]
   );
 }

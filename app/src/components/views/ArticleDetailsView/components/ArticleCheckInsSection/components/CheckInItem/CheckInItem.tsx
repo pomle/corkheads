@@ -56,7 +56,6 @@ interface CheckInItemProps {
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
-  const { displayName, manufacturer } = article;
   const { rating, timestamp } = checkIn;
 
   const classes = useStyles();
