@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import Rating from "components/ui/indicators/Rating";
+import Score from "components/ui/indicators/Score";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
@@ -67,7 +67,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
       </div>
       <div className={classes.rating}>
         {rating.love && <span>💖</span>}
-        {rating.score && <Rating rating={rating.score / 5} />}
+        {rating.score && <Score score={rating.score} />}
       </div>
       <blockquote className={classes.subText}>{checkIn.comment}</blockquote>
     </ImageItem>
