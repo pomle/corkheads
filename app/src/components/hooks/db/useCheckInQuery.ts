@@ -55,18 +55,18 @@ export function useCheckInQuery(
     }
 
     return q.onSnapshot((result) => {
-      const articleIds: string[] = [];
+      const articleIds = new Set<string>();
       const checkInIds: string[] = [];
 
       for (const doc of result.docs) {
         const data = doc.data();
         if (data) {
           checkInIds.push(doc.id);
-          articleIds.push(data.articleId as string);
+          articleIds.add(data.articleId as string);
         }
       }
 
-      setArticleIds(articleIds);
+      setArticleIds(Array.from(articleIds));
       setCheckInIds(checkInIds);
     });
   }, [db, query]);
