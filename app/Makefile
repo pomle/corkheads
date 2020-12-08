@@ -20,7 +20,7 @@ start:
 .PHONY: all
 all:
 	npm install
+	npm run lint
+	CI=1 npm run test
 	npm run build
-	echo $(REACT_APP_VERSION) > build/version.txt
 	npm run start
-
