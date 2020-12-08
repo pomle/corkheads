@@ -19,6 +19,7 @@ export type Distill = {
 
 export type Bottler = {
   name?: string;
+  country?: string;
 };
 
 export type Series = {
