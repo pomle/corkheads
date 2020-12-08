@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "32px 0",
   },
   checkInsSection: {
-    margin: "32px",
+    margin: "16px",
   },
 }));
 
