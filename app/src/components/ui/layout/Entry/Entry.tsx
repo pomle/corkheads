@@ -6,6 +6,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   Entry: {
     alignItems: "center",
     display: "flex",
+    margin: 0,
+    padding: 0,
     justifyContent: "space-between",
     "& dt": {
       color: Colors.Sot,
