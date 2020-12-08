@@ -5,6 +5,21 @@ export const JustNow = localize({
   [LC.svSE]: "Nyss",
 });
 
+export const DaysAgo = localize<{ days: number }>({
+  [LC.enGB]: ({ days }) => {
+    if (days === 1) {
+      return "1 day ago";
+    }
+    return `${days} days ago`;
+  },
+  [LC.svSE]: ({ days }) => {
+    if (days === 1) {
+      return "1 dag sedan";
+    }
+    return `${days} dagar sedan`;
+  },
+});
+
 export const HoursAgo = localize<{ hours: number }>({
   [LC.enGB]: ({ hours }) => {
     if (hours === 1) {
