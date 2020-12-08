@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   Panel: {
     background: theme.color.surface,
     borderRadius: "16px 0 0 16px",
-    padding: "8px 24px 24px 24px",
+    overflow: "hidden",
+    padding: "8px",
   },
 }));
 
