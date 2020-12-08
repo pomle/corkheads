@@ -6,18 +6,8 @@ import { UserArticle } from "types/UserArticle";
 
 const DEFAULT_BOTTLING = createBottling();
 
-export function mergeBottling(
-  bottlings: Partial<Bottling>[]
-): Partial<Bottling> {
-  return merge.all(bottlings);
-}
-
-export function diffBottling(
-  a: Partial<Bottling>,
-  b: Partial<Bottling>
-): Partial<Bottling> {
-  const x = createBottling();
-  return merge.all([addedDiff(x, b), updatedDiff(a, b)]);
+export function findDiff<T extends object>(a: T, b: T): Partial<T> {
+  return merge.all([addedDiff(a, b), updatedDiff(a, b)]);
 }
 
 export function getPreferredBottling(
@@ -31,17 +21,17 @@ export function getPreferredBottling(
   if (userArticle?.bottling) {
     bottlings.push(userArticle.bottling);
   }
-  return mergeBottling(bottlings) as Bottling;
+  return merge.all(bottlings) as Bottling;
 }
 
 export function getEffectiveBottlingChanges(
   bottling: Partial<Bottling>,
   article: Article
-) {
+): Partial<Bottling> {
   const bottlings = [DEFAULT_BOTTLING];
   if (article.bottling) {
     bottlings.push(article.bottling);
   }
-  const sourceBottling = mergeBottling(bottlings);
-  return diffBottling(sourceBottling, bottling);
+  const sourceBottling = merge.all(bottlings);
+  return findDiff(sourceBottling, bottling);
 }
