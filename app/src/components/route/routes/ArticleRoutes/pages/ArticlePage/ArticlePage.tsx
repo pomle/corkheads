@@ -55,6 +55,7 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
 
         return (
           <ArticleDetailsView
+            key={articleId}
             nav={nav}
             routes={routes}
             userId={user.uid}
