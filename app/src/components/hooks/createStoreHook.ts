@@ -25,6 +25,26 @@ export function useFlatResult<T>(id: string, result: StoreResult<T>) {
   return result ? result[id] : null;
 }
 
+function useBump(tag: string): [number, (tag: string) => void] {
+  const [cycle, setCycle] = useState<number>(0);
+  const bump = useMemo(() => {
+    const increment = (tag: string) => {
+      setCycle((cycle) => {
+        const next = cycle + 1;
+        console.debug("Bumping cache", tag, next);
+        return next;
+      });
+    };
+    const thottled = debounce(increment, 100);
+    return (tag: string) => {
+      console.log("Queueing ping", tag);
+      thottled(tag);
+    };
+  }, [tag]);
+
+  return [cycle, bump];
+}
+
 type Subscriber = {
   key: string;
   release: () => void;
@@ -38,6 +58,9 @@ function createIndex<T>(
   key: (id: string) => string
 ) {
   return {
+    delete(id: string) {
+      store.delete(key(id));
+    },
     has(id: string) {
       return store.has(key(id));
     },
@@ -60,12 +83,7 @@ function createStore() {
   ): StoreResult<T> {
     const ids = useEqualList(unstableIds);
 
-    const [cacheCycle, setCacheCycle] = useState<number>(0);
-
-    const pingCache = useMemo(() => {
-      const incrementCycle = () => setCacheCycle((cycle) => cycle + 1);
-      return debounce(incrementCycle, 100);
-    }, []);
+    const [cacheCycle, pingCache] = useBump(collection.path);
 
     const createKey = useCallback((id: string) => `${collection.path}/${id}`, [
       collection,
@@ -97,17 +115,25 @@ function createStore() {
         if (!sub) {
           const { doc } = index.get(id) as Entry<T>;
 
+          const unsubscribe = doc.onSnapshot((snap) => {
+            const data = snap.data();
+            console.log("UserCheckInsView Setting", key, "with data", !!data);
+
+            index.set(id, {
+              id,
+              doc,
+              data,
+            });
+
+            pingCache(`UserCheckInsView Ping ${key}`);
+          });
+
           sub = {
             key,
-            release: doc.onSnapshot((snap) => {
-              index.set(id, {
-                id,
-                doc,
-                data: snap.data(),
-              });
-
-              pingCache();
-            }),
+            release: () => {
+              unsubscribe();
+              index.delete(id);
+            },
             count: 0,
           };
 
@@ -145,7 +171,7 @@ function createStore() {
             }
           };
 
-          const delay = RELEASE_WAIT + Math.random() * 5000;
+          const delay = RELEASE_WAIT + Math.random() * 60000;
           console.debug("Scheduling clean up", delay, releaseCandidates);
           setTimeout(maybeUnsub, delay);
         }
