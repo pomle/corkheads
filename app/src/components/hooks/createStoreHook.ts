@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { firestore } from "firebase/app";
-import { useObjectStore } from "components/context/ObjectStoreContext";
 import { listEquals } from "lib/equality";
 import { Entry } from "types/Entry";
 import { useStableIndex } from "./store2/useStableIndex";
+import { debounce } from "lib/debounce";
 
 type Index<T> = Record<string, T>;
 
@@ -25,50 +25,6 @@ export function useFlatResult<T>(id: string, result: StoreResult<T>) {
   return result ? result[id] : null;
 }
 
-const EMPTY = Object.create(null);
-
-export function useObjectIndex<T>(
-  ids: string[],
-  namespace: string
-): [Record<string, T>, (id: string, object: T) => void] {
-  const [store, setStore] = useObjectStore();
-
-  const path = useCallback((id: string) => `${namespace}/${id}`, [namespace]);
-
-  const updateStore = useCallback(
-    (id: string, object: T) => {
-      const key = path(id);
-      setStore((store) => ({ ...store, [key]: object }));
-    },
-    [path, setStore]
-  );
-
-  const index = useRef<Record<string, T>>(EMPTY);
-
-  const data = useMemo(() => {
-    const newIndex = Object.create(null);
-    let updateIndex = false;
-
-    for (const id of ids) {
-      const key = path(id);
-      if (key in store) {
-        newIndex[id] = store[key];
-        if (newIndex[id] !== index.current[id]) {
-          updateIndex = true;
-        }
-      }
-    }
-
-    if (updateIndex) {
-      index.current = newIndex;
-    }
-
-    return index.current;
-  }, [path, ids, store]);
-
-  return [data, updateStore];
-}
-
 type Subscriber = {
   key: string;
   release: () => void;
@@ -77,8 +33,26 @@ type Subscriber = {
 
 const RELEASE_WAIT = 1 * 60 * 1000;
 
+function createIndex<T>(
+  store: Map<string, unknown>,
+  key: (id: string) => string
+) {
+  return {
+    has(id: string) {
+      return store.has(key(id));
+    },
+    get(id: string): T {
+      return store.get(key(id)) as T;
+    },
+    set(id: string, data: T) {
+      store.set(key(id), data);
+    },
+  };
+}
+
 function createStore() {
   const subscribers = new Map<string, Subscriber>();
+  const store = new Map<string, Entry<unknown>>();
 
   return function useStore<T>(
     collection: firestore.CollectionReference<T>,
@@ -86,7 +60,29 @@ function createStore() {
   ): StoreResult<T> {
     const ids = useEqualList(unstableIds);
 
-    const [index, updateIndex] = useObjectIndex<Entry<T>>(ids, collection.path);
+    const [cacheCycle, setCacheCycle] = useState<number>(0);
+
+    const pingCache = useMemo(() => {
+      const incrementCycle = () => setCacheCycle((cycle) => cycle + 1);
+      return debounce(incrementCycle, 100);
+    }, []);
+
+    const createKey = useCallback((id: string) => `${collection.path}/${id}`, [
+      collection,
+    ]);
+
+    const index = useMemo(() => {
+      const index = createIndex<Entry<T>>(store, createKey);
+
+      for (const id of ids) {
+        if (!index.has(id)) {
+          const doc = collection.doc(id);
+          index.set(id, { id, doc });
+        }
+      }
+
+      return index;
+    }, [ids, collection, createKey]);
 
     useEffect(() => {
       if (ids.length === 0) {
@@ -95,22 +91,26 @@ function createStore() {
 
       const keys: string[] = [];
       for (const id of ids) {
-        const doc = collection.doc(id);
-        const key = doc.path;
+        const key = createKey(id);
 
         let sub = subscribers.get(key);
         if (!sub) {
+          const { doc } = index.get(id) as Entry<T>;
+
           sub = {
             key,
             release: doc.onSnapshot((snap) => {
-              updateIndex(id, {
+              index.set(id, {
                 id,
                 doc,
                 data: snap.data(),
               });
+
+              pingCache();
             }),
             count: 0,
           };
+
           subscribers.set(key, sub);
           console.debug("Subscriber added", key);
         }
@@ -133,7 +133,6 @@ function createStore() {
           }
         }
 
-        console.log("Release candidates", releaseCandidates);
         if (releaseCandidates.length > 0) {
           const maybeUnsub = () => {
             for (const key of releaseCandidates) {
@@ -151,9 +150,9 @@ function createStore() {
           setTimeout(maybeUnsub, delay);
         }
       };
-    }, [ids, collection, updateIndex]);
+    }, [ids, index, createKey, pingCache]);
 
-    return useStableIndex(ids, index);
+    return useStableIndex(ids, index, cacheCycle);
   };
 }
 

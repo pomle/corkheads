@@ -4,7 +4,16 @@ const EMPTY = Object.create(null);
 
 type Index<T> = Record<string, T>;
 
-export function useStableIndex<T>(ids: string[], source: Index<T>) {
+interface Cache<T> {
+  has(id: string): boolean;
+  get(id: string): T;
+}
+
+export function useStableIndex<T>(
+  ids: string[],
+  source: Cache<T>,
+  cycle: number
+) {
   const cache = useRef<Index<T>>(EMPTY);
 
   return useMemo(() => {
@@ -17,11 +26,11 @@ export function useStableIndex<T>(ids: string[], source: Index<T>) {
     let updateCache = false;
 
     for (const id of ids) {
-      if (!(id in source)) {
+      if (!source.has(id)) {
         return null;
       }
 
-      entries[id] = source[id];
+      entries[id] = source.get(id) as T;
       if (cache.current[id] !== entries[id]) {
         updateCache = true;
       }
@@ -32,5 +41,5 @@ export function useStableIndex<T>(ids: string[], source: Index<T>) {
     }
 
     return cache.current;
-  }, [ids, source]);
+  }, [ids, source, cycle]);
 }
