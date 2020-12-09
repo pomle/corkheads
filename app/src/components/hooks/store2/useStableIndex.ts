@@ -4,7 +4,11 @@ const EMPTY = Object.create(null);
 
 type Index<T> = Record<string, T>;
 
-export function useStableIndex<T>(ids: string[], source: Index<T>) {
+interface Cache<T> {
+  get(id: string): T | undefined;
+}
+
+export function useStableIndex<T>(ids: string[], source: Cache<T>) {
   const cache = useRef<Index<T>>(EMPTY);
 
   return useMemo(() => {
@@ -17,11 +21,12 @@ export function useStableIndex<T>(ids: string[], source: Index<T>) {
     let updateCache = false;
 
     for (const id of ids) {
-      if (!(id in source)) {
+      const content = source.get(id);
+      if (!content) {
         return null;
       }
 
-      entries[id] = source[id];
+      entries[id] = content;
       if (cache.current[id] !== entries[id]) {
         updateCache = true;
       }
