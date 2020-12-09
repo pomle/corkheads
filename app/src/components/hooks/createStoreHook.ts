@@ -76,7 +76,7 @@ type Subscriber = {
 };
 
 function createStore() {
-  const subscribers: Index<Subscriber> = Object.create(null);
+  const subscribers = new Map<string, Subscriber>();
 
   return function useStore<T>(
     collection: firestore.CollectionReference<T>,
@@ -95,8 +95,10 @@ function createStore() {
       for (const id of ids) {
         const doc = collection.doc(id);
         const key = doc.path;
-        if (!subscribers[key]) {
-          subscribers[key] = {
+
+        let sub = subscribers.get(key);
+        if (!sub) {
+          sub = {
             key,
             unsub: doc.onSnapshot((snap) => {
               updateIndex(id, {
@@ -107,19 +109,22 @@ function createStore() {
             }),
             count: 0,
           };
+          subscribers.set(key, sub);
         }
 
-        subscribers[key].count++;
+        sub.count++;
         keys.push(key);
       }
 
       return () => {
         for (const key of keys) {
-          const sub = subscribers[key];
-          sub.count--;
-          if (sub.count === 0) {
-            sub.unsub();
-            delete subscribers[key];
+          const sub = subscribers.get(key);
+          if (sub) {
+            sub.count--;
+            if (sub.count === 0) {
+              sub.unsub();
+              subscribers.delete(key);
+            }
           }
         }
       };
