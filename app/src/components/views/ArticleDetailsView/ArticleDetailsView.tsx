@@ -96,10 +96,6 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           <div className={classes.userSection}>
             <UserSections userId={userId} articleId={articleId} />
           </div>
-
-          <div className={classes.checkInsSection}>
-            <ArticleCheckInsSection routes={routes} articleId={articleId} />
-          </div>
         </ViewBody>
       </HeaderLayout>
     </Themer>
