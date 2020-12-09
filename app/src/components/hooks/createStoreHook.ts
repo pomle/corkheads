@@ -71,7 +71,7 @@ export function useObjectIndex<T>(
 
 type Subscriber = {
   key: string;
-  unsub: () => void;
+  release: () => void;
   count: number;
 };
 
@@ -100,7 +100,7 @@ function createStore() {
         if (!sub) {
           sub = {
             key,
-            unsub: doc.onSnapshot((snap) => {
+            release: doc.onSnapshot((snap) => {
               updateIndex(id, {
                 id,
                 doc,
@@ -122,7 +122,7 @@ function createStore() {
           if (sub) {
             sub.count--;
             if (sub.count === 0) {
-              sub.unsub();
+              sub.release();
               subscribers.delete(key);
             }
           }
