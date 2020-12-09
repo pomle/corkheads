@@ -55,17 +55,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                 <Section
                   header={
                     <SectionTitle
-                      main="Top drinks"
-                      context={<Link to={routes.toplist}>See all ›</Link>}
-                    />
-                  }
-                >
-                  <ToplistSection userId={userId} />
-                </Section>
-
-                <Section
-                  header={
-                    <SectionTitle
                       main={<>Collection ({collectionSize})</>}
                       context={<Link to={routes.collection}>See all ›</Link>}
                     />

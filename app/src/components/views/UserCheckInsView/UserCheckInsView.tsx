@@ -12,6 +12,7 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
+import { useChangeDetect } from "components/hooks/useChangeDetect";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -46,11 +47,13 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: 50,
+      limit: 10,
     };
   }, [userId]);
 
   const result = useCheckInQuery(query);
+
+  useChangeDetect(result, "UserCheckInsView result");
 
   const classes = useStyles();
 
@@ -72,6 +75,10 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
                 result.map(({ checkInEntry, articleEntry }) => {
                   const article = articleEntry.data;
                   const checkIn = checkInEntry.data;
+
+                  if (!checkIn || !article) {
+                    console.warn("Missing", checkInEntry, articleEntry);
+                  }
 
                   return (
                     <button

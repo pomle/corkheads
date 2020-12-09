@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
 import { Entry } from "types/Entry";
+import { useChangeDetect } from "../useChangeDetect";
 import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
 
@@ -29,6 +30,7 @@ export function useCheckInTuple(
 
   return useMemo(() => {
     if (!articleEntries || !checkInEntries) {
+      console.debug("UserCheckInsView Baling: Neither");
       return null;
     }
 
@@ -37,17 +39,38 @@ export function useCheckInTuple(
     for (const checkInId of checkInIds) {
       const checkInEntry = checkInEntries[checkInId];
       if (!checkInEntry) {
+        console.debug(
+          "UserCheckInsView Baling: Missing CheckInEntry",
+          checkInId
+        );
         return null;
       }
 
       const checkIn = checkInEntry.data;
       if (!checkIn) {
+        console.debug(
+          "UserCheckInsView Baling: Missing CheckIn data",
+          checkInId
+        );
         return null;
       }
 
       const articleId = checkIn.articleId;
       const articleEntry = articleEntries[articleId];
       if (!articleEntry) {
+        console.debug(
+          "UserCheckInsView Baling: Missing ArticleEntry",
+          articleId
+        );
+        return null;
+      }
+
+      const article = articleEntry.data;
+      if (!article) {
+        console.debug(
+          "UserCheckInsView Baling: Missing Article data",
+          articleId
+        );
         return null;
       }
 
@@ -56,6 +79,8 @@ export function useCheckInTuple(
         checkInEntry,
       });
     }
+
+    console.debug("UserCheckInsView Not bailing:", result);
 
     return result;
   }, [checkInIds, articleEntries, checkInEntries]);

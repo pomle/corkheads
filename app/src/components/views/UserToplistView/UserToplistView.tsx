@@ -47,6 +47,8 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
 }) => {
   const result = useUserArticleToplistQuery(userId, 10);
 
+  console.log("Toplist result", result);
+
   const classes = useStyles();
 
   return (

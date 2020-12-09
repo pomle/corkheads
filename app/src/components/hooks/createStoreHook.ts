@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { firestore } from "firebase/app";
 import { listEquals } from "lib/equality";
 import { Entry } from "types/Entry";
 import { useStableIndex } from "./store2/useStableIndex";
 import { debounce } from "lib/debounce";
+import { useFirebaseStore } from "components/context/FirebaseStore";
 
 type Index<T> = Record<string, T>;
 
@@ -25,26 +26,6 @@ export function useFlatResult<T>(id: string, result: StoreResult<T>) {
   return result ? result[id] : null;
 }
 
-function useBump(tag: string): [number, (tag: string) => void] {
-  const [cycle, setCycle] = useState<number>(0);
-  const bump = useMemo(() => {
-    const increment = (tag: string) => {
-      setCycle((cycle) => {
-        const next = cycle + 1;
-        console.debug("Bumping cache", tag, next);
-        return next;
-      });
-    };
-    const thottled = debounce(increment, 100);
-    return (tag: string) => {
-      console.log("Queueing ping", tag);
-      thottled(tag);
-    };
-  }, [tag]);
-
-  return [cycle, bump];
-}
-
 type Subscriber = {
   key: string;
   release: () => void;
@@ -53,29 +34,8 @@ type Subscriber = {
 
 const RELEASE_WAIT = 1 * 60 * 1000;
 
-function createIndex<T>(
-  store: Map<string, unknown>,
-  key: (id: string) => string
-) {
-  return {
-    delete(id: string) {
-      store.delete(key(id));
-    },
-    has(id: string) {
-      return store.has(key(id));
-    },
-    get(id: string): T {
-      return store.get(key(id)) as T;
-    },
-    set(id: string, data: T) {
-      store.set(key(id), data);
-    },
-  };
-}
-
 function createStore() {
   const subscribers = new Map<string, Subscriber>();
-  const store = new Map<string, Entry<unknown>>();
 
   return function useStore<T>(
     collection: firestore.CollectionReference<T>,
@@ -83,24 +43,49 @@ function createStore() {
   ): StoreResult<T> {
     const ids = useEqualList(unstableIds);
 
-    const [cacheCycle, pingCache] = useBump(collection.path);
+    const { counter, index: store, update } = useFirebaseStore();
 
-    const createKey = useCallback((id: string) => `${collection.path}/${id}`, [
+    console.log("Cache counter", collection.path, counter);
+
+    const path = useCallback((id: string) => `${collection.path}/${id}`, [
       collection,
     ]);
 
-    const index = useMemo(() => {
-      const index = createIndex<Entry<T>>(store, createKey);
-
+    useMemo(() => {
       for (const id of ids) {
-        if (!index.has(id)) {
-          const doc = collection.doc(id);
-          index.set(id, { id, doc });
+        const key = path(id);
+        if (!store.has(key)) {
+          store.set(key, {
+            id,
+            doc: collection.doc(id),
+          });
         }
       }
+    }, [store, path, collection, ids]);
 
-      return index;
-    }, [ids, collection, createKey]);
+    const get = useCallback(
+      (id: string) => {
+        const key = path(id);
+        return store.get(key) as Entry<T>;
+      },
+      [path, store]
+    );
+
+    const set = useMemo(() => {
+      const buffer: [string, Entry<T>][] = [];
+
+      const flush = debounce(() => {
+        console.log("Flushing to cache", buffer);
+        update([...buffer]);
+        buffer.length = 0;
+      }, 250);
+
+      return (id: string, data: Entry<T>) => {
+        const key = path(id);
+        buffer.push([key, data]);
+        flush();
+      };
+    }, [path, update]);
 
     useEffect(() => {
       if (ids.length === 0) {
@@ -109,30 +94,28 @@ function createStore() {
 
       const keys: string[] = [];
       for (const id of ids) {
-        const key = createKey(id);
+        const key = path(id);
 
         let sub = subscribers.get(key);
         if (!sub) {
-          const { doc } = index.get(id) as Entry<T>;
+          const { doc } = store.get(key) as Entry<T>;
 
           const unsubscribe = doc.onSnapshot((snap) => {
             const data = snap.data();
             console.log("UserCheckInsView Setting", key, "with data", !!data);
 
-            index.set(id, {
+            set(id, {
               id,
               doc,
               data,
             });
-
-            pingCache(`UserCheckInsView Ping ${key}`);
           });
 
           sub = {
             key,
             release: () => {
               unsubscribe();
-              index.delete(id);
+              //index.delete(id);
             },
             count: 0,
           };
@@ -176,9 +159,9 @@ function createStore() {
           setTimeout(maybeUnsub, delay);
         }
       };
-    }, [ids, index, createKey, pingCache]);
+    }, [ids, set, path, store]);
 
-    return useStableIndex(ids, index, cacheCycle);
+    return useStableIndex(ids, get, counter);
   };
 }
 

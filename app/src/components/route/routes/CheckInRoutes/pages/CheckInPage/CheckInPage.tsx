@@ -47,6 +47,7 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   return (
     <ErrorBoundary nav={nav}>
       {() => {
+        console.log(articleEntry, checkInEntry);
         if (!articleEntry || !checkInEntry) {
           return <LoadingView nav={nav} />;
         }
