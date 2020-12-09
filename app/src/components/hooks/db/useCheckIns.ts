@@ -6,8 +6,8 @@ import { Entry } from "types/Entry";
 import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
 
-export function useCheckIns(articleIds: string[]) {
-  return useStore<CheckIn>(useCollection().checkIn, articleIds);
+export function useCheckIns(checkInIds: string[]) {
+  return useStore<CheckIn>(useCollection().checkIn, checkInIds);
 }
 
 export function useCheckIn(checkInId: string) {
