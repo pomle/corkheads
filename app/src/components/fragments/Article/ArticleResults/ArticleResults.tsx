@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import ItemList from "components/ui/layout/ItemList";
-import ResultStatement from "components/ui/typography/ResultStatement";
 import {
   ArticleSearchQuery,
   useArticleSearch,
@@ -10,6 +9,7 @@ import { Article } from "types/Article";
 import * as paths from "components/route/paths";
 import SearchArticleItem from "./components/SearchArticleItem";
 import TextItem from "./components/TextItem";
+import LineThrobber from "components/ui/throbbers/LineThrobber";
 
 interface ArticleResultsProps {
   query: string;
@@ -28,13 +28,9 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
     [query]
   );
 
-  const result = useArticleSearch(searchQuery);
+  const searchRequest = useArticleSearch(searchQuery);
 
-  if (!result) {
-    return <ResultStatement message="Searching..." />;
-  }
-
-  const articles = result.reduce((articles, entry) => {
+  const articles = searchRequest.results.reduce((articles, entry) => {
     if (entry.data) {
       articles.push(entry.data);
     }
@@ -42,19 +38,22 @@ const ArticleResults: React.FC<ArticleResultsProps> = ({ query, onSelect }) => {
   }, [] as Article[]);
 
   return (
-    <ItemList>
-      {articles.map((article) => {
-        return (
-          <button key={article.id} onClick={() => onSelect(article)}>
-            <SearchArticleItem article={article} />
-          </button>
-        );
-      })}
-      <TextItem>
-        Can't find the drink you're looking for?{" "}
-        <Link to={createURL}>Add it!</Link>
-      </TextItem>
-    </ItemList>
+    <>
+      {searchRequest.busy && <LineThrobber />}
+      <ItemList>
+        {articles.map((article) => {
+          return (
+            <button key={article.id} onClick={() => onSelect(article)}>
+              <SearchArticleItem article={article} />
+            </button>
+          );
+        })}
+        <TextItem>
+          Can't find the drink you're looking for?{" "}
+          <Link to={createURL}>Add it!</Link>
+        </TextItem>
+      </ItemList>
+    </>
   );
 };
 
