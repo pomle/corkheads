@@ -4,12 +4,14 @@ import { SharedStateContext } from "components/context/SharedState";
 import { ContextMenuContext } from "components/context/ContextMenuContext";
 import { InternationalizationContext } from "components/context/InternationalizationContext";
 import { FirebaseContext } from "components/context/FirebaseContext";
+import { FirebaseStoreContext } from "components/context/FirebaseStore";
 import { ObjectStoreContext } from "components/context/ObjectStoreContext";
 import { SessionContext } from "components/context/SessionContext";
 import * as Sentry from "@sentry/react";
 
 const contexts = [
   FirebaseContext,
+  FirebaseStoreContext,
   SessionContext,
   ObjectStoreContext,
   ContextMenuContext,
