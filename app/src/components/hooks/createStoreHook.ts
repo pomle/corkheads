@@ -116,34 +116,40 @@ function createStore() {
         }
 
         sub.count++;
-        console.debug("Sub count", sub.count, key);
+        console.debug("Sub count +", sub.count, key);
         keys.push(key);
       }
 
-      const releaseCounts = () => {
+      return () => {
+        const releaseCandidates: string[] = [];
         for (const key of keys) {
           const sub = subscribers.get(key);
           if (sub) {
             sub.count--;
-            console.debug("Sub count", sub.count, key);
+            console.debug("Sub count -", sub.count, key);
+            if (sub.count === 0) {
+              releaseCandidates.push(key);
+            }
           }
         }
-      };
 
-      const maybeUnsub = () => {
-        for (const key of keys) {
-          const sub = subscribers.get(key);
-          if (sub && sub.count === 0) {
-            sub.release();
-            subscribers.delete(key);
-            console.debug("Subscriber deleted", key);
-          }
+        console.log("Release candidates", releaseCandidates);
+        if (releaseCandidates.length > 0) {
+          const maybeUnsub = () => {
+            for (const key of releaseCandidates) {
+              const sub = subscribers.get(key);
+              if (sub && sub.count === 0) {
+                sub.release();
+                subscribers.delete(key);
+                console.debug("Subscriber deleted", key);
+              }
+            }
+          };
+
+          const delay = RELEASE_WAIT + Math.random() * 5000;
+          console.debug("Scheduling clean up", delay, releaseCandidates);
+          setTimeout(maybeUnsub, delay);
         }
-      };
-
-      return () => {
-        releaseCounts();
-        setTimeout(maybeUnsub, RELEASE_WAIT);
       };
     }, [ids, collection, updateIndex]);
 
