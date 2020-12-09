@@ -75,6 +75,8 @@ type Subscriber = {
   count: number;
 };
 
+const RELEASE_WAIT = 1 * 60 * 1000;
+
 function createStore() {
   const subscribers = new Map<string, Subscriber>();
 
@@ -110,23 +112,38 @@ function createStore() {
             count: 0,
           };
           subscribers.set(key, sub);
+          console.debug("Subscriber added", key);
         }
 
         sub.count++;
+        console.debug("Sub count", sub.count, key);
         keys.push(key);
       }
 
-      return () => {
+      const releaseCounts = () => {
         for (const key of keys) {
           const sub = subscribers.get(key);
           if (sub) {
             sub.count--;
-            if (sub.count === 0) {
-              sub.release();
-              subscribers.delete(key);
-            }
+            console.debug("Sub count", sub.count, key);
           }
         }
+      };
+
+      const maybeUnsub = () => {
+        for (const key of keys) {
+          const sub = subscribers.get(key);
+          if (sub && sub.count === 0) {
+            sub.release();
+            subscribers.delete(key);
+            console.debug("Subscriber deleted", key);
+          }
+        }
+      };
+
+      return () => {
+        releaseCounts();
+        setTimeout(maybeUnsub, RELEASE_WAIT);
       };
     }, [ids, collection, updateIndex]);
 
