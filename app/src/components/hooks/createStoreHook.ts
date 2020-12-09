@@ -10,8 +10,8 @@ type Index<T> = Record<string, T>;
 export type StoreResult<T> = Index<Entry<T>> | null;
 export type QueryResult<T> = Entry<T>[] | null;
 
-function useEqualList(next: any[]): any[] {
-  const memo = useRef<any[]>([]);
+function useEqualList<T>(next: T[]): T[] {
+  const memo = useRef<T[]>([]);
 
   const prev = memo.current;
   if (!listEquals(next, prev)) {
