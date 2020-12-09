@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { Entry } from "types/Entry";
+import { GuaranteedEntry, isGuaranteed } from "types/Entry";
 import { useArticles } from "./useArticles";
-import { useArticleIndex } from "../algolia";
+import { useSearch } from "../algolia";
 
 export type ArticleSearchQuery = {
   search: {
@@ -10,47 +10,60 @@ export type ArticleSearchQuery = {
   };
 };
 
+type ArticleSearchResults = {
+  busy: boolean;
+  results: GuaranteedEntry<Article>[];
+};
+
 export function useArticleSearch(
   query: ArticleSearchQuery
-): Entry<Article>[] | null {
+): ArticleSearchResults {
   const [ids, setIds] = useState<string[]>([]);
-  const searchIndex = useArticleIndex();
-  const list = useRef<Entry<Article>[]>([]);
+  const { busy, search } = useSearch();
+  const flight = useRef<number>(0);
 
   useEffect(() => {
-    searchIndex
-      .search(query.search.text)
-      .then((results) => {
-        return results.hits.map((hit) => hit.objectID);
-      })
-      .then(setIds);
-  }, [setIds, searchIndex, query]);
+    const flightRecord = ++flight.current;
+
+    if (query.search.text.length === 0) {
+      setIds([]);
+      return;
+    }
+
+    search(query.search.text).then((results) => {
+      if (flight.current !== flightRecord) {
+        return;
+      }
+
+      const ids = results.hits.map((hit) => hit.objectID);
+      setIds(ids);
+    });
+  }, [setIds, search, query]);
 
   const articlesResult = useArticles(ids);
 
-  return useMemo(() => {
+  const results = useMemo(() => {
     if (!articlesResult) {
-      return null;
+      console.log("Returning 0");
+      return [];
     }
 
-    const newList: Entry<Article>[] = [];
-
-    let updateList = list.current.length !== ids.length;
-    for (let index = 0; index < ids.length; index += 1) {
-      const id = ids[index];
+    const entries: GuaranteedEntry<Article>[] = [];
+    for (const id of ids) {
       const entry = articlesResult[id];
-      if (entry) {
-        newList.push(entry);
-        if (newList[index] !== list.current[index]) {
-          updateList = true;
-        }
+      if (isGuaranteed(entry)) {
+        entries.push(entry);
       }
     }
 
-    if (updateList) {
-      list.current = newList;
-    }
-
-    return list.current;
+    return entries;
   }, [ids, articlesResult]);
+
+  return useMemo(
+    () => ({
+      busy,
+      results,
+    }),
+    [busy, results]
+  );
 }

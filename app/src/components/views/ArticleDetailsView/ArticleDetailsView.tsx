@@ -11,7 +11,6 @@ import { useArticle } from "components/hooks/db/useArticles";
 import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
-import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 import AreaButton from "components/ui/trigger/AreaButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -95,10 +94,6 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
           <div className={classes.userSection}>
             <UserSections userId={userId} articleId={articleId} />
-          </div>
-
-          <div className={classes.checkInsSection}>
-            <ArticleCheckInsSection routes={routes} articleId={articleId} />
           </div>
         </ViewBody>
       </HeaderLayout>
