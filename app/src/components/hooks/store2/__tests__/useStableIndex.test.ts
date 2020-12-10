@@ -1,10 +1,13 @@
-/* eslint import/no-extraneous-dependencies: ["error", {"peerDependencies": true}] */
-import {
-  renderHook,
-  act,
-  RenderHookResult,
-} from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react-hooks";
 import { useStableIndex } from "../useStableIndex";
+
+function createIndex(store: Record<string, unknown>) {
+  return {
+    get(key: string) {
+      return store[key];
+    },
+  };
+}
 
 describe("useStableIndex", () => {
   const source: Record<string, string> = {
@@ -19,10 +22,12 @@ describe("useStableIndex", () => {
   it("returns null if any source not found", () => {
     const ids = ["x", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -32,7 +37,9 @@ describe("useStableIndex", () => {
   it("returns null when ids empty", () => {
     const ids: string[] = [];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, source }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
         source,
@@ -45,10 +52,12 @@ describe("useStableIndex", () => {
   it("returns null if source removed", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -63,7 +72,7 @@ describe("useStableIndex", () => {
 
     hook.rerender({
       ids,
-      source: newSource,
+      index: createIndex(newSource),
     });
 
     expect(hook.result.current).toBe(null);
@@ -72,10 +81,12 @@ describe("useStableIndex", () => {
   it("returns a subset of source based on ids if all sources found", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -89,10 +100,12 @@ describe("useStableIndex", () => {
   it("is referentially stable when ids does not change", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -106,10 +119,12 @@ describe("useStableIndex", () => {
   it("is referentially stable when ids change if output does not change", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -117,7 +132,7 @@ describe("useStableIndex", () => {
 
     hook.rerender({
       ids: ["c", "b", "d"],
-      source,
+      index,
     });
 
     expect(hook.result.current).toBe(ref);
@@ -126,10 +141,12 @@ describe("useStableIndex", () => {
   it("is referentially stable when source change if output does not change", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -137,12 +154,12 @@ describe("useStableIndex", () => {
 
     hook.rerender({
       ids,
-      source: {
+      index: createIndex({
         a: "Alluminium",
         b: "Beta",
         c: "Citrus",
         d: "Delta",
-      },
+      }),
     });
 
     expect(hook.result.current).toBe(ref);
@@ -151,10 +168,12 @@ describe("useStableIndex", () => {
   it("returns new index if source changes any accessed value", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -162,12 +181,12 @@ describe("useStableIndex", () => {
 
     hook.rerender({
       ids,
-      source: {
+      index: createIndex({
         a: "Alluminium",
         b: "Beta",
         c: "Cirrus Logic",
         d: "Delta",
-      },
+      }),
     });
 
     expect(hook.result.current).not.toBe(ref);
@@ -181,10 +200,12 @@ describe("useStableIndex", () => {
   it("returns new index if ids changes so that output is affected", () => {
     const ids = ["b", "c", "d"];
 
-    const hook = renderHook(({ ids, source }) => useStableIndex(ids, source), {
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
       initialProps: {
         ids,
-        source,
+        index,
       },
     });
 
@@ -192,7 +213,7 @@ describe("useStableIndex", () => {
 
     hook.rerender({
       ids: ["a", "b", "c", "d"],
-      source,
+      index,
     });
 
     expect(hook.result.current).not.toBe(ref);
