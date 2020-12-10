@@ -40,10 +40,6 @@ export function useUserWishlistArticleQuery(query: UserWishlistArticleQuery) {
     }
 
     return q.onSnapshot((result) => {
-      if (result.metadata.fromCache) {
-        return;
-      }
-
       const ids = result.docs.map((doc) => doc.id);
       setIds(ids);
     });
