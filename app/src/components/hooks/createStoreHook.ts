@@ -29,7 +29,7 @@ const EMPTY = Object.create(null);
 export function useObjectIndex<T>(
   ids: string[],
   namespace: string
-): [Record<string, unknown>, (id: string, object: T) => void] {
+): [Record<string, T>, (id: string, object: T) => void] {
   const [store, setStore] = useObjectStore();
 
   const path = useCallback((id: string) => `${namespace}/${id}`, [namespace]);
