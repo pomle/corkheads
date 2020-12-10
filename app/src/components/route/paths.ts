@@ -1,6 +1,5 @@
-import { createPath, createCodec } from "lib/path";
-
-const stringCodec = createCodec(encodeURIComponent, decodeURIComponent);
+import { createPath } from "lib/path";
+import { stringCodec } from "./codecs";
 
 const profileView = createPath("/", {});
 const toplistView = createPath("/toplist", {});
