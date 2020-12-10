@@ -31,6 +31,11 @@ type Subscriber = {
   count: number;
 };
 
+interface Cache<T> {
+  get(key: string): T;
+  set(key: string, value: T): void;
+}
+
 function useIndex<T>(path: (id: string) => string) {
   const { store, queue } = useFirebaseStore();
 
@@ -51,95 +56,102 @@ function useIndex<T>(path: (id: string) => string) {
 
 const RELEASE_WAIT = 1 * 60 * 1000;
 
-function createStore() {
-  const subscribers = new Map<string, Subscriber>();
+const subscribers = new Map<string, Subscriber>();
 
-  return function useStore<T>(
-    collection: firestore.CollectionReference<T>,
-    unstableIds: string[]
-  ): StoreResult<T> {
-    const ids = useEqualList(unstableIds);
+function useSubscribers<T>(
+  collection: firestore.CollectionReference<T>,
+  cache: Cache<Entry<T> | undefined>,
+  ids: string[]
+) {
+  const path = useCallback((id: string) => `${collection.path}/${id}`, [
+    collection,
+  ]);
 
-    const path = useCallback((id: string) => `${collection.path}/${id}`, [
-      collection,
-    ]);
+  useEffect(() => {
+    if (ids.length === 0) {
+      return;
+    }
 
-    const index = useIndex<Entry<T>>(path);
+    const keys: string[] = [];
+    for (const id of ids) {
+      const key = path(id);
 
-    useEffect(() => {
-      if (ids.length === 0) {
-        return;
-      }
+      let sub = subscribers.get(key);
+      if (!sub) {
+        const doc = collection.doc(id);
+        const unsubscribe = doc.onSnapshot((snap) => {
+          const data = snap.data();
 
-      const keys: string[] = [];
-      for (const id of ids) {
-        const key = path(id);
-
-        let sub = subscribers.get(key);
-        if (!sub) {
-          const doc = collection.doc(id);
-
-          const unsubscribe = doc.onSnapshot((snap) => {
-            const data = snap.data();
-
-            index.set(id, {
-              id,
-              doc,
-              data,
-            });
+          cache.set(id, {
+            id,
+            doc,
+            data,
           });
+        });
 
-          sub = {
-            key,
-            release: () => {
-              unsubscribe();
-            },
-            count: 0,
-          };
+        sub = {
+          key,
+          release: () => {
+            unsubscribe();
+          },
+          count: 0,
+        };
 
-          subscribers.set(key, sub);
-          console.debug("Subscriber added", key);
-        }
-
-        sub.count++;
-        console.debug("Sub count +", sub.count, key);
-        keys.push(key);
+        subscribers.set(key, sub);
+        console.debug("Subscriber added", key);
       }
 
-      return () => {
-        const releaseCandidates: string[] = [];
-        for (const key of keys) {
-          const sub = subscribers.get(key);
-          if (sub) {
-            sub.count--;
-            console.debug("Sub count -", sub.count, key);
-            if (sub.count === 0) {
-              releaseCandidates.push(key);
-            }
+      sub.count++;
+      console.debug("Sub count +", sub.count, key);
+      keys.push(key);
+    }
+
+    return () => {
+      const releaseCandidates: string[] = [];
+      for (const key of keys) {
+        const sub = subscribers.get(key);
+        if (sub) {
+          sub.count--;
+          console.debug("Sub count -", sub.count, key);
+          if (sub.count === 0) {
+            releaseCandidates.push(key);
           }
         }
+      }
 
-        if (releaseCandidates.length > 0) {
-          const maybeUnsub = () => {
-            for (const key of releaseCandidates) {
-              const sub = subscribers.get(key);
-              if (sub && sub.count === 0) {
-                sub.release();
-                subscribers.delete(key);
-                console.debug("Subscriber deleted", key);
-              }
+      if (releaseCandidates.length > 0) {
+        const maybeUnsub = () => {
+          for (const key of releaseCandidates) {
+            const sub = subscribers.get(key);
+            if (sub && sub.count === 0) {
+              sub.release();
+              subscribers.delete(key);
+              console.debug("Subscriber deleted", key);
             }
-          };
+          }
+        };
 
-          const delay = RELEASE_WAIT + Math.random() * 60000;
-          console.debug("Scheduling clean up", delay, releaseCandidates);
-          setTimeout(maybeUnsub, delay);
-        }
-      };
-    }, [ids, index, path, collection]);
-
-    return useStableIndex<Entry<T>>(ids, index);
-  };
+        const delay = RELEASE_WAIT + Math.random() * 60000;
+        console.debug("Scheduling clean up", delay, releaseCandidates);
+        setTimeout(maybeUnsub, delay);
+      }
+    };
+  }, [ids, cache, path, collection]);
 }
 
-export const useStore = createStore();
+export function useStore<T>(
+  collection: firestore.CollectionReference<T>,
+  unstableIds: string[]
+): StoreResult<T> {
+  const ids = useEqualList(unstableIds);
+
+  const path = useCallback((id: string) => `${collection.path}/${id}`, [
+    collection,
+  ]);
+
+  const index = useIndex<Entry<T>>(path);
+
+  useSubscribers(collection, index, ids);
+
+  return useStableIndex<Entry<T>>(ids, index);
+}
