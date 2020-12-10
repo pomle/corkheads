@@ -3,6 +3,7 @@ import { firestore } from "firebase/app";
 import { useObjectStore } from "components/context/ObjectStoreContext";
 import { listEquals } from "lib/equality";
 import { Entry } from "types/Entry";
+import { useStableIndex } from "./store2/useStableIndex";
 
 type Index<T> = Record<string, T>;
 
@@ -83,9 +84,7 @@ function createStore() {
   ): StoreResult<T> {
     const ids = useEqualList(unstableIds);
 
-    const [index, updateIndex] = useObjectIndex<T | null>(ids, collection.path);
-
-    const cache = useRef<Index<Entry<T>>>(EMPTY);
+    const [index, updateIndex] = useObjectIndex<Entry<T>>(ids, collection.path);
 
     useEffect(() => {
       if (ids.length === 0) {
@@ -100,7 +99,11 @@ function createStore() {
           subscribers[key] = {
             key,
             unsub: doc.onSnapshot((snap) => {
-              updateIndex(id, snap.data() || null);
+              updateIndex(id, {
+                id,
+                doc,
+                data: snap.data(),
+              });
             }),
             count: 0,
           };
@@ -122,34 +125,7 @@ function createStore() {
       };
     }, [ids, collection, updateIndex]);
 
-    return useMemo(() => {
-      const entries: Index<Entry<T>> = Object.create(null);
-      let updateCache = false;
-
-      for (const id of ids) {
-        if (!(id in index)) {
-          return null;
-        }
-
-        entries[id] = cache.current[id] || {
-          id,
-          doc: collection.doc(id),
-        };
-
-        if (entries[id].data !== index[id]) {
-          entries[id].data = index[id] as T | undefined;
-          if (entries[id].data !== cache.current[id]?.data) {
-            updateCache = true;
-          }
-        }
-      }
-
-      if (updateCache) {
-        cache.current = entries;
-      }
-
-      return cache.current;
-    }, [ids, index, collection]);
+    return useStableIndex(ids, index);
   };
 }
 
