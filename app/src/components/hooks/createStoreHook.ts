@@ -3,7 +3,6 @@ import { firestore } from "firebase/app";
 import { listEquals } from "lib/equality";
 import { Entry } from "types/Entry";
 import { useStableIndex } from "./store2/useStableIndex";
-import { debounce } from "lib/debounce";
 import { useFirebaseStore } from "components/context/FirebaseStore";
 
 type Index<T> = Record<string, T>;
@@ -32,6 +31,24 @@ type Subscriber = {
   count: number;
 };
 
+function useIndex<T>(path: (id: string) => string) {
+  const { store, queue } = useFirebaseStore();
+
+  return useMemo(
+    () => ({
+      get(id: string): T | undefined {
+        const key = path(id);
+        return store[key] as T | undefined;
+      },
+      set(id: string, data: T) {
+        const key = path(id);
+        queue(key, data);
+      },
+    }),
+    [store, queue, path]
+  );
+}
+
 const RELEASE_WAIT = 1 * 60 * 1000;
 
 function createStore() {
@@ -43,48 +60,11 @@ function createStore() {
   ): StoreResult<T> {
     const ids = useEqualList(unstableIds);
 
-    const { counter, index: store, update } = useFirebaseStore();
-
     const path = useCallback((id: string) => `${collection.path}/${id}`, [
       collection,
     ]);
 
-    useMemo(() => {
-      for (const id of ids) {
-        const key = path(id);
-        if (!store.has(key)) {
-          store.set(key, {
-            id,
-            doc: collection.doc(id),
-          });
-        }
-      }
-    }, [store, path, collection, ids]);
-
-    const get = useCallback(
-      (id: string) => {
-        const key = path(id);
-        return store.get(key) as Entry<T>;
-      },
-      [path, store]
-    );
-
-    const set = useMemo(() => {
-      const buffer: [string, Entry<T>][] = [];
-
-      const flush = debounce(() => {
-        const water = [...buffer];
-        buffer.length = 0;
-        console.log("Flushing to cache", water);
-        update(water);
-      }, 100);
-
-      return (id: string, data: Entry<T>) => {
-        const key = path(id);
-        buffer.push([key, data]);
-        flush();
-      };
-    }, [path, update]);
+    const index = useIndex<Entry<T>>(path);
 
     useEffect(() => {
       if (ids.length === 0) {
@@ -97,12 +77,12 @@ function createStore() {
 
         let sub = subscribers.get(key);
         if (!sub) {
-          const { doc } = store.get(key) as Entry<T>;
+          const doc = collection.doc(id);
 
           const unsubscribe = doc.onSnapshot((snap) => {
             const data = snap.data();
 
-            set(id, {
+            index.set(id, {
               id,
               doc,
               data,
@@ -113,7 +93,6 @@ function createStore() {
             key,
             release: () => {
               unsubscribe();
-              store.delete(key);
             },
             count: 0,
           };
@@ -157,9 +136,9 @@ function createStore() {
           setTimeout(maybeUnsub, delay);
         }
       };
-    }, [ids, set, path, store]);
+    }, [ids, index, path, collection]);
 
-    return useStableIndex(ids, get, counter);
+    return useStableIndex<Entry<T>>(ids, index);
   };
 }
 
