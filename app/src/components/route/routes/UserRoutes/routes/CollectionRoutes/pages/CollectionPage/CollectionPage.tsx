@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import { useUser } from "components/hooks/useUser";
 import NavigationBar from "components/ui/layout/NavigationBar";
@@ -6,34 +6,31 @@ import ErrorBoundary from "components/views/ErrorBoundaryView";
 import BackButton from "components/ui/trigger/BackButton";
 import LoadingView from "components/views/LoadingView";
 import UserCollectionView from "components/views/UserCollectionView";
-import * as paths from "components/route/paths";
+import * as rootPaths from "components/route/paths";
+import * as paths from "../../paths";
 
 const CollectionPage: React.FC = () => {
   const history = useHistory();
   const user = useUser();
 
-  const goHome = useCallback(() => {
-    const url = paths.profileView.url({});
-    history.push(url);
-  }, [history]);
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
+  const routes = useMemo(
+    () => ({
+      profile: () => {
+        const url = rootPaths.profileView.url({});
+        history.push(url);
+      },
+      article: (articleId: string) => {
+        const url = paths.articleView.url({ articleId });
+        history.push(url);
+      },
+    }),
     [history]
   );
 
   const nav = (
-    <NavigationBar back={<BackButton onClick={goHome}>Profile</BackButton>} />
-  );
-
-  const routes = useMemo(
-    () => ({
-      article: goToArticle,
-    }),
-    [goToArticle]
+    <NavigationBar
+      back={<BackButton onClick={routes.profile}>Profile</BackButton>}
+    />
   );
 
   if (!user) {

@@ -9,7 +9,7 @@ import LoadingView from "components/views/LoadingView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import NavButton from "components/ui/trigger/NavButton";
 import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
-import * as paths from "components/route/paths";
+import * as paths from "../../paths";
 
 const ProfilePage: React.FC = () => {
   const element = useRef<React.ReactElement>();

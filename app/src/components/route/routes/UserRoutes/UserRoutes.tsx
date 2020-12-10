@@ -2,12 +2,12 @@ import React from "react";
 import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
-import * as paths from "components/route/paths";
+import CollectionRoutes from "./routes/CollectionRoutes";
 import ProfilePage from "./pages/ProfilePage";
-import CollectionPage from "./pages/CollectionPage";
 import CheckInsPage from "./pages/CheckInsPage";
 import ToplistPage from "./pages/ToplistPage";
 import WishlistPage from "./pages/WishlistPage";
+import * as paths from "./paths";
 
 const UserRoutes: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const UserRoutes: React.FC = () => {
         {() => <ToplistPage />}
       </Screen>
       <Screen path={paths.collectionView} transition={SlideRight}>
-        {() => <CollectionPage />}
+        {() => <CollectionRoutes />}
       </Screen>
       <Screen path={paths.checkInsView} transition={SlideRight}>
         {() => <CheckInsPage />}

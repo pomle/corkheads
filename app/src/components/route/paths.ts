@@ -1,11 +1,8 @@
 import { createPath } from "lib/path";
 import { stringCodec } from "./codecs";
 
-const profileView = createPath("/", {});
-const toplistView = createPath("/toplist", {});
-const collectionView = createPath("/collection", {});
-const checkInsView = createPath("/checkIns", {});
-const wishlistView = createPath("/wishlist", {});
+const rootView = createPath("/", {});
+const profileView = rootView;
 
 const exploreArticles = createPath("/explore", {});
 
@@ -24,11 +21,8 @@ const checkInView = createPath("/checkIn/view/:checkInId", {
 const checkInPicture = checkInView.append("/picture", {});
 
 export {
+  rootView,
   profileView,
-  toplistView,
-  collectionView,
-  checkInsView,
-  wishlistView,
   exploreArticles,
   articleCreate,
   articleView,
