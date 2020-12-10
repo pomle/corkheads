@@ -2,6 +2,13 @@ import { useCallback, useEffect } from "react";
 import { firestore } from "firebase/app";
 import { Entry } from "types/Entry";
 
+const RELEASE_WAIT = 1 * 10 * 1000;
+
+function calcCleanUpDelay(minMs: number) {
+  const fudgeFactor = (minMs / 4) * Math.random();
+  return minMs + fudgeFactor;
+}
+
 interface Cache<T> {
   get(key: string): T;
   set(key: string, value: T): void;
@@ -13,9 +20,24 @@ type Subscriber = {
   count: number;
 };
 
-const RELEASE_WAIT = 1 * 60 * 1000;
-
 const subscribers = new Map<string, Subscriber>();
+
+function queueCleanUp(keys: string[]) {
+  const maybeUnsub = () => {
+    for (const key of keys) {
+      const sub = subscribers.get(key);
+      if (sub && sub.count === 0) {
+        sub.release();
+        subscribers.delete(key);
+        console.debug("Subscriber deleted", key);
+      }
+    }
+  };
+
+  const delay = calcCleanUpDelay(RELEASE_WAIT);
+  console.debug("Scheduling clean up", delay, keys);
+  setTimeout(maybeUnsub, delay);
+}
 
 export function useSubscribers<T>(
   collection: firestore.CollectionReference<T>,
@@ -66,33 +88,21 @@ export function useSubscribers<T>(
     }
 
     return () => {
-      const releaseCandidates: string[] = [];
+      const release: string[] = [];
+
       for (const key of keys) {
         const sub = subscribers.get(key);
         if (sub) {
           sub.count--;
           console.debug("Sub count -", sub.count, key);
           if (sub.count === 0) {
-            releaseCandidates.push(key);
+            release.push(key);
           }
         }
       }
 
-      if (releaseCandidates.length > 0) {
-        const maybeUnsub = () => {
-          for (const key of releaseCandidates) {
-            const sub = subscribers.get(key);
-            if (sub && sub.count === 0) {
-              sub.release();
-              subscribers.delete(key);
-              console.debug("Subscriber deleted", key);
-            }
-          }
-        };
-
-        const delay = RELEASE_WAIT + Math.random() * 60000;
-        console.debug("Scheduling clean up", delay, releaseCandidates);
-        setTimeout(maybeUnsub, delay);
+      if (release.length > 0) {
+        queueCleanUp(release);
       }
     };
   }, [ids, cache, path, collection]);

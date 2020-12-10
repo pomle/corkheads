@@ -1,4 +1,4 @@
-import { useFlatResult, useStore } from "components/hooks/createStoreHook";
+import { useFlatResult, useStore } from "components/hooks/useStore";
 import { UserCollectionArticle } from "types/UserCollectionArticle";
 import { useUserCollection } from "./useCollection";
 
