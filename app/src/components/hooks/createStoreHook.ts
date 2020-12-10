@@ -73,10 +73,11 @@ function createStore() {
       const buffer: [string, Entry<T>][] = [];
 
       const flush = debounce(() => {
-        console.log("Flushing to cache", buffer);
-        update([...buffer]);
+        const water = [...buffer];
         buffer.length = 0;
-      }, 250);
+        console.log("Flushing to cache", water);
+        update(water);
+      }, 100);
 
       return (id: string, data: Entry<T>) => {
         const key = path(id);
