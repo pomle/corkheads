@@ -54,10 +54,6 @@ export function useCheckInQuery(
     }
 
     return q.onSnapshot((result) => {
-      if (result.metadata.fromCache) {
-        return;
-      }
-
       const articleIds = new Set<string>();
       const checkInIds: string[] = [];
 

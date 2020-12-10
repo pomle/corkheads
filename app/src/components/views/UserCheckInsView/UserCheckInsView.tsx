@@ -46,7 +46,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: 50,
+      limit: 20,
     };
   }, [userId]);
 
@@ -61,7 +61,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           {nav}
           <ViewHead>
             <div className={classes.head}>
-              <h1>Check ins</h1>
+              <h1>Latest Check ins</h1>
             </div>
           </ViewHead>
         </ViewCap>
