@@ -13,25 +13,12 @@ import ErrorBoundary from "components/views/ErrorBoundaryView";
 const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const history = useHistory();
 
-  const goToProfile = useCallback(() => {
-    const url = paths.profileView.url({});
-    history.push(url);
-  }, [history]);
-
-  const nav = (
-    <NavigationBar
-      back={<BackButton onClick={goToProfile}>Profile</BackButton>}
-    />
-  );
-
-  const checkInEntry = useCheckIn(checkInId);
-  const articleId = checkInEntry ? checkInEntry?.data?.articleId : undefined;
-
-  const articleEntries = useArticles(articleId ? [articleId] : []);
-  const articleEntry = articleId && articleEntries && articleEntries[articleId];
-
   const routes = useMemo(
     () => ({
+      profile: () => {
+        const url = paths.profileView.url({});
+        history.push(url);
+      },
       picture: () => {
         const url = paths.checkInPicture.url({ checkInId });
         history.push(url);
@@ -43,6 +30,18 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
     }),
     [checkInId, history]
   );
+
+  const nav = (
+    <NavigationBar
+      back={<BackButton onClick={routes.profile}>Profile</BackButton>}
+    />
+  );
+
+  const checkInEntry = useCheckIn(checkInId);
+  const articleId = checkInEntry ? checkInEntry?.data?.articleId : undefined;
+
+  const articleEntries = useArticles(articleId ? [articleId] : []);
+  const articleEntry = articleId && articleEntries && articleEntries[articleId];
 
   return (
     <ErrorBoundary nav={nav}>
