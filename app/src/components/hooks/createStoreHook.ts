@@ -101,7 +101,6 @@ function createStore() {
 
           const unsubscribe = doc.onSnapshot((snap) => {
             const data = snap.data();
-            console.log("UserCheckInsView Setting", key, "with data", !!data);
 
             set(id, {
               id,
