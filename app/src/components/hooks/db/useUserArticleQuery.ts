@@ -25,7 +25,6 @@ export function useUserArticleQuery(query: UserArticleQuery) {
   const db = useDB();
 
   useEffect(() => {
-    console.log("Toplist query", query);
     const userId = query.filters.userId;
 
     let q = db.collection("users").doc(userId).collection("articles").limit(20);

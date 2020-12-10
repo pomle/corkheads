@@ -33,13 +33,6 @@ export function useUserArticleTuple(
       return null;
     }
 
-    console.log(
-      "UserArticleTuple",
-      articleIds.join("--"),
-      articleEntries,
-      userArticleEntries
-    );
-
     const results: UserArticleTuple[] = [];
 
     for (const id of articleIds) {
