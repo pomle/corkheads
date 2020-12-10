@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { firestore } from "firebase/app";
 import { Entry } from "types/Entry";
 
-const RELEASE_WAIT = 1 * 10 * 1000;
+const RELEASE_WAIT = 1 * 60 * 1000;
 
 function calcCleanUpDelay(minMs: number) {
   const fudgeFactor = (minMs / 4) * Math.random();
