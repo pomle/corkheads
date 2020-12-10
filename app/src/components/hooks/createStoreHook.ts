@@ -45,8 +45,6 @@ function createStore() {
 
     const { counter, index: store, update } = useFirebaseStore();
 
-    console.log("Cache counter", collection.path, counter);
-
     const path = useCallback((id: string) => `${collection.path}/${id}`, [
       collection,
     ]);
@@ -115,7 +113,7 @@ function createStore() {
             key,
             release: () => {
               unsubscribe();
-              //index.delete(id);
+              store.delete(key);
             },
             count: 0,
           };
