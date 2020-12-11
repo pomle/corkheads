@@ -12,6 +12,7 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
+import { useContentCache } from "components/hooks/useContentCache";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -67,24 +68,31 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList>
-              {result &&
-                result.map(({ checkInEntry, articleEntry }) => {
-                  const article = articleEntry.data;
-                  const checkIn = checkInEntry.data;
+            {useContentCache(() => {
+              if (!result) {
+                return;
+              }
 
-                  return (
-                    <button
-                      key={checkInEntry.id}
-                      onClick={() => routes.checkIn(checkInEntry.id)}
-                    >
-                      {article && checkIn && (
-                        <CheckInItem checkIn={checkIn} article={article} />
-                      )}
-                    </button>
-                  );
-                })}
-            </ItemList>
+              return (
+                <ItemList>
+                  {result.map(({ checkInEntry, articleEntry }) => {
+                    const article = articleEntry.data;
+                    const checkIn = checkInEntry.data;
+
+                    return (
+                      <button
+                        key={checkInEntry.id}
+                        onClick={() => routes.checkIn(checkInEntry.id)}
+                      >
+                        {article && (
+                          <CheckInItem checkIn={checkIn} article={article} />
+                        )}
+                      </button>
+                    );
+                  })}
+                </ItemList>
+              );
+            }, [result])}
           </div>
         </ViewBody>
       </HeaderLayout>
