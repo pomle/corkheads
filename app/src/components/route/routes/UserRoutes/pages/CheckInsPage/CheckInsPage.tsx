@@ -12,28 +12,24 @@ const CheckInsPage: React.FC = () => {
   const history = useHistory();
   const user = useUser();
 
-  const goHome = useCallback(() => {
-    const url = paths.profileView.url({});
-    history.push(url);
-  }, [history]);
-
-  const goToCheckIn = useCallback(
-    (checkInId: string) => {
-      const url = paths.checkInView.url({ checkInId });
-      history.push(url);
-    },
+  const routes = useMemo(
+    () => ({
+      profile: () => {
+        const url = paths.profileView.url({});
+        history.push(url);
+      },
+      checkIn: (checkInId: string) => {
+        const url = paths.checkInView.url({ checkInId });
+        history.push(url);
+      },
+    }),
     [history]
   );
 
   const nav = (
-    <NavigationBar back={<BackButton onClick={goHome}>Profile</BackButton>} />
-  );
-
-  const routes = useMemo(
-    () => ({
-      checkIn: goToCheckIn,
-    }),
-    [goToCheckIn]
+    <NavigationBar
+      back={<BackButton onClick={routes.profile}>Profile</BackButton>}
+    />
   );
 
   if (!user) {
