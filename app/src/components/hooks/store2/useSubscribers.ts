@@ -28,14 +28,14 @@ function queueCleanUp(keys: string[]) {
       const sub = subscribers.get(key);
       if (sub && sub.count === 0) {
         sub.release();
+        console.debug("Subscriber released", key);
         subscribers.delete(key);
-        console.debug("Subscriber deleted", key);
       }
     }
   };
 
   const delay = calcCleanUpDelay(RELEASE_WAIT);
-  console.debug("Scheduling clean up", delay, keys);
+  console.debug("Scheduling clean up in %dms for %d keys", delay, keys.length);
   setTimeout(maybeUnsub, delay);
 }
 
@@ -83,7 +83,6 @@ export function useSubscribers<T>(
       }
 
       sub.count++;
-      console.debug("Sub count +", sub.count, key);
       keys.push(key);
     }
 
@@ -94,7 +93,6 @@ export function useSubscribers<T>(
         const sub = subscribers.get(key);
         if (sub) {
           sub.count--;
-          console.debug("Sub count -", sub.count, key);
           if (sub.count === 0) {
             release.push(key);
           }
