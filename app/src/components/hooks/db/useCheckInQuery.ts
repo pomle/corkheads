@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
 import { useDB } from "../useDB";
 import { useCheckInTuple } from "./useCheckIns";
-import { Entry } from "types/Entry";
 
 type SortOrder = {
   field: keyof CheckIn;
@@ -19,14 +17,7 @@ export type CheckInQuery = {
   limit?: number;
 };
 
-type CheckInQueryResult = {
-  articleEntry: Entry<Article>;
-  checkInEntry: Entry<CheckIn>;
-};
-
-export function useCheckInQuery(
-  query: CheckInQuery
-): CheckInQueryResult[] | null {
+export function useCheckInQuery(query: CheckInQuery) {
   const [checkInIds, setCheckInIds] = useState<string[]>([]);
   const [articleIds, setArticleIds] = useState<string[]>([]);
 
