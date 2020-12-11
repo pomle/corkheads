@@ -2,7 +2,7 @@ import { useFlatResult, useStore } from "components/hooks/store2/useStore";
 import { useMemo } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import { Entry } from "types/Entry";
+import { Entry, GuaranteedEntry, isGuaranteed } from "types/Entry";
 import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
 
@@ -16,7 +16,7 @@ export function useCheckIn(checkInId: string) {
 }
 
 type CheckInTuple = {
-  checkInEntry: Entry<CheckIn>;
+  checkInEntry: GuaranteedEntry<CheckIn>;
   articleEntry: Entry<Article>;
 };
 
@@ -40,12 +40,11 @@ export function useCheckInTuple(
         return null;
       }
 
-      const checkIn = checkInEntry.data;
-      if (!checkIn) {
+      if (!isGuaranteed(checkInEntry)) {
         return null;
       }
 
-      const articleId = checkIn.articleId;
+      const articleId = checkInEntry.data.articleId;
       const articleEntry = articleEntries[articleId];
       if (!articleEntry) {
         return null;
