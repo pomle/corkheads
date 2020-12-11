@@ -45,7 +45,6 @@ jobs:
       - run: cd app && make build
         env:
           REACT_APP_ENVIRONMENT: preview
-          CI:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
