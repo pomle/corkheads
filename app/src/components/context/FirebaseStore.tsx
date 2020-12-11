@@ -41,7 +41,7 @@ export const FirebaseStoreContext: React.FC = ({ children }) => {
     const flush = debounce(() => {
       update(buffer);
       buffer = {};
-    }, 100);
+    }, 150);
 
     return (id: string, data: unknown) => {
       buffer[id] = data;
