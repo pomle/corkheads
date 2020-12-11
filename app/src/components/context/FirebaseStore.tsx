@@ -21,7 +21,7 @@ const Context = createContext<FirebaseStoreContextValue>({
   queue: () => undefined,
 });
 
-const EMPTY = Object.create(null);
+const EMPTY = {};
 
 export const FirebaseStoreContext: React.FC = ({ children }) => {
   const [store, setStore] = useState<Entries>(EMPTY);
