@@ -50,11 +50,6 @@ export function useCheckInTuple(
         return null;
       }
 
-      const article = articleEntry.data;
-      if (!article) {
-        return null;
-      }
-
       result.push({
         articleEntry,
         checkInEntry,
