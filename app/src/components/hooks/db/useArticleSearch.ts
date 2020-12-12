@@ -15,10 +15,14 @@ type ArticleSearchResults = {
   results: GuaranteedEntry<Article>[];
 };
 
+type SearchHit = {
+  objectID: string;
+};
+
 export function useArticleSearch(
   query: ArticleSearchQuery
 ): ArticleSearchResults {
-  const [ids, setIds] = useState<string[]>([]);
+  const [hits, setHits] = useState<SearchHit[]>([]);
   const { busy, search } = useSearch();
   const flight = useRef<number>(0);
 
@@ -26,7 +30,7 @@ export function useArticleSearch(
     const flightRecord = ++flight.current;
 
     if (query.search.text.length === 0) {
-      setIds([]);
+      setHits([]);
       return;
     }
 
@@ -35,12 +39,12 @@ export function useArticleSearch(
         return;
       }
 
-      const ids = results.hits.map((hit) => hit.objectID);
-      setIds(ids);
+      setHits(results.hits);
     });
-  }, [setIds, search, query]);
+  }, [setHits, search, query]);
 
-  const articlesResult = useArticles(ids);
+  const articleIds = hits.map((hit) => hit.objectID);
+  const articlesResult = useArticles(articleIds);
 
   const results = useMemo(() => {
     if (!articlesResult) {
@@ -49,7 +53,7 @@ export function useArticleSearch(
     }
 
     const entries: GuaranteedEntry<Article>[] = [];
-    for (const id of ids) {
+    for (const id of articleIds) {
       const entry = articlesResult[id];
       if (isGuaranteed(entry)) {
         entries.push(entry);
@@ -57,7 +61,7 @@ export function useArticleSearch(
     }
 
     return entries;
-  }, [ids, articlesResult]);
+  }, [articleIds, articlesResult]);
 
   return useMemo(
     () => ({
