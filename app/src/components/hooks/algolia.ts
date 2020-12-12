@@ -15,27 +15,63 @@ export function useUserArticleIndex() {
   return useMemo(() => client.initIndex("user-articles"), [client]);
 }
 
+type SearchFilters = {
+  userIds: string[];
+};
+
+export type ArticleSearchQuery = {
+  search: {
+    text: string;
+  };
+  filters: SearchFilters;
+};
+
 const SEARCH_TYPE_DEBOUNCE = 250;
 
 const SEARCH_OPTIONS = {
-  attributesToRetrieve: ["objectID"],
   highlightPreTag: "[",
   highlightPostTag: "]",
 };
 
+const ARTICLE_SEARCH_OPTIONS = {
+  ...SEARCH_OPTIONS,
+  attributesToRetrieve: ["objectID"],
+};
+
+const USER_ARTICLE_SEARCH_OPTIONS = {
+  ...SEARCH_OPTIONS,
+  attributesToRetrieve: ["articleId", "userId"],
+};
+
+function encodeFilters(filters: SearchFilters) {
+  return filters.userIds.map((userId) => `userId: ${userId}`).join(" OR ");
+}
+
 export function useSearch() {
-  const [busy, setBusy] = useState<string>();
+  const [busy, setBusy] = useState<ArticleSearchQuery>();
   const articleIndex = useArticleIndex();
   const userArticleIndex = useUserArticleIndex();
 
   const performSearch = useCallback(
-    async (query: string) => {
-      const articleRequest = articleIndex.search(query, SEARCH_OPTIONS);
-      const userArticleRequest = userArticleIndex.search(query, SEARCH_OPTIONS);
+    async (query: ArticleSearchQuery) => {
+      const searchRequests = [
+        articleIndex.search(query.search.text, ARTICLE_SEARCH_OPTIONS),
+      ];
+
+      if (query.filters.userIds.length > 0) {
+        searchRequests.push(
+          userArticleIndex.search(query.search.text, {
+            ...USER_ARTICLE_SEARCH_OPTIONS,
+            filters: encodeFilters(query.filters),
+          })
+        );
+      }
+
+      const [articles, userArticles] = await Promise.all(searchRequests);
 
       return {
-        articles: await articleRequest,
-        userArticles: await userArticleRequest,
+        articles,
+        userArticles: userArticles ? userArticles : undefined,
       };
     },
     [articleIndex, userArticleIndex]
@@ -44,7 +80,7 @@ export function useSearch() {
   const search = useMemo(() => {
     let timer: NodeJS.Timeout;
 
-    return (query: string): ReturnType<typeof performSearch> => {
+    return (query: ArticleSearchQuery): ReturnType<typeof performSearch> => {
       clearTimeout(timer);
 
       setBusy(query);
