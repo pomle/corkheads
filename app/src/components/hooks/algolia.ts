@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { createClient } from "lib/api/algolia";
 
 export function useAlgolia() {
@@ -27,19 +27,27 @@ export function useSearch() {
   const [busy, setBusy] = useState<string>();
   const articleIndex = useArticleIndex();
 
+  type SearchResponse = ReturnType<typeof articleIndex.search>;
+
+  const performSearch = useCallback(
+    (query: string) => {
+      const searchRequests = [articleIndex.search(query, SEARCH_OPTIONS)];
+      return Promise.all(searchRequests);
+    },
+    [articleIndex]
+  );
+
   const search = useMemo(() => {
     let timer: NodeJS.Timeout;
 
-    return (query: string): ReturnType<typeof articleIndex.search> => {
+    return (query: string): SearchResponse => {
       clearTimeout(timer);
 
       setBusy(query);
 
       return new Promise((resolve) => {
         const execute = () => {
-          const searchRequests = [articleIndex.search(query, SEARCH_OPTIONS)];
-
-          Promise.all(searchRequests)
+          performSearch(query)
             .then(([results]) => {
               resolve(results);
             })
@@ -51,7 +59,7 @@ export function useSearch() {
         timer = setTimeout(execute, SEARCH_TYPE_DEBOUNCE);
       });
     };
-  }, [articleIndex]);
+  }, [performSearch]);
 
   return useMemo(
     () => ({
