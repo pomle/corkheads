@@ -25,19 +25,19 @@ const SEARCH_OPTIONS = {
 
 export function useSearch() {
   const [busy, setBusy] = useState<string>();
-  const searchIndex = useArticleIndex();
+  const articleIndex = useArticleIndex();
 
   const search = useMemo(() => {
     let timer: NodeJS.Timeout;
 
-    return (query: string): ReturnType<typeof searchIndex.search> => {
+    return (query: string): ReturnType<typeof articleIndex.search> => {
       clearTimeout(timer);
 
       setBusy(query);
 
       return new Promise((resolve) => {
         const execute = () => {
-          searchIndex
+          articleIndex
             .search(query, SEARCH_OPTIONS)
             .then((results) => {
               resolve(results);
@@ -50,7 +50,7 @@ export function useSearch() {
         timer = setTimeout(execute, SEARCH_TYPE_DEBOUNCE);
       });
     };
-  }, [searchIndex]);
+  }, [articleIndex]);
 
   return useMemo(
     () => ({
