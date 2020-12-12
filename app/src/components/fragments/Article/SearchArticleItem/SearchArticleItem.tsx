@@ -73,7 +73,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
     entry: { data: article },
   } = searchResult;
   const { displayName, photoURL, ratingAggregate } = article;
-  const displayNameMatch = hit.matches?.displayName.value;
+  const displayNameMatch = hit.matches?.displayName?.value;
 
   const classes = useStyles();
 
