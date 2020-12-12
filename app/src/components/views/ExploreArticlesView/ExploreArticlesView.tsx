@@ -99,11 +99,11 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
         <div className={classes.searchResults}>
           {executedQuery.length ? (
             <ItemList>
-              {results.map(({ entry }) => {
-                const article = entry.data;
+              {results.map((result) => {
+                const article = result.entry.data;
                 return (
                   <button key={article.id} onClick={() => onSelect(article)}>
-                    <SearchArticleItem article={article} />
+                    <SearchArticleItem searchResult={result} />
                   </button>
                 );
               })}
