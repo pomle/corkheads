@@ -5,6 +5,7 @@ import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "./components/BottlingMeta";
+import Highlighted from "./components/Highlighted";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -21,14 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "12px",
   },
 }));
-
-const Highlighted: React.FC<{ text: string }> = ({ text }) => {
-  let html = text;
-  html = html.replaceAll("[", "<em>");
-  html = html.replaceAll("]", "</em>");
-
-  return <span dangerouslySetInnerHTML={{ __html: html }} />;
-};
 
 interface SearchArticleItemProps {
   searchResult: SearchResult;
