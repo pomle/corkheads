@@ -52,7 +52,7 @@ export function useArticleSearch(
         return;
       }
 
-      const hits = results.hits.map((hit) => ({
+      const hits = results.articles.hits.map((hit) => ({
         objectId: hit.objectID,
         matches: hit._highlightResult as Matches<Article>,
       }));
