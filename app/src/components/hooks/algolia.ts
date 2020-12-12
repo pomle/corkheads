@@ -37,9 +37,10 @@ export function useSearch() {
 
       return new Promise((resolve) => {
         const execute = () => {
-          articleIndex
-            .search(query, SEARCH_OPTIONS)
-            .then((results) => {
+          const searchRequests = [articleIndex.search(query, SEARCH_OPTIONS)];
+
+          Promise.all(searchRequests)
+            .then(([results]) => {
               resolve(results);
             })
             .finally(() => {
