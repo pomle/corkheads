@@ -3,6 +3,7 @@ import { Article } from "types/Article";
 import { GuaranteedEntry, isGuaranteed } from "types/Entry";
 import { useArticles } from "./useArticles";
 import { useSearch } from "../algolia";
+import { UserArticle } from "types/UserArticle";
 
 export type ArticleSearchQuery = {
   search: {
@@ -18,7 +19,8 @@ type Match = {
 type Matches<T> = Record<Partial<keyof T>, Match>;
 
 type SearchHit<T> = {
-  objectId: string;
+  articleId: string;
+  userId?: string;
   matches?: Matches<T>;
 };
 
@@ -52,16 +54,20 @@ export function useArticleSearch(
         return;
       }
 
-      const hits = results.articles.hits.map((hit) => ({
-        objectId: hit.objectID,
-        matches: hit._highlightResult as Matches<Article>,
-      }));
+      const hits: Map<string, SearchHit<Article & UserArticle>> = new Map();
 
-      setHits(hits);
+      results.articles.hits.forEach((hit) =>
+        hits.set(hit.objectID, {
+          articleId: hit.objectID,
+          matches: hit._highlightResult as Matches<Article & UserArticle>,
+        })
+      );
+
+      setHits(Array.from(hits.values()));
     });
   }, [setHits, search, query]);
 
-  const articleIds = hits.map((hit) => hit.objectId);
+  const articleIds = hits.map((hit) => hit.articleId);
   const articlesResult = useArticles(articleIds);
 
   const results = useMemo(() => {
@@ -72,7 +78,7 @@ export function useArticleSearch(
 
     const results: SearchResult[] = [];
     for (const hit of hits) {
-      const entry = articlesResult[hit.objectId];
+      const entry = articlesResult[hit.articleId];
       if (isGuaranteed(entry)) {
         results.push({
           hit,
