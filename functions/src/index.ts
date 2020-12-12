@@ -9,6 +9,9 @@ import {
 exports.onArticleCreated = search.onArticleCreated;
 exports.onArticleUpdated = search.onArticleUpdated;
 exports.onArticleDeleted = search.onArticleDeleted;
+exports.onUserArticleCreated = search.onUserArticleCreated;
+exports.onUserArticleUpdated = search.onUserArticleUpdated;
+exports.onUserArticleDeleted = search.onUserArticleDeleted;
 
 exports.aggregateArticle = aggregateArticle;
 
