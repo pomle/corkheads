@@ -1,3 +1,4 @@
+import { asABV } from "lib/format/stringify";
 import moment from "moment";
 import { Moment } from "moment";
 import { Bottling, createBottling } from "types/Bottling";
@@ -8,7 +9,9 @@ export function toEntries(bottling: Bottling): Entries {
   const { distillery } = distill;
 
   return {
-    abv: distill.alcoholByVolumePercentage?.toString() || "",
+    abv: distill.alcoholByVolumePercentage
+      ? asABV(distill.alcoholByVolumePercentage)
+      : "",
     age: distill.age?.toString() || "",
     bottleCode: bottling.code || "",
     bottleCount: bottling.bottlesProduced?.toString() || "",
@@ -33,7 +36,7 @@ export function toEntries(bottling: Bottling): Entries {
 export function toBottling(entries: Entries): Bottling {
   const bottling = createBottling();
 
-  const alcoholPercentage = toNumberMaybe(entries.abv);
+  const alcoholPercentage = fromPercentInput(entries.abv);
   if (!isNaN(alcoholPercentage)) {
     bottling.distill.alcoholByVolumePercentage = alcoholPercentage;
   }
@@ -145,6 +148,15 @@ function toDateMaybe(source: unknown) {
     return maybeDate;
   }
   return undefined;
+}
+
+function fromPercentInput(source: unknown) {
+  if (typeof source === "string") {
+    const text = source.replace(/[^0-9,.]/g, "");
+    const decimalized = text.replace(/[,]/g, ".");
+    return toNumberMaybe(decimalized);
+  }
+  return NaN;
 }
 
 function dateToString(date?: Moment) {
