@@ -20,6 +20,7 @@ import {
   ArticleSearchQuery,
   useArticleSearch,
 } from "components/hooks/db/useArticleSearch";
+import { useUser } from "components/hooks/useUser";
 
 const useStyles = makeStyles({
   ArticleSelect: {},
@@ -53,6 +54,8 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
 }) => {
   const createURL = useMemo(() => paths.articleCreate.url({}), []);
 
+  const user = useUser();
+
   const [query, setQuery] = useState<string>("");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
@@ -62,8 +65,11 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
       search: {
         text: executedQuery,
       },
+      filters: {
+        userIds: user ? [user.uid] : [],
+      },
     }),
-    [executedQuery]
+    [executedQuery, user]
   );
 
   const searchRequest = useArticleSearch(searchQuery);
