@@ -27,7 +27,11 @@ export function useSearch() {
       return new Promise((resolve) => {
         const execute = () => {
           searchIndex
-            .search(query, { attributesToRetrieve: ["objectID"] })
+            .search(query, {
+              attributesToRetrieve: ["objectID"],
+              highlightPreTag: "[",
+              highlightPostTag: "]",
+            })
             .then((results) => {
               resolve(results);
             })
