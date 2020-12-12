@@ -26,21 +26,25 @@ const SEARCH_OPTIONS = {
 export function useSearch() {
   const [busy, setBusy] = useState<string>();
   const articleIndex = useArticleIndex();
-
-  type SearchResponse = ReturnType<typeof articleIndex.search>;
+  const userArticleIndex = useUserArticleIndex();
 
   const performSearch = useCallback(
-    (query: string) => {
-      const searchRequests = [articleIndex.search(query, SEARCH_OPTIONS)];
-      return Promise.all(searchRequests);
+    async (query: string) => {
+      const articleRequest = articleIndex.search(query, SEARCH_OPTIONS);
+      const userArticleRequest = userArticleIndex.search(query, SEARCH_OPTIONS);
+
+      return {
+        articles: await articleRequest,
+        userArticles: await userArticleRequest,
+      };
     },
-    [articleIndex]
+    [articleIndex, userArticleIndex]
   );
 
   const search = useMemo(() => {
     let timer: NodeJS.Timeout;
 
-    return (query: string): SearchResponse => {
+    return (query: string): ReturnType<typeof performSearch> => {
       clearTimeout(timer);
 
       setBusy(query);
@@ -48,9 +52,7 @@ export function useSearch() {
       return new Promise((resolve) => {
         const execute = () => {
           performSearch(query)
-            .then(([results]) => {
-              resolve(results);
-            })
+            .then(resolve)
             .finally(() => {
               setBusy((state) => (state === query ? undefined : state));
             });
