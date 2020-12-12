@@ -37,18 +37,22 @@ export const onArticleDeleted = functions.firestore
 export const onUserArticleCreated = functions.firestore
   .document("users/{userId}/articles/{articleId}")
   .onCreate((snap, context) => {
+    const { articleId, userId } = context.params;
     const data = snap.data();
-    data.objectID = context.params.articleId;
-    data.userID = context.params.userId;
+    data.objectID = [articleId, userId].join("/");
+    data.articleId = articleId;
+    data.userId = userId;
     return userArticlesIndex.saveObject(data);
   });
 
 export const onUserArticleUpdated = functions.firestore
   .document("users/{userId}/articles/{articleId}")
   .onUpdate((snap, context) => {
+    const { articleId, userId } = context.params;
     const data = snap.after.data();
-    data.objectID = context.params.articleId;
-    data.userID = context.params.userId;
+    data.objectID = [articleId, userId].join("/");
+    data.articleId = articleId;
+    data.userId = userId;
     return userArticlesIndex.saveObject(data);
   });
 
