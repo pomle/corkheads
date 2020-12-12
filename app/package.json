@@ -31,7 +31,8 @@
     "react-test-renderer": "^17.0.1",
     "typescript": "^4.0.3",
     "uuid": "^8.3.1",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "workbox-cli": "^6.0.2"
   },
   "scripts": {
     "start": "REACT_APP_VERSION=dev REACT_APP_ENVIRONMENT=dev react-scripts start",
