@@ -10,12 +10,20 @@ export type ArticleSearchQuery = {
   };
 };
 
-type SearchHit = {
-  objectID: string;
+type Match = {
+  matchedWords: string[];
+  value: string;
+};
+
+type Matches<T> = Record<Partial<keyof T>, Match>;
+
+type SearchHit<T> = {
+  objectId: string;
+  matches?: Matches<T>;
 };
 
 export type SearchResult = {
-  hit: SearchHit;
+  hit: SearchHit<Article>;
   entry: GuaranteedEntry<Article>;
 };
 
@@ -27,7 +35,7 @@ type ArticleSearchResults = {
 export function useArticleSearch(
   query: ArticleSearchQuery
 ): ArticleSearchResults {
-  const [hits, setHits] = useState<SearchHit[]>([]);
+  const [hits, setHits] = useState<SearchHit<Article>[]>([]);
   const { busy, search } = useSearch();
   const flight = useRef<number>(0);
 
@@ -44,11 +52,16 @@ export function useArticleSearch(
         return;
       }
 
-      setHits(results.hits);
+      const hits = results.hits.map((hit) => ({
+        objectId: hit.objectID,
+        matches: hit._highlightResult as Matches<Article>,
+      }));
+
+      setHits(hits);
     });
   }, [setHits, search, query]);
 
-  const articleIds = hits.map((hit) => hit.objectID);
+  const articleIds = hits.map((hit) => hit.objectId);
   const articlesResult = useArticles(articleIds);
 
   const results = useMemo(() => {
@@ -59,7 +72,7 @@ export function useArticleSearch(
 
     const results: SearchResult[] = [];
     for (const hit of hits) {
-      const entry = articlesResult[hit.objectID];
+      const entry = articlesResult[hit.objectId];
       if (isGuaranteed(entry)) {
         results.push({
           hit,
