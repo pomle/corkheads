@@ -67,7 +67,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
   );
 
   const searchRequest = useArticleSearch(searchQuery);
-  const articleEntries = searchRequest.results;
+  const results = searchRequest.results;
 
   const classes = useStyles();
 
@@ -99,7 +99,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
         <div className={classes.searchResults}>
           {executedQuery.length ? (
             <ItemList>
-              {articleEntries.map((entry) => {
+              {results.map(({ entry }) => {
                 const article = entry.data;
                 return (
                   <button key={article.id} onClick={() => onSelect(article)}>

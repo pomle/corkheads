@@ -10,13 +10,18 @@ export type ArticleSearchQuery = {
   };
 };
 
-type ArticleSearchResults = {
-  busy: boolean;
-  results: GuaranteedEntry<Article>[];
-};
-
 type SearchHit = {
   objectID: string;
+};
+
+type SearchResult = {
+  hit: SearchHit;
+  entry: GuaranteedEntry<Article>;
+};
+
+type ArticleSearchResults = {
+  busy: boolean;
+  results: SearchResult[];
 };
 
 export function useArticleSearch(
@@ -52,16 +57,19 @@ export function useArticleSearch(
       return [];
     }
 
-    const entries: GuaranteedEntry<Article>[] = [];
-    for (const id of articleIds) {
-      const entry = articlesResult[id];
+    const results: SearchResult[] = [];
+    for (const hit of hits) {
+      const entry = articlesResult[hit.objectID];
       if (isGuaranteed(entry)) {
-        entries.push(entry);
+        results.push({
+          hit,
+          entry,
+        });
       }
     }
 
-    return entries;
-  }, [articleIds, articlesResult]);
+    return results;
+  }, [hits, articlesResult]);
 
   return useMemo(
     () => ({
