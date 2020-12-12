@@ -10,6 +10,11 @@ export function useArticleIndex() {
   return useMemo(() => client.initIndex("articles"), [client]);
 }
 
+export function useUserArticleIndex() {
+  const client = useAlgolia();
+  return useMemo(() => client.initIndex("user-articles"), [client]);
+}
+
 const SEARCH_TYPE_DEBOUNCE = 250;
 
 export function useSearch() {
