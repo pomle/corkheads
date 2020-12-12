@@ -5,6 +5,7 @@ import Entry from "components/ui/layout/Entry";
 import { useUserInput } from "components/hooks/useUserInput";
 import { Bottling } from "types/Bottling";
 import { toBottling, toEntries } from "./conversion";
+import PercentInput from "./components/PercentInput";
 
 const useStyles = makeStyles({
   BottlingUserInput: {
@@ -32,6 +33,8 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
   });
 
   const classes = useStyles();
+
+  const ABVInput = <PercentInput {...userInput.abv} />;
 
   return (
     <div className={classes.BottlingUserInput}>
@@ -73,9 +76,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
             <input type="number" placeholder="# of years" {...userInput.age} />
           </Entry>
 
-          <Entry name="Alcohol">
-            <input type="number" placeholder="%" {...userInput.abv} />
-          </Entry>
+          <Entry name="Alcohol">{ABVInput}</Entry>
         </EntryList>
       </section>
 
@@ -127,9 +128,7 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
             />
           </Entry>
 
-          <Entry name="Alcohol">
-            <input type="number" placeholder="%" {...userInput.abv} />
-          </Entry>
+          <Entry name="Alcohol">{ABVInput}</Entry>
         </EntryList>
       </section>
 

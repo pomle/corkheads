@@ -10,10 +10,10 @@ describe("#toEntries", () => {
     bottling = createBottling();
   });
 
-  it("leaves ABV percentage untreated", () => {
+  it("converts ABV percentage to .1 with percent sign", () => {
     bottling.distill.alcoholByVolumePercentage = 48.23241241;
     const result = toEntries(bottling);
-    expect(result.abv).toEqual("48.23241241");
+    expect(result.abv).toEqual("48.2%");
   });
 
   it("converts age", () => {
@@ -158,15 +158,56 @@ describe("#toBottling", () => {
     };
   });
 
-  it("converts ABV to number", () => {
-    const bottling = toBottling(entries);
-    expect(bottling.distill.alcoholByVolumePercentage).toEqual(49.412);
-  });
+  describe("ABV", () => {
+    it("is converted to number", () => {
+      const bottling = toBottling(entries);
+      expect(bottling.distill.alcoholByVolumePercentage).toEqual(49.412);
+    });
 
-  it("allows ABV to optional", () => {
-    entries.abv = "";
-    const bottling = toBottling(entries);
-    expect(bottling.distill).not.toHaveProperty("alcoholByVolumePercentage");
+    it("accepts % sign in it but ignores it", () => {
+      entries.abv = "%43";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.0
+      );
+
+      entries.abv = "4%3";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.0
+      );
+
+      entries.abv = "43%";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.0
+      );
+
+      entries.abv = "43.5%";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.5
+      );
+
+      entries.abv = "43%.5%";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.5
+      );
+
+      entries.abv = "4%%%3%.5%";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.5
+      );
+    });
+
+    it("accepts , as decimal sign", () => {
+      entries.abv = "43,5";
+      expect(toBottling(entries).distill.alcoholByVolumePercentage).toEqual(
+        43.5
+      );
+    });
+
+    it("is allowed to be optional", () => {
+      entries.abv = "";
+      const bottling = toBottling(entries);
+      expect(bottling.distill).not.toHaveProperty("alcoholByVolumePercentage");
+    });
   });
 
   it("converts age to number", () => {
