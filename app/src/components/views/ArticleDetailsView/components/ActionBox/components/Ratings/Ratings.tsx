@@ -49,7 +49,7 @@ const Ratings: React.FC<RatingsProps> = ({ userId, articleId }) => {
     <div className={classes.Ratings}>
       <div>
         {averageRating ? <NumberedRating value={averageRating} max={5} /> : "-"}
-        <div>Global rating</div>
+        <div>Corkheads rating</div>
       </div>
       <div>
         {myRating?.score ? (
