@@ -12,6 +12,7 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import AreaButton from "components/ui/trigger/AreaButton";
+import { resolvePhoto } from "lib/resourceRouting";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -61,8 +62,10 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   articleId,
 }) => {
   const articleEntry = useArticle(articleId);
+  const article = articleEntry?.data;
 
-  const { displayName, photoURL } = articleEntry?.data || PLACEHOLDER;
+  const { displayName } = article || PLACEHOLDER;
+  const imageRef = resolvePhoto(article);
 
   const classes = useStyles();
 
@@ -79,7 +82,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         </ViewCap>
         <ViewBody>
           <AreaButton onClick={routes.picture} className={classes.photo}>
-            <Photo url={photoURL} />
+            {imageRef && <Photo url={imageRef.id} />}
           </AreaButton>
 
           <div className={classes.actionBox}>

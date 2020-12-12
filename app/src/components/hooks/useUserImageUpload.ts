@@ -11,7 +11,10 @@ export type ImageUpload = {
   task: Promise<firebase.storage.UploadTaskSnapshot>;
 };
 
-const sizes: Size[] = [640, 1280, 1920].map((n) => ({ width: n, height: n }));
+export const sizes: Size[] = [640, 1280, 1920].map((n) => ({
+  width: n,
+  height: n,
+}));
 
 function getEffectiveSizes(image: HTMLImageElement) {
   const effective = sizes.filter((size) => {

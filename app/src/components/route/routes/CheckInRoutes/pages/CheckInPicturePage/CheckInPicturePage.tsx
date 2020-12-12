@@ -4,6 +4,7 @@ import PictureView from "components/views/PictureView";
 import BusyView from "components/views/BusyView";
 import AreaButton from "components/ui/trigger/AreaButton";
 import ArticlePicturePage from "components/route/pages/ArticlePicturePage";
+import { resolvePhoto } from "lib/resourceRouting";
 
 interface CheckInPicturePageProps {
   checkInId: string;
@@ -22,13 +23,15 @@ const CheckInPicturePage: React.FC<CheckInPicturePageProps> = ({
     return <BusyView />;
   }
 
-  if (!checkIn.photoURL) {
+  const imageRef = resolvePhoto(checkIn);
+
+  if (!imageRef) {
     return <ArticlePicturePage routes={routes} articleId={checkIn.articleId} />;
   }
 
   return (
     <AreaButton onClick={routes.back}>
-      <PictureView photoURL={checkIn.photoURL} />
+      <PictureView imageRef={imageRef} />
     </AreaButton>
   );
 };

@@ -6,6 +6,7 @@ import ErrorView from "components/views/ErrorView";
 import AreaButton from "components/ui/trigger/AreaButton";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
+import { resolvePhoto } from "lib/resourceRouting";
 
 interface ArticlePicturePageProps {
   articleId: string;
@@ -28,13 +29,15 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
     return <BusyView />;
   }
 
-  if (!article.photoURL) {
+  const imageRef = resolvePhoto(article);
+
+  if (!imageRef) {
     return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
   return (
     <AreaButton onClick={routes.back}>
-      <PictureView photoURL={article.photoURL} />
+      <PictureView imageRef={imageRef} />
     </AreaButton>
   );
 };
