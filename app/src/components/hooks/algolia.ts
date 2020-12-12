@@ -17,6 +17,12 @@ export function useUserArticleIndex() {
 
 const SEARCH_TYPE_DEBOUNCE = 250;
 
+const SEARCH_OPTIONS = {
+  attributesToRetrieve: ["objectID"],
+  highlightPreTag: "[",
+  highlightPostTag: "]",
+};
+
 export function useSearch() {
   const [busy, setBusy] = useState<string>();
   const searchIndex = useArticleIndex();
@@ -32,11 +38,7 @@ export function useSearch() {
       return new Promise((resolve) => {
         const execute = () => {
           searchIndex
-            .search(query, {
-              attributesToRetrieve: ["objectID"],
-              highlightPreTag: "[",
-              highlightPostTag: "]",
-            })
+            .search(query, SEARCH_OPTIONS)
             .then((results) => {
               resolve(results);
             })
