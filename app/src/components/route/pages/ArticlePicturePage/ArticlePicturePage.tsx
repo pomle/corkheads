@@ -1,27 +1,26 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import { useArticle } from "components/hooks/db/useArticles";
 import PictureView from "components/views/PictureView";
 import BusyView from "components/views/BusyView";
 import ErrorView from "components/views/ErrorView";
 import AreaButton from "components/ui/trigger/AreaButton";
-import * as paths from "components/route/paths";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import BackButton from "components/ui/trigger/BackButton";
 
 interface ArticlePicturePageProps {
-  checkInId: string;
   articleId: string;
+  routes: {
+    back: () => void;
+  };
 }
 
 const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
-  checkInId,
   articleId,
+  routes,
 }) => {
-  const history = useHistory();
-
-  const goToCheckIng = useCallback(() => {
-    const url = paths.checkInView.url({ checkInId });
-    history.push(url);
-  }, [history, checkInId]);
+  const nav = (
+    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
+  );
 
   const article = useArticle(articleId)?.data;
 
@@ -30,11 +29,11 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
   }
 
   if (!article.photoURL) {
-    return <ErrorView nav={null}>No photo</ErrorView>;
+    return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
   return (
-    <AreaButton onClick={goToCheckIng}>
+    <AreaButton onClick={routes.back}>
       <PictureView photoURL={article.photoURL} />
     </AreaButton>
   );
