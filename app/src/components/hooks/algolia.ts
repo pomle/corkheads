@@ -27,7 +27,7 @@ export function useSearch() {
       return new Promise((resolve) => {
         const execute = () => {
           searchIndex
-            .search(query)
+            .search(query, { attributesToRetrieve: ["objectID"] })
             .then((results) => {
               resolve(results);
             })
