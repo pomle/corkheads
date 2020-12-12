@@ -9,6 +9,7 @@ const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
 
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 const articlesIndex = client.initIndex("articles");
+const userArticlesIndex = client.initIndex("user-articles");
 
 export const onArticleCreated = functions.firestore
   .document("articles/{articleId}")
@@ -31,4 +32,29 @@ export const onArticleDeleted = functions.firestore
   .onDelete((snap, context) => {
     const objectID = context.params.articleId;
     return articlesIndex.deleteObject(objectID);
+  });
+
+export const onUserArticleCreated = functions.firestore
+  .document("users/{userId}/articles/{articleId}")
+  .onCreate((snap, context) => {
+    const data = snap.data();
+    data.objectID = context.params.articleId;
+    data.userID = context.params.userId;
+    return userArticlesIndex.saveObject(data);
+  });
+
+export const onUserArticleUpdated = functions.firestore
+  .document("users/{userId}/articles/{articleId}")
+  .onUpdate((snap, context) => {
+    const data = snap.after.data();
+    data.objectID = context.params.articleId;
+    data.userID = context.params.userId;
+    return userArticlesIndex.saveObject(data);
+  });
+
+export const onUserArticleDeleted = functions.firestore
+  .document("users/{userId}/articles/{articleId}")
+  .onDelete((snap, context) => {
+    const objectID = context.params.articleId;
+    return userArticlesIndex.deleteObject(objectID);
   });
