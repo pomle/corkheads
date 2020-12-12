@@ -4,6 +4,7 @@ import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
+import { Bottling } from "types/Bottling";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -21,12 +22,43 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+function interleave(parts: React.ReactElement[], sep: React.ReactElement) {
+  const output: React.ReactElement[] = [];
+  for (let i = 0; i < parts.length; i += 1) {
+    output.push(parts[i]);
+    if (parts[i + 1]) {
+      output.push(sep);
+    }
+  }
+  return output;
+}
+
 const Highlighted: React.FC<{ text: string }> = ({ text }) => {
   let html = text;
   html = html.replaceAll("[", "<em>");
   html = html.replaceAll("]", "</em>");
 
   return <span dangerouslySetInnerHTML={{ __html: html }} />;
+};
+
+const BottlingMeta: React.FC<{ bottling: Partial<Bottling> }> = ({
+  bottling,
+}) => {
+  const parts: React.ReactElement[] = [];
+  if (bottling?.year) {
+    parts.push(<>{bottling.year}</>);
+  }
+
+  const distill = bottling.distill;
+  if (distill?.age) {
+    parts.push(<>{distill.age} years</>);
+  }
+
+  if (distill?.alcoholByVolumePercentage) {
+    parts.push(<>{distill.alcoholByVolumePercentage}%</>);
+  }
+
+  return <>{interleave(parts, <> – </>)}</>;
 };
 
 interface SearchArticleItemProps {
@@ -55,7 +87,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
         )}
       </div>
       <div className={classes.meta}>
-        {article.bottling?.distill?.distillery.name}
+        {article.bottling && <BottlingMeta bottling={article.bottling} />}
       </div>
       <ItemRating aggregate={ratingAggregate} />
     </ImageItem>
