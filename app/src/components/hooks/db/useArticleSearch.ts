@@ -14,7 +14,7 @@ type SearchHit = {
   objectID: string;
 };
 
-type SearchResult = {
+export type SearchResult = {
   hit: SearchHit;
   entry: GuaranteedEntry<Article>;
 };
