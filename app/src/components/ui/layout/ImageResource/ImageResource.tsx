@@ -23,17 +23,17 @@ const ImageResource: React.FC<ImageResourceProps> = ({
   imageRef,
   alt = "",
 }) => {
-  console.log(imageRef);
   const sources = useMemo(() => {
-    if (imageRef.sizes) {
-      return [...imageRef.sizes].reverse().map((size) => {
-        return {
-          url: createMediaURL(imageRef.id, size),
-          size: size.split("x").map(parseFloat),
-        };
-      });
+    if (!imageRef.sizes) {
+      return [];
     }
-    return [];
+
+    return [...imageRef.sizes].map((size) => {
+      return {
+        url: createMediaURL(imageRef.id, size),
+        size: size.split("x").map(parseFloat),
+      };
+    });
   }, [imageRef]);
 
   const classes = useStyles();
