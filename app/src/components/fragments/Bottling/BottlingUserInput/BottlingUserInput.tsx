@@ -34,49 +34,117 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
 
   const classes = useStyles();
 
-  const ABVInput = <PercentInput {...userInput.abv} />;
+  const Age = (
+    <input type="number" placeholder="# of years" {...userInput.age} />
+  );
+
+  const Alcohol = <PercentInput {...userInput.abv} />;
+
+  const BatchNo = (
+    <input
+      type="text"
+      placeholder="Batch serial no."
+      {...userInput.distillBatchNo}
+    />
+  );
+
+  const Bottler = (
+    <input
+      type="text"
+      placeholder="Name of bottler"
+      {...userInput.bottlerName}
+    />
+  );
+
+  const BottleCode = (
+    <input type="text" placeholder="ex. L6 3224" {...userInput.bottleCode} />
+  );
+
+  const BottlesProduced = (
+    <input
+      type="number"
+      placeholder="# of bottles"
+      {...userInput.bottleCount}
+    />
+  );
+
+  const BottleBarCode = <input type="number" placeholder="ex. 312541512" />;
+
+  const BottleSizes = (
+    <input type="text" placeholder="ex. 70cl, 40cl" {...userInput.bottleSize} />
+  );
+
+  const BottlingYear = (
+    <input type="number" placeholder="Year" {...userInput.bottlingYear} />
+  );
+
+  const CaskNo = (
+    <input
+      type="text"
+      placeholder="Cask serial no."
+      {...userInput.distillCaskNo}
+    />
+  );
+
+  const CaskType = (
+    <input
+      type="text"
+      placeholder="Olorosso, Bourbon"
+      {...userInput.distillCaskType}
+    />
+  );
+
+  const Distillery = (
+    <input
+      type="text"
+      placeholder="Name of distiller"
+      {...userInput.distillerName}
+    />
+  );
+
+  const DistilleryCountry = (
+    <input
+      type="text"
+      placeholder="ex. Scotland"
+      {...userInput.distillerCountry}
+    />
+  );
+
+  const DistilleryDistrict = (
+    <input
+      type="text"
+      placeholder="ex. Islay"
+      {...userInput.distillerDistrict}
+    />
+  );
+
+  const DistillYear = (
+    <input type="number" placeholder="Year" {...userInput.distillYear} />
+  );
+
+  const Label = (
+    <input type="text" placeholder="Label name" {...userInput.bottleLabel} />
+  );
+
+  const Series = (
+    <input type="text" placeholder="Series name" {...userInput.series} />
+  );
 
   return (
     <div className={classes.BottlingUserInput}>
       <section>
         <EntryList>
-          <Entry name="Label">
-            <input
-              type="text"
-              placeholder="Label name"
-              {...userInput.bottleLabel}
-            />
-          </Entry>
+          <Entry name="Label">{Label}</Entry>
 
-          <Entry name="Series">
-            <input
-              type="text"
-              placeholder="Series name"
-              {...userInput.series}
-            />
-          </Entry>
+          <Entry name="Series">{Series}</Entry>
 
-          <Entry name="Distillery">
-            <input
-              type="text"
-              placeholder="Name of distiller"
-              {...userInput.distillerName}
-            />
-          </Entry>
+          <Entry name="Distillery">{Distillery}</Entry>
 
-          <Entry name="Bottled by">
-            <input
-              type="text"
-              placeholder="Name of bottler"
-              {...userInput.bottlerName}
-            />
-          </Entry>
+          <Entry name="Bottled by">{Bottler}</Entry>
 
-          <Entry name="Age">
-            <input type="number" placeholder="# of years" {...userInput.age} />
-          </Entry>
+          <Entry name="Age">{Age}</Entry>
 
-          <Entry name="Alcohol">{ABVInput}</Entry>
+          <Entry name="Alcohol">{Alcohol}</Entry>
         </EntryList>
       </section>
 
@@ -84,80 +152,30 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
         <h4>The Whisky</h4>
 
         <EntryList>
-          <Entry name="Date distilled">
-            <input
-              type="number"
-              placeholder="Year"
-              {...userInput.distillYear}
-            />
-          </Entry>
+          <Entry name="Date distilled">{DistillYear}</Entry>
 
-          <Entry name="Date bottled">
-            <input
-              type="number"
-              placeholder="Year"
-              {...userInput.bottlingYear}
-            />
-          </Entry>
+          <Entry name="Date bottled">{BottlingYear}</Entry>
 
-          <Entry name="Age">
-            <input type="number" placeholder="# of years" {...userInput.age} />
-          </Entry>
+          <Entry name="Age">{Age}</Entry>
 
-          <Entry name="Cask No.">
-            <input
-              type="text"
-              placeholder="Cask serial no."
-              {...userInput.distillCaskNo}
-            />
-          </Entry>
+          <Entry name="Cask No.">{CaskNo}</Entry>
 
-          <Entry name="Cask type">
-            <input
-              type="text"
-              placeholder="Olorosso, Bourbon"
-              {...userInput.distillCaskType}
-            />
-          </Entry>
+          <Entry name="Cask type">{CaskType}</Entry>
 
-          <Entry name="Batch No.">
-            <input
-              type="text"
-              placeholder="Batch serial no."
-              {...userInput.distillBatchNo}
-            />
-          </Entry>
+          <Entry name="Batch No.">{BatchNo}</Entry>
 
-          <Entry name="Alcohol">{ABVInput}</Entry>
+          <Entry name="Alcohol">{Alcohol}</Entry>
         </EntryList>
       </section>
 
       <section>
         <h4>The Distillery</h4>
         <EntryList>
-          <Entry name="Distilled by">
-            <input
-              type="text"
-              placeholder="Distillery name"
-              {...userInput.distillerName}
-            />
-          </Entry>
+          <Entry name="Distilled by">{Distillery}</Entry>
 
-          <Entry name="Country">
-            <input
-              type="text"
-              placeholder="ex. Scotland"
-              {...userInput.distillerCountry}
-            />
-          </Entry>
+          <Entry name="Country">{DistilleryCountry}</Entry>
 
-          <Entry name="District">
-            <input
-              type="text"
-              placeholder="ex. Islay"
-              {...userInput.distillerDistrict}
-            />
-          </Entry>
+          <Entry name="District">{DistilleryDistrict}</Entry>
         </EntryList>
       </section>
 
@@ -165,41 +183,15 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
         <h4>The Bottle</h4>
 
         <EntryList>
-          <Entry name="Bottled by">
-            <input
-              type="text"
-              placeholder="Name of bottler"
-              {...userInput.bottlerName}
-            />
-          </Entry>
+          <Entry name="Bottled by">{Bottler}</Entry>
 
-          <Entry name="Bottles produced">
-            <input
-              type="number"
-              placeholder="# of bottles"
-              {...userInput.bottleCount}
-            />
-          </Entry>
+          <Entry name="Bottles produced">{BottlesProduced}</Entry>
 
-          <Entry name="Bottle sizes">
-            <input
-              type="text"
-              placeholder="ex. 70cl, 40cl"
-              {...userInput.bottleSize}
-            />
-          </Entry>
+          <Entry name="Bottle sizes">{BottleSizes}</Entry>
 
-          <Entry name="Bottle code">
-            <input
-              type="text"
-              placeholder="ex. L6 3224"
-              {...userInput.bottleCode}
-            />
-          </Entry>
+          <Entry name="Bottle code">{BottleCode}</Entry>
 
-          <Entry name="Barcode">
-            <input type="number" placeholder="ex. 312541512" />
-          </Entry>
+          <Entry name="Barcode">{BottleBarCode}</Entry>
         </EntryList>
       </section>
     </div>
