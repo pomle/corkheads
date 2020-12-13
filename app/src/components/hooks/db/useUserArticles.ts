@@ -24,7 +24,7 @@ type UserArticleTuple = {
 export function useUserArticleTuple(
   articleIds: string[],
   userId: string
-): UserArticleTuple[] | null {
+): Record<string, UserArticleTuple> | null {
   const articleEntries = useArticles(articleIds);
   const userArticleEntries = useUserArticles(articleIds, userId);
 
@@ -33,7 +33,7 @@ export function useUserArticleTuple(
       return null;
     }
 
-    const results: UserArticleTuple[] = [];
+    const records: Record<string, UserArticleTuple> = Object.create(null);
 
     for (const id of articleIds) {
       const articleEntry = articleEntries[id];
@@ -43,12 +43,12 @@ export function useUserArticleTuple(
         return null;
       }
 
-      results.push({
+      records[id] = {
         articleEntry,
         userArticleEntry,
-      });
+      };
     }
 
-    return results;
+    return records;
   }, [articleIds, articleEntries, userArticleEntries]);
 }

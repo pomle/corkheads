@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserWishlistArticle } from "types/UserWishlistArticle";
+import { mapToList } from "../store2/useStore";
 import { useDB } from "../useDB";
 import { useUserArticleTuple } from "./useUserArticles";
 
@@ -46,5 +47,5 @@ export function useUserWishlistArticleQuery(query: UserWishlistArticleQuery) {
   }, [db, query]);
 
   const userId = query.filters.userId;
-  return useUserArticleTuple(ids, userId);
+  return mapToList(ids, useUserArticleTuple(ids, userId));
 }
