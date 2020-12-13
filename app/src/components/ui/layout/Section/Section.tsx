@@ -4,15 +4,14 @@ import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Section: {
+    padding: "16px 24px",
     background: theme.color.surface,
     "& > header": {
       color: theme.color.text,
-      padding: "16px 16px 0 16px",
+      marginBottom: "16px",
     },
   },
-  content: {
-    padding: "16px 24px",
-  },
+  content: {},
 }));
 
 interface SectionProps {
