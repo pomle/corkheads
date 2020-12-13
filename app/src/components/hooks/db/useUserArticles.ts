@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Article } from "types/Article";
 import { Entry } from "types/Entry";
 import { UserArticle } from "types/UserArticle";
+import { ResultMap } from "../store2/ResultMap";
 import { useArticles } from "./useArticles";
 import { useUserCollection } from "./useCollection";
 
@@ -24,7 +25,7 @@ type UserArticleTuple = {
 export function useUserArticleTuple(
   articleIds: string[],
   userId: string
-): Record<string, UserArticleTuple> | null {
+): ResultMap<UserArticleTuple> | null {
   const articleEntries = useArticles(articleIds);
   const userArticleEntries = useUserArticles(articleIds, userId);
 
@@ -33,7 +34,7 @@ export function useUserArticleTuple(
       return null;
     }
 
-    const records: Record<string, UserArticleTuple> = Object.create(null);
+    const results = new ResultMap<UserArticleTuple>();
 
     for (const id of articleIds) {
       const articleEntry = articleEntries[id];
@@ -43,12 +44,12 @@ export function useUserArticleTuple(
         return null;
       }
 
-      records[id] = {
+      results.set(id, {
         articleEntry,
         userArticleEntry,
-      };
+      });
     }
 
-    return records;
+    return results;
   }, [articleIds, articleEntries, userArticleEntries]);
 }
