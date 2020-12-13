@@ -20,26 +20,25 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const result = useUserArticleToplistQuery(userId, 3);
+  const request = useUserArticleToplistQuery(userId, 3);
 
   return (
     <ItemList>
-      {result &&
-        result.map(({ articleEntry, userArticleEntry }) => {
-          const article = articleEntry.data;
-          const userArticle = userArticleEntry.data;
+      {request.results.map(({ articleEntry, userArticleEntry }) => {
+        const article = articleEntry.data;
+        const userArticle = userArticleEntry.data;
 
-          return (
-            <button
-              key={articleEntry.id}
-              onClick={() => goToArticle(articleEntry.id)}
-            >
-              {article && userArticle && (
-                <TopArticleItem article={article} userArticle={userArticle} />
-              )}
-            </button>
-          );
-        })}
+        return (
+          <button
+            key={articleEntry.id}
+            onClick={() => goToArticle(articleEntry.id)}
+          >
+            {article && userArticle && (
+              <TopArticleItem article={article} userArticle={userArticle} />
+            )}
+          </button>
+        );
+      })}
     </ItemList>
   );
 };

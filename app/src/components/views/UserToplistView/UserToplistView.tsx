@@ -45,7 +45,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
   routes,
   userId,
 }) => {
-  const result = useUserArticleToplistQuery(userId, 10);
+  const request = useUserArticleToplistQuery(userId, 10);
 
   const classes = useStyles();
 
@@ -63,8 +63,8 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
         <ViewBody>
           <div className={classes.body}>
             <ItemList>
-              {result &&
-                result.map(({ articleEntry, userArticleEntry }, index) => {
+              {request.results.map(
+                ({ articleEntry, userArticleEntry }, index) => {
                   const article = articleEntry.data;
                   const userArticle = userArticleEntry.data;
 
@@ -83,7 +83,8 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
                       )}
                     </button>
                   );
-                })}
+                }
+              )}
             </ItemList>
           </div>
         </ViewBody>

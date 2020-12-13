@@ -23,7 +23,7 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const ownedArticlesQuery = useMemo((): UserCollectionArticleQuery => {
+  const query = useMemo((): UserCollectionArticleQuery => {
     return {
       filters: {
         userId,
@@ -33,23 +33,22 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({ userId }) => {
     };
   }, [userId]);
 
-  const ownedArticlesResult = useUserCollectionArticleQuery(ownedArticlesQuery);
+  const request = useUserCollectionArticleQuery(query);
 
   return (
     <CollectionList>
-      {ownedArticlesResult &&
-        ownedArticlesResult.map(({ articleEntry }) => {
-          const article = articleEntry.data;
+      {request.results.map(({ articleEntry }) => {
+        const article = articleEntry.data;
 
-          return (
-            <button
-              key={articleEntry.id}
-              onClick={() => goToArticle(articleEntry.id)}
-            >
-              {article && <CollectionArticleItem article={article} />}
-            </button>
-          );
-        })}
+        return (
+          <button
+            key={articleEntry.id}
+            onClick={() => goToArticle(articleEntry.id)}
+          >
+            {article && <CollectionArticleItem article={article} />}
+          </button>
+        );
+      })}
     </CollectionList>
   );
 };
