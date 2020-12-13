@@ -108,5 +108,5 @@ export function useSubscribers<T>(
         queueCleanUp(release);
       }
     };
-  }, [ids, cache, path, collection]);
+  }, [ids, cache.set, path, collection]);
 }
