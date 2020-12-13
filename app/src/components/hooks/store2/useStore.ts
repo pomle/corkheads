@@ -28,5 +28,5 @@ export function useStore<T>(
 
   useSubscribers(collection, index.set, ids);
 
-  return useStableIndex<Entry<T>>(ids, index);
+  return useStableIndex<Entry<T>>(ids, index.get);
 }
