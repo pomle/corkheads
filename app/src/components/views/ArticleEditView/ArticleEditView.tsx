@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
 import ViewTitle from "components/ui/layout/ViewTitle";
@@ -17,6 +17,7 @@ import ButtonField from "components/ui/layout/ButtonField";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
+import { debounce } from "lib/debounce";
 
 type StyleProps = {
   busy: boolean;
@@ -122,6 +123,10 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
   const bottling = useBottling(article);
 
+  const handleBottlingChange = useMemo(() => {
+    return debounce(setBottling, 2500);
+  }, [setBottling]);
+
   const canSave = isArticleValid(article) && !handleSave.busy;
 
   const classes = useStyles({ busy: handleSave.busy });
@@ -150,7 +155,10 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               <PhotoInput photoURL={photoURL} onFile={handleFile} />
             </div>
 
-            <BottlingUserInput bottling={bottling} onChange={setBottling} />
+            <BottlingUserInput
+              bottling={bottling}
+              onChange={handleBottlingChange}
+            />
           </div>
         </form>
       </ViewBody>
