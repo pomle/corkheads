@@ -3,11 +3,7 @@ import { ResultMap } from "../ResultMap";
 import { useStableIndex } from "../useStableIndex";
 
 function createIndex(store: Record<string, unknown>) {
-  return {
-    get(key: string) {
-      return store[key];
-    },
-  };
+  return (key: string) => store[key];
 }
 
 describe("useStableIndex", () => {

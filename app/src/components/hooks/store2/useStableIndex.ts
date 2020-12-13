@@ -1,11 +1,10 @@
 import { useMemo, useRef } from "react";
 import { ResultMap } from "./ResultMap";
 
-interface Source<T> {
-  get(id: string): T | undefined;
-}
-
-export function useStableIndex<T>(ids: string[], source: Source<T>) {
+export function useStableIndex<T>(
+  ids: string[],
+  get: (id: string) => T | undefined
+) {
   const initial = useMemo(() => new ResultMap<T>(), []);
 
   const cache = useRef<ResultMap<T>>(initial);
@@ -20,7 +19,7 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
     let updateCache = false;
 
     for (const id of ids) {
-      const content = source.get(id);
+      const content = get(id);
       if (!content) {
         return initial;
       }
@@ -36,5 +35,5 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
     }
 
     return cache.current;
-  }, [ids, source, initial]);
+  }, [ids, get, initial]);
 }
