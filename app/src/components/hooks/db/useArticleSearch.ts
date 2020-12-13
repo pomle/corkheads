@@ -83,10 +83,13 @@ export function useArticleSearch(
   const articleIds = hits.map((hit) => hit.articleId);
   const articlesResult = useArticles(articleIds);
 
-  const results = useMemo(() => {
-    if (!articlesResult) {
+  return useMemo(() => {
+    if (articlesResult.size === 0) {
       console.log("Returning empty");
-      return EMPTY;
+      return {
+        busy,
+        results: EMPTY,
+      };
     }
 
     const results: ResultMap<SearchResult> = new ResultMap();
@@ -101,14 +104,9 @@ export function useArticleSearch(
       }
     }
 
-    return results;
-  }, [hits, articlesResult]);
-
-  return useMemo(
-    () => ({
-      busy,
+    return {
+      busy: busy || hits.length !== results.size,
       results,
-    }),
-    [busy, results]
-  );
+    };
+  }, [busy, hits, articlesResult]);
 }
