@@ -37,8 +37,8 @@ export function useUserArticleTuple(
     const results = new ResultMap<UserArticleTuple>();
 
     for (const id of articleIds) {
-      const articleEntry = articleEntries[id];
-      const userArticleEntry = userArticleEntries[id];
+      const articleEntry = articleEntries.get(id);
+      const userArticleEntry = userArticleEntries.get(id);
 
       if (!articleEntry || !userArticleEntry) {
         return null;

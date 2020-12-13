@@ -35,7 +35,7 @@ export function useCheckInTuple(
     const result: CheckInTuple[] = [];
 
     for (const checkInId of checkInIds) {
-      const checkInEntry = checkInEntries[checkInId];
+      const checkInEntry = checkInEntries.get(checkInId);
       if (!checkInEntry) {
         return null;
       }
@@ -45,7 +45,7 @@ export function useCheckInTuple(
       }
 
       const articleId = checkInEntry.data.articleId;
-      const articleEntry = articleEntries[articleId];
+      const articleEntry = articleEntries.get(articleId);
       if (!articleEntry) {
         return null;
       }

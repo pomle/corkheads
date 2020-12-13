@@ -88,8 +88,8 @@ export function useArticleSearch(
 
     const results: SearchResult[] = [];
     for (const hit of hits) {
-      const entry = articlesResult[hit.articleId];
-      if (isGuaranteed(entry)) {
+      const entry = articlesResult.get(hit.articleId);
+      if (entry && isGuaranteed(entry)) {
         results.push({
           hit,
           entry,

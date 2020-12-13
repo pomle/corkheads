@@ -5,12 +5,13 @@ import { useSubscribers } from "./useSubscribers";
 import { useEqualList } from "./useEqualList";
 import { useIndex } from "./useIndex";
 import { usePath } from "./usePath";
+import { ResultMap } from "./ResultMap";
 
-export type StoreResult<T> = Record<string, Entry<T>> | null;
+export type StoreResult<T> = ResultMap<Entry<T>> | null;
 export type QueryResult<T> = Entry<T>[] | null;
 
 export function useFlatResult<T>(id: string, result: StoreResult<T>) {
-  return result ? result[id] : null;
+  return result ? result.get(id) : null;
 }
 
 export function useStore<T>(
