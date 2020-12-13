@@ -8,6 +8,13 @@ type StyleProps = {
 
 function getMainColor(theme: Theme) {
   if (theme.color.surface === Colors.White) {
+    return Colors.Navy;
+  }
+  return "#8f96a2";
+}
+
+function getContextColor(theme: Theme) {
+  if (theme.color.surface === Colors.White) {
     return Colors.Sot;
   }
   return "#8f96a2";
@@ -25,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => {
         fontSize: "18px",
       },
       "& > .context, & a": {
-        color: getMainColor(theme),
+        color: getContextColor(theme),
         fontSize: "14px",
       },
     },
