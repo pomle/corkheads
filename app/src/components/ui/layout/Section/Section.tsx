@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   content: {
-    padding: "16px",
+    padding: "16px 24px",
   },
 }));
 
