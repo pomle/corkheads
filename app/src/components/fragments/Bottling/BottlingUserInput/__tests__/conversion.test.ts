@@ -1,13 +1,16 @@
 import moment from "moment";
-import { Bottling, createBottling } from "types/Bottling";
+import { Bottling } from "types/Bottling";
+import { createMockFactory } from "lib/mocks/MockFactory";
 import { toBottling, toEntries } from "../conversion";
 import { Entries } from "../types";
+
+const mocks = createMockFactory();
 
 describe("#toEntries", () => {
   let bottling: Bottling;
 
   beforeEach(() => {
-    bottling = createBottling();
+    bottling = mocks.createBottling();
   });
 
   it("converts ABV percentage to .1 with percent sign", () => {
