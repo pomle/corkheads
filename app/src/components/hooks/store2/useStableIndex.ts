@@ -4,11 +4,11 @@ const EMPTY = Object.create(null);
 
 type Index<T> = Record<string, T>;
 
-interface Cache<T> {
+interface Source<T> {
   get(id: string): T | undefined;
 }
 
-export function useStableIndex<T>(ids: string[], source: Cache<T>) {
+export function useStableIndex<T>(ids: string[], source: Source<T>) {
   const cache = useRef<Index<T>>(EMPTY);
 
   return useMemo(() => {
