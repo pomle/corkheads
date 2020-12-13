@@ -60,6 +60,9 @@ export function useSubscribers<T>(
       let sub = subscribers.get(key);
       if (!sub) {
         const doc = collection.doc(id);
+
+        cache.set(id, { id, doc });
+
         const unsubscribe = doc.onSnapshot((snap) => {
           const data = snap.data();
 
