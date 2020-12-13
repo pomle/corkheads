@@ -11,13 +11,13 @@ import { ResultMap } from "../store2/ResultMap";
 import { useArticles } from "./useArticles";
 import { useUserCollection } from "./useCollection";
 
-export function useUserArticles(articleIds: string[], userId: string) {
+export function useUserArticles(userId: string, articleIds: string[]) {
   const collection = useUserCollection(userId).userArticle;
   return useStore<UserArticle>(collection, articleIds);
 }
 
-export function useUserArticle(articleId: string, userId: string) {
-  const result = useUserArticles([articleId], userId);
+export function useUserArticle(userId: string, articleId: string) {
+  const result = useUserArticles(userId, [articleId]);
   return useFlatResult(articleId, result);
 }
 
@@ -29,11 +29,11 @@ type UserArticleTuple = {
 const EMPTY: ResultMap<UserArticleTuple> = new ResultMap();
 
 export function useUserArticleTuple(
-  articleIds: string[],
-  userId: string
+  userId: string,
+  articleIds: string[]
 ): QueryResult<UserArticleTuple> {
   const articleEntries = useArticles(articleIds);
-  const userArticleEntries = useUserArticles(articleIds, userId);
+  const userArticleEntries = useUserArticles(userId, articleIds);
 
   return useMemo(() => {
     const results = new ResultMap<UserArticleTuple>();
