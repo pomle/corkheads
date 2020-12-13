@@ -1,0 +1,405 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BottlingUserInput component renders as expected 1`] = `
+<div
+  className="BottlingUserInput"
+>
+  <section>
+    <div
+      className="EntryList"
+    >
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Label
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Label name"
+            type="text"
+            value="Old Marks"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Series
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Series name"
+            type="text"
+            value="Serial Drink"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Distillery
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Name of distiller"
+            type="text"
+            value="Brukveda"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Bottled by
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Name of bottler"
+            type="text"
+            value="Bottlerama"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Age
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="# of years"
+            type="number"
+            value="16"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Alcohol
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="%"
+            type="text"
+            value="48.2%"
+          />
+        </dd>
+      </dl>
+    </div>
+  </section>
+  <section>
+    <h4>
+      The Whisky
+    </h4>
+    <div
+      className="EntryList"
+    >
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Date distilled
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Year"
+            type="number"
+            value="1724"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Date bottled
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Year"
+            type="number"
+            value="1923"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Age
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="# of years"
+            type="number"
+            value="16"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Cask No.
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Cask serial no."
+            type="text"
+            value="Cask No. 6125"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Cask type
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Olorosso, Bourbon"
+            type="text"
+            value="Olorosso"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Batch No.
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Batch serial no."
+            type="text"
+            value="Batch No. 123"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Alcohol
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="%"
+            type="text"
+            value="48.2%"
+          />
+        </dd>
+      </dl>
+    </div>
+  </section>
+  <section>
+    <h4>
+      The Distillery
+    </h4>
+    <div
+      className="EntryList"
+    >
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Distilled by
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Distillery name"
+            type="text"
+            value="Brukveda"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Country
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="ex. Scotland"
+            type="text"
+            value="Sweden"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          District
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="ex. Islay"
+            type="text"
+            value=""
+          />
+        </dd>
+      </dl>
+    </div>
+  </section>
+  <section>
+    <h4>
+      The Bottle
+    </h4>
+    <div
+      className="EntryList"
+    >
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Bottled by
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="Name of bottler"
+            type="text"
+            value="Bottlerama"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Bottles produced
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="# of bottles"
+            type="number"
+            value="2033"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Bottle sizes
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="ex. 70cl, 40cl"
+            type="text"
+            value="75cl"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Bottle code
+        </dt>
+        <dd>
+          <input
+            onChange={[Function]}
+            placeholder="ex. L6 3224"
+            type="text"
+            value="L-214LA23"
+          />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Barcode
+        </dt>
+        <dd>
+          <input
+            placeholder="ex. 312541512"
+            type="number"
+          />
+        </dd>
+      </dl>
+    </div>
+  </section>
+</div>
+`;
