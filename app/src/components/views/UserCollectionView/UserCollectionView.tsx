@@ -45,7 +45,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
     };
   }, [userId]);
 
-  const result = useUserCollectionArticleQuery(query);
+  const request = useUserCollectionArticleQuery(query);
 
   const classes = useStyles();
 
@@ -63,19 +63,18 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
         <ViewBody>
           <div className={classes.body}>
             <CollectionList>
-              {result &&
-                result.map(({ articleEntry }) => {
-                  const article = articleEntry.data;
+              {request.results.map(({ articleEntry }) => {
+                const article = articleEntry.data;
 
-                  return (
-                    <button
-                      key={articleEntry.id}
-                      onClick={() => routes.article(articleEntry.id)}
-                    >
-                      {article && <CollectionArticleItem article={article} />}
-                    </button>
-                  );
-                })}
+                return (
+                  <button
+                    key={articleEntry.id}
+                    onClick={() => routes.article(articleEntry.id)}
+                  >
+                    {article && <CollectionArticleItem article={article} />}
+                  </button>
+                );
+              })}
             </CollectionList>
           </div>
         </ViewBody>

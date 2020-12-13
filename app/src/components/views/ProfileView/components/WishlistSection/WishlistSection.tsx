@@ -23,7 +23,7 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const wishlistArticlesQuery = useMemo((): UserWishlistArticleQuery => {
+  const query = useMemo((): UserWishlistArticleQuery => {
     return {
       filters: {
         userId,
@@ -33,25 +33,22 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({ userId }) => {
     };
   }, [userId]);
 
-  const wishlistArticlesResult = useUserWishlistArticleQuery(
-    wishlistArticlesQuery
-  );
+  const request = useUserWishlistArticleQuery(query);
 
   return (
     <ItemList>
-      {wishlistArticlesResult &&
-        wishlistArticlesResult.map(({ articleEntry }) => {
-          const article = articleEntry.data;
+      {request.results.map(({ articleEntry }) => {
+        const article = articleEntry.data;
 
-          return (
-            <button
-              key={articleEntry.id}
-              onClick={() => goToArticle(articleEntry.id)}
-            >
-              {article && <WishlistArticleItem article={article} />}
-            </button>
-          );
-        })}
+        return (
+          <button
+            key={articleEntry.id}
+            onClick={() => goToArticle(articleEntry.id)}
+          >
+            {article && <WishlistArticleItem article={article} />}
+          </button>
+        );
+      })}
     </ItemList>
   );
 };

@@ -57,7 +57,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
     };
   }, [userId]);
 
-  const result = useUserWishlistArticleQuery(query);
+  const request = useUserWishlistArticleQuery(query);
 
   const classes = useStyles();
 
@@ -75,19 +75,18 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         <ViewBody>
           <div className={classes.body}>
             <ItemList>
-              {result &&
-                result.map(({ articleEntry }) => {
-                  const article = articleEntry.data;
+              {request.results.map(({ articleEntry }) => {
+                const article = articleEntry.data;
 
-                  return (
-                    <button
-                      key={articleEntry.id}
-                      onClick={() => goToArticle(articleEntry.id)}
-                    >
-                      {article && <WishlistArticleItem article={article} />}
-                    </button>
-                  );
-                })}
+                return (
+                  <button
+                    key={articleEntry.id}
+                    onClick={() => goToArticle(articleEntry.id)}
+                  >
+                    {article && <WishlistArticleItem article={article} />}
+                  </button>
+                );
+              })}
             </ItemList>
           </div>
         </ViewBody>

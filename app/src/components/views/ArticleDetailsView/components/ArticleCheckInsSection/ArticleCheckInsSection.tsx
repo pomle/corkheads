@@ -35,28 +35,27 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
     };
   }, [articleId]);
 
-  const result = useCheckInQuery(query);
+  const request = useCheckInQuery(query);
 
   return (
     <SectionList>
       <Section header={<SectionTitle main="Recent Check ins" />}>
         <ItemList>
-          {result &&
-            result.map(({ checkInEntry, articleEntry }) => {
-              const article = articleEntry.data;
-              const checkIn = checkInEntry.data;
+          {request.results.map(({ checkInEntry, articleEntry }) => {
+            const article = articleEntry.data;
+            const checkIn = checkInEntry.data;
 
-              return (
-                <button
-                  key={checkInEntry.id}
-                  onClick={() => routes.checkIn(checkInEntry.id)}
-                >
-                  {article && checkIn && (
-                    <CheckInItem checkIn={checkIn} article={article} />
-                  )}
-                </button>
-              );
-            })}
+            return (
+              <button
+                key={checkInEntry.id}
+                onClick={() => routes.checkIn(checkInEntry.id)}
+              >
+                {article && checkIn && (
+                  <CheckInItem checkIn={checkIn} article={article} />
+                )}
+              </button>
+            );
+          })}
         </ItemList>
       </Section>
     </SectionList>

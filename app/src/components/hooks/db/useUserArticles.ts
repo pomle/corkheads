@@ -22,18 +22,21 @@ type UserArticleTuple = {
   userArticleEntry: Entry<UserArticle>;
 };
 
+type QueryResult<T> = {
+  busy: boolean;
+  results: ResultMap<T>;
+};
+
+const EMPTY: ResultMap<UserArticleTuple> = new ResultMap();
+
 export function useUserArticleTuple(
   articleIds: string[],
   userId: string
-): ResultMap<UserArticleTuple> | null {
+): QueryResult<UserArticleTuple> {
   const articleEntries = useArticles(articleIds);
   const userArticleEntries = useUserArticles(articleIds, userId);
 
   return useMemo(() => {
-    if (!articleEntries || !userArticleEntries) {
-      return null;
-    }
-
     const results = new ResultMap<UserArticleTuple>();
 
     for (const id of articleIds) {
@@ -41,7 +44,10 @@ export function useUserArticleTuple(
       const userArticleEntry = userArticleEntries.get(id);
 
       if (!articleEntry || !userArticleEntry) {
-        return null;
+        return {
+          busy: true,
+          results: EMPTY,
+        };
       }
 
       results.set(id, {
@@ -50,6 +56,9 @@ export function useUserArticleTuple(
       });
     }
 
-    return results;
+    return {
+      busy: false,
+      results,
+    };
   }, [articleIds, articleEntries, userArticleEntries]);
 }
