@@ -26,7 +26,7 @@ export function useStore<T>(
 
   const index = useIndex<Entry<T>>(path);
 
-  useSubscribers(collection, index, ids);
+  useSubscribers(collection, index.set, ids);
 
   return useStableIndex<Entry<T>>(ids, index);
 }
