@@ -25,16 +25,18 @@ const PercentInput: React.FC<PercentInputProps> = ({ value, onChange }) => {
       input.setSelectionRange(pos[0], pos[1]);
     };
 
-    input.addEventListener("keyup", movePos);
-    return () => input.removeEventListener("keyup", movePos);
+    input.addEventListener("keydown", movePos);
+    return () => input.removeEventListener("keydown", movePos);
   }, []);
+
+  const treatedValue = value.length > 0 ? value.replace(/%/g, "") + "%" : "";
 
   return (
     <input
       ref={element}
       placeholder="%"
       type="text"
-      value={value.replace(/%/g, "") + "%"}
+      value={treatedValue}
       onChange={onChange}
     />
   );
