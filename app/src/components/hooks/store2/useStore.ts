@@ -13,6 +13,17 @@ export function useFlatResult<T>(id: string, result: StoreResult<T>) {
   return result ? result[id] : null;
 }
 
+export function mapToList<T>(
+  keys: string[],
+  records: Record<string, T> | null
+) {
+  if (!records) {
+    return null;
+  }
+
+  return keys.map((key) => records[key]);
+}
+
 export function useStore<T>(
   collection: firestore.CollectionReference<T>,
   unstableIds: string[]

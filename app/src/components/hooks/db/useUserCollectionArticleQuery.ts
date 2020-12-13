@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserCollectionArticle } from "types/UserCollectionArticle";
+import { mapToList } from "../store2/useStore";
 import { useDB } from "../useDB";
 import { useUserArticleTuple } from "./useUserArticles";
 
@@ -50,5 +51,5 @@ export function useUserCollectionArticleQuery(
   }, [db, query]);
 
   const userId = query.filters.userId;
-  return useUserArticleTuple(ids, userId);
+  return mapToList(ids, useUserArticleTuple(ids, userId));
 }
