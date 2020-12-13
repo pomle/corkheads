@@ -29,7 +29,7 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({ userId }) => {
         userId,
       },
       order: [{ field: "addedTimestamp", dir: "desc" }],
-      limit: 3,
+      limit: 4,
     };
   }, [userId]);
 
