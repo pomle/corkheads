@@ -9,11 +9,6 @@ function calcCleanUpDelay(minMs: number) {
   return minMs + fudgeFactor;
 }
 
-interface Cache<T> {
-  get(key: string): T;
-  set(key: string, value: T): void;
-}
-
 type Subscriber = {
   key: string;
   release: () => void;
@@ -41,7 +36,7 @@ function queueCleanUp(keys: string[]) {
 
 export function useSubscribers<T>(
   collection: firestore.CollectionReference<T>,
-  cache: Cache<Entry<T> | undefined>,
+  set: (key: string, data: Entry<T>) => void,
   ids: string[]
 ) {
   const path = useCallback((id: string) => `${collection.path}/${id}`, [
@@ -61,12 +56,12 @@ export function useSubscribers<T>(
       if (!sub) {
         const doc = collection.doc(id);
 
-        cache.set(id, { id, doc });
+        set(id, { id, doc });
 
         const unsubscribe = doc.onSnapshot((snap) => {
           const data = snap.data();
 
-          cache.set(id, {
+          set(id, {
             id,
             doc,
             data,
@@ -108,5 +103,5 @@ export function useSubscribers<T>(
         queueCleanUp(release);
       }
     };
-  }, [ids, cache.set, path, collection]);
+  }, [ids, set, path, collection]);
 }
