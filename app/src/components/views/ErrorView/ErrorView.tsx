@@ -14,7 +14,7 @@ const useStyles = makeStyles({
       textAlign: "center",
     },
     "& p": {
-      color: "#666",
+      color: "#ed3030",
       lineHeight: 1.4,
       textAlign: "center",
     },
