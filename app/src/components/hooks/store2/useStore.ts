@@ -7,17 +7,16 @@ import { useIndex } from "./useIndex";
 import { usePath } from "./usePath";
 import { ResultMap } from "./ResultMap";
 
-export type StoreResult<T> = ResultMap<Entry<T>>;
 export type QueryResult<T> = Entry<T>[] | null;
 
-export function useFlatResult<T>(id: string, result: StoreResult<T>) {
+export function useFlatResult<T>(id: string, result: ResultMap<T>) {
   return result ? result.get(id) : null;
 }
 
 export function useStore<T>(
   collection: firestore.CollectionReference<T>,
   unstableIds: string[]
-): StoreResult<T> {
+): ResultMap<Entry<T>> {
   const ids = useEqualList(unstableIds);
 
   const path = usePath(collection);
