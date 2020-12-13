@@ -7,8 +7,6 @@ import { useIndex } from "./useIndex";
 import { usePath } from "./usePath";
 import { ResultMap } from "./ResultMap";
 
-export type QueryResult<T> = Entry<T>[] | null;
-
 export function useFlatResult<T>(id: string, result: ResultMap<T>) {
   return result ? result.get(id) : null;
 }
