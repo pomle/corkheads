@@ -49,5 +49,5 @@ export function useUserArticleQuery(query: UserArticleQuery) {
   }, [db, query]);
 
   const userId = query.filters.userId;
-  return useUserArticleTuple(userId, ids);
+  return useUserArticleTuple(ids, userId);
 }
