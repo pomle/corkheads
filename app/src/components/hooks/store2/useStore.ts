@@ -7,7 +7,7 @@ import { useIndex } from "./useIndex";
 import { usePath } from "./usePath";
 import { ResultMap } from "./ResultMap";
 
-export type StoreResult<T> = ResultMap<Entry<T>> | null;
+export type StoreResult<T> = ResultMap<Entry<T>>;
 export type QueryResult<T> = Entry<T>[] | null;
 
 export function useFlatResult<T>(id: string, result: StoreResult<T>) {
