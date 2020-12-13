@@ -263,7 +263,7 @@ exports[`BottlingUserInput component renders as expected 1`] = `
         <dd>
           <input
             onChange={[Function]}
-            placeholder="Distillery name"
+            placeholder="Name of distiller"
             type="text"
             value="Brukveda"
           />
