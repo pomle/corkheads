@@ -51,7 +51,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
     };
   }, [userId]);
 
-  const result = useCheckInQuery(query);
+  const request = useCheckInQuery(query);
 
   const classes = useStyles();
 
@@ -69,13 +69,13 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
         <ViewBody>
           <div className={classes.body}>
             {useContentCache(() => {
-              if (!result) {
+              if (request.busy) {
                 return;
               }
 
               return (
                 <ItemList>
-                  {result.map(({ checkInEntry, articleEntry }) => {
+                  {request.results.map(({ checkInEntry, articleEntry }) => {
                     const article = articleEntry.data;
                     const checkIn = checkInEntry.data;
 
@@ -92,7 +92,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
                   })}
                 </ItemList>
               );
-            }, [result])}
+            }, [request])}
           </div>
         </ViewBody>
       </HeaderLayout>

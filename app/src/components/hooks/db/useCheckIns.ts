@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
 import { Entry, GuaranteedEntry, isGuaranteed } from "types/Entry";
+import { ResultMap } from "../store2/ResultMap";
 import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
 
@@ -20,42 +21,57 @@ type CheckInTuple = {
   articleEntry: Entry<Article>;
 };
 
+type QueryResult<T> = {
+  busy: boolean;
+  results: ResultMap<T>;
+};
+
+const EMPTY: ResultMap<CheckInTuple> = new ResultMap();
+
 export function useCheckInTuple(
   checkInIds: string[],
   articleIds: string[]
-): CheckInTuple[] | null {
+): QueryResult<CheckInTuple> {
   const checkInEntries = useCheckIns(checkInIds);
   const articleEntries = useArticles(articleIds);
 
   return useMemo(() => {
-    if (!articleEntries || !checkInEntries) {
-      return null;
-    }
-
-    const result: CheckInTuple[] = [];
+    const results = new ResultMap<CheckInTuple>();
 
     for (const checkInId of checkInIds) {
       const checkInEntry = checkInEntries.get(checkInId);
       if (!checkInEntry) {
-        return null;
+        return {
+          busy: true,
+          results: EMPTY,
+        };
       }
 
       if (!isGuaranteed(checkInEntry)) {
-        return null;
+        return {
+          busy: true,
+          results: EMPTY,
+        };
       }
 
       const articleId = checkInEntry.data.articleId;
       const articleEntry = articleEntries.get(articleId);
       if (!articleEntry) {
-        return null;
+        return {
+          busy: true,
+          results: EMPTY,
+        };
       }
 
-      result.push({
+      results.set(checkInId, {
         articleEntry,
         checkInEntry,
       });
     }
 
-    return result;
+    return {
+      busy: false,
+      results,
+    };
   }, [checkInIds, articleEntries, checkInEntries]);
 }

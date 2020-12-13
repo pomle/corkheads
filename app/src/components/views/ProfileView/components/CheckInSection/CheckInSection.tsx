@@ -23,7 +23,7 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId }) => {
     [history]
   );
 
-  const checkInHistoryQuery = useMemo((): CheckInQuery => {
+  const query = useMemo((): CheckInQuery => {
     return {
       filters: {
         userIds: [userId],
@@ -38,26 +38,25 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId }) => {
     };
   }, [userId]);
 
-  const checkInHistoryResult = useCheckInQuery(checkInHistoryQuery);
+  const request = useCheckInQuery(query);
 
   return (
     <ItemList>
-      {checkInHistoryResult &&
-        checkInHistoryResult.map(({ checkInEntry, articleEntry }) => {
-          const article = articleEntry.data;
-          const checkIn = checkInEntry.data;
+      {request.results.map(({ checkInEntry, articleEntry }) => {
+        const article = articleEntry.data;
+        const checkIn = checkInEntry.data;
 
-          return (
-            <button
-              key={checkInEntry.id}
-              onClick={() => goToCheckIn(checkInEntry.id)}
-            >
-              {article && checkIn && (
-                <CheckInItem checkIn={checkIn} article={article} />
-              )}
-            </button>
-          );
-        })}
+        return (
+          <button
+            key={checkInEntry.id}
+            onClick={() => goToCheckIn(checkInEntry.id)}
+          >
+            {article && checkIn && (
+              <CheckInItem checkIn={checkIn} article={article} />
+            )}
+          </button>
+        );
+      })}
     </ItemList>
   );
 };
