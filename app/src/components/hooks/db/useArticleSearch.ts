@@ -5,6 +5,7 @@ import { useArticles } from "./useArticles";
 import { ArticleSearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
 import { ResultMap } from "../store2/ResultMap";
+import { QueryResult } from "../store2/useStore";
 
 export type { ArticleSearchQuery };
 
@@ -26,16 +27,11 @@ export type SearchResult = {
   entry: GuaranteedEntry<Article>;
 };
 
-type ArticleSearchResults = {
-  busy: boolean;
-  results: ResultMap<SearchResult>;
-};
-
 const EMPTY: ResultMap<SearchResult> = new ResultMap();
 
 export function useArticleSearch(
   query: ArticleSearchQuery
-): ArticleSearchResults {
+): QueryResult<SearchResult> {
   const [hits, setHits] = useState<SearchHit<Article>[]>([]);
   const { busy, search } = useSearch();
   const flight = useRef<number>(0);

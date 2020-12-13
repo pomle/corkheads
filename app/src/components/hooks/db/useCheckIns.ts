@@ -1,4 +1,8 @@
-import { useFlatResult, useStore } from "components/hooks/store2/useStore";
+import {
+  QueryResult,
+  useFlatResult,
+  useStore,
+} from "components/hooks/store2/useStore";
 import { useMemo } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
@@ -19,11 +23,6 @@ export function useCheckIn(checkInId: string) {
 type CheckInTuple = {
   checkInEntry: GuaranteedEntry<CheckIn>;
   articleEntry: Entry<Article>;
-};
-
-type QueryResult<T> = {
-  busy: boolean;
-  results: ResultMap<T>;
 };
 
 const EMPTY: ResultMap<CheckInTuple> = new ResultMap();
