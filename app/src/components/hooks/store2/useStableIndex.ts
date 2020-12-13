@@ -1,22 +1,21 @@
 import { useMemo, useRef } from "react";
-
-const EMPTY = Object.create(null);
-
-type Index<T> = Record<string, T>;
+import { ResultMap } from "./ResultMap";
 
 interface Source<T> {
   get(id: string): T | undefined;
 }
 
 export function useStableIndex<T>(ids: string[], source: Source<T>) {
-  const cache = useRef<Index<T>>(EMPTY);
+  const initial = useMemo(() => new ResultMap<T>(), []);
+
+  const cache = useRef<ResultMap<T>>(initial);
 
   return useMemo(() => {
     if (ids.length === 0) {
       return null;
     }
 
-    const entries: Index<T> = Object.create(null);
+    const result = new ResultMap<T>();
 
     let updateCache = false;
 
@@ -26,14 +25,14 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
         return null;
       }
 
-      entries[id] = content;
-      if (cache.current[id] !== entries[id]) {
+      result.set(id, content);
+      if (cache.current.get(id) !== content) {
         updateCache = true;
       }
     }
 
     if (updateCache) {
-      cache.current = entries;
+      cache.current = result;
     }
 
     return cache.current;

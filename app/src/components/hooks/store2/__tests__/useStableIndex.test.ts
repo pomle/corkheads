@@ -1,4 +1,5 @@
 import { renderHook } from "@testing-library/react-hooks";
+import { ResultMap } from "../ResultMap";
 import { useStableIndex } from "../useStableIndex";
 
 function createIndex(store: Record<string, unknown>) {
@@ -61,11 +62,13 @@ describe("useStableIndex", () => {
       },
     });
 
-    expect(hook.result.current).toEqual({
-      b: "Beta",
-      c: "Citrus",
-      d: "Delta",
-    });
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        b: "Beta",
+        c: "Citrus",
+        d: "Delta",
+      })
+    );
 
     const newSource = { ...source };
     delete newSource["b"];
@@ -90,11 +93,13 @@ describe("useStableIndex", () => {
       },
     });
 
-    expect(hook.result.current).toEqual({
-      b: "Beta",
-      c: "Citrus",
-      d: "Delta",
-    });
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        b: "Beta",
+        c: "Citrus",
+        d: "Delta",
+      })
+    );
   });
 
   it("is referentially stable when ids does not change", () => {
@@ -190,11 +195,13 @@ describe("useStableIndex", () => {
     });
 
     expect(hook.result.current).not.toBe(ref);
-    expect(hook.result.current).toEqual({
-      b: "Beta",
-      c: "Cirrus Logic",
-      d: "Delta",
-    });
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        b: "Beta",
+        c: "Cirrus Logic",
+        d: "Delta",
+      })
+    );
   });
 
   it("returns new index if ids changes so that output is affected", () => {
@@ -217,11 +224,13 @@ describe("useStableIndex", () => {
     });
 
     expect(hook.result.current).not.toBe(ref);
-    expect(hook.result.current).toEqual({
-      a: "Alpha",
-      b: "Beta",
-      c: "Citrus",
-      d: "Delta",
-    });
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        a: "Alpha",
+        b: "Beta",
+        c: "Citrus",
+        d: "Delta",
+      })
+    );
   });
 });

@@ -41,7 +41,8 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   const articleId = checkInEntry ? checkInEntry?.data?.articleId : undefined;
 
   const articleEntries = useArticles(articleId ? [articleId] : []);
-  const articleEntry = articleId && articleEntries && articleEntries[articleId];
+  const articleEntry =
+    articleId && articleEntries && articleEntries.get(articleId);
 
   return (
     <ErrorBoundary nav={nav}>
