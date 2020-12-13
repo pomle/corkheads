@@ -6,13 +6,13 @@ import { UserArticle } from "types/UserArticle";
 import { useArticles } from "./useArticles";
 import { useUserCollection } from "./useCollection";
 
-export function useUserArticles(userId: string, articleIds: string[]) {
+export function useUserArticles(articleIds: string[], userId: string) {
   const collection = useUserCollection(userId).userArticle;
   return useStore<UserArticle>(collection, articleIds);
 }
 
-export function useUserArticle(userId: string, articleId: string) {
-  const result = useUserArticles(userId, [articleId]);
+export function useUserArticle(articleId: string, userId: string) {
+  const result = useUserArticles([articleId], userId);
   return useFlatResult(articleId, result);
 }
 
@@ -22,11 +22,11 @@ type UserArticleTuple = {
 };
 
 export function useUserArticleTuple(
-  userId: string,
-  articleIds: string[]
+  articleIds: string[],
+  userId: string
 ): UserArticleTuple[] | null {
   const articleEntries = useArticles(articleIds);
-  const userArticleEntries = useUserArticles(userId, articleIds);
+  const userArticleEntries = useUserArticles(articleIds, userId);
 
   return useMemo(() => {
     if (!articleEntries || !userArticleEntries) {
