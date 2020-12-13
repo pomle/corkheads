@@ -1,4 +1,8 @@
-import { useFlatResult, useStore } from "components/hooks/store2/useStore";
+import {
+  QueryResult,
+  useFlatResult,
+  useStore,
+} from "components/hooks/store2/useStore";
 import { useMemo } from "react";
 import { Article } from "types/Article";
 import { Entry } from "types/Entry";
@@ -20,11 +24,6 @@ export function useUserArticle(articleId: string, userId: string) {
 type UserArticleTuple = {
   articleEntry: Entry<Article>;
   userArticleEntry: Entry<UserArticle>;
-};
-
-type QueryResult<T> = {
-  busy: boolean;
-  results: ResultMap<T>;
 };
 
 const EMPTY: ResultMap<UserArticleTuple> = new ResultMap();

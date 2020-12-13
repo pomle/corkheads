@@ -7,6 +7,11 @@ import { usePath } from "./usePath";
 import { ResultMap } from "./ResultMap";
 import { useStableIds } from "./useStableIds";
 
+export type QueryResult<T> = {
+  busy: boolean;
+  results: ResultMap<T>;
+};
+
 export function useFlatResult<T>(id: string, result: ResultMap<T>) {
   return result ? result.get(id) : null;
 }
