@@ -20,7 +20,7 @@ describe("useStableIndex", () => {
     f: "Foxtrot",
   };
 
-  it("returns null if any source not found", () => {
+  it("returns empty if any source not found", () => {
     const ids = ["x", "c", "d"];
 
     const index = createIndex(source);
@@ -32,10 +32,10 @@ describe("useStableIndex", () => {
       },
     });
 
-    expect(hook.result.current).toBe(null);
+    expect(hook.result.current).toEqual(new ResultMap());
   });
 
-  it("returns null when ids empty", () => {
+  it("returns empty when ids empty", () => {
     const ids: string[] = [];
 
     const index = createIndex(source);
@@ -47,10 +47,10 @@ describe("useStableIndex", () => {
       },
     });
 
-    expect(hook.result.current).toBe(null);
+    expect(hook.result.current).toEqual(new ResultMap());
   });
 
-  it("returns null if source removed", () => {
+  it("returns empty if source removed", () => {
     const ids = ["b", "c", "d"];
 
     const index = createIndex(source);
@@ -78,7 +78,7 @@ describe("useStableIndex", () => {
       index: createIndex(newSource),
     });
 
-    expect(hook.result.current).toBe(null);
+    expect(hook.result.current).toEqual(new ResultMap());
   });
 
   it("returns a subset of source based on ids if all sources found", () => {

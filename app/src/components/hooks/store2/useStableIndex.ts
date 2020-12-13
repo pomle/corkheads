@@ -12,7 +12,7 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
 
   return useMemo(() => {
     if (ids.length === 0) {
-      return null;
+      return initial;
     }
 
     const result = new ResultMap<T>();
@@ -22,7 +22,7 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
     for (const id of ids) {
       const content = source.get(id);
       if (!content) {
-        return null;
+        return initial;
       }
 
       result.set(id, content);
@@ -36,5 +36,5 @@ export function useStableIndex<T>(ids: string[], source: Source<T>) {
     }
 
     return cache.current;
-  }, [ids, source]);
+  }, [ids, source, initial]);
 }
