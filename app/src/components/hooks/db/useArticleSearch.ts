@@ -4,6 +4,7 @@ import { GuaranteedEntry, isGuaranteed } from "types/Entry";
 import { useArticles } from "./useArticles";
 import { ArticleSearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
+import { ResultMap } from "../store2/ResultMap";
 
 export type { ArticleSearchQuery };
 
@@ -27,8 +28,10 @@ export type SearchResult = {
 
 type ArticleSearchResults = {
   busy: boolean;
-  results: SearchResult[];
+  results: ResultMap<SearchResult>;
 };
+
+const EMPTY: ResultMap<SearchResult> = new ResultMap();
 
 export function useArticleSearch(
   query: ArticleSearchQuery
@@ -82,15 +85,16 @@ export function useArticleSearch(
 
   const results = useMemo(() => {
     if (!articlesResult) {
-      console.log("Returning 0");
-      return [];
+      console.log("Returning empty");
+      return EMPTY;
     }
 
-    const results: SearchResult[] = [];
+    const results: ResultMap<SearchResult> = new ResultMap();
     for (const hit of hits) {
-      const entry = articlesResult.get(hit.articleId);
+      const articleId = hit.articleId;
+      const entry = articlesResult.get(articleId);
       if (entry && isGuaranteed(entry)) {
-        results.push({
+        results.set(articleId, {
           hit,
           entry,
         });
