@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
-import { useArticles } from "components/hooks/db/useArticles";
+import { useArticle } from "components/hooks/db/useArticles";
 import CheckInDetailsView from "components/views/CheckInDetailsView";
 import LoadingView from "components/views/LoadingView";
-import ErrorView from "components/views/ErrorView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
@@ -38,24 +37,16 @@ const CheckInPage: React.FC<{ checkInId: string }> = ({ checkInId }) => {
   );
 
   const checkInEntry = useCheckIn(checkInId);
-  const articleId = checkInEntry ? checkInEntry?.data?.articleId : undefined;
-
-  const articleEntries = useArticles(articleId ? [articleId] : []);
-  const articleEntry =
-    articleId && articleEntries && articleEntries.get(articleId);
+  const articleEntry = useArticle(checkInEntry?.data?.articleId);
 
   return (
     <ErrorBoundary nav={nav}>
       {() => {
-        if (!articleEntry || !checkInEntry) {
-          return <LoadingView nav={nav} />;
-        }
-
-        const checkIn = checkInEntry.data;
-        const article = articleEntry.data;
+        const checkIn = checkInEntry?.data;
+        const article = articleEntry?.data;
 
         if (!checkIn || !article) {
-          return <ErrorView nav={nav}>Not found</ErrorView>;
+          return <LoadingView nav={nav} />;
         }
 
         return (
