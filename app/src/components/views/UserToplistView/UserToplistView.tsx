@@ -9,6 +9,7 @@ import ViewHead from "components/ui/layout/ViewHead";
 import ItemList from "components/ui/layout/ItemList";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
+import { useContentCache } from "components/hooks/useContentCache";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -62,30 +63,38 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList>
-              {request.results.map(
-                ({ articleEntry, userArticleEntry }, index) => {
-                  const article = articleEntry.data;
-                  const userArticle = userArticleEntry.data;
+            {useContentCache(() => {
+              if (request.busy) {
+                return;
+              }
 
-                  return (
-                    <button
-                      key={articleEntry.id}
-                      className={classes.item}
-                      onClick={() => routes.article(articleEntry.id)}
-                    >
-                      <div className="rank">{index + 1}</div>
-                      {article && userArticle && (
-                        <TopArticleItem
-                          article={article}
-                          userArticle={userArticle}
-                        />
-                      )}
-                    </button>
-                  );
-                }
-              )}
-            </ItemList>
+              return (
+                <ItemList>
+                  {request.results.map(
+                    ({ articleEntry, userArticleEntry }, index) => {
+                      const article = articleEntry.data;
+                      const userArticle = userArticleEntry.data;
+
+                      return (
+                        <button
+                          key={articleEntry.id}
+                          className={classes.item}
+                          onClick={() => routes.article(articleEntry.id)}
+                        >
+                          <div className="rank">{index + 1}</div>
+                          {article && userArticle && (
+                            <TopArticleItem
+                              article={article}
+                              userArticle={userArticle}
+                            />
+                          )}
+                        </button>
+                      );
+                    }
+                  )}
+                </ItemList>
+              );
+            }, [request])}
           </div>
         </ViewBody>
       </HeaderLayout>
