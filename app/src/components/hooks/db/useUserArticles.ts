@@ -21,7 +21,7 @@ export function useUserArticle(userId: string, articleId: string) {
   return useFlatResult(articleId, result);
 }
 
-type UserArticleTuple = {
+export type UserArticleTuple = {
   articleEntry: Entry<Article>;
   userArticleEntry: Entry<UserArticle>;
 };
