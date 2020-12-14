@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
@@ -20,7 +20,10 @@ import {
   ArticleSearchQuery,
   useArticleSearch,
 } from "components/hooks/db/useArticleSearch";
+import { useSearchHistory } from "components/hooks/db/useSearchHistory";
 import { User } from "types/User";
+import EntryList from "components/ui/layout/EntryList";
+import PassedTime from "components/ui/format/PassedTime";
 
 const useStyles = makeStyles({
   ArticleSelect: {},
@@ -75,6 +78,18 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
   const searchRequest = useArticleSearch(searchQuery);
   const results = searchRequest.results;
 
+  const searchHistory = useSearchHistory(user.id);
+
+  const handleSelect = useCallback(
+    (article: Article) => {
+      searchHistory.add({
+        text: searchQuery.search.text,
+      });
+      onSelect(article);
+    },
+    [searchQuery, searchHistory, onSelect]
+  );
+
   const classes = useStyles();
 
   return (
@@ -108,7 +123,10 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
               {results.map((result) => {
                 const article = result.entry.data;
                 return (
-                  <button key={article.id} onClick={() => onSelect(article)}>
+                  <button
+                    key={article.id}
+                    onClick={() => handleSelect(article)}
+                  >
                     <SearchArticleItem searchResult={result} />
                   </button>
                 );
@@ -120,10 +138,36 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
               </TextItem>
             </ItemList>
           ) : (
-            <TextItem>
-              Type at least {MIN_QUERY_LENGTH - query.length} more characters to
-              search.
-            </TextItem>
+            <>
+              <TextItem>
+                Type at least {MIN_QUERY_LENGTH - query.length} more characters
+                to search.
+              </TextItem>
+              <EntryList>
+                {searchHistory.entries.map((entry) => {
+                  return (
+                    <button
+                      key={entry.id}
+                      type="button"
+                      onClick={() => setQuery(entry.query.text)}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: "16px 0",
+                        width: "100%",
+                      }}
+                    >
+                      <div>{entry.query.text}</div>
+                      <div>
+                        {entry.timestamp && (
+                          <PassedTime date={entry.timestamp} />
+                        )}
+                      </div>
+                    </button>
+                  );
+                })}
+              </EntryList>
+            </>
           )}
         </div>
       </ViewBody>
