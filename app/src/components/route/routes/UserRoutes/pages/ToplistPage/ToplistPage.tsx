@@ -43,7 +43,7 @@ const ToplistPage: React.FC = () => {
   return (
     <ErrorBoundary nav={nav}>
       {() => {
-        return <UserToplistView nav={nav} routes={routes} userId={user.uid} />;
+        return <UserToplistView nav={nav} routes={routes} userId={user.id} />;
       }}
     </ErrorBoundary>
   );

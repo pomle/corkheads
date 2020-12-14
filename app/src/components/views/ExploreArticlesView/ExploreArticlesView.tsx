@@ -66,7 +66,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
         text: executedQuery,
       },
       filters: {
-        userIds: [user.uid],
+        userIds: [user.id],
       },
     }),
     [executedQuery, user]

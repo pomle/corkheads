@@ -6,12 +6,11 @@ import React, {
   useState,
 } from "react";
 import { useFirebase } from "components/context/FirebaseContext";
-import { User } from "types/User";
 
 type SessionContextValue = {
   ready: boolean;
   auth: firebase.auth.Auth;
-  user?: User;
+  user?: firebase.User;
 };
 
 const Context = createContext<SessionContextValue | null>(null);
@@ -21,7 +20,7 @@ export const SessionContext: React.FC = ({ children }) => {
 
   const auth = useMemo(() => firebase.auth(), [firebase]);
   const [ready, setReady] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<firebase.User>();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {

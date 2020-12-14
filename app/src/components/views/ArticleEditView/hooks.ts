@@ -25,7 +25,7 @@ export function useCommitArticle() {
 
       const data = {
         ...article,
-        userId: user.uid,
+        userId: user.id,
       };
 
       if (photoURL) {

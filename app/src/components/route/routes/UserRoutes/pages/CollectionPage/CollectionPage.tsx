@@ -44,7 +44,7 @@ const CollectionPage: React.FC = () => {
     <ErrorBoundary nav={nav}>
       {() => {
         return (
-          <UserCollectionView nav={nav} routes={routes} userId={user.uid} />
+          <UserCollectionView nav={nav} routes={routes} userId={user.id} />
         );
       }}
     </ErrorBoundary>

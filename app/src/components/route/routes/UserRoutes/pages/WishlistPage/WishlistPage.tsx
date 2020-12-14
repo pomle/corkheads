@@ -43,7 +43,7 @@ const WishlistPage: React.FC = () => {
   return (
     <ErrorBoundary nav={nav}>
       {() => {
-        return <UserWishlistView nav={nav} routes={routes} userId={user.uid} />;
+        return <UserWishlistView nav={nav} routes={routes} userId={user.id} />;
       }}
     </ErrorBoundary>
   );
