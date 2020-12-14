@@ -1,7 +1,7 @@
 import React from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import CheckInItem from "components/fragments/CheckIn/CheckInItem";
+import CheckInItem from "../CheckInItem";
 
 const FALLBACK_ARTICLE: Article = {
   id: "404",

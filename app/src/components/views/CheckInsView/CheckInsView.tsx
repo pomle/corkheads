@@ -37,7 +37,7 @@ interface CheckInsViewProps {
   userId: string;
 }
 
-const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes, userId }) => {
+const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
   const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
 
   const query = useMemo((): CheckInQuery => {
@@ -51,7 +51,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes, userId }) => {
       ],
       limit: Math.min(size + 20, MAX_ITEMS),
     };
-  }, [size, userId]);
+  }, [size]);
 
   const request = useCheckInQuery(query);
 
