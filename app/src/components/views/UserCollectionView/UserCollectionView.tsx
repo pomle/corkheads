@@ -15,6 +15,7 @@ import {
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { useContentCache } from "components/hooks/useContentCache";
+import { byDisplayName } from "lib/sort/userArticleTuple";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -55,7 +56,9 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   const request = useUserCollectionArticleQuery(query);
 
   const items = useMemo(() => {
-    return Array.from(request.results.values()).slice(0, size);
+    return Array.from(request.results.values())
+      .slice(0, size)
+      .sort(byDisplayName);
   }, [size, request]);
 
   const classes = useStyles();
