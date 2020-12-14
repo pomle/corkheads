@@ -14,6 +14,10 @@ import {
 import * as paths from "components/route/paths";
 import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import ItemList from "components/ui/layout/ItemList";
+import { useScrollSize } from "components/hooks/useScrollSize";
+import { byDisplayName } from "lib/sort/userArticleTuple";
+import { useContentCache } from "components/hooks/useContentCache";
+import ViewportDetector from "components/ui/trigger/ViewportDetector";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -23,6 +27,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "0 16px",
   },
 }));
+
+const MAX_ITEMS = 100;
 
 interface UserWishlistViewProps {
   nav: React.ReactNode;
@@ -47,17 +53,22 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
     [history]
   );
 
+  const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
+
   const query = useMemo((): UserWishlistArticleQuery => {
     return {
       filters: {
         userId,
       },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
-      limit: 3,
+      limit: MAX_ITEMS,
     };
   }, [userId]);
 
   const request = useUserWishlistArticleQuery(query);
+
+  const items = useMemo(() => {
+    return Array.from(request.results.values()).sort(byDisplayName);
+  }, [request.results]);
 
   const classes = useStyles();
 
@@ -74,20 +85,29 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList>
-              {request.results.map(({ articleEntry }) => {
-                const article = articleEntry.data;
+            {useContentCache(() => {
+              if (request.busy) {
+                return;
+              }
 
-                return (
-                  <button
-                    key={articleEntry.id}
-                    onClick={() => goToArticle(articleEntry.id)}
-                  >
-                    {article && <WishlistArticleItem article={article} />}
-                  </button>
-                );
-              })}
-            </ItemList>
+              return (
+                <ItemList>
+                  {items.slice(0, size).map(({ articleEntry }) => {
+                    const article = articleEntry.data;
+
+                    return (
+                      <button
+                        key={articleEntry.id}
+                        onClick={() => goToArticle(articleEntry.id)}
+                      >
+                        {article && <WishlistArticleItem article={article} />}
+                      </button>
+                    );
+                  })}
+                </ItemList>
+              );
+            }, [items, request])}
+            <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
       </HeaderLayout>
