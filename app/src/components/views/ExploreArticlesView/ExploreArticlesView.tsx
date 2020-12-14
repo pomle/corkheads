@@ -20,7 +20,7 @@ import {
   ArticleSearchQuery,
   useArticleSearch,
 } from "components/hooks/db/useArticleSearch";
-import { useUser } from "components/hooks/useUser";
+import { User } from "types/User";
 
 const useStyles = makeStyles({
   ArticleSelect: {},
@@ -45,16 +45,16 @@ const MIN_QUERY_LENGTH = 3;
 
 interface ExploreArticlesViewProps {
   nav: React.ReactNode;
+  user: User;
   onSelect: (article: Article) => void;
 }
 
 const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
   nav,
+  user,
   onSelect,
 }) => {
   const createURL = useMemo(() => paths.articleCreate.url({}), []);
-
-  const user = useUser();
 
   const [query, setQuery] = useState<string>("");
 
@@ -66,7 +66,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
         text: executedQuery,
       },
       filters: {
-        userIds: user ? [user.uid] : [],
+        userIds: [user.uid],
       },
     }),
     [executedQuery, user]
