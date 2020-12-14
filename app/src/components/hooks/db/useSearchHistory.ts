@@ -1,15 +1,9 @@
-import * as crypto from "crypto";
 import { firestore } from "firebase/app";
+import { sha1 } from "lib/hash";
 import { Moment } from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toMoment } from "types/convert";
 import { useUserCollection } from "./useCollection";
-
-function hash(text: string) {
-  const hash = crypto.createHash("sha1");
-  hash.update(text);
-  return hash.digest("hex");
-}
 
 type Query = {
   text: string;
@@ -28,7 +22,7 @@ export function useSearchHistory(userId: string) {
 
   const add = useCallback(
     (query: Query) => {
-      const id = hash(query.text);
+      const id = sha1(query.text);
       collection.doc(id).set({
         query,
         timestamp: firestore.FieldValue.serverTimestamp(),
