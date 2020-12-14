@@ -1,6 +1,6 @@
 import { Size, findBestSizeMatch } from "lib/image/size";
 import { useCallback } from "react";
-import { useUser } from "./useUser";
+import { useMe } from "./useMe";
 import { ImageUpload, useUserImageUpload } from "./useUserImageUpload";
 
 function findIdealUpload(uploads: ImageUpload[], imageSize: Size) {
@@ -17,7 +17,7 @@ function getPhotoURL(uploads: ImageUpload[]) {
 }
 
 export function usePhotoUpload() {
-  const user = useUser();
+  const user = useMe();
   const uploadFile = useUserImageUpload();
 
   return useCallback(

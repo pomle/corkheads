@@ -1,5 +1,5 @@
 import { useSession } from "components/context/SessionContext";
 
-export function useUser() {
+export function useMe() {
   return useSession().user;
 }

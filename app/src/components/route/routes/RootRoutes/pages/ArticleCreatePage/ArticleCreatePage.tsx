@@ -5,7 +5,7 @@ import BackButton from "components/ui/trigger/BackButton";
 import ArticleEditView from "components/views/ArticleEditView";
 import { Article } from "types/Article";
 import LoadingView from "components/views/LoadingView";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import { createBottling } from "types/Bottling";
 
 function createDefaultArticle(): Article {
@@ -27,7 +27,7 @@ const ArticleCreatePage: React.FC = () => {
     <NavigationBar back={<BackButton onClick={goBack}>Back</BackButton>} />
   );
 
-  const user = useUser();
+  const user = useMe();
 
   const article = useMemo(createDefaultArticle, []);
 

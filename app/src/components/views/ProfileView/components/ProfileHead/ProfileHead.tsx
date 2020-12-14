@@ -11,7 +11,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { Theme } from "components/ui/theme/themes";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 
 type StyleProps = {
   canClear: boolean;
@@ -90,7 +90,7 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
-  const user = useUser();
+  const user = useMe();
   const { userData, updateProfile } = useUserData(userId);
 
   const clearControl = useSwitch(false);

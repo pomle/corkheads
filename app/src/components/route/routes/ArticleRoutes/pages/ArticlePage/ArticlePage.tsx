@@ -4,7 +4,7 @@ import ArticleDetailsView from "components/views/ArticleDetailsView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import LoadingView from "components/views/LoadingView";
 
@@ -20,7 +20,7 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
     history.push(url);
   }, [history]);
 
-  const user = useUser();
+  const user = useMe();
 
   const nav = (
     <NavigationBar
