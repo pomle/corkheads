@@ -7,7 +7,6 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import ItemList from "components/ui/layout/ItemList";
-import CheckInItem from "components/fragments/CheckIn/CheckInItem";
 import {
   CheckInQuery,
   useCheckInQuery,
@@ -15,6 +14,7 @@ import {
 import { useContentCache } from "components/hooks/useContentCache";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
+import UserCheckInsViewItem from "./components/UserCheckInsViewItem";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -25,6 +25,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const Item = React.memo(UserCheckInsViewItem);
+
+const MAX_ITEMS = 100;
+
 interface UserCheckInsViewProps {
   nav: React.ReactNode;
   routes: {
@@ -32,8 +36,6 @@ interface UserCheckInsViewProps {
   };
   userId: string;
 }
-
-const MAX_ITEMS = 100;
 
 const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
   nav,
@@ -87,19 +89,14 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
                 <ItemList>
                   {items
                     .slice(0, size)
-                    .map(({ checkInEntry, articleEntry }) => {
-                      const article = articleEntry.data;
-                      const checkIn = checkInEntry.data;
-
+                    .map(({ articleEntry, checkInEntry }) => {
                       return (
-                        <button
+                        <Item
                           key={checkInEntry.id}
-                          onClick={() => routes.checkIn(checkInEntry.id)}
-                        >
-                          {article && (
-                            <CheckInItem checkIn={checkIn} article={article} />
-                          )}
-                        </button>
+                          checkIn={checkInEntry.data}
+                          article={articleEntry.data}
+                          onClick={routes.checkIn}
+                        />
                       );
                     })}
                 </ItemList>
