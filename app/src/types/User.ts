@@ -1,1 +1,4 @@
-export type User = firebase.User;
+export type User = {
+  uid: string;
+  email: string | null;
+};
