@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -13,6 +13,7 @@ import {
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
 import { useContentCache } from "components/hooks/useContentCache";
+import ViewportDetector from "components/ui/trigger/ViewportDetector";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -31,11 +32,21 @@ interface UserCheckInsViewProps {
   userId: string;
 }
 
+const MIN = 10;
+const MAX = 100;
+const INC = 10;
+
 const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
   nav,
   routes,
   userId,
 }) => {
+  const [length, setLength] = useState<number>(MIN);
+
+  const seeMore = useCallback(() => {
+    setLength((l) => Math.min(l + INC, MAX));
+  }, []);
+
   const query = useMemo((): CheckInQuery => {
     return {
       filters: {
@@ -47,9 +58,9 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: 20,
+      limit: Math.min(length + INC, MAX),
     };
-  }, [userId]);
+  }, [length, userId]);
 
   const request = useCheckInQuery(query);
 
@@ -75,25 +86,28 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
 
               return (
                 <ItemList>
-                  {request.results.map(({ checkInEntry, articleEntry }) => {
-                    const article = articleEntry.data;
-                    const checkIn = checkInEntry.data;
+                  {Array.from(request.results.values())
+                    .slice(0, length)
+                    .map(({ checkInEntry, articleEntry }) => {
+                      const article = articleEntry.data;
+                      const checkIn = checkInEntry.data;
 
-                    return (
-                      <button
-                        key={checkInEntry.id}
-                        onClick={() => routes.checkIn(checkInEntry.id)}
-                      >
-                        {article && (
-                          <CheckInItem checkIn={checkIn} article={article} />
-                        )}
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={checkInEntry.id}
+                          onClick={() => routes.checkIn(checkInEntry.id)}
+                        >
+                          {article && (
+                            <CheckInItem checkIn={checkIn} article={article} />
+                          )}
+                        </button>
+                      );
+                    })}
                 </ItemList>
               );
-            }, [request])}
+            }, [request, length])}
           </div>
+          <ViewportDetector onEnter={seeMore} />
         </ViewBody>
       </HeaderLayout>
     </Themer>
