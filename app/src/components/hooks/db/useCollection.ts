@@ -13,6 +13,7 @@ export function useCollection() {
     return {
       article: db.collection("articles").withConverter(article),
       checkIn: db.collection("check-ins").withConverter(checkIn),
+      user: db.collection("users"),
     };
   }, [db]);
 }
