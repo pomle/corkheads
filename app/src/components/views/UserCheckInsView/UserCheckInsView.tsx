@@ -53,11 +53,15 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: Math.min(size + 10, MAX_ITEMS),
+      limit: Math.min(size + 20, MAX_ITEMS),
     };
   }, [size, userId]);
 
   const request = useCheckInQuery(query);
+
+  const items = useMemo(() => {
+    return Array.from(request.results.values());
+  }, [request.results]);
 
   const classes = useStyles();
 
@@ -81,7 +85,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
 
               return (
                 <ItemList>
-                  {Array.from(request.results.values())
+                  {items
                     .slice(0, size)
                     .map(({ checkInEntry, articleEntry }) => {
                       const article = articleEntry.data;
@@ -100,7 +104,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
                     })}
                 </ItemList>
               );
-            }, [request, size])}
+            }, [items, size])}
           </div>
           <ViewportDetector onEnter={bump} />
         </ViewBody>
