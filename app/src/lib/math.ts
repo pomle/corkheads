@@ -74,3 +74,12 @@ export function shrinkToFitRect(rect: Rect, bounds: Rect): Rect {
 
   return fitRect(rect, bounds);
 }
+
+export type AABB = { t: number; b: number; l: number; r: number };
+
+export function intersects(a: AABB, b: AABB) {
+  return {
+    x: a.r > b.l && a.l < b.r,
+    y: a.b > b.t && a.t < b.b,
+  };
+}
