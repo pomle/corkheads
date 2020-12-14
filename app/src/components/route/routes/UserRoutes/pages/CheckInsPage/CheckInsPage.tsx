@@ -39,7 +39,7 @@ const CheckInsPage: React.FC = () => {
   return (
     <ErrorBoundary nav={nav}>
       {() => {
-        return <UserCheckInsView nav={nav} routes={routes} userId={user.uid} />;
+        return <UserCheckInsView nav={nav} routes={routes} userId={user.id} />;
       }}
     </ErrorBoundary>
   );

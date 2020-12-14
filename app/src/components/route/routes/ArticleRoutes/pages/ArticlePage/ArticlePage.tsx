@@ -58,7 +58,7 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
             key={articleId}
             nav={nav}
             routes={routes}
-            userId={user.uid}
+            userId={user.id}
             articleId={articleId}
           />
         );

@@ -60,7 +60,7 @@ function isCheckInValid(checkIn: CheckIn) {
 function createCheckIn(article: Article, user: User): CheckIn {
   return {
     id: "",
-    userId: user.uid,
+    userId: user.id,
     articleId: article.id,
     rating: {
       score: undefined,

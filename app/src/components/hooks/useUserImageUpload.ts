@@ -43,7 +43,7 @@ export function useUserImageUpload() {
       const uploadId = uuidv4();
 
       const imageStorageRef = storage
-        .ref(user.uid)
+        .ref(user.id)
         .child("images")
         .child(uploadId);
 

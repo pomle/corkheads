@@ -26,7 +26,7 @@ export function useCommitCheckIn() {
   return useCallback(
     async ({ user, checkIn: checkInSource, file }: Payload) => {
       const articleId = checkInSource.articleId;
-      const userId = user.uid;
+      const userId = user.id;
 
       // Make a copy because it may be mutated in the photoURL assign.
       const checkIn: CheckInObject = { ...checkInSource };

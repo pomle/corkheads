@@ -9,7 +9,7 @@ export function useUserUpload() {
   const uploadFile = useCallback(
     (user: User, file: File) => {
       const fileId = uuidv4();
-      const fileRef = storage.ref(user.uid).child(fileId);
+      const fileRef = storage.ref(user.id).child(fileId);
       return fileRef.put(file);
     },
     [storage]
