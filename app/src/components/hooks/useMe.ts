@@ -1,17 +1,8 @@
 import { useSession } from "components/context/SessionContext";
-import { useMemo } from "react";
 import { User } from "types/User";
+import { useUser } from "./db/useUsers";
+
 export function useMe(): User | undefined {
   const session = useSession();
-
-  return useMemo(() => {
-    if (!session.user) {
-      return;
-    }
-
-    return {
-      id: session.user.uid,
-      email: null,
-    };
-  }, [session.user]);
+  return useUser(session?.user?.uid);
 }
