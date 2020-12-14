@@ -12,6 +12,9 @@ import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
+import ViewportDetector from "components/ui/trigger/ViewportDetector";
+import { useScrollSize } from "components/hooks/useScrollSize";
+import { useContentCache } from "components/hooks/useContentCache";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -30,22 +33,30 @@ interface UserCollectionViewProps {
   userId: string;
 }
 
+const MAX_ITEMS = 100;
+
 const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   nav,
   routes,
   userId,
 }) => {
+  const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
+
   const query = useMemo((): UserCollectionArticleQuery => {
     return {
       filters: {
         userId,
       },
       order: [{ field: "addedTimestamp", dir: "desc" }],
-      limit: 20,
+      limit: MAX_ITEMS,
     };
   }, [userId]);
 
   const request = useUserCollectionArticleQuery(query);
+
+  const items = useMemo(() => {
+    return Array.from(request.results.values()).slice(0, size);
+  }, [size, request]);
 
   const classes = useStyles();
 
@@ -62,20 +73,29 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <CollectionList>
-              {request.results.map(({ articleEntry }) => {
-                const article = articleEntry.data;
+            {useContentCache(() => {
+              if (request.busy) {
+                return;
+              }
 
-                return (
-                  <button
-                    key={articleEntry.id}
-                    onClick={() => routes.article(articleEntry.id)}
-                  >
-                    {article && <CollectionArticleItem article={article} />}
-                  </button>
-                );
-              })}
-            </CollectionList>
+              return (
+                <CollectionList>
+                  {items.map(({ articleEntry }) => {
+                    const article = articleEntry.data;
+
+                    return (
+                      <button
+                        key={articleEntry.id}
+                        onClick={() => routes.article(articleEntry.id)}
+                      >
+                        {article && <CollectionArticleItem article={article} />}
+                      </button>
+                    );
+                  })}
+                </CollectionList>
+              );
+            }, [items, request])}
+            <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
       </HeaderLayout>
