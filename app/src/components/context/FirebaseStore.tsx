@@ -1,4 +1,4 @@
-import { debounce } from "lib/debounce";
+import { throttle } from "lib/throttle";
 import React, {
   createContext,
   useContext,
@@ -38,7 +38,7 @@ export const FirebaseStoreContext: React.FC = ({ children }) => {
   const queue = useMemo(() => {
     let buffer: Entries = {};
 
-    const flush = debounce(() => {
+    const flush = throttle(() => {
       update(buffer);
       buffer = {};
     }, 150);
