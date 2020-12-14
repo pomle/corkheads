@@ -6,10 +6,12 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
+import { User } from "types/User";
 import Photo from "components/ui/layout/Photo";
 import CheckInItem from "components/fragments/CheckIn/CheckInItem";
 import { Colors } from "components/ui/theme/themes";
 import AreaButton from "components/ui/trigger/AreaButton";
+import UserItem from "components/fragments/User/UserItem";
 
 const useStyles = makeStyles({
   photo: {
@@ -18,6 +20,15 @@ const useStyles = makeStyles({
     maxHeight: "400px",
   },
   checkIn: {
+    background: "#0003",
+    borderRadius: "16px",
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "stretch",
+    margin: "16px",
+    padding: "8px",
+  },
+  user: {
     background: "#0003",
     borderRadius: "16px",
     display: "flex",
@@ -54,6 +65,7 @@ interface CheckInDetailsViewProps {
   };
   checkIn: CheckIn;
   article: Article;
+  user: User;
 }
 
 const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
@@ -61,6 +73,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   routes,
   checkIn,
   article,
+  user,
 }) => {
   const photoURL = resolvePhotoURL(checkIn, article);
 
@@ -83,6 +96,12 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
             onClick={() => routes.article(checkIn.articleId)}
           >
             <CheckInItem checkIn={checkIn} article={article} />
+          </button>
+        </div>
+
+        <div className={classes.user}>
+          <button type="button">
+            <UserItem user={user} />
           </button>
         </div>
 

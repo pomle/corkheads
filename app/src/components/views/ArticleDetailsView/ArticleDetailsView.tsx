@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
   },
   photo: {
+    background: "#00000020",
     height: "100vw",
     maxHeight: "400px",
     position: "relative",
