@@ -42,8 +42,8 @@ function resolvePhotoURL(checkIn: CheckIn, article: Article) {
 }
 
 interface CheckInItemProps {
-  article: Article;
   checkIn: CheckIn;
+  article: Article;
 }
 
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
