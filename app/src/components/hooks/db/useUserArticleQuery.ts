@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UserArticle } from "types/UserArticle";
 import { useDB } from "../useDB";
+import { useIds } from "./useIds";
 import { useUserArticleTuple } from "./useUserArticles";
 
 type SortFields = "rating.love" | "rating.score" | keyof UserArticle;
@@ -20,7 +21,7 @@ export type UserArticleQuery = {
 };
 
 export function useUserArticleQuery(query: UserArticleQuery) {
-  const [ids, setIds] = useState<string[]>([]);
+  const [ids, setIds] = useIds();
 
   const db = useDB();
 
@@ -38,6 +39,7 @@ export function useUserArticleQuery(query: UserArticleQuery) {
         q = q.orderBy(sort.field, sort.dir as "asc" | "desc");
       }
     }
+
     if (query.limit) {
       q = q.limit(query.limit);
     }
@@ -46,7 +48,7 @@ export function useUserArticleQuery(query: UserArticleQuery) {
       const ids = result.docs.map((doc) => doc.id);
       setIds(ids);
     });
-  }, [db, query]);
+  }, [db, query, setIds]);
 
   const userId = query.filters.userId;
   return useUserArticleTuple(userId, ids);
