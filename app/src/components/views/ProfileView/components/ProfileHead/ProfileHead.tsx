@@ -78,10 +78,6 @@ function resolveDisplayName(userData: UserData, user?: User) {
     }
   }
 
-  if (user?.email) {
-    return user.email;
-  }
-
   return "Drinker Drinkinson";
 }
 
