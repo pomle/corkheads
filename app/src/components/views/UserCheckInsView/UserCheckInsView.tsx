@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -14,6 +14,7 @@ import {
 } from "components/hooks/db/useCheckInQuery";
 import { useContentCache } from "components/hooks/useContentCache";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
+import { useScrollSize } from "components/hooks/useScrollSize";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -32,20 +33,14 @@ interface UserCheckInsViewProps {
   userId: string;
 }
 
-const MIN = 10;
-const MAX = 100;
-const INC = 10;
+const MAX_ITEMS = 100;
 
 const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
   nav,
   routes,
   userId,
 }) => {
-  const [length, setLength] = useState<number>(MIN);
-
-  const seeMore = useCallback(() => {
-    setLength((l) => Math.min(l + INC, MAX));
-  }, []);
+  const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
 
   const query = useMemo((): CheckInQuery => {
     return {
@@ -58,9 +53,9 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: Math.min(length + INC, MAX),
+      limit: Math.min(size + 10, MAX_ITEMS),
     };
-  }, [length, userId]);
+  }, [size, userId]);
 
   const request = useCheckInQuery(query);
 
@@ -87,7 +82,7 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
               return (
                 <ItemList>
                   {Array.from(request.results.values())
-                    .slice(0, length)
+                    .slice(0, size)
                     .map(({ checkInEntry, articleEntry }) => {
                       const article = articleEntry.data;
                       const checkIn = checkInEntry.data;
@@ -105,9 +100,9 @@ const UserCheckInsView: React.FC<UserCheckInsViewProps> = ({
                     })}
                 </ItemList>
               );
-            }, [request, length])}
+            }, [request, size])}
           </div>
-          <ViewportDetector onEnter={seeMore} />
+          <ViewportDetector onEnter={bump} />
         </ViewBody>
       </HeaderLayout>
     </Themer>
