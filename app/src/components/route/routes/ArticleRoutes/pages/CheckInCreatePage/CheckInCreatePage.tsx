@@ -6,7 +6,7 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import * as paths from "components/route/paths";
 import { useHistory } from "react-router-dom";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import ErrorView from "components/views/ErrorView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 
@@ -36,7 +36,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
     <NavigationBar back={<BackButton onClick={goToArticle}>Back</BackButton>} />
   );
 
-  const user = useUser();
+  const user = useMe();
 
   return (
     <ErrorBoundary nav={nav}>

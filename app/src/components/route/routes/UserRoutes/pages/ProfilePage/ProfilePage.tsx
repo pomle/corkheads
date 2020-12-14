@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import ProfileView from "components/views/ProfileView";
 import ViewStack from "components/ui/layout/ViewStack";
 import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
@@ -14,7 +14,7 @@ import * as paths from "components/route/paths";
 const ProfilePage: React.FC = () => {
   const element = useRef<React.ReactElement>();
 
-  const user = useUser();
+  const user = useMe();
 
   const signOut = useExplicitLogout();
 

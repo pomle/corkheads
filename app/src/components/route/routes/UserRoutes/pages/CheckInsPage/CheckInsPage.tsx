@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import BackButton from "components/ui/trigger/BackButton";
@@ -10,7 +10,7 @@ import * as paths from "components/route/paths";
 
 const CheckInsPage: React.FC = () => {
   const history = useHistory();
-  const user = useUser();
+  const user = useMe();
 
   const routes = useMemo(
     () => ({

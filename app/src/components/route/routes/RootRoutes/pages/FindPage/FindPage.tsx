@@ -5,7 +5,7 @@ import { Article } from "types/Article";
 import ExploreArticlesView from "components/views/ExploreArticlesView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import CancelButton from "components/ui/trigger/CancelButton/CancelButton";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 import LoadingView from "components/views/LoadingView";
 
 interface FindPageProps {
@@ -14,7 +14,7 @@ interface FindPageProps {
 
 const FindPage: React.FC<FindPageProps> = ({ onSelect }) => {
   const history = useHistory();
-  const user = useUser();
+  const user = useMe();
 
   const nav = (
     <NavigationBar

@@ -4,10 +4,10 @@ import Slide, { SlideDirection } from "components/ui/transitions/Slide";
 import AuthenticationView from "components/views/AuthenticationView";
 import ContextMenuView from "components/views/ContextMenuView/ContextMenuView";
 import RootRoutes from "components/route/routes/RootRoutes";
-import { useUser } from "components/hooks/useUser";
+import { useMe } from "components/hooks/useMe";
 
 const AppRoute: React.FC = () => {
-  const user = useUser();
+  const user = useMe();
 
   return (
     <ViewStack>
