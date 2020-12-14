@@ -48,7 +48,6 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
       filters: {
         userId,
       },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
       limit: MAX_ITEMS,
     };
   }, [userId]);
