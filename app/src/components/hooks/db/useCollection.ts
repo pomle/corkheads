@@ -32,6 +32,7 @@ export function useUserCollection(userId: string) {
       userCollectionArticle: userCollection
         .collection("collection")
         .withConverter(userCollectionArticle),
+      userSearchHistory: userCollection.collection("search-history"),
       userWishlistArticle: userCollection
         .collection("wishlist")
         .withConverter(userWishlistArticle),
