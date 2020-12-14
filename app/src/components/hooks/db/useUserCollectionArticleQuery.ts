@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UserCollectionArticle } from "types/UserCollectionArticle";
 import { useDB } from "../useDB";
+import { useIds } from "./useIds";
 import { useUserArticleTuple } from "./useUserArticles";
 
 type SortOrder = {
@@ -19,7 +20,7 @@ export type UserCollectionArticleQuery = {
 export function useUserCollectionArticleQuery(
   query: UserCollectionArticleQuery
 ) {
-  const [ids, setIds] = useState<string[]>([]);
+  const [ids, setIds] = useIds();
 
   const db = useDB();
 
@@ -47,7 +48,7 @@ export function useUserCollectionArticleQuery(
       const ids = result.docs.map((doc) => doc.id);
       setIds(ids);
     });
-  }, [db, query]);
+  }, [db, query, setIds]);
 
   const userId = query.filters.userId;
   return useUserArticleTuple(userId, ids);
