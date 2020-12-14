@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const MAX_ITEMS = 100;
+
 interface UserCollectionViewProps {
   nav: React.ReactNode;
   routes: {
@@ -33,8 +35,6 @@ interface UserCollectionViewProps {
   };
   userId: string;
 }
-
-const MAX_ITEMS = 100;
 
 const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   nav,
