@@ -55,10 +55,8 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   const request = useUserCollectionArticleQuery(query);
 
   const items = useMemo(() => {
-    return Array.from(request.results.values())
-      .slice(0, size)
-      .sort(byDisplayName);
-  }, [size, request]);
+    return Array.from(request.results.values()).sort(byDisplayName);
+  }, [request.results]);
 
   const classes = useStyles();
 
@@ -82,7 +80,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
 
               return (
                 <CollectionList>
-                  {items.map(({ articleEntry }) => {
+                  {items.slice(0, size).map(({ articleEntry }) => {
                     const article = articleEntry.data;
 
                     return (
