@@ -1,6 +1,6 @@
 import {
   QueryResult,
-  useFlatResult,
+  useSingle,
   useStore,
 } from "components/hooks/store2/useStore";
 import { useMemo } from "react";
@@ -16,9 +16,11 @@ export function useUserArticles(userId: string, articleIds: string[]) {
   return useStore<UserArticle>(collection, articleIds);
 }
 
-export function useUserArticle(userId: string, articleId: string) {
-  const result = useUserArticles(userId, [articleId]);
-  return useFlatResult(articleId, result);
+export function useUserArticle(userId: string, articleId?: string) {
+  return useSingle(
+    useUserArticles(userId, articleId ? [articleId] : []),
+    articleId
+  );
 }
 
 export type UserArticleTuple = {

@@ -1,6 +1,6 @@
 import {
   QueryResult,
-  useFlatResult,
+  useSingle,
   useStore,
 } from "components/hooks/store2/useStore";
 import { useMemo } from "react";
@@ -15,9 +15,8 @@ export function useCheckIns(checkInIds: string[]) {
   return useStore<CheckIn>(useCollection().checkIn, checkInIds);
 }
 
-export function useCheckIn(checkInId: string) {
-  const result = useCheckIns([checkInId]);
-  return useFlatResult(checkInId, result);
+export function useCheckIn(checkInId?: string) {
+  return useSingle(useCheckIns(checkInId ? [checkInId] : []), checkInId);
 }
 
 type CheckInTuple = {

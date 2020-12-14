@@ -1,4 +1,4 @@
-import { useFlatResult, useStore } from "components/hooks/store2/useStore";
+import { useSingle, useStore } from "components/hooks/store2/useStore";
 import { UserCollectionArticle } from "types/UserCollectionArticle";
 import { useUserCollection } from "./useCollection";
 
@@ -10,7 +10,9 @@ export function useUserCollectionArticles(
   return useStore<UserCollectionArticle>(collection, articleIds);
 }
 
-export function useUserCollectionArticle(userId: string, articleId: string) {
-  const result = useUserCollectionArticles(userId, [articleId]);
-  return useFlatResult(articleId, result);
+export function useUserCollectionArticle(userId: string, articleId?: string) {
+  return useSingle(
+    useUserCollectionArticles(userId, articleId ? [articleId] : []),
+    articleId
+  );
 }
