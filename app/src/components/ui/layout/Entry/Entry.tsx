@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Entry: {
@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
     justifyContent: "space-between",
     "& dt": {
-      color: Colors.Sot,
+      color: theme.color.text,
       fontSize: "12px",
       fontWeight: 700,
     },
