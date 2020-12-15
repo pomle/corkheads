@@ -94,7 +94,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
                   })}
                 </CollectionList>
               );
-            }, [items, request])}
+            }, [size, items, request])}
             <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
