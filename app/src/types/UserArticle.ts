@@ -11,11 +11,15 @@ export type UserArticle = {
   bottling?: Partial<Bottling>;
 };
 
-export const DEFAULTS: UserArticle = {
-  id: "",
-  checkIns: 0,
-  owner: false,
-};
+export function createUserArticle(id: string): UserArticle {
+  return {
+    id,
+    checkIns: 0,
+    owner: false,
+  };
+}
+
+export const DEFAULTS = createUserArticle("corkheads-userarticle");
 
 export const converter = createConverter<UserArticle>({
   to(userArticle) {

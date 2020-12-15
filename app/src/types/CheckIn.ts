@@ -17,14 +17,18 @@ export type CheckIn = {
   photoURL?: string;
 };
 
-const DEFAULTS = {
-  id: "",
-  userId: "",
-  articleId: "",
-  rating: {
-    love: false,
-  },
-};
+export function createCheckIn(id: string): CheckIn {
+  return {
+    id,
+    userId: "",
+    articleId: "",
+    rating: {
+      love: false,
+    },
+  };
+}
+
+const DEFAULTS = createCheckIn("corkheads-checkin");
 
 export const converter = createConverter<CheckIn>({
   to(checkIn) {

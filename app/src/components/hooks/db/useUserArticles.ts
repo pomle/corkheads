@@ -5,7 +5,7 @@ import {
 } from "components/hooks/store2/useStore";
 import { useMemo } from "react";
 import { Article } from "types/Article";
-import { GuaranteedEntry, isGuaranteed } from "types/Entry";
+import { Entry } from "types/Entry";
 import { UserArticle } from "types/UserArticle";
 import { ResultMap } from "../store2/ResultMap";
 import { useArticles } from "./useArticles";
@@ -24,12 +24,11 @@ export function useUserArticle(userId: string, articleId?: string) {
 }
 
 export type UserArticleTuple = {
-  articleEntry: GuaranteedEntry<Article>;
-  userArticleEntry: GuaranteedEntry<UserArticle>;
+  articleEntry: Entry<Article>;
+  userArticleEntry: Entry<UserArticle>;
 };
 
 const EMPTY: ResultMap<UserArticleTuple> = new ResultMap();
-const BLANK_USER_ARTICLE: UserArticle = { id: "", checkIns: 0, owner: false };
 
 export function useUserArticleTuple(
   userId: string,
@@ -52,18 +51,9 @@ export function useUserArticleTuple(
         };
       }
 
-      if (!isGuaranteed(articleEntry)) {
-        return {
-          busy: true,
-          results: EMPTY,
-        };
-      }
-
       results.set(id, {
         articleEntry,
-        userArticleEntry: isGuaranteed(userArticleEntry)
-          ? userArticleEntry
-          : { ...userArticleEntry, data: { ...BLANK_USER_ARTICLE, id } },
+        userArticleEntry,
       });
     }
 

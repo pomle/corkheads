@@ -10,6 +10,8 @@ import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 import { useContentCache } from "components/hooks/useContentCache";
 import UserToplistViewItem from "./components/UserToplistViewItem";
+import { createArticle } from "types/Article";
+import { createUserArticle } from "types/UserArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -64,8 +66,13 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
                       return (
                         <Item
                           rank={index + 1}
-                          article={articleEntry.data}
-                          userArticle={userArticleEntry.data}
+                          article={
+                            articleEntry.data || createArticle(articleEntry.id)
+                          }
+                          userArticle={
+                            userArticleEntry.data ||
+                            createUserArticle(userArticleEntry.id)
+                          }
                           routes={routes}
                         />
                       );

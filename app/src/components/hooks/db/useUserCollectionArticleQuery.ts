@@ -50,6 +50,7 @@ export function useUserCollectionArticleQuery(
     });
   }, [db, query, setIds]);
 
+  console.log(ids);
   const userId = query.filters.userId;
   return useUserArticleTuple(userId, ids);
 }
