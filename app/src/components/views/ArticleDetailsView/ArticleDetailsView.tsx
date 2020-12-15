@@ -93,7 +93,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </div>
 
           <div className={classes.userSection}>
-            <UserSections userId={userId} articleId={articleId} />
+            <Themer theme="pure">
+              <UserSections userId={userId} articleId={articleId} />
+            </Themer>
           </div>
         </ViewBody>
       </HeaderLayout>
