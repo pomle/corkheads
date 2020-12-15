@@ -66,7 +66,7 @@ const pure: Theme = {
     action: Colors.Navy,
     accent: Colors.Gold,
     surface: Colors.White,
-    text: Colors.MarbleBlue,
+    text: Colors.Sot,
   },
 };
 
