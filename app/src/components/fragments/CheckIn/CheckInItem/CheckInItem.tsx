@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     gridColumn: "1 / 3",
   },
-  subText: {
+  meta: {
     color: theme.color.text,
     fontSize: "12px",
     fontWeight: 500,
@@ -57,7 +57,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   return (
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{displayName}</div>
-      <div></div>
+      <blockquote className={classes.meta}>{checkIn.comment}</blockquote>
       <div className={classes.timestamp}>
         {timestamp && <PassedTime date={timestamp} />}
       </div>
