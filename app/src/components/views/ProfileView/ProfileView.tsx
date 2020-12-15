@@ -17,10 +17,10 @@ import { useUserData } from "components/hooks/db/useUserData";
 interface ProfileViewProps {
   nav: React.ReactNode;
   routes: {
-    collection: string;
-    checkIns: string;
-    toplist: string;
-    wishlist: string;
+    collection: () => string;
+    checkIns: () => string;
+    toplist: () => string;
+    wishlist: () => string;
   };
   userId: string;
 }
