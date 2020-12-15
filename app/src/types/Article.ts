@@ -11,10 +11,14 @@ export type Article = {
   ratingAggregate?: RatingAggregate;
 };
 
-export const DEFAULTS: Article = {
-  id: "",
-  displayName: "",
-};
+export function createArticle(id: string): Article {
+  return {
+    id,
+    displayName: "Unknown",
+  };
+}
+
+export const DEFAULTS = createArticle("corkheads-article");
 
 export const converter = createConverter<Article>({
   to(article) {

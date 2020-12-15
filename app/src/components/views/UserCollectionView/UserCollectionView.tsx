@@ -16,6 +16,7 @@ import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { useContentCache } from "components/hooks/useContentCache";
 import { byDisplayName } from "lib/sort/userArticleTuple";
+import { createArticle } from "types/Article";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -81,14 +82,15 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
               return (
                 <CollectionList>
                   {items.slice(0, size).map(({ articleEntry }) => {
-                    const article = articleEntry.data;
+                    const article =
+                      articleEntry.data || createArticle(articleEntry.id);
 
                     return (
                       <button
                         key={articleEntry.id}
                         onClick={() => routes.article(articleEntry.id)}
                       >
-                        {article && <CollectionArticleItem article={article} />}
+                        <CollectionArticleItem article={article} />
                       </button>
                     );
                   })}

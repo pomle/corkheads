@@ -6,7 +6,7 @@ import {
 import { useMemo } from "react";
 import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
-import { Entry, GuaranteedEntry, isGuaranteed } from "types/Entry";
+import { Entry } from "types/Entry";
 import { ResultMap } from "../store2/ResultMap";
 import { useArticles } from "./useArticles";
 import { useCollection } from "./useCollection";
@@ -20,7 +20,7 @@ export function useCheckIn(checkInId?: string) {
 }
 
 type CheckInTuple = {
-  checkInEntry: GuaranteedEntry<CheckIn>;
+  checkInEntry: Entry<CheckIn>;
   articleEntry: Entry<Article>;
 };
 
@@ -45,15 +45,8 @@ export function useCheckInTuple(
         };
       }
 
-      if (!isGuaranteed(checkInEntry)) {
-        return {
-          busy: true,
-          results: EMPTY,
-        };
-      }
-
-      const articleId = checkInEntry.data.articleId;
-      const articleEntry = articleEntries.get(articleId);
+      const articleId = checkInEntry?.data?.articleId;
+      const articleEntry = articleId && articleEntries.get(articleId);
       if (!articleEntry) {
         return {
           busy: true,
