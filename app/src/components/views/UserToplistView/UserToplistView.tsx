@@ -7,9 +7,9 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import ItemList from "components/ui/layout/ItemList";
-import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 import { useContentCache } from "components/hooks/useContentCache";
+import UserToplistViewItem from "./components/UserToplistViewItem";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -18,20 +18,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   body: {
     margin: "0 16px",
   },
-  item: {
-    alignItems: "center",
-    display: "flex",
-    "& .rank": {
-      color: theme.color.accent + "80",
-      fontFamily: "Bree Serif",
-      fontSize: "24px",
-      paddingRight: "16px",
-    },
-    "& > :last-child": {
-      flex: 1,
-    },
-  },
 }));
+
+const Item = React.memo(UserToplistViewItem);
 
 interface UserToplistViewProps {
   nav: React.ReactNode;
@@ -72,23 +61,13 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
                 <ItemList>
                   {request.results.map(
                     ({ articleEntry, userArticleEntry }, index) => {
-                      const article = articleEntry.data;
-                      const userArticle = userArticleEntry.data;
-
                       return (
-                        <button
-                          key={articleEntry.id}
-                          className={classes.item}
-                          onClick={() => routes.article(articleEntry.id)}
-                        >
-                          <div className="rank">{index + 1}</div>
-                          {article && userArticle && (
-                            <TopArticleItem
-                              article={article}
-                              userArticle={userArticle}
-                            />
-                          )}
-                        </button>
+                        <Item
+                          rank={index + 1}
+                          article={articleEntry.data}
+                          userArticle={userArticleEntry.data}
+                          routes={routes}
+                        />
                       );
                     }
                   )}
