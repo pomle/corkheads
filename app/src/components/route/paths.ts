@@ -2,6 +2,7 @@ import { createPath } from "lib/path";
 import { stringCodec } from "./codecs";
 
 const profileView = createPath("/", {});
+const settingsView = createPath("/settings", {});
 const toplistView = createPath("/toplist", {});
 const collectionView = createPath("/collection", {});
 const checkInsView = createPath("/checkIns", {});
@@ -25,6 +26,7 @@ const checkInPicture = checkInView.append("/picture", {});
 
 export {
   profileView,
+  settingsView,
   toplistView,
   collectionView,
   checkInsView,

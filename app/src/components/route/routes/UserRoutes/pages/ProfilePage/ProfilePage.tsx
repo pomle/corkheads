@@ -1,41 +1,37 @@
-import React, { useMemo, useRef } from "react";
+import React, { useRef } from "react";
 import { useMe } from "components/hooks/useMe";
 import ProfileView from "components/views/ProfileView";
 import ViewStack from "components/ui/layout/ViewStack";
 import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
-import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import LoadingView from "components/views/LoadingView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import NavButton from "components/ui/trigger/NavButton";
-import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
-import * as paths from "components/route/paths";
 
-const ProfilePage: React.FC = () => {
+interface ProfilePageProps {
+  routes: {
+    back: () => void;
+    settings: () => void;
+    collection: () => string;
+    checkIns: () => string;
+    toplist: () => string;
+    wishlist: () => string;
+  };
+}
+
+const ProfilePage: React.FC<ProfilePageProps> = ({ routes }) => {
   const element = useRef<React.ReactElement>();
 
   const user = useMe();
 
-  const signOut = useExplicitLogout();
-
   const nav = (
     <NavigationBar
       forward={
-        <NavButton icon={<SignOutIcon />} onClick={signOut}>
-          Sign out
+        <NavButton icon={null} onClick={routes.settings}>
+          Settings
         </NavButton>
       }
     />
-  );
-
-  const routes = useMemo(
-    () => ({
-      collection: paths.collectionView.url({}),
-      checkIns: paths.checkInsView.url({}),
-      toplist: paths.toplistView.url({}),
-      wishlist: paths.wishlistView.url({}),
-    }),
-    []
   );
 
   return (
