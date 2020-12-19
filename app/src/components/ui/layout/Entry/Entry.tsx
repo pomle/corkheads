@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontWeight: 700,
     },
     "& dd": {
-      "& input": {
+      "& input, & select": {
         background: "none",
         border: "none",
         color: theme.color.action,

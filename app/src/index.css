@@ -33,12 +33,18 @@ a {
 
 a,
 button,
-input {
+input,
+select {
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
-  -webkit-appearance: none;
+  outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+button,
+input {
+  -webkit-appearance: none;
 }
 
 input {
@@ -48,7 +54,6 @@ input {
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
-  outline: none;
 }
 
 button {
