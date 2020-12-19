@@ -18,6 +18,8 @@ import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { debounce } from "lib/debounce";
+import PreviewItem from "./components/PreviewItem/PreviewItem";
+import { getPreviewScore } from "./score";
 
 type StyleProps = {
   busy: boolean;
@@ -43,6 +45,9 @@ const useStyles = makeStyles({
       fontSize: "16px",
     },
     "& .photo": {},
+  },
+  preview: {
+    padding: "16px",
   },
 });
 
@@ -127,6 +132,25 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     return debounce(setBottling, 2500);
   }, [setBottling]);
 
+  const previewArticle = useMemo(() => {
+    const scoreArticle = {
+      ...article,
+      photoURL,
+    };
+
+    const previewScore = getPreviewScore(scoreArticle);
+
+    return {
+      ...scoreArticle,
+      displayName:
+        article.displayName.length > 0 ? article.displayName : "Preview",
+      ratingAggregate: {
+        count: 1,
+        sum: previewScore,
+      },
+    };
+  }, [article, photoURL]);
+
   const canSave = isArticleValid(article) && !handleSave.busy;
 
   const classes = useStyles({ busy: handleSave.busy });
@@ -162,15 +186,20 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
           </div>
         </form>
       </ViewBody>
-      <ButtonField>
-        <MainButton
-          disabled={!canSave}
-          busy={handleSave.busy}
-          onClick={handleSave.callback}
-        >
-          Add now
-        </MainButton>
-      </ButtonField>
+      <ViewCap>
+        <div className={classes.preview}>
+          <PreviewItem article={previewArticle} />
+        </div>
+        <ButtonField>
+          <MainButton
+            disabled={!canSave}
+            busy={handleSave.busy}
+            onClick={handleSave.callback}
+          >
+            Add now
+          </MainButton>
+        </ButtonField>
+      </ViewCap>
     </BurgerLayout>
   );
 };
