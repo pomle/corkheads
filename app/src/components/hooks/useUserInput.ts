@@ -2,7 +2,9 @@ import { useCallback, useMemo, ChangeEvent, useState, useEffect } from "react";
 
 type InputProps = {
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 };
 
 export function useUserInput<T extends Record<string, string>>(
@@ -30,7 +32,9 @@ export function useUserInput<T extends Record<string, string>>(
     for (let key in values) {
       userInput[key] = {
         value: values[key],
-        onChange: (event: ChangeEvent<HTMLInputElement>) => {
+        onChange: (
+          event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+        ) => {
           merge(key, event.target.value);
         },
       };
