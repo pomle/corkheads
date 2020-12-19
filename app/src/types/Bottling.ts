@@ -16,6 +16,13 @@ export type Cask = {
   number?: string;
 };
 
+export enum Category {
+  Blended = "Blended",
+  Bourbon = "Bourbon",
+  Rye = "Rye",
+  SingleMalt = "SingleMalt",
+}
+
 export type Batch = {
   number?: string;
 };
@@ -43,6 +50,7 @@ export type Bottling = {
   label?: string;
   distill: Distill;
   bottler: Bottler;
+  category?: Category;
   series: Series;
   code?: string;
   bottleSize?: string;

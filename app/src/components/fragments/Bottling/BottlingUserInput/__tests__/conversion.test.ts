@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Bottling } from "types/Bottling";
+import { Bottling, Category } from "types/Bottling";
 import { createMockFactory } from "lib/mocks/MockFactory";
 import { toBottling, toEntries } from "../conversion";
 import { Entries } from "../types";
@@ -79,6 +79,18 @@ describe("#toEntries", () => {
     expect(result.bottlingDate).toEqual("");
   });
 
+  it("converts category", () => {
+    bottling.category = Category.Bourbon;
+    const result = toEntries(bottling);
+    expect(result.category).toEqual("Bourbon");
+  });
+
+  it("handles unset category", () => {
+    bottling.category = undefined;
+    const result = toEntries(bottling);
+    expect(result.category).toEqual("");
+  });
+
   it("converts distill batch no", () => {
     bottling.distill.batch.number = "Batch No. 123";
     const result = toEntries(bottling);
@@ -149,6 +161,7 @@ describe("#toBottling", () => {
       bottleSize: "70cl",
       bottlingDate: "1744-07-15",
       bottlingYear: "2007",
+      category: "Bourbon",
       distillBatchNo: "Batch No. 1337",
       distillCaskNo: "Cask No. 9",
       distillCaskType: "Olorosso",
@@ -310,6 +323,18 @@ describe("#toBottling", () => {
     entries.bottlingDate = "";
     const bottling = toBottling(entries);
     expect(bottling).not.toHaveProperty("date");
+  });
+
+  it("converts category to enum", () => {
+    entries.category = "SingleMalt";
+    const bottling = toBottling(entries);
+    expect(bottling.category).toBe(Category.SingleMalt);
+  });
+
+  it("allows category to be empty", () => {
+    entries.category = "";
+    const bottling = toBottling(entries);
+    expect(bottling).not.toHaveProperty("category");
   });
 
   it("finds distill batch no", () => {

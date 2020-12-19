@@ -113,6 +113,47 @@ exports[`BottlingUserInput component renders as expected 1`] = `
           />
         </dd>
       </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Category
+        </dt>
+        <dd>
+          <select
+            onChange={[Function]}
+            placeholder="Type"
+            value=""
+          >
+            <option
+              hidden={true}
+            />
+            <option
+              value="Blended"
+            >
+              Blended
+            </option>
+            <option
+              value="Bourbon"
+            >
+              Bourbon
+            </option>
+            <option
+              value="Rye"
+            >
+              Rye
+            </option>
+            <option
+              value="SingleMalt"
+            >
+              Single Malt
+            </option>
+          </select>
+        </dd>
+      </dl>
     </div>
   </section>
   <section>
@@ -171,6 +212,47 @@ exports[`BottlingUserInput component renders as expected 1`] = `
             type="number"
             value="16"
           />
+        </dd>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <dt>
+          Category
+        </dt>
+        <dd>
+          <select
+            onChange={[Function]}
+            placeholder="Type"
+            value=""
+          >
+            <option
+              hidden={true}
+            />
+            <option
+              value="Blended"
+            >
+              Blended
+            </option>
+            <option
+              value="Bourbon"
+            >
+              Bourbon
+            </option>
+            <option
+              value="Rye"
+            >
+              Rye
+            </option>
+            <option
+              value="SingleMalt"
+            >
+              Single Malt
+            </option>
+          </select>
         </dd>
       </dl>
       <div

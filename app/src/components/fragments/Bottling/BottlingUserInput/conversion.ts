@@ -1,7 +1,7 @@
 import { asABV } from "lib/format/stringify";
 import moment from "moment";
 import { Moment } from "moment";
-import { Bottling, createBottling } from "types/Bottling";
+import { Bottling, Category, createBottling } from "types/Bottling";
 import { Entries } from "./types";
 
 export function toEntries(bottling: Bottling): Entries {
@@ -21,6 +21,7 @@ export function toEntries(bottling: Bottling): Entries {
     bottleSize: bottling.bottleSize || "",
     bottlingDate: dateToString(bottling.date),
     bottlingYear: bottling.year?.toString() || "",
+    category: bottling.category?.toString() || "",
     distillBatchNo: distill.batch.number || "",
     distillCaskNo: distill.cask.number || "",
     distillCaskType: distill.cask.type || "",
@@ -86,6 +87,11 @@ export function toBottling(entries: Entries): Bottling {
     bottling.bottler.country = bottlerCountry;
   }
 
+  const category = toCategoryMaybe(entries.category);
+  if (category) {
+    bottling.category = category;
+  }
+
   const distillerName = entries.distillerName;
   if (distillerName.length > 0) {
     bottling.distill.distillery.name = distillerName;
@@ -148,6 +154,19 @@ function toDateMaybe(source: unknown) {
     return maybeDate;
   }
   return undefined;
+}
+
+function toCategoryMaybe(source: unknown): Category | undefined {
+  switch (source) {
+    case "Blended":
+      return Category.Blended;
+    case "Bourbon":
+      return Category.Bourbon;
+    case "Rye":
+      return Category.Rye;
+    case "SingleMalt":
+      return Category.SingleMalt;
+  }
 }
 
 function fromPercentInput(source: unknown) {
