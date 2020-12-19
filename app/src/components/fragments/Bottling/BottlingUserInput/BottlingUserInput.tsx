@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
 import { useUserInput } from "components/hooks/useUserInput";
-import { Bottling } from "types/Bottling";
+import { Bottling, Category } from "types/Bottling";
 import { toBottling, toEntries } from "./conversion";
 import PercentInput from "./components/PercentInput";
 
@@ -94,6 +94,16 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
     />
   );
 
+  const BottlingCategory = (
+    <select {...userInput.category} placeholder="Type">
+      <option value={undefined} hidden></option>
+      <option value={Category.Blended}>Blended</option>
+      <option value={Category.Bourbon}>Bourbon</option>
+      <option value={Category.Rye}>Rye</option>
+      <option value={Category.SingleMalt}>Single Malt</option>
+    </select>
+  );
+
   const Distillery = (
     <input
       type="text"
@@ -145,6 +155,8 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
           <Entry name="Age">{Age}</Entry>
 
           <Entry name="Alcohol">{Alcohol}</Entry>
+
+          <Entry name="Category">{BottlingCategory}</Entry>
         </EntryList>
       </section>
 
@@ -157,6 +169,8 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
           <Entry name="Date bottled">{BottlingYear}</Entry>
 
           <Entry name="Age">{Age}</Entry>
+
+          <Entry name="Category">{BottlingCategory}</Entry>
 
           <Entry name="Cask No.">{CaskNo}</Entry>
 
