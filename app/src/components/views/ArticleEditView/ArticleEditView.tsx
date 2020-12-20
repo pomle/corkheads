@@ -157,13 +157,14 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
   return (
     <BurgerLayout>
-      <Themer theme="dusk">
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Add drink" />
-        </ViewCap>
-      </Themer>
+      {null}
       <ViewBody>
+        <Themer theme="dusk">
+          <ViewCap>
+            {nav}
+            <ViewTitle title="Add drink" />
+          </ViewCap>
+        </Themer>
         <form className={classes.form}>
           <div className="content">
             <div className="fields">
