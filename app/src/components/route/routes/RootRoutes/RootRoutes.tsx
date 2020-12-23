@@ -7,7 +7,7 @@ import { Article } from "types/Article";
 import * as paths from "components/route/paths";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
-import UserRoutes from "components/route/routes/UserRoutes";
+import HomeRoutes from "components/route/routes/HomeRoutes";
 import FindPage from "./pages/FindPage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
 
@@ -23,7 +23,7 @@ const RootRoutes: React.FC = () => {
 
   return (
     <ViewStack>
-      <UserRoutes />
+      <HomeRoutes />
       <Screen path={paths.articleView} transition={SlideRight}>
         {(params) => <ArticleRoutes articleId={params.articleId} />}
       </Screen>
