@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { PathCodec, Path } from "lib/path";
+import { PathCodec, Path, createPath } from "lib/path";
 
 const Screen = <PathCodecType extends PathCodec>({
   path,
@@ -13,9 +13,13 @@ const Screen = <PathCodecType extends PathCodec>({
   exact?: boolean;
   unmount?: number;
   transition?: React.FC<{ active: boolean }>;
-  children: (
-    params: ReturnType<Path<PathCodecType>["decode"]>
-  ) => React.ReactElement;
+  children: ({
+    params,
+    path,
+  }: {
+    params: ReturnType<Path<PathCodecType>["decode"]>;
+    path: Path<{}>;
+  }) => React.ReactElement;
 }) => {
   const [mount, setMount] = useState<boolean>(true);
 
@@ -27,7 +31,8 @@ const Screen = <PathCodecType extends PathCodec>({
   if (match) {
     if (element.current === null || active) {
       const params = path.decode(match.params);
-      element.current = Component(params);
+      const matchedPath = createPath(match.url, {});
+      element.current = Component({ path: matchedPath, params });
     }
   }
 
