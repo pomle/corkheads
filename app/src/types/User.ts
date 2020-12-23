@@ -19,8 +19,8 @@ export const FALLBACK: User = {
 };
 
 export const converter = createConverter<User>({
-  to(article) {
-    return article;
+  to(user) {
+    return user;
   },
 
   from(snapshot) {
