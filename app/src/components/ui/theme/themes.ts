@@ -7,6 +7,7 @@ export const Colors = {
   Navy: "#1b2230",
   ShinyGold: "#e8cb7b",
   Sky: "#eef2f8",
+  X1: "#a3aab4",
   Slate: "#3d4351",
   Sot: "#8f96a2",
   White: "#ffffff",
