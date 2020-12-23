@@ -8,10 +8,10 @@ import { User } from "types/User";
 import { usePhotoUpload } from "components/hooks/usePhotoUpload";
 import { useSwitch } from "components/hooks/useSwitch";
 import ViewStack from "components/ui/layout/ViewStack";
+import { Colors, Theme } from "components/ui/theme/themes";
+import { useUser } from "components/hooks/db/useUsers";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
-import { Theme } from "components/ui/theme/themes";
-import { useMe } from "components/hooks/useMe";
 
 type StyleProps = {
   canClear: boolean;
@@ -19,11 +19,11 @@ type StyleProps = {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
-  profileHead: {
+  ProfileHead: {
     alignItems: "center",
     display: "flex",
-    flexDirection: "column",
-    marginBottom: "48px",
+    flexDirection: "row",
+    margin: "-16px 24px 24px 24px",
   },
   photoControl: {
     position: "relative",
@@ -47,26 +47,32 @@ const useStyles = makeStyles((theme: Theme) => ({
   photo: {
     border: "dashed 1px",
     borderColor: (props: StyleProps) =>
-      props.hasPhoto ? "transparent" : theme.color.text,
+      props.hasPhoto ? "transparent" : Colors.MarbleBlue,
     borderRadius: "50%",
-    margin: "8px",
     overflow: "hidden",
-    height: "128px",
+    height: "96px",
     transition: "all 1s ease",
-    width: "128px",
+    width: "96px",
     "& .placeholder": {
       alignItems: "center",
       display: "flex",
       justifyContent: "center",
       "& svg": {
-        width: "50%",
+        width: "40%",
+        "& path": {
+          stroke: Colors.MarbleBlue,
+        },
       },
     },
   },
   identity: {
-    color: theme.color.accent,
-    fontSize: "20px",
+    color: Colors.X1,
+    fontSize: "14px",
     margin: "16px",
+    "& .username": {
+      color: Colors.MarbleBlue,
+      fontSize: "12px",
+    },
   },
 }));
 
@@ -86,7 +92,8 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
-  const user = useMe();
+  const user = useUser(userId)?.data;
+
   const { userData, updateProfile } = useUserData(userId);
 
   const clearControl = useSwitch(false);
@@ -126,7 +133,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const classes = useStyles({ canClear, hasPhoto });
 
   return (
-    <div className={classes.profileHead}>
+    <div className={classes.ProfileHead}>
       <div className={classes.photoControl}>
         <button type="button" className="clear" onClick={handleRemove}>
           <CancelIcon />
@@ -146,7 +153,10 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
         </ImageSelect>
       </div>
 
-      <h2 className={classes.identity}>{resolveDisplayName(userData, user)}</h2>
+      <div className={classes.identity}>
+        <h2>{resolveDisplayName(userData, user)}</h2>
+        <div className="username">@{user?.username}</div>
+      </div>
     </div>
   );
 };
