@@ -17,6 +17,8 @@ import { useUserData } from "components/hooks/db/useUserData";
 interface ProfileViewProps {
   nav: React.ReactNode;
   routes: {
+    article: (articleId: string) => void;
+    checkIn: (checkInId: string) => void;
     collection: () => string;
     checkIns: () => string;
     toplist: () => string;
@@ -49,7 +51,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     />
                   }
                 >
-                  <CheckInSection userId={userId} />
+                  <CheckInSection userId={userId} routes={routes} />
                 </Section>
 
                 <Section
@@ -60,7 +62,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     />
                   }
                 >
-                  <ToplistSection userId={userId} />
+                  <ToplistSection userId={userId} routes={routes} />
                 </Section>
 
                 <Section
@@ -71,7 +73,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     />
                   }
                 >
-                  <CollectionSection userId={userId} />
+                  <CollectionSection userId={userId} routes={routes} />
                 </Section>
 
                 <Section
@@ -82,7 +84,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     />
                   }
                 >
-                  <WishlistSection userId={userId} />
+                  <WishlistSection userId={userId} routes={routes} />
                 </Section>
               </SectionList>
             </Panel>

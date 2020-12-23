@@ -5,38 +5,107 @@ import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
 import ArticlePicturePage from "components/route/pages/ArticlePicturePage";
-import * as paths from "components/route/paths";
 import ArticlePage from "./pages/ArticlePage";
 import CheckInCreatePage from "./pages/CheckInCreatePage";
-import * as rootPaths from "../../paths";
+import { Path } from "lib/path";
+import { paths as rootPaths } from "components/route/paths";
 
 interface ArticleRoutesProps {
+  origin: Path<{}>;
+  path: Path<{}>;
+  userId: string;
   articleId: string;
 }
 
-const ArticleRoutes: React.FC<ArticleRoutesProps> = ({ articleId }) => {
+const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
+  userId,
+  articleId,
+  path,
+  origin,
+}) => {
   const history = useHistory();
+
+  const paths = useMemo(
+    () => ({
+      here: path,
+      picture: path.append("/picture", {}),
+      createCheckIn: path.append("/check-in/", {}),
+      checkIn: rootPaths.checkIn,
+    }),
+    [path]
+  );
 
   const routes = useMemo(
     () => ({
-      back: () => {
-        const url = rootPaths.articleView.url({ articleId });
+      prev: () => {
+        const url = origin.url({});
+        history.push(url);
+      },
+      here: () => {
+        const url = path.url({});
+        history.push(url);
+      },
+      checkIn: (checkInId: string) => {
+        const url = paths.checkIn.url({ checkInId });
         history.push(url);
       },
     }),
-    [articleId, history]
+    [origin, path, paths, history]
+  );
+
+  const articlePageRoutes = useMemo(
+    () => ({
+      back: routes.prev,
+      picture: () => {
+        const url = paths.picture.url({});
+        history.push(url);
+      },
+      createCheckIn: () => {
+        const url = paths.createCheckIn.url({});
+        history.push(url);
+      },
+      checkIn: routes.checkIn,
+    }),
+    [routes, paths, history]
+  );
+
+  const picturePageRoutes = useMemo(
+    () => ({
+      back: routes.here,
+    }),
+    [routes]
+  );
+
+  const createCheckInPageRoutes = useMemo(
+    () => ({
+      back: routes.here,
+      checkIn: routes.checkIn,
+    }),
+    [routes]
   );
 
   return (
     <ViewStack>
-      <ArticlePage articleId={articleId} />
-      <Screen path={paths.articlePicture} transition={ZoomCenter}>
-        {(params) => (
-          <ArticlePicturePage routes={routes} articleId={params.articleId} />
+      <ArticlePage
+        routes={articlePageRoutes}
+        userId={userId}
+        articleId={articleId}
+      />
+      <Screen path={paths.picture} transition={ZoomCenter}>
+        {() => (
+          <ArticlePicturePage
+            routes={picturePageRoutes}
+            articleId={articleId}
+          />
         )}
       </Screen>
-      <Screen path={paths.articleCheckIn} transition={SlideRight}>
-        {(params) => <CheckInCreatePage articleId={params.articleId} />}
+      <Screen path={paths.createCheckIn} transition={SlideRight}>
+        {() => (
+          <CheckInCreatePage
+            routes={createCheckInPageRoutes}
+            articleId={articleId}
+          />
+        )}
       </Screen>
     </ViewStack>
   );

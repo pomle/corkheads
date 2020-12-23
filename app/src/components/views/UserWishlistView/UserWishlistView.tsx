@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useMemo } from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -11,7 +10,6 @@ import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
-import * as paths from "components/route/paths";
 import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useScrollSize } from "components/hooks/useScrollSize";
@@ -43,16 +41,6 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
   routes,
   userId,
 }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
   const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
 
   const query = useMemo((): UserWishlistArticleQuery => {
@@ -98,7 +86,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
                     return (
                       <button
                         key={articleEntry.id}
-                        onClick={() => goToArticle(articleEntry.id)}
+                        onClick={() => routes.article(articleEntry.id)}
                       >
                         {article && <WishlistArticleItem article={article} />}
                       </button>

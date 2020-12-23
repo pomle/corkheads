@@ -73,14 +73,16 @@ interface CheckInCreateViewProps {
   nav: React.ReactNode;
   article: Article;
   user: User;
-  onSuccess: (checkInId: string) => void;
+  routes: {
+    checkIn: (checkInId: string) => void;
+  };
 }
 
 const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   nav,
   article,
   user,
-  onSuccess,
+  routes,
 }) => {
   const initial = useMemo(() => createCheckIn(article, user), [article, user]);
 
@@ -126,8 +128,8 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const handleCheckIn = useAsyncCallback(
     useCallback(async () => {
       const ref = await commitCheckIn({ user, checkIn, file });
-      onSuccess(ref.id);
-    }, [file, user, checkIn, commitCheckIn, onSuccess])
+      routes.checkIn(ref.id);
+    }, [file, user, checkIn, routes, commitCheckIn])
   );
 
   const canCheckIn = isCheckInValid(checkIn) && !handleCheckIn.busy;

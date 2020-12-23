@@ -1,68 +1,40 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import ArticleDetailsView from "components/views/ArticleDetailsView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
-import * as paths from "components/route/paths";
-import { useMe } from "components/hooks/useMe";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
-import LoadingView from "components/views/LoadingView";
 
 interface ArticlePageProps {
   articleId: string;
+  userId: string;
+  routes: {
+    back: () => void;
+    checkIn: (checkInId: string) => void;
+    createCheckIn: () => void;
+    picture: () => void;
+  };
 }
 
-const ArticlePage: React.FC<ArticlePageProps> = ({ articleId }) => {
-  const history = useHistory();
-
-  const goToProfile = useCallback(() => {
-    const url = paths.profileView.url({});
-    history.push(url);
-  }, [history]);
-
-  const user = useMe();
-
+const ArticlePage: React.FC<ArticlePageProps> = ({
+  userId,
+  articleId,
+  routes,
+}) => {
   const nav = (
-    <NavigationBar
-      back={<BackButton onClick={goToProfile}>Profile</BackButton>}
-    />
-  );
-
-  const routes = useMemo(
-    () => ({
-      picture: () => {
-        const url = paths.articlePicture.url({ articleId });
-        history.push(url);
-      },
-      createCheckIn: () => {
-        const url = paths.articleCheckIn.url({ articleId });
-        history.push(url);
-      },
-      checkIn: (checkInId: string) => {
-        const url = paths.checkInView.url({ checkInId });
-        history.push(url);
-      },
-    }),
-    [history, articleId]
+    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
   );
 
   return (
     <ErrorBoundary nav={nav}>
-      {() => {
-        if (!user) {
-          return <LoadingView nav={nav} />;
-        }
-
-        return (
-          <ArticleDetailsView
-            key={articleId}
-            nav={nav}
-            routes={routes}
-            userId={user.id}
-            articleId={articleId}
-          />
-        );
-      }}
+      {() => (
+        <ArticleDetailsView
+          key={articleId}
+          nav={nav}
+          routes={routes}
+          userId={userId}
+          articleId={articleId}
+        />
+      )}
     </ErrorBoundary>
   );
 };

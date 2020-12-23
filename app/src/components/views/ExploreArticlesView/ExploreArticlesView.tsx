@@ -13,7 +13,6 @@ import Themer from "components/ui/theme/Themer";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
 import SearchArticleItem from "components/fragments/Article/SearchArticleItem";
-import * as paths from "components/route/paths";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
 import { Colors } from "components/ui/theme/themes";
 import {
@@ -21,7 +20,6 @@ import {
   useArticleSearch,
 } from "components/hooks/db/useArticleSearch";
 import { useSearchHistory } from "components/hooks/db/useSearchHistory";
-import { User } from "types/User";
 import EntryList from "components/ui/layout/EntryList";
 import PassedTime from "components/ui/format/PassedTime";
 
@@ -48,17 +46,18 @@ const MIN_QUERY_LENGTH = 3;
 
 interface ExploreArticlesViewProps {
   nav: React.ReactNode;
-  user: User;
-  onSelect: (article: Article) => void;
+  userId: string;
+  routes: {
+    article: (articleId: string) => void;
+    createArticle: () => string;
+  };
 }
 
 const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
   nav,
-  user,
-  onSelect,
+  userId,
+  routes,
 }) => {
-  const createURL = useMemo(() => paths.articleCreate.url({}), []);
-
   const [query, setQuery] = useState<string>("");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
@@ -69,25 +68,25 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
         text: executedQuery,
       },
       filters: {
-        userIds: [user.id],
+        userIds: [userId],
       },
     }),
-    [executedQuery, user]
+    [executedQuery, userId]
   );
 
   const searchRequest = useArticleSearch(searchQuery);
   const results = searchRequest.results;
 
-  const searchHistory = useSearchHistory(user.id);
+  const searchHistory = useSearchHistory(userId);
 
   const handleSelect = useCallback(
     (article: Article) => {
       searchHistory.add({
         text: searchQuery.search.text,
       });
-      onSelect(article);
+      routes.article(article.id);
     },
-    [searchQuery, searchHistory, onSelect]
+    [searchQuery, searchHistory, routes]
   );
 
   const classes = useStyles();
@@ -134,7 +133,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
 
               <TextItem>
                 Can't find the drink you're looking for?{" "}
-                <Link to={createURL}>Add it!</Link>
+                <Link to={routes.createArticle}>Add it!</Link>
               </TextItem>
             </ItemList>
           ) : (

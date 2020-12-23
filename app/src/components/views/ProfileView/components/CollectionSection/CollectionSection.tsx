@@ -1,28 +1,22 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useMemo } from "react";
 import CollectionArticleItem from "components/fragments/Article/CollectionArticleItem";
 import CollectionList from "components/ui/layout/CollectionList";
 import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
-import * as paths from "components/route/paths";
 
 interface CollectionSectionProps {
   userId: string;
+  routes: {
+    article: (articleId: string) => void;
+  };
 }
 
-const CollectionSection: React.FC<CollectionSectionProps> = ({ userId }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
+const CollectionSection: React.FC<CollectionSectionProps> = ({
+  userId,
+  routes,
+}) => {
   const query = useMemo((): UserCollectionArticleQuery => {
     return {
       filters: {
@@ -43,7 +37,7 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({ userId }) => {
         return (
           <button
             key={articleEntry.id}
-            onClick={() => goToArticle(articleEntry.id)}
+            onClick={() => routes.article(articleEntry.id)}
           >
             {article && <CollectionArticleItem article={article} />}
           </button>
