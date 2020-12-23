@@ -1,10 +1,17 @@
 import React, { useMemo } from "react";
+import { makeStyles } from "@material-ui/styles";
 import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
-import ItemList from "components/ui/layout/ItemList";
 import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
+
+const useStyles = makeStyles({
+  list: {
+    display: "grid",
+    gridGap: "16px",
+  },
+});
 
 interface WishlistSectionProps {
   userId: string;
@@ -29,8 +36,10 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
 
   const request = useUserWishlistArticleQuery(query);
 
+  const classes = useStyles();
+
   return (
-    <ItemList>
+    <div className={classes.list}>
       {request.results.map(({ articleEntry }) => {
         const article = articleEntry.data;
 
@@ -43,7 +52,7 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
           </button>
         );
       })}
-    </ItemList>
+    </div>
   );
 };
 

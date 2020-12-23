@@ -7,20 +7,17 @@ import { Colors, Theme } from "components/ui/theme/themes";
 const useStyles = makeStyles((theme: Theme) => ({
   WishlistItem: {
     alignItems: "center",
-    background: Colors.White + "a0",
-    borderRadius: "16px",
-    boxShadow: "0 1px 4px #e7e8e9",
+    background: Colors.Sky,
+    borderRadius: "12px",
     display: "grid",
     gridAutoFlow: "column",
-    gridTemplateColumns: "64px auto",
-    gridGap: "16px",
-    padding: "4px",
+    gridTemplateColumns: "72px auto",
   },
   photo: {
-    borderRadius: "12px",
+    borderRadius: "12px 0 0 12px",
     overflow: "hidden",
-    height: "64px",
-    width: "64px",
+    height: "72px",
+    width: "72px",
   },
   displayName: {
     color: "#1b2230",
@@ -33,7 +30,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: "12px",
     fontWeight: 500,
   },
-  content: {},
+  content: {
+    padding: "16px",
+  },
 }));
 
 interface WishlistArticleItemProps {
