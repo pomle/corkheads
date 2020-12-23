@@ -12,7 +12,7 @@ import WishlistPage from "./pages/WishlistPage";
 import SettingsPage from "./pages/SettingsPage";
 import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 
-const UserRoutes: React.FC = () => {
+const HomeRoutes: React.FC = () => {
   const history = useHistory();
 
   const signOut = useExplicitLogout();
@@ -66,4 +66,4 @@ const UserRoutes: React.FC = () => {
   );
 };
 
-export default UserRoutes;
+export default HomeRoutes;
