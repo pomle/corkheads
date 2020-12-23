@@ -5,8 +5,6 @@ import { Theme } from "components/ui/theme/themes";
 const useStyles = makeStyles((theme: Theme) => ({
   Panel: {
     background: theme.color.surface,
-    borderRadius: "16px 0 0 16px",
-    overflow: "hidden",
     padding: "8px 0",
   },
 }));
