@@ -65,6 +65,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
                     ({ articleEntry, userArticleEntry }, index) => {
                       return (
                         <Item
+                          key={articleEntry.id}
                           rank={index + 1}
                           article={
                             articleEntry.data || createArticle(articleEntry.id)

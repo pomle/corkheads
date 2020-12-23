@@ -1,25 +1,16 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import ItemList from "components/ui/layout/ItemList";
-import * as paths from "components/route/paths";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 
 interface ToplistSectionProps {
   userId: string;
+  routes: {
+    article: (articleId: string) => void;
+  };
 }
 
-const ToplistSection: React.FC<ToplistSectionProps> = ({ userId }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
+const ToplistSection: React.FC<ToplistSectionProps> = ({ userId, routes }) => {
   const request = useUserArticleToplistQuery(userId, 3);
 
   return (
@@ -31,7 +22,7 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId }) => {
         return (
           <button
             key={articleEntry.id}
-            onClick={() => goToArticle(articleEntry.id)}
+            onClick={() => routes.article(articleEntry.id)}
           >
             {article && userArticle && (
               <TopArticleItem article={article} userArticle={userArticle} />

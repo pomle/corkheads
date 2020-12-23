@@ -1,12 +1,9 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { useHistory } from "react-router-dom";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article } from "types/Article";
-import * as paths from "components/route/paths";
-import { User } from "types/User";
 import { useBottling, useCommitArticle } from "./hooks";
 import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
@@ -57,25 +54,17 @@ function isArticleValid(article: Article) {
 
 interface ArticleEditViewProps {
   nav: React.ReactNode;
-  user: User;
   article: Article;
+  routes: {
+    article: (articleId: string) => void;
+  };
 }
 
 const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   nav,
-  user,
   article: initial,
+  routes,
 }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
   const [photoURL, setPhotoURL] = useState<string>();
   const [file, setFile] = useState<File>();
   const [article, setArticle] = useState<Article>(initial);
@@ -120,10 +109,10 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
   const handleSave = useAsyncCallback(
     useCallback(async () => {
-      const ref = await commitArticle({ user, article, file });
+      const ref = await commitArticle({ article, file });
       const articleId = ref.id;
-      goToArticle(articleId);
-    }, [file, user, article, commitArticle, goToArticle])
+      routes.article(articleId);
+    }, [file, article, commitArticle, routes])
   );
 
   const bottling = useBottling(article);

@@ -1,6 +1,4 @@
-import React, { useCallback } from "react";
-import { useHistory } from "react-router-dom";
-import * as paths from "components/route/paths";
+import React from "react";
 import * as Trans from "./locales";
 import { makeStyles } from "@material-ui/styles";
 import { Colors, Theme } from "components/ui/theme/themes";
@@ -44,19 +42,20 @@ const useStyles = makeStyles((theme: Theme) => {
   };
 });
 
-const FindDrinkOverlayView: React.FC = () => {
-  const history = useHistory();
+interface FindDrinkOverlayViewProps {
+  routes: {
+    search: () => void;
+  };
+}
 
-  const goToExplore = useCallback(() => {
-    const url = paths.exploreArticles.url({});
-    history.push(url);
-  }, [history]);
-
+const FindDrinkOverlayView: React.FC<FindDrinkOverlayViewProps> = ({
+  routes,
+}) => {
   const classes = useStyles();
 
   return (
     <div className={classes.FindDrinkOverlayView}>
-      <button onClick={goToExplore} className={classes.button}>
+      <button onClick={routes.search} className={classes.button}>
         <Trans.FindDrink />
       </button>
     </div>

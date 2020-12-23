@@ -1,28 +1,22 @@
-import React, { useCallback, useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useMemo } from "react";
 import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import ItemList from "components/ui/layout/ItemList";
 import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
-import * as paths from "components/route/paths";
 
 interface WishlistSectionProps {
   userId: string;
+  routes: {
+    article: (article: string) => void;
+  };
 }
 
-const WishlistSection: React.FC<WishlistSectionProps> = ({ userId }) => {
-  const history = useHistory();
-
-  const goToArticle = useCallback(
-    (articleId: string) => {
-      const url = paths.articleView.url({ articleId });
-      history.push(url);
-    },
-    [history]
-  );
-
+const WishlistSection: React.FC<WishlistSectionProps> = ({
+  userId,
+  routes,
+}) => {
   const query = useMemo((): UserWishlistArticleQuery => {
     return {
       filters: {
@@ -43,7 +37,7 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({ userId }) => {
         return (
           <button
             key={articleEntry.id}
-            onClick={() => goToArticle(articleEntry.id)}
+            onClick={() => routes.article(articleEntry.id)}
           >
             {article && <WishlistArticleItem article={article} />}
           </button>

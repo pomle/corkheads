@@ -1,7 +1,5 @@
 import React from "react";
 import NavigationBar from "components/ui/layout/NavigationBar";
-import { useHistory } from "react-router-dom";
-import { Article } from "types/Article";
 import ExploreArticlesView from "components/views/ExploreArticlesView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import CancelButton from "components/ui/trigger/CancelButton/CancelButton";
@@ -9,16 +7,19 @@ import { useMe } from "components/hooks/useMe";
 import LoadingView from "components/views/LoadingView";
 
 interface FindPageProps {
-  onSelect: (article: Article) => void;
+  routes: {
+    article: (articleId: string) => void;
+    cancel: () => void;
+    createArticle: () => string;
+  };
 }
 
-const FindPage: React.FC<FindPageProps> = ({ onSelect }) => {
-  const history = useHistory();
+const FindPage: React.FC<FindPageProps> = ({ routes }) => {
   const user = useMe();
 
   const nav = (
     <NavigationBar
-      back={<CancelButton onClick={history.goBack}>Cancel</CancelButton>}
+      back={<CancelButton onClick={routes.cancel}>Cancel</CancelButton>}
     />
   );
 
@@ -28,7 +29,7 @@ const FindPage: React.FC<FindPageProps> = ({ onSelect }) => {
 
   return (
     <ErrorBoundary nav={nav}>
-      {() => <ExploreArticlesView nav={nav} user={user} onSelect={onSelect} />}
+      {() => <ExploreArticlesView nav={nav} userId={user.id} routes={routes} />}
     </ErrorBoundary>
   );
 };

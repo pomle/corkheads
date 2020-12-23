@@ -3,35 +3,94 @@ import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
-import * as paths from "components/route/paths";
 import CheckInPage from "./pages/CheckInPage";
 import CheckInPicturePage from "./pages/CheckInPicturePage";
-import * as rootPaths from "../../paths";
+import { Path } from "lib/path";
+import { stringCodec } from "components/route/codecs";
+import { SlideRight } from "components/ui/transitions/Slide";
+import ArticleRoutes from "components/route/routes/ArticleRoutes";
 
 interface CheckInRoutesProps {
+  origin: Path<{}>;
+  path: Path<{}>;
+  userId: string;
   checkInId: string;
 }
 
-const CheckInRoutes: React.FC<CheckInRoutesProps> = ({ checkInId }) => {
+const CheckInRoutes: React.FC<CheckInRoutesProps> = ({
+  userId,
+  checkInId,
+  origin,
+  path,
+}) => {
   const history = useHistory();
+
+  const paths = useMemo(
+    () => ({
+      article: path.append("/article/:articleId", { articleId: stringCodec }),
+      picture: path.append("/picture", {}),
+    }),
+    [path]
+  );
 
   const routes = useMemo(
     () => ({
-      back: () => {
-        const url = rootPaths.checkInView.url({ checkInId });
+      prev() {
+        const url = origin.url({});
+        history.push(url);
+      },
+      here() {
+        const url = path.url({});
         history.push(url);
       },
     }),
-    [checkInId, history]
+    [path, origin, history]
+  );
+
+  const checkInPageRoutes = useMemo(
+    () => ({
+      back: routes.prev,
+      picture() {
+        const url = paths.picture.url({});
+        history.push(url);
+      },
+      article(articleId: string) {
+        const url = paths.article.url({ articleId });
+        history.push(url);
+      },
+    }),
+    [routes, paths, history]
+  );
+
+  const picturePageRoutes = useMemo(
+    () => ({
+      back: routes.here,
+    }),
+    [routes]
   );
 
   return (
     <ViewStack>
-      <CheckInPage checkInId={checkInId} />
-      <Screen path={paths.checkInPicture} transition={ZoomCenter}>
-        {(params) => (
-          <CheckInPicturePage routes={routes} checkInId={params.checkInId} />
+      <CheckInPage routes={checkInPageRoutes} checkInId={checkInId} />
+      <Screen path={paths.picture} transition={ZoomCenter}>
+        {() => (
+          <CheckInPicturePage
+            routes={picturePageRoutes}
+            checkInId={checkInId}
+          />
         )}
+      </Screen>
+      <Screen path={paths.article} transition={SlideRight}>
+        {(match) => {
+          return (
+            <ArticleRoutes
+              origin={path}
+              path={match.path}
+              userId={userId}
+              articleId={match.params.articleId}
+            />
+          );
+        }}
       </Screen>
     </ViewStack>
   );
