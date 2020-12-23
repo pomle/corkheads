@@ -4,7 +4,8 @@ import ViewStack from "components/ui/layout/ViewStack";
 import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
-import NavButton from "components/ui/trigger/NavButton";
+import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";
+import NavIcon from "components/ui/trigger/NavIcon";
 
 interface ProfilePageProps {
   userId: string;
@@ -24,9 +25,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ routes, userId }) => {
   const nav = (
     <NavigationBar
       forward={
-        <NavButton icon={null} onClick={routes.settings}>
-          Settings
-        </NavButton>
+        <NavIcon onClick={routes.settings}>
+          <CogIcon />
+        </NavIcon>
       }
     />
   );
