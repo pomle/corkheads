@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import ViewBody from "components/ui/layout/ViewBody";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
@@ -13,6 +14,19 @@ import WishlistSection from "./components/WishlistSection";
 import CheckInSection from "./components/CheckInSection";
 import ToplistSection from "./components/ToplistSection";
 import { useUserData } from "components/hooks/db/useUserData";
+import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
+
+const useStyles = makeStyles({
+  sectionControl: {
+    borderBottom: "dashed 1px #dde4ef",
+    padding: "8px",
+  },
+});
+
+enum ProfileSection {
+  Community,
+  Dashboard,
+}
 
 interface ProfileViewProps {
   nav: React.ReactNode;
@@ -28,9 +42,15 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
+  const [section, setSection] = useState<ProfileSection>(
+    ProfileSection.Community
+  );
+
   const { userData } = useUserData(userId);
 
   const { collectionSize, checkInCount, wishlistSize } = userData;
+
+  const classes = useStyles();
 
   return (
     <Themer theme="dusk">
@@ -42,6 +62,17 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
 
           <Themer theme="pure">
             <Panel>
+              <div className={classes.sectionControl}>
+                <PillSwitch selected={section} onChange={setSection}>
+                  <PillSwitchItem value={ProfileSection.Community}>
+                    Community
+                  </PillSwitchItem>
+                  <PillSwitchItem value={ProfileSection.Dashboard}>
+                    Dashboard
+                  </PillSwitchItem>
+                </PillSwitch>
+              </div>
+
               <SectionList>
                 <Section
                   header={
