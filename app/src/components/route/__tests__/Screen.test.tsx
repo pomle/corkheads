@@ -42,7 +42,7 @@ describe("Screen component", () => {
 
   beforeEach(() => {
     jest.useFakeTimers();
-    elementMock = jest.fn((params) => <FakeContent params={params} />);
+    elementMock = jest.fn(({ params }) => <FakeContent params={params} />);
     transitionMock = jest.fn(FakeTransition);
   });
 
@@ -132,7 +132,17 @@ describe("Screen component", () => {
     });
 
     it("has called element with params", () => {
-      expect(elementMock).toHaveBeenCalledWith({ myId: "123" });
+      expect(elementMock).toHaveBeenCalledWith(
+        expect.objectContaining({ params: { myId: "123" } })
+      );
+    });
+
+    it("has called element with matching path", () => {
+      expect(elementMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          path: expect.objectContaining({ path: "/router/123" }),
+        })
+      );
     });
 
     describe("then updating", () => {
