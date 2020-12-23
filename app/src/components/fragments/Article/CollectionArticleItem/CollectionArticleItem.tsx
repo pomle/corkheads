@@ -1,18 +1,18 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Article } from "types/Article";
+import { Colors } from "components/ui/theme/themes";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 
 const useStyles = makeStyles({
   content: {
-    padding: "24px 0",
+    padding: "16px",
     textAlign: "center",
   },
   displayName: {
-    color: "#1b2230",
+    color: Colors.Navy,
     fontSize: "14px",
     fontWeight: 700,
-    gridColumn: "1 / 3",
   },
   subText: {
     color: "#727985",

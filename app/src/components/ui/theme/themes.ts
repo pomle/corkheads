@@ -3,6 +3,7 @@ export const Colors = {
   Cream: "#f2ecdd",
   Gold: "#c9b47a",
   MarbleBlue: "#5f6674",
+  X2: "#dde4ef",
   Milk: "#f9f6ee",
   Navy: "#1b2230",
   ShinyGold: "#e8cb7b",

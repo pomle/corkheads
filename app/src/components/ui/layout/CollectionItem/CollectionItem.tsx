@@ -1,23 +1,21 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import { Colors } from "components/ui/theme/themes";
 import Photo from "../Photo";
 
 const useStyles = makeStyles({
   CollectionItem: {
     alignItems: "center",
-    background: "#fff",
-    border: "solid 1px #e2e2e2",
-    borderRadius: "16px",
-    boxShadow: "0 0 10px #fdfdfd",
+    background: Colors.Sky,
+    borderRadius: "12px",
     display: "flex",
     flexFlow: "column",
+    overflow: "hidden",
     height: "100%",
-    padding: "4px",
     width: "min-content",
   },
   photo: {
-    borderRadius: "12px",
-    overflow: "hidden",
+    background: Colors.X2,
     height: "144px",
     width: "144px",
   },
