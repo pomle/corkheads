@@ -5,7 +5,7 @@ import { Colors } from "components/ui/theme/themes";
 const useStyles = makeStyles({
   PillSwitch: {
     background: Colors.X2,
-    borderRadius: "4px",
+    borderRadius: "8px",
     display: "flex",
     justifyContent: "space-around",
     overflow: "hidden",
