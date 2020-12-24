@@ -1,7 +1,5 @@
 import React from "react";
-import { useMe } from "components/hooks/useMe";
 import NavigationBar from "components/ui/layout/NavigationBar";
-import LoadingView from "components/views/LoadingView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import NavButton from "components/ui/trigger/NavButton";
 import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
@@ -9,15 +7,14 @@ import UserSettingsView from "components/views/UserSettingsView";
 import BackButton from "components/ui/trigger/BackButton";
 
 interface SettingsPageProps {
+  userId: string;
   routes: {
     signOut: () => void;
     back: () => void;
   };
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = ({ routes }) => {
-  const user = useMe();
-
+const SettingsPage: React.FC<SettingsPageProps> = ({ userId, routes }) => {
   const nav = (
     <NavigationBar
       back={<BackButton onClick={routes.back}>Done</BackButton>}
@@ -32,11 +29,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ routes }) => {
   return (
     <ErrorBoundary nav={nav}>
       {() => {
-        if (!user) {
-          return <LoadingView nav={nav} />;
-        }
-
-        return <UserSettingsView nav={nav} userId={user.id} />;
+        return <UserSettingsView nav={nav} userId={userId} />;
       }}
     </ErrorBoundary>
   );

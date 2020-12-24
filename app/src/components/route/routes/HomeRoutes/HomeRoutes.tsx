@@ -106,7 +106,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       <ViewStack>
         <ProfilePage userId={user.id} routes={profilePageRoutes} />
         <Screen path={paths.settings} transition={SlideRight}>
-          {() => <SettingsPage routes={settingsPageRoutes} />}
+          {() => <SettingsPage userId={user.id} routes={settingsPageRoutes} />}
         </Screen>
         <Screen path={paths.toplist} transition={SlideRight}>
           {(match) => (
