@@ -16,6 +16,7 @@ import ToplistSection from "./components/ToplistSection";
 import { useUserData } from "components/hooks/db/useUserData";
 import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
 import SlidingWindow from "components/ui/transitions/SlidingWindow";
+import UserCheckInSection from "./components/UserCheckInSection";
 
 const useStyles = makeStyles({
   sectionControl: {
@@ -79,7 +80,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                   <Section
                     header={
                       <SectionTitle
-                        main={<>Check ins ({checkInCount})</>}
+                        main="Recent check ins"
                         context={<Link to={routes.checkIns}>See all ›</Link>}
                       />
                     }
@@ -97,7 +98,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                       />
                     }
                   >
-                    <CheckInSection userId={userId} routes={routes} />
+                    <UserCheckInSection userId={userId} routes={routes} />
                   </Section>
 
                   <Section
