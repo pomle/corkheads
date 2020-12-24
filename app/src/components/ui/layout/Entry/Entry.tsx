@@ -4,11 +4,13 @@ import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Entry: {
-    alignItems: "center",
-    display: "flex",
-    margin: 0,
-    padding: 0,
-    justifyContent: "space-between",
+    "& label": {
+      alignItems: "center",
+      display: "flex",
+      margin: 0,
+      padding: 0,
+      justifyContent: "space-between",
+    },
     "& dt": {
       color: theme.color.text,
       fontSize: "12px",
@@ -40,8 +42,10 @@ const Entry: React.FC<EntryProps> = ({ name, children }) => {
   const classes = useStyles();
   return (
     <dl className={classes.Entry}>
-      <dt>{name}</dt>
-      <dd>{children}</dd>
+      <label>
+        <dt>{name}</dt>
+        <dd>{children}</dd>
+      </label>
     </dl>
   );
 };
