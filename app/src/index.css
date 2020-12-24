@@ -60,6 +60,7 @@ button {
   background: none;
   border: none;
   color: #838383;
+  cursor: pointer;
   font-size: 16px;
   font-weight: 500;
   outline: none;
