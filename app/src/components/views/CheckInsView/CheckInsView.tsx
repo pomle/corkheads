@@ -15,6 +15,7 @@ import { useContentCache } from "components/hooks/useContentCache";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import CheckInsViewItem from "./components/CheckInsViewItem";
+import { createCheckIn } from "types/CheckIn";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -87,7 +88,9 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
                       return (
                         <Item
                           key={checkInEntry.id}
-                          checkIn={checkInEntry.data}
+                          checkIn={
+                            checkInEntry.data || createCheckIn(checkInEntry.id)
+                          }
                           article={articleEntry.data}
                           onClick={routes.checkIn}
                         />
