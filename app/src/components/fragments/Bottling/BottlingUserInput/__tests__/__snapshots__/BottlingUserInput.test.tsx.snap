@@ -11,148 +11,162 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Label
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Label name"
-            type="text"
-            value="Old Marks"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Series
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Series name"
-            type="text"
-            value="Serial Drink"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Distillery
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Name of distiller"
-            type="text"
-            value="Brukveda"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Bottled by
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Name of bottler"
-            type="text"
-            value="Bottlerama"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Age
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="# of years"
-            type="number"
-            value="16"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Alcohol
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="%"
-            type="text"
-            value="48.2%"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Category
-        </dt>
-        <dd>
-          <select
-            onChange={[Function]}
-            placeholder="Type"
-            value=""
-          >
-            <option
-              hidden={true}
+        <label>
+          <dt>
+            Label
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Label name"
+              type="text"
+              value="Old Marks"
             />
-            <option
-              value="Blended"
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Series
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Series name"
+              type="text"
+              value="Serial Drink"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Distillery
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Name of distiller"
+              type="text"
+              value="Brukveda"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Bottled by
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Name of bottler"
+              type="text"
+              value="Bottlerama"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Age
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="# of years"
+              type="number"
+              value="16"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Alcohol
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="%"
+              type="text"
+              value="48.2%"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            <select
+              onChange={[Function]}
+              placeholder="Type"
+              value=""
             >
-              Blended
-            </option>
-            <option
-              value="Bourbon"
-            >
-              Bourbon
-            </option>
-            <option
-              value="Rye"
-            >
-              Rye
-            </option>
-            <option
-              value="SingleMalt"
-            >
-              Single Malt
-            </option>
-          </select>
-        </dd>
+              <option
+                hidden={true}
+              />
+              <option
+                value="Blended"
+              >
+                Blended
+              </option>
+              <option
+                value="Bourbon"
+              >
+                Bourbon
+              </option>
+              <option
+                value="Rye"
+              >
+                Rye
+              </option>
+              <option
+                value="SingleMalt"
+              >
+                Single Malt
+              </option>
+            </select>
+          </dd>
+        </label>
       </dl>
     </div>
   </section>
@@ -166,94 +180,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Date distilled
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Year"
-            type="number"
-            value="1724"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Date bottled
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Year"
-            type="number"
-            value="1923"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Age
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="# of years"
-            type="number"
-            value="16"
-          />
-        </dd>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <dt>
-          Category
-        </dt>
-        <dd>
-          <select
-            onChange={[Function]}
-            placeholder="Type"
-            value=""
-          >
-            <option
-              hidden={true}
+        <label>
+          <dt>
+            Date distilled
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Year"
+              type="number"
+              value="1724"
             />
-            <option
-              value="Blended"
-            >
-              Blended
-            </option>
-            <option
-              value="Bourbon"
-            >
-              Bourbon
-            </option>
-            <option
-              value="Rye"
-            >
-              Rye
-            </option>
-            <option
-              value="SingleMalt"
-            >
-              Single Malt
-            </option>
-          </select>
-        </dd>
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -261,17 +200,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Cask No.
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Cask serial no."
-            type="text"
-            value="Cask No. 6125"
-          />
-        </dd>
+        <label>
+          <dt>
+            Date bottled
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Year"
+              type="number"
+              value="1923"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -279,17 +220,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Cask type
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Olorosso, Bourbon"
-            type="text"
-            value="Olorosso"
-          />
-        </dd>
+        <label>
+          <dt>
+            Age
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="# of years"
+              type="number"
+              value="16"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -297,17 +240,42 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Batch No.
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Batch serial no."
-            type="text"
-            value="Batch No. 123"
-          />
-        </dd>
+        <label>
+          <dt>
+            Category
+          </dt>
+          <dd>
+            <select
+              onChange={[Function]}
+              placeholder="Type"
+              value=""
+            >
+              <option
+                hidden={true}
+              />
+              <option
+                value="Blended"
+              >
+                Blended
+              </option>
+              <option
+                value="Bourbon"
+              >
+                Bourbon
+              </option>
+              <option
+                value="Rye"
+              >
+                Rye
+              </option>
+              <option
+                value="SingleMalt"
+              >
+                Single Malt
+              </option>
+            </select>
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -315,17 +283,79 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Alcohol
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="%"
-            type="text"
-            value="48.2%"
-          />
-        </dd>
+        <label>
+          <dt>
+            Cask No.
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Cask serial no."
+              type="text"
+              value="Cask No. 6125"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Cask type
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Olorosso, Bourbon"
+              type="text"
+              value="Olorosso"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Batch No.
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Batch serial no."
+              type="text"
+              value="Batch No. 123"
+            />
+          </dd>
+        </label>
+      </dl>
+      <div
+        className="Divider"
+      />
+      <dl
+        className="Entry"
+      >
+        <label>
+          <dt>
+            Alcohol
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="%"
+              type="text"
+              value="48.2%"
+            />
+          </dd>
+        </label>
       </dl>
     </div>
   </section>
@@ -339,17 +369,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Distilled by
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Name of distiller"
-            type="text"
-            value="Brukveda"
-          />
-        </dd>
+        <label>
+          <dt>
+            Distilled by
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Name of distiller"
+              type="text"
+              value="Brukveda"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -357,17 +389,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Country
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="ex. Scotland"
-            type="text"
-            value="Sweden"
-          />
-        </dd>
+        <label>
+          <dt>
+            Country
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="ex. Scotland"
+              type="text"
+              value="Sweden"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -375,17 +409,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          District
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="ex. Islay"
-            type="text"
-            value=""
-          />
-        </dd>
+        <label>
+          <dt>
+            District
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="ex. Islay"
+              type="text"
+              value=""
+            />
+          </dd>
+        </label>
       </dl>
     </div>
   </section>
@@ -399,17 +435,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Bottled by
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="Name of bottler"
-            type="text"
-            value="Bottlerama"
-          />
-        </dd>
+        <label>
+          <dt>
+            Bottled by
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="Name of bottler"
+              type="text"
+              value="Bottlerama"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -417,17 +455,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Bottles produced
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="# of bottles"
-            type="number"
-            value="2033"
-          />
-        </dd>
+        <label>
+          <dt>
+            Bottles produced
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="# of bottles"
+              type="number"
+              value="2033"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -435,17 +475,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Bottle sizes
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="ex. 70cl, 40cl"
-            type="text"
-            value="75cl"
-          />
-        </dd>
+        <label>
+          <dt>
+            Bottle sizes
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="ex. 70cl, 40cl"
+              type="text"
+              value="75cl"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -453,17 +495,19 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Bottle code
-        </dt>
-        <dd>
-          <input
-            onChange={[Function]}
-            placeholder="ex. L6 3224"
-            type="text"
-            value="L-214LA23"
-          />
-        </dd>
+        <label>
+          <dt>
+            Bottle code
+          </dt>
+          <dd>
+            <input
+              onChange={[Function]}
+              placeholder="ex. L6 3224"
+              type="text"
+              value="L-214LA23"
+            />
+          </dd>
+        </label>
       </dl>
       <div
         className="Divider"
@@ -471,15 +515,17 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       <dl
         className="Entry"
       >
-        <dt>
-          Barcode
-        </dt>
-        <dd>
-          <input
-            placeholder="ex. 312541512"
-            type="number"
-          />
-        </dd>
+        <label>
+          <dt>
+            Barcode
+          </dt>
+          <dd>
+            <input
+              placeholder="ex. 312541512"
+              type="number"
+            />
+          </dd>
+        </label>
       </dl>
     </div>
   </section>
