@@ -17,7 +17,7 @@ interface SettingsPageProps {
 const SettingsPage: React.FC<SettingsPageProps> = ({ userId, routes }) => {
   const nav = (
     <NavigationBar
-      back={<BackButton onClick={routes.back}>Done</BackButton>}
+      back={<BackButton onClick={routes.back}>Profile</BackButton>}
       forward={
         <NavButton icon={<SignOutIcon />} onClick={routes.signOut}>
           Sign out
