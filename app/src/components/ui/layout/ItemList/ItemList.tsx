@@ -15,17 +15,30 @@ const useStyles = makeStyles({
   },
 });
 
-interface ItemListProps {}
+interface ItemListProps {
+  divided?: boolean;
+}
 
-const ItemList: React.FC<ItemListProps> = ({ children }) => {
-  const classes = useStyles();
+const ItemList: React.FC<ItemListProps> = ({ children, divided = false }) => {
+  const classes = useStyles({ padding: divided ? 16 : 8 });
+
+  if (divided) {
+    return (
+      <div className={classes.ItemList}>
+        <DividedList>
+          {Children.map(children, (child) => {
+            return <div className={classes.Item}>{child}</div>;
+          })}
+        </DividedList>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.ItemList}>
-      <DividedList>
-        {Children.map(children, (child) => {
-          return <div className={classes.Item}>{child}</div>;
-        })}
-      </DividedList>
+      {Children.map(children, (child) => {
+        return <div className={classes.Item}>{child}</div>;
+      })}
     </div>
   );
 };
