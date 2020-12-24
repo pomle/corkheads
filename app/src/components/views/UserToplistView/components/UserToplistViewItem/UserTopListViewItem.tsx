@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     "& .rank": {
-      color: theme.color.accent + "80",
+      color: theme.color.title,
       flex: "0 40px",
       fontFamily: "Bree Serif",
       fontSize: "24px",

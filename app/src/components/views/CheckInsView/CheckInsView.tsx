@@ -18,11 +18,8 @@ import CheckInsViewItem from "./components/CheckInsViewItem";
 import { createCheckIn } from "types/CheckIn";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  head: {
-    textAlign: "center",
-  },
   body: {
-    margin: "0 16px",
+    margin: "16px",
   },
 }));
 
@@ -63,14 +60,12 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
   const classes = useStyles();
 
   return (
-    <Themer theme="cream">
+    <Themer theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
           <ViewHead>
-            <div className={classes.head}>
-              <h1>Community Check ins</h1>
-            </div>
+            <h1>Community Check ins</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>
