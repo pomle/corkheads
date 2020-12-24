@@ -111,7 +111,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
             </div>
           </ViewHead>
           <div className={classes.searchBusy}>
-            {searchRequest.busy && <LineThrobber color={Colors.Gold} />}
+            {searchRequest.busy && <LineThrobber color={Colors.MatteGold} />}
           </div>
         </ViewCap>
       </Themer>

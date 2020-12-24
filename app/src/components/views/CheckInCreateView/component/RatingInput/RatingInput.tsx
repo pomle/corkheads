@@ -30,14 +30,14 @@ const useStyles = makeStyles({
           width: "32px",
           "& path": {
             fill: "transparent",
-            stroke: Colors.Gold,
+            stroke: Colors.MatteGold,
             strokeWidth: "3px",
             transition: "fill 1s cubic-bezier(0, 0, 0.02, 0.98)",
           },
         },
         "&.filled": {
           "& svg path": {
-            fill: Colors.Gold,
+            fill: Colors.MatteGold,
           },
         },
         "&.score-5": {

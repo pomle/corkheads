@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     fontSize: "14px",
     fontWeight: () => {
-      if (theme.color.action === Colors.Gold) {
+      if (theme.color.action === Colors.MatteGold) {
         return 400;
       }
       return 500;

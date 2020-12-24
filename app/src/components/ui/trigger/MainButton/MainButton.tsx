@@ -6,7 +6,7 @@ import ButtonContent from "components/ui/layout";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     MainButton: {
-      background: Colors.Gold,
+      background: Colors.MatteGold,
       borderRadius: "4px",
       color: Colors.Navy,
       padding: "16px 24px 16px 24px",
