@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
-import ViewBody from "components/ui/layout/ViewBody";
-import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
@@ -17,6 +15,8 @@ import { useUserData } from "components/hooks/db/useUserData";
 import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
 import SlidingWindow from "components/ui/transitions/SlidingWindow";
 import UserCheckInSection from "./components/UserCheckInSection";
+import Scroll from "components/ui/layout/Scroll";
+import HeaderLayout from "components/ui/layout/HeaderLayout";
 
 const useStyles = makeStyles({
   sectionControl: {
@@ -56,14 +56,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
 
   return (
     <Themer theme="dusk">
-      <FullScreenLayout>
-        <ViewBody>
+      <HeaderLayout>
+        <>
           {nav}
 
           <ProfileHead userId={userId} />
+        </>
 
-          <Themer theme="pure">
-            <Panel>
+        <Themer theme="pure">
+          <Panel>
+            <HeaderLayout>
               <div className={classes.sectionControl}>
                 <PillSwitch selected={section} onChange={setSection}>
                   <PillSwitchItem value={ProfileSection.Community}>
@@ -76,69 +78,75 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
               </div>
 
               <SlidingWindow activeIndex={section}>
-                <SectionList>
-                  <Section
-                    header={
-                      <SectionTitle
-                        main="Recent check ins"
-                        context={<Link to={routes.checkIns}>See all ›</Link>}
-                      />
-                    }
-                  >
-                    <CheckInSection userId={userId} routes={routes} />
-                  </Section>
-                </SectionList>
+                <Scroll>
+                  <SectionList>
+                    <Section
+                      header={
+                        <SectionTitle
+                          main="Recent check ins"
+                          context={<Link to={routes.checkIns}>See all ›</Link>}
+                        />
+                      }
+                    >
+                      <CheckInSection userId={userId} routes={routes} />
+                    </Section>
+                  </SectionList>
+                </Scroll>
 
-                <SectionList>
-                  <Section
-                    header={
-                      <SectionTitle
-                        main={<>Check ins ({checkInCount})</>}
-                        context={<Link to={routes.checkIns}>See all ›</Link>}
-                      />
-                    }
-                  >
-                    <UserCheckInSection userId={userId} routes={routes} />
-                  </Section>
+                <Scroll>
+                  <SectionList>
+                    <Section
+                      header={
+                        <SectionTitle
+                          main={<>Check ins ({checkInCount})</>}
+                          context={<Link to={routes.checkIns}>See all ›</Link>}
+                        />
+                      }
+                    >
+                      <UserCheckInSection userId={userId} routes={routes} />
+                    </Section>
 
-                  <Section
-                    header={
-                      <SectionTitle
-                        main="Favorites"
-                        context={<Link to={routes.toplist}>See all ›</Link>}
-                      />
-                    }
-                  >
-                    <ToplistSection userId={userId} routes={routes} />
-                  </Section>
+                    <Section
+                      header={
+                        <SectionTitle
+                          main="Favorites"
+                          context={<Link to={routes.toplist}>See all ›</Link>}
+                        />
+                      }
+                    >
+                      <ToplistSection userId={userId} routes={routes} />
+                    </Section>
 
-                  <Section
-                    header={
-                      <SectionTitle
-                        main={<>Collection ({collectionSize})</>}
-                        context={<Link to={routes.collection}>See all ›</Link>}
-                      />
-                    }
-                  >
-                    <CollectionSection userId={userId} routes={routes} />
-                  </Section>
+                    <Section
+                      header={
+                        <SectionTitle
+                          main={<>Collection ({collectionSize})</>}
+                          context={
+                            <Link to={routes.collection}>See all ›</Link>
+                          }
+                        />
+                      }
+                    >
+                      <CollectionSection userId={userId} routes={routes} />
+                    </Section>
 
-                  <Section
-                    header={
-                      <SectionTitle
-                        main={<>Wish list ({wishlistSize})</>}
-                        context={<Link to={routes.wishlist}>See all ›</Link>}
-                      />
-                    }
-                  >
-                    <WishlistSection userId={userId} routes={routes} />
-                  </Section>
-                </SectionList>
+                    <Section
+                      header={
+                        <SectionTitle
+                          main={<>Wish list ({wishlistSize})</>}
+                          context={<Link to={routes.wishlist}>See all ›</Link>}
+                        />
+                      }
+                    >
+                      <WishlistSection userId={userId} routes={routes} />
+                    </Section>
+                  </SectionList>
+                </Scroll>
               </SlidingWindow>
-            </Panel>
-          </Themer>
-        </ViewBody>
-      </FullScreenLayout>
+            </HeaderLayout>
+          </Panel>
+        </Themer>
+      </HeaderLayout>
     </Themer>
   );
 };
