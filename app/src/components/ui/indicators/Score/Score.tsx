@@ -15,7 +15,7 @@ function getEmptyColor(theme: Theme) {
 
 function getFilledColor(theme: Theme) {
   if (theme.color.surface === Colors.Milk) {
-    return Colors.Gold;
+    return Colors.MatteGold;
   }
   return Colors.ShinyGold;
 }
