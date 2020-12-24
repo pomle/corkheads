@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import { Article } from "types/Article";
 import { Colors, Theme } from "components/ui/theme/themes";
+import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 
 const useStyles = makeStyles((theme: Theme) => ({
   WishlistItem: {
@@ -53,7 +54,9 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
       </div>
       <div className={classes.content}>
         <div className={classes.displayName}>{displayName}</div>
-        <div></div>
+        <div className={classes.subText}>
+          {article.bottling && <BottlingMeta bottling={article.bottling} />}
+        </div>
       </div>
     </div>
   );
