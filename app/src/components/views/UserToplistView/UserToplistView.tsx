@@ -14,11 +14,8 @@ import { createArticle } from "types/Article";
 import { createUserArticle } from "types/UserArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  head: {
-    textAlign: "center",
-  },
   body: {
-    margin: "0 16px",
+    margin: "16px",
   },
 }));
 
@@ -42,14 +39,12 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
   const classes = useStyles();
 
   return (
-    <Themer theme="cream">
+    <Themer theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
           <ViewHead>
-            <div className={classes.head}>
-              <h1>Top drinks</h1>
-            </div>
+            <h1>Top drinks</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>
