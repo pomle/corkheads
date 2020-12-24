@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   photo: {
     borderRadius: "12px 0 0 12px",
     overflow: "hidden",
-    height: "72px",
-    width: "72px",
+    height: "64px",
+    width: "64px",
   },
   displayName: {
     color: "#1b2230",
@@ -27,12 +27,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridColumn: "1 / 3",
   },
   subText: {
-    color: "#727985",
+    color: Colors.MarbleBlue,
     fontSize: "12px",
     fontWeight: 500,
   },
   content: {
-    padding: "16px",
+    display: "grid",
+    gridGap: "4px",
+    padding: "8px",
   },
 }));
 
