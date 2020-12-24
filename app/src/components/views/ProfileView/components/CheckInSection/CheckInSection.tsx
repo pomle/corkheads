@@ -16,18 +16,15 @@ interface CheckInSectionProps {
 const CheckInSection: React.FC<CheckInSectionProps> = ({ userId, routes }) => {
   const query = useMemo((): CheckInQuery => {
     return {
-      filters: {
-        userIds: [userId],
-      },
       order: [
         {
           field: "timestamp",
           dir: "desc",
         },
       ],
-      limit: 3,
+      limit: 10,
     };
-  }, [userId]);
+  }, []);
 
   const request = useCheckInQuery(query);
 
