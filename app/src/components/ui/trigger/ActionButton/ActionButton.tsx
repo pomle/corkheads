@@ -6,15 +6,20 @@ import ButtonContent from "components/ui/layout";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     ActionButton: {
-      background: theme.color.action,
+      background: `linear-gradient(
+        to right,
+        ${Colors.ShinyGold},
+        ${Colors.Gold}
+      )`,
       borderRadius: "4px",
-      color: theme.color.surface,
+      color: Colors.White,
       padding: "16px 24px 16px 24px",
       position: "relative",
       textAlign: "center",
+      transition: "color 0.3s",
       "&[disabled]": {
-        background: Colors.BlueSmoke,
-        color: Colors.White + "1",
+        background: "#283041",
+        color: "#1b2230",
       },
     },
   };
