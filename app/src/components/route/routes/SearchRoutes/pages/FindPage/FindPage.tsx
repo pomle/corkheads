@@ -19,7 +19,7 @@ const FindPage: React.FC<FindPageProps> = ({ routes }) => {
 
   const nav = (
     <NavigationBar
-      back={<CancelButton onClick={routes.cancel}>Cancel</CancelButton>}
+      back={<CancelButton onClick={routes.cancel}>Close</CancelButton>}
     />
   );
 
