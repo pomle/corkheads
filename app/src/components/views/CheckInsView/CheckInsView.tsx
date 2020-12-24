@@ -81,7 +81,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
               }
 
               return (
-                <ItemList>
+                <ItemList divided>
                   {items
                     .slice(0, size)
                     .map(({ articleEntry, checkInEntry }) => {

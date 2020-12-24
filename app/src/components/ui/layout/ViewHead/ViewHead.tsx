@@ -2,11 +2,15 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 
+function color(theme: Theme) {
+  return theme.color.title;
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   ViewHead: {
     padding: "16px",
     "& h1": {
-      color: theme.color.text,
+      color: color(theme),
       fontSize: "20px",
       overflow: "hidden",
       textOverflow: "ellipsis",

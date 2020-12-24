@@ -11,7 +11,7 @@ import { User } from "types/User";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
-    color: theme.color.action,
+    color: theme.color.title,
     fontSize: "14px",
     fontWeight: 700,
     gridArea: "1 / 1 / 2 / 2",
