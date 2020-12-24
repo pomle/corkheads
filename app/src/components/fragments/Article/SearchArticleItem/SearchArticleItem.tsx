@@ -4,7 +4,7 @@ import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
-import BottlingMeta from "./components/BottlingMeta";
+import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import Highlighted from "./components/Highlighted";
 
 const useStyles = makeStyles((theme: Theme) => ({
