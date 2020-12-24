@@ -1,13 +1,13 @@
 export const Colors = {
   BlueSmoke: "#222a3a",
   Cream: "#f2ecdd",
-  Gold: "#f1e7cd",
-  MatteGold: "#f9f6ee",
+  MatteGold: "#ffefc4",
+  Gold: "#f5d47b",
+  ShinyGold: "#f4b16b",
   MarbleBlue: "#5f6674",
   X2: "#dde4ef",
   Milk: "#f9f6ee",
   Navy: "#1b2230",
-  ShinyGold: "#c9b47a",
   Sky: "#eef2f8",
   X1: "#a3aab4",
   Slate: "#3d4351",
@@ -18,6 +18,7 @@ export const Colors = {
 type ColorScheme = {
   accent: string;
   action: string;
+  title: string;
   surface: string;
   text: string;
 };
@@ -32,6 +33,7 @@ const storm: Theme = {
   color: {
     action: Colors.ShinyGold,
     accent: Colors.MatteGold,
+    title: Colors.ShinyGold,
     surface: Colors.Navy,
     text: Colors.MarbleBlue,
   },
@@ -39,8 +41,9 @@ const storm: Theme = {
 
 const dusk: Theme = {
   color: {
-    action: Colors.MatteGold,
-    accent: Colors.MatteGold,
+    action: Colors.Gold,
+    accent: Colors.ShinyGold,
+    title: Colors.X1,
     surface: Colors.BlueSmoke,
     text: Colors.Sot,
   },
@@ -50,6 +53,7 @@ const sky: Theme = {
   color: {
     action: Colors.Navy,
     accent: Colors.MatteGold,
+    title: Colors.Sot,
     surface: Colors.Sky,
     text: Colors.Sot,
   },
@@ -59,6 +63,7 @@ const cream: Theme = {
   color: {
     action: Colors.BlueSmoke,
     accent: Colors.MatteGold,
+    title: Colors.BlueSmoke,
     surface: Colors.Milk,
     text: Colors.BlueSmoke,
   },
@@ -66,8 +71,9 @@ const cream: Theme = {
 
 const pure: Theme = {
   color: {
-    action: Colors.Navy,
+    action: Colors.ShinyGold,
     accent: Colors.MatteGold,
+    title: Colors.Navy,
     surface: Colors.White,
     text: Colors.Sot,
   },

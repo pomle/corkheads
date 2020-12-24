@@ -14,7 +14,7 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId, routes }) => {
   const request = useUserArticleToplistQuery(userId, 3);
 
   return (
-    <ItemList>
+    <ItemList divided>
       {request.results.map(({ articleEntry, userArticleEntry }) => {
         const article = articleEntry.data;
         const userArticle = userArticleEntry.data;

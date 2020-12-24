@@ -1,19 +1,27 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import ImageItem from "components/ui/layout/ImageItem";
-import { Theme } from "components/ui/theme/themes";
+import { Colors, Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import Highlighted from "./components/Highlighted";
 
+function color(theme: Theme) {
+  return Colors.Gold;
+}
+
+function highlightColor(theme: Theme) {
+  return Colors.MatteGold;
+}
+
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
-    color: theme.color.accent,
+    color: color(theme),
     fontSize: "14px",
     lineHeight: 1.25,
     "& em": {
-      color: theme.color.action,
+      color: highlightColor(theme),
       fontStyle: "normal",
     },
   },

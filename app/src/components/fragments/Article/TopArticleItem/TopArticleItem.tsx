@@ -8,7 +8,7 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
-    color: theme.color.action,
+    color: theme.color.title,
     fontSize: "14px",
     fontWeight: 700,
     gridColumn: "1 / 3",

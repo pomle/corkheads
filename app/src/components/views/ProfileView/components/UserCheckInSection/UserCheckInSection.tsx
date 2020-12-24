@@ -35,7 +35,7 @@ const UserCheckInSection: React.FC<UserCheckInSectionProps> = ({
   const request = useCheckInQuery(query);
 
   return (
-    <ItemList>
+    <ItemList divided>
       {request.results.map(({ checkInEntry, articleEntry }) => {
         const article = articleEntry.data;
         const checkIn = checkInEntry.data;

@@ -118,7 +118,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
       <ViewBody>
         <div className={classes.searchResults}>
           {executedQuery.length ? (
-            <ItemList>
+            <ItemList divided>
               {results.map((result) => {
                 const article = result.entry.data;
                 return (

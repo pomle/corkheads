@@ -18,11 +18,8 @@ import { useContentCache } from "components/hooks/useContentCache";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  head: {
-    textAlign: "center",
-  },
   body: {
-    margin: "0 16px",
+    margin: "24px",
   },
 }));
 
@@ -61,14 +58,12 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
   const classes = useStyles();
 
   return (
-    <Themer theme="cream">
+    <Themer theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
           <ViewHead>
-            <div className={classes.head}>
-              <h1>Wishlist</h1>
-            </div>
+            <h1>Wishlist</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>

@@ -4,20 +4,12 @@ import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
 import { Colors, Theme } from "components/ui/theme/themes";
 import { VALID_SCORE } from "types/Rating";
 
-function getEmptyColor(theme: Theme) {
-  if (theme.color.surface === Colors.Milk) {
-    return Colors.Cream;
-  } else if (theme.color.surface === Colors.Navy) {
-    return Colors.Milk + "30";
-  }
-  return Colors.Milk;
+function getEmptyColor() {
+  return Colors.X2;
 }
 
-function getFilledColor(theme: Theme) {
-  if (theme.color.surface === Colors.Milk) {
-    return Colors.MatteGold;
-  }
-  return Colors.ShinyGold;
+function getFilledColor() {
+  return Colors.Gold;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -33,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         "&.empty": {
           "& svg path": {
-            fill: getEmptyColor(theme),
+            fill: getEmptyColor(),
           },
         },
         "&.filled": {
           "& svg path": {
-            fill: getFilledColor(theme),
+            fill: getFilledColor(),
           },
         },
       },

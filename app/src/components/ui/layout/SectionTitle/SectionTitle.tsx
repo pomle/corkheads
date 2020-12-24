@@ -7,10 +7,7 @@ type StyleProps = {
 };
 
 function getMainColor(theme: Theme) {
-  if (theme.color.surface === Colors.White) {
-    return Colors.Navy;
-  }
-  return "#8f96a2";
+  return theme.color.title;
 }
 
 function getContextColor(theme: Theme) {

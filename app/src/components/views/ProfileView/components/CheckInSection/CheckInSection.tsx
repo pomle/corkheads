@@ -29,7 +29,7 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId, routes }) => {
   const request = useCheckInQuery(query);
 
   return (
-    <ItemList>
+    <ItemList divided>
       {request.results.map(({ checkInEntry, articleEntry }) => {
         const article = articleEntry.data;
         const checkIn = checkInEntry.data;

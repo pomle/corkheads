@@ -6,13 +6,19 @@ import ButtonContent from "components/ui/layout";
 const useStyles = makeStyles((theme: Theme) => {
   return {
     MainButton: {
-      background: Colors.MatteGold,
+      background: `linear-gradient(
+        to right,
+        ${Colors.ShinyGold},
+        ${Colors.Gold}
+      )`,
       borderRadius: "4px",
-      color: Colors.Navy,
+      color: Colors.White,
       padding: "16px 24px 16px 24px",
       textAlign: "center",
+      transition: "color 0.3s",
       "&[disabled]": {
-        background: Colors.Slate,
+        background: "#283041",
+        color: "#1b2230",
       },
     },
   };

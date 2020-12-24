@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "10px",
       width: "10px",
       "& > path": {
-        fill: theme.color.text,
+        fill: theme.color.action,
+        stroke: theme.color.action,
       },
     },
   },
