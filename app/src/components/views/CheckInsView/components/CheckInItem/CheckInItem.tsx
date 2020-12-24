@@ -6,7 +6,6 @@ import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
-import { User } from "types/User";
 import { useUser } from "components/hooks/db/useUsers";
 
 const useStyles = makeStyles((theme: Theme) => ({
