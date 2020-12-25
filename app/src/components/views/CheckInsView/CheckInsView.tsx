@@ -11,19 +11,15 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
-import { useContentCache } from "components/hooks/useContentCache";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
-import CheckInsViewItem from "./components/CheckInsViewItem";
-import { createCheckIn } from "types/CheckIn";
+import CheckInItemButton from "components/fragments/CheckIn/CheckInItem/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
     margin: "16px",
   },
 }));
-
-const Item = React.memo(CheckInsViewItem);
 
 const MAX_ITEMS = 100;
 
@@ -33,14 +29,21 @@ interface CheckInsViewProps {
     checkIn: (checkInId: string) => void;
   };
   userId: string;
+  filterUserIds?: string[];
 }
 
-const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
+const CheckInsView: React.FC<CheckInsViewProps> = ({
+  nav,
+  routes,
+  filterUserIds,
+}) => {
   const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
 
   const query = useMemo((): CheckInQuery => {
     return {
-      filters: {},
+      filters: {
+        userIds: filterUserIds,
+      },
       order: [
         {
           field: "timestamp",
@@ -49,13 +52,9 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
       ],
       limit: Math.min(size + 20, MAX_ITEMS),
     };
-  }, [size]);
+  }, [filterUserIds, size]);
 
   const request = useCheckInQuery(query);
-
-  const items = useMemo(() => {
-    return Array.from(request.results.values());
-  }, [request.results]);
 
   const classes = useStyles();
 
@@ -65,35 +64,22 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, routes }) => {
         <ViewCap>
           {nav}
           <ViewHead>
-            <h1>Community Check ins</h1>
+            <h1>Check ins</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            {useContentCache(() => {
-              if (request.busy) {
-                return;
-              }
-
-              return (
-                <ItemList divided>
-                  {items
-                    .slice(0, size)
-                    .map(({ articleEntry, checkInEntry }) => {
-                      return (
-                        <Item
-                          key={checkInEntry.id}
-                          checkIn={
-                            checkInEntry.data || createCheckIn(checkInEntry.id)
-                          }
-                          article={articleEntry.data}
-                          onClick={routes.checkIn}
-                        />
-                      );
-                    })}
-                </ItemList>
-              );
-            }, [items, size])}
+            <ItemList divided>
+              {request.results.slice(0, size).map((pointer) => {
+                return (
+                  <CheckInItemButton
+                    key={pointer.checkInId}
+                    pointer={pointer}
+                    route={routes.checkIn}
+                  />
+                );
+              })}
+            </ItemList>
           </div>
           <ViewportDetector onEnter={bump} />
         </ViewBody>

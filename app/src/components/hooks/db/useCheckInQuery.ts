@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CheckIn } from "types/CheckIn";
+import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
-import { useCheckInTuple } from "./useCheckIns";
 
 type SortOrder = {
   field: keyof CheckIn;
@@ -17,9 +17,16 @@ export type CheckInQuery = {
   limit?: number;
 };
 
-export function useCheckInQuery(query: CheckInQuery) {
-  const [checkInIds, setCheckInIds] = useState<string[]>([]);
-  const [articleIds, setArticleIds] = useState<string[]>([]);
+export type CheckInPointer = {
+  articleId: string;
+  checkInId: string;
+  userId: string;
+};
+
+export function useCheckInQuery(
+  query: CheckInQuery
+): QueryRequest<CheckInPointer> {
+  const [results, setResults] = useState<CheckInPointer[]>([]);
 
   const db = useDB();
 
@@ -48,21 +55,23 @@ export function useCheckInQuery(query: CheckInQuery) {
     }
 
     return q.onSnapshot((result) => {
-      const articleIds: string[] = [];
-      const checkInIds: string[] = [];
-
-      for (const doc of result.docs) {
+      const results = result.docs.map((doc) => {
         const data = doc.data();
-        if (data) {
-          checkInIds.push(doc.id);
-          articleIds.push(data.articleId as string);
-        }
-      }
-
-      setArticleIds(articleIds);
-      setCheckInIds(checkInIds);
+        return {
+          checkInId: doc.id,
+          articleId: data.articleId,
+          userId: data.userId,
+        };
+      });
+      setResults(results);
     });
   }, [db, query]);
 
-  return useCheckInTuple(checkInIds, articleIds);
+  return useMemo(
+    () => ({
+      busy: false,
+      results,
+    }),
+    [results]
+  );
 }

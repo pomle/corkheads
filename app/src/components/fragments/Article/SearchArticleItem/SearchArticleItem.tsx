@@ -6,6 +6,8 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import Highlighted from "./components/Highlighted";
+import { useArticle } from "components/hooks/db/useArticles";
+import { createArticle } from "types/Article";
 
 function color(theme: Theme) {
   return Colors.Gold;
@@ -40,8 +42,11 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
 }) => {
   const {
     hit,
-    entry: { data: article },
+    entry: { data },
   } = searchResult;
+
+  const article = useArticle(data.id)?.data || createArticle(data.id);
+
   const { displayName, photoURL, ratingAggregate } = article;
   const displayNameMatch = hit.matches?.displayName?.value;
 

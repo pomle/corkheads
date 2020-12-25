@@ -1,15 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Article } from "types/Article";
-import { CheckIn } from "types/CheckIn";
+import { Article, createArticle } from "types/Article";
+import { CheckIn, createCheckIn } from "types/CheckIn";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Colors, Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { useUser } from "components/hooks/db/useUsers";
-import { User } from "types/User";
+import { createUser, User } from "types/User";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import Badge from "components/ui/icons/Badge";
+import { useCheckIn } from "components/hooks/db/useCheckIns";
+import { useArticle } from "components/hooks/db/useArticles";
+import { createUserArticle } from "types/UserArticle";
+import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -84,13 +88,17 @@ function resolveUserDisplayName(user?: User) {
 }
 
 interface CheckInItemProps {
-  checkIn: CheckIn;
-  article: Article;
+  pointer: CheckInPointer;
 }
 
-const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
-  const user = useUser(checkIn.userId)?.data;
-  const userArticle = useUserArticle(checkIn.userId, checkIn.articleId)?.data;
+const CheckInItem: React.FC<CheckInItemProps> = ({
+  pointer: { checkInId, userId, articleId },
+}) => {
+  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
+  const user = useUser(userId)?.data || createUser(userId);
+  const userArticle =
+    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
 
   const userDisplayName = resolveUserDisplayName(user);
 

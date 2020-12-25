@@ -33,8 +33,9 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       here: path,
       article: path.append("/article/:articleId", { articleId: stringCodec }),
       checkIn: path.append("/check-in/:checkInId", { checkInId: stringCodec }),
-      checkIns: path.append("/check-ins", {}),
+      checkIns: path.append("/user/:userId/check-ins", { userId: stringCodec }),
       collection: path.append("/collection", {}),
+      communityCheckIns: path.append("/community/check-ins", {}),
       search: rootPaths.search,
       settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
@@ -71,8 +72,11 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         const url = paths.checkIn.url({ checkInId });
         history.push(url);
       },
-      checkIns() {
-        return paths.checkIns.url({});
+      checkIns(userId: string) {
+        return paths.checkIns.url({ userId });
+      },
+      communityCheckIns() {
+        return paths.communityCheckIns.url({});
       },
       search: routes.search,
       settings: () => {
@@ -119,9 +123,23 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
           )}
         </Screen>
         <Screen path={paths.checkIns} transition={SlideRight}>
-          {(match) => (
-            <CheckInsRoute userId={user.id} origin={path} path={match.path} />
-          )}
+          {(match) => {
+            return (
+              <CheckInsRoute
+                userId={user.id}
+                filterUserIds={[user.id]}
+                origin={path}
+                path={match.path}
+              />
+            );
+          }}
+        </Screen>
+        <Screen path={paths.communityCheckIns} transition={SlideRight}>
+          {(match) => {
+            return (
+              <CheckInsRoute userId={user.id} origin={path} path={match.path} />
+            );
+          }}
         </Screen>
         <Screen path={paths.wishlist} transition={SlideRight}>
           {(match) => (

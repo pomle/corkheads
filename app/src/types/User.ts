@@ -14,9 +14,13 @@ export type User = {
   readonly checkInCount?: number;
 };
 
-export const FALLBACK: User = {
-  id: "no-one",
-};
+export function createUser(id: string): User {
+  return {
+    id,
+  };
+}
+
+export const DEFAULTS = createUser("no-one");
 
 export const converter = createConverter<User>({
   to(user) {
@@ -25,7 +29,7 @@ export const converter = createConverter<User>({
 
   from(snapshot) {
     return {
-      ...FALLBACK,
+      ...DEFAULTS,
       ...snapshot.data(),
     };
   },

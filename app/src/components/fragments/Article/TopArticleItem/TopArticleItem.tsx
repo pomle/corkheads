@@ -1,10 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { UserArticle } from "types/UserArticle";
-import { Article } from "types/Article";
+import { createArticle } from "types/Article";
+import { createUserArticle } from "types/UserArticle";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
+import { useArticle } from "components/hooks/db/useArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -26,15 +28,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   rating: {},
 }));
 
+type TopArticleItemPointer = {
+  articleId: string;
+  userId: string;
+};
+
 interface TopArticleItemProps {
-  article: Article;
-  userArticle: UserArticle;
+  pointer: TopArticleItemPointer;
 }
 
 const TopArticleItem: React.FC<TopArticleItemProps> = ({
-  article,
-  userArticle,
+  pointer: { articleId, userId },
 }) => {
+  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const userArticle =
+    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
+
   const { displayName, photoURL } = article;
   const { checkIns, rating } = userArticle;
 
@@ -42,7 +51,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>{displayName}</div>
+      <div className={classes.displayName}>{displayName || "• • •"}</div>
       <div></div>
       <div className={classes.checkIns}>{checkIns} check ins</div>
       <div className={classes.rating}>

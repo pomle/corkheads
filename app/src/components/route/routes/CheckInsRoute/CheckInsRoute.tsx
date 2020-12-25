@@ -8,14 +8,16 @@ import { Path } from "lib/path";
 import { stringCodec } from "components/route/codecs";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 
-interface CollectionRouteProps {
+interface CheckInsRouteProps {
   origin: Path<{}>;
   path: Path<{}>;
   userId: string;
+  filterUserIds?: string[];
 }
 
-const CollectionRoute: React.FC<CollectionRouteProps> = ({
+const CheckInsRoute: React.FC<CheckInsRouteProps> = ({
   userId,
+  filterUserIds,
   origin,
   path,
 }) => {
@@ -46,7 +48,11 @@ const CollectionRoute: React.FC<CollectionRouteProps> = ({
 
   return (
     <ViewStack>
-      <CheckInsPage routes={routes} userId={userId} />
+      <CheckInsPage
+        routes={routes}
+        userId={userId}
+        filterUserIds={filterUserIds}
+      />
       <Screen path={paths.checkIn} transition={SlideRight}>
         {(match) => (
           <CheckInRoutes
@@ -61,4 +67,4 @@ const CollectionRoute: React.FC<CollectionRouteProps> = ({
   );
 };
 
-export default CollectionRoute;
+export default CheckInsRoute;

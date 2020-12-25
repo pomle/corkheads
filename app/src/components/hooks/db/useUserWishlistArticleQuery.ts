@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { UserWishlistArticle } from "types/UserWishlistArticle";
+import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
-import { useUserArticleTuple } from "./useUserArticles";
 
 type SortOrder = {
   field: keyof UserWishlistArticle;
@@ -18,8 +18,15 @@ export type UserWishlistArticleQuery = {
   limit?: number;
 };
 
-export function useUserWishlistArticleQuery(query: UserWishlistArticleQuery) {
-  const [ids, setIds] = useState<string[]>([]);
+export type UserArticlePointer = {
+  articleId: string;
+  userId: string;
+};
+
+export function useUserWishlistArticleQuery(
+  query: UserWishlistArticleQuery
+): QueryRequest<UserArticlePointer> {
+  const [results, setResults] = useState<UserArticlePointer[]>([]);
 
   const db = useDB();
 
@@ -40,11 +47,21 @@ export function useUserWishlistArticleQuery(query: UserWishlistArticleQuery) {
     }
 
     return q.onSnapshot((result) => {
-      const ids = result.docs.map((doc) => doc.id);
-      setIds(ids);
+      const results = result.docs.map((doc) => {
+        return {
+          articleId: doc.id,
+          userId,
+        };
+      });
+      setResults(results);
     });
   }, [db, query]);
 
-  const userId = query.filters.userId;
-  return useUserArticleTuple(userId, ids);
+  return useMemo(
+    () => ({
+      busy: false,
+      results,
+    }),
+    [results]
+  );
 }

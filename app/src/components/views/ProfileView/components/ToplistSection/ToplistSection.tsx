@@ -1,7 +1,7 @@
 import React from "react";
-import TopArticleItem from "components/fragments/Article/TopArticleItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
+import TopArticleItemButton from "components/fragments/Article/TopArticleItem/Button";
 
 interface ToplistSectionProps {
   userId: string;
@@ -15,19 +15,13 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId, routes }) => {
 
   return (
     <ItemList divided>
-      {request.results.map(({ articleEntry, userArticleEntry }) => {
-        const article = articleEntry.data;
-        const userArticle = userArticleEntry.data;
-
+      {request.results.map((pointer) => {
         return (
-          <button
-            key={articleEntry.id}
-            onClick={() => routes.article(articleEntry.id)}
-          >
-            {article && userArticle && (
-              <TopArticleItem article={article} userArticle={userArticle} />
-            )}
-          </button>
+          <TopArticleItemButton
+            key={pointer.articleId}
+            pointer={pointer}
+            route={routes.article}
+          />
         );
       })}
     </ItemList>

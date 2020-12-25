@@ -10,12 +10,12 @@ import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
-import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import ItemList from "components/ui/layout/ItemList";
 import { useScrollSize } from "components/hooks/useScrollSize";
-import { byDisplayName } from "lib/sort/userArticleTuple";
-import { useContentCache } from "components/hooks/useContentCache";
+import { byDisplayName } from "lib/sort/article";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
+import { useArticles } from "components/hooks/db/useArticles";
+import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
@@ -51,9 +51,15 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
 
   const request = useUserWishlistArticleQuery(query);
 
-  const items = useMemo(() => {
-    return Array.from(request.results.values()).sort(byDisplayName);
-  }, [request.results]);
+  const articles = useArticles(request.results.map((p) => p.articleId));
+
+  const pointers = useMemo(() => {
+    return Array.from(articles.values())
+      .sort(byDisplayName)
+      .map((e) => ({
+        articleId: e.id,
+      }));
+  }, [articles]);
 
   const classes = useStyles();
 
@@ -68,28 +74,17 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            {useContentCache(() => {
-              if (request.busy) {
-                return;
-              }
-
-              return (
-                <ItemList>
-                  {items.slice(0, size).map(({ articleEntry }) => {
-                    const article = articleEntry.data;
-
-                    return (
-                      <button
-                        key={articleEntry.id}
-                        onClick={() => routes.article(articleEntry.id)}
-                      >
-                        {article && <WishlistArticleItem article={article} />}
-                      </button>
-                    );
-                  })}
-                </ItemList>
-              );
-            }, [items, request])}
+            <ItemList>
+              {pointers.slice(0, size).map((pointer) => {
+                return (
+                  <WishlistArticleItemButton
+                    key={pointer.articleId}
+                    pointer={pointer}
+                    route={routes.article}
+                  />
+                );
+              })}
+            </ItemList>
             <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
