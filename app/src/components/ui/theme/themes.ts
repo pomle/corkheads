@@ -16,7 +16,7 @@ export const Colors = {
   White: "#ffffff",
 };
 
-type ColorScheme = {
+type ColorTheme = {
   accent: string;
   action: string;
   title: string;
@@ -25,7 +25,7 @@ type ColorScheme = {
 };
 
 export type Theme = {
-  color: ColorScheme;
+  color: ColorTheme;
 };
 
 export type ThemeName = "dusk" | "storm" | "cream" | "pure" | "sky";
