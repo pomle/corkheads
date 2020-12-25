@@ -3,6 +3,7 @@ import { createConverter } from "lib/firestore/converter";
 import { upgrade } from "./versioning/UserArticle/upgrade";
 import { Bottling } from "./Bottling";
 import { Rating } from "./Rating";
+import { Inventory } from "./Inventory";
 import { Moment } from "moment";
 
 export type UserArticle = {
@@ -13,6 +14,7 @@ export type UserArticle = {
   photoURL?: string;
   rating?: Rating;
   bottling?: Partial<Bottling>;
+  inventory?: Inventory;
   wishlist?: {
     active: boolean;
     addedTimestamp?: Moment;
@@ -47,10 +49,15 @@ export const converter = createConverter<UserArticle>({
       return output;
     }
 
-    return {
+    const output = {
       ...userArticle,
-      wishlist: wishlist(userArticle.wishlist),
     };
+
+    if (output.wishlist) {
+      output.wishlist = wishlist(output.wishlist);
+    }
+
+    return output;
   },
 
   from(snapshot) {

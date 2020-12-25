@@ -2,13 +2,11 @@ import { firestore } from "firebase/app";
 import moment, { Moment } from "moment";
 import { createConverter } from "lib/firestore/converter";
 import { toMoment } from "./convert";
-import { Inventory } from "./Inventory";
 
 export type UserCollectionArticle = {
   id: string;
   active: boolean;
   addedTimestamp: Moment;
-  inventory?: Inventory;
 };
 
 const DEFAULTS: UserCollectionArticle = {
