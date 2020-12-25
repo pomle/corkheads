@@ -49,6 +49,9 @@ const useStyles = makeStyles({
 });
 
 function isArticleValid(article: Article) {
+  if (!article.displayName) {
+    return false;
+  }
   return article.displayName.length > 0;
 }
 
@@ -132,7 +135,9 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     return {
       ...scoreArticle,
       displayName:
-        article.displayName.length > 0 ? article.displayName : "Preview",
+        article.displayName && article.displayName.length > 0
+          ? article.displayName
+          : "Preview",
       ratingAggregate: {
         count: 1,
         sum: previewScore,
@@ -160,7 +165,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
               <Input
                 type="text"
                 placeholder="Display name"
-                value={article.displayName}
+                value={article.displayName || ""}
                 onChange={setDisplayName}
               />
             </div>

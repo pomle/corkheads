@@ -5,7 +5,7 @@ import { upgrade } from "./versioning/Article/upgrade";
 
 export type Article = {
   id: string;
-  displayName: string;
+  displayName?: string;
   bottling?: Partial<Bottling>;
   photoURL?: string;
   ratingAggregate?: RatingAggregate;
@@ -14,7 +14,6 @@ export type Article = {
 export function createArticle(id: string): Article {
   return {
     id,
-    displayName: "Unknown",
   };
 }
 
