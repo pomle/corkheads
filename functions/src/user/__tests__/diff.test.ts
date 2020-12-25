@@ -1,8 +1,8 @@
 import { Change } from "firebase-functions";
 import { DocumentSnapshot } from "firebase-functions/lib/providers/firestore";
-import { calculateActiveDiff } from "../diff";
+import { calculateCheckInCountDiff } from "../diff";
 
-describe("#calculateActiveDiff", () => {
+describe("#calculateCheckInCountDiff", () => {
   it("returns 0 if both active", () => {
     const change = {
       before: {
@@ -18,7 +18,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(0);
   });
 
@@ -37,7 +37,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(-1);
   });
 
@@ -56,7 +56,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(1);
   });
 
@@ -75,7 +75,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(0);
   });
 
@@ -94,7 +94,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(0);
   });
 
@@ -113,7 +113,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(0);
   });
 
@@ -132,7 +132,7 @@ describe("#calculateActiveDiff", () => {
     };
 
     expect(
-      calculateActiveDiff((change as unknown) as Change<DocumentSnapshot>)
+      calculateCheckInCountDiff((change as unknown) as Change<DocumentSnapshot>)
     ).toEqual(0);
   });
 });
