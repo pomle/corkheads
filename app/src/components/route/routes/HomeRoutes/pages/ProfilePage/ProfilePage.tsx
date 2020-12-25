@@ -12,7 +12,7 @@ interface ProfilePageProps {
   routes: {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
-    checkIns: (filter: string) => string;
+    checkIns: () => string;
     collection: () => string;
     communityCheckIns: () => string;
     search: () => void;
