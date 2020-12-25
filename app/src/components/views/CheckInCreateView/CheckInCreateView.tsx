@@ -10,7 +10,7 @@ import { useCommitCheckIn } from "./hooks";
 import { Rating } from "types/Rating";
 import ViewHead from "components/ui/layout/ViewHead";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import Divider from "components/ui/layout/Divider";
 import Input from "components/ui/input/Input/Input";
 import BurgerLayout from "components/ui/layout/BurgerLayout";

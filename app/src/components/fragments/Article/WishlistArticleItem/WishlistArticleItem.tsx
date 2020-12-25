@@ -2,7 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import { createArticle } from "types/Article";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useArticle } from "components/hooks/db/useArticles";
 

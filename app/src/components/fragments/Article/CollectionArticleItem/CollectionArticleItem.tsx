@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { createArticle } from "types/Article";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
 import { useArticle } from "components/hooks/db/useArticles";
 

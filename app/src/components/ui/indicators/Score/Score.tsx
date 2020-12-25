@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import { VALID_SCORE } from "types/Rating";
 
 function getEmptyColor() {
