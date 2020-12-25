@@ -1,23 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
-import { Colors } from "components/ui/theme/colors";
-import Photo from "components/ui/layout/Photo";
+import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  UserItem: {
-    alignItems: "center",
-    display: "grid",
-    gridAutoFlow: "column",
-    gridTemplateColumns: "72px auto",
-  },
-  photo: {
-    borderRadius: "50%",
-    overflow: "hidden",
-    height: "64px",
-    width: "64px",
-  },
   content: {
     display: "grid",
     gridGap: "4px",
@@ -43,16 +30,13 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.UserItem}>
-      <div className={classes.photo}>
-        <Photo url={photoURL} />
-      </div>
+    <RoundedImageItem photoURL={photoURL}>
       <div className={classes.content}>
-        <div className="username">
+        <div className={classes.displayName}>
           {user?.username ? "@" + user.username : ""}
         </div>
       </div>
-    </div>
+    </RoundedImageItem>
   );
 };
 
