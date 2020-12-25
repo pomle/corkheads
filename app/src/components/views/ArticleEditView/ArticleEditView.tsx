@@ -9,7 +9,7 @@ import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
 import PhotoInput from "../CheckInCreateView/component/PhotoInput";
 import BurgerLayout from "components/ui/layout/BurgerLayout";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ButtonField from "components/ui/layout/ButtonField";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
@@ -153,12 +153,12 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     <BurgerLayout>
       {null}
       <ViewBody>
-        <Themer theme="dusk">
+        <ThemeProvider theme="dusk">
           <ViewCap>
             {nav}
             <ViewTitle title="Add drink" />
           </ViewCap>
-        </Themer>
+        </ThemeProvider>
         <form className={classes.form}>
           <div className="content">
             <div className="fields">

@@ -5,7 +5,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import { useUser } from "components/hooks/db/useUsers";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
 
@@ -28,7 +28,7 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
   const classes = useStyles();
 
   return (
-    <Themer theme="pure">
+    <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
@@ -58,7 +58,7 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
           </form>
         </ViewBody>
       </HeaderLayout>
-    </Themer>
+    </ThemeProvider>
   );
 };
 

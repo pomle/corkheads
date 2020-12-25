@@ -2,7 +2,7 @@ import React from "react";
 import ActionButton from "components/ui/trigger/ActionButton";
 import { makeStyles } from "@material-ui/styles";
 import { Colors, Theme } from "components/ui/theme/themes";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import CollectionToggleButton from "./components/CollectionToggleButton";
 import WishlistToggleButton from "./components/WishlistToggleButton";
 import Ratings from "./components/Ratings";
@@ -50,16 +50,16 @@ const ActionBox: React.FC<ActionBoxProps> = ({ routes, userId, articleId }) => {
     <div className={classes.ActionBox}>
       <div className={classes.control}>
         <ActionButton onClick={routes.createCheckIn}>Check in</ActionButton>
-        <Themer theme="sky">
+        <ThemeProvider theme="sky">
           <CollectionToggleButton userId={userId} articleId={articleId} />
           <WishlistToggleButton userId={userId} articleId={articleId} />
-        </Themer>
+        </ThemeProvider>
       </div>
 
       <div className={classes.ratings}>
-        <Themer theme="cream">
+        <ThemeProvider theme="cream">
           <Ratings userId={userId} articleId={articleId} />
-        </Themer>
+        </ThemeProvider>
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 import React from "react";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import AppRoute from "./routes/AppRoute";
 
 const Routes: React.FC = () => {
   return (
-    <Themer theme="storm">
+    <ThemeProvider theme="storm">
       <AppRoute />
-    </Themer>
+    </ThemeProvider>
   );
 };
 

@@ -3,7 +3,7 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import ItemList from "components/ui/layout/ItemList";
@@ -34,7 +34,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
   const classes = useStyles();
 
   return (
-    <Themer theme="pure">
+    <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
@@ -58,7 +58,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
           </div>
         </ViewBody>
       </HeaderLayout>
-    </Themer>
+    </ThemeProvider>
   );
 };
 

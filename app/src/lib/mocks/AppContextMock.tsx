@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleProviderMock } from "./StyleProviderMock";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 
 export const AppContextMock: React.FC = ({ children }) => {
   return (
     <StyleProviderMock>
-      <Themer theme="dusk">{children}</Themer>
+      <ThemeProvider theme="dusk">{children}</ThemeProvider>
     </StyleProviderMock>
   );
 };

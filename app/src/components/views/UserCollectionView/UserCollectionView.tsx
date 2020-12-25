@@ -3,7 +3,7 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import CollectionList from "components/ui/layout/CollectionList";
@@ -70,7 +70,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   const classes = useStyles();
 
   return (
-    <Themer theme="cream">
+    <ThemeProvider theme="cream">
       <HeaderLayout>
         <ViewCap>
           {nav}
@@ -97,7 +97,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
           </div>
         </ViewBody>
       </HeaderLayout>
-    </Themer>
+    </ThemeProvider>
   );
 };
 
