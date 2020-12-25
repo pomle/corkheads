@@ -12,6 +12,7 @@ import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
+import { useMe } from "components/hooks/useMe";
 
 type StyleProps = {
   canClear: boolean;
@@ -91,6 +92,7 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
+  const me = useMe();
   const { user, updateProfile } = useUserProfile(userId);
 
   const clearControl = useSwitch(false);
@@ -129,6 +131,23 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   const classes = useStyles({ canClear, hasPhoto });
 
+  let photo = (
+    <div className={classes.photo}>
+      <ViewStack>
+        <div className="placeholder">
+          <CameraIcon />
+        </div>
+        <div className="image">
+          <Photo url={photoURL} />
+        </div>
+      </ViewStack>
+    </div>
+  );
+
+  if (me && me.id === userId) {
+    photo = <ImageSelect onFile={handleImageSelect}>{photo}</ImageSelect>;
+  }
+
   return (
     <div className={classes.ProfileHead}>
       <div className={classes.photoControl}>
@@ -136,18 +155,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
           <CancelIcon />
         </button>
 
-        <ImageSelect onFile={handleImageSelect}>
-          <div className={classes.photo}>
-            <ViewStack>
-              <div className="placeholder">
-                <CameraIcon />
-              </div>
-              <div className="image">
-                <Photo url={photoURL} />
-              </div>
-            </ViewStack>
-          </div>
-        </ImageSelect>
+        {photo}
       </div>
 
       <div className={classes.identity}>
