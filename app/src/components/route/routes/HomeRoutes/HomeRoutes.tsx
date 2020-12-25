@@ -33,7 +33,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       here: path,
       article: path.append("/article/:articleId", { articleId: stringCodec }),
       checkIn: path.append("/check-in/:checkInId", { checkInId: stringCodec }),
-      checkIns: path.append("/user/:userId/check-ins", { userId: stringCodec }),
+      checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
       communityCheckIns: path.append("/community/check-ins", {}),
       search: rootPaths.search,
@@ -72,8 +72,8 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         const url = paths.checkIn.url({ checkInId });
         history.push(url);
       },
-      checkIns(userId: string) {
-        return paths.checkIns.url({ userId });
+      checkIns() {
+        return paths.checkIns.url({});
       },
       communityCheckIns() {
         return paths.communityCheckIns.url({});
