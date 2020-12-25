@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    margin: "-16px 24px 24px 24px",
   },
   photoControl: {
     position: "relative",
