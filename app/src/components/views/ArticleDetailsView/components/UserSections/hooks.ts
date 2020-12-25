@@ -7,7 +7,7 @@ import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { useUserArticleBottlingUpdate } from "components/hooks/db/useUserArticleBottlingUpdate";
 import { useUserCollectionArticle } from "components/hooks/db/useUserCollectionArticles";
 import { Inventory } from "types/Inventory";
-import { useUserCollectionArticleInventoryUpdate } from "components/hooks/db/useUserCollectionArticleInventoryUpdate";
+import { useUserArticleInventoryUpdate } from "components/hooks/db/useUserArticleInventoryUpdate";
 
 const STORE_DELAY = 5000;
 
@@ -34,21 +34,15 @@ export function useBottling(userId: string, articleId: string) {
 }
 
 export function useInventory(userId: string, articleId: string) {
-  const userCollectionArticleEntry = useUserCollectionArticle(
-    userId,
-    articleId
-  );
+  const userArticleEntry = useUserArticle(userId, articleId);
 
-  const userCollectionArticle = userCollectionArticleEntry?.data;
+  const userArticle = userArticleEntry?.data;
 
   const inventory = useMemo((): Inventory => {
-    return userCollectionArticle?.inventory || {};
-  }, [userCollectionArticle]);
+    return userArticle?.inventory || {};
+  }, [userArticle]);
 
-  const updateInventory = useUserCollectionArticleInventoryUpdate(
-    userId,
-    articleId
-  );
+  const updateInventory = useUserArticleInventoryUpdate(userId, articleId);
 
   const handleInventoryChange = useMemo(() => {
     return debounce(updateInventory, STORE_DELAY);
