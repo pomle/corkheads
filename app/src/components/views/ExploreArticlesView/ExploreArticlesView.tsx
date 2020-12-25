@@ -9,7 +9,7 @@ import { Article } from "types/Article";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
 import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
 import SearchArticleItem from "components/fragments/Article/SearchArticleItem";
@@ -93,7 +93,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
 
   return (
     <HeaderLayout>
-      <Themer theme="dusk">
+      <ThemeProvider theme="dusk">
         <ViewCap>
           {nav}
           <ViewHead>
@@ -114,7 +114,7 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
             {searchRequest.busy && <LineThrobber color={Colors.MatteGold} />}
           </div>
         </ViewCap>
-      </Themer>
+      </ThemeProvider>
       <ViewBody>
         <div className={classes.searchResults}>
           {executedQuery.length ? (

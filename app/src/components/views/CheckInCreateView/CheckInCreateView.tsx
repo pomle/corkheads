@@ -9,7 +9,7 @@ import RatingInput from "./component/RatingInput";
 import { useCommitCheckIn } from "./hooks";
 import { Rating } from "types/Rating";
 import ViewHead from "components/ui/layout/ViewHead";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Colors } from "components/ui/theme/themes";
 import Divider from "components/ui/layout/Divider";
 import Input from "components/ui/input/Input/Input";
@@ -138,7 +138,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   return (
     <BurgerLayout>
-      <Themer theme="dusk">
+      <ThemeProvider theme="dusk">
         <ViewCap>
           {nav}
           <ViewHead>
@@ -147,9 +147,9 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
             </div>
           </ViewHead>
         </ViewCap>
-      </Themer>
+      </ThemeProvider>
       <ViewBody>
-        <Themer theme="dusk">
+        <ThemeProvider theme="dusk">
           <div className={classes.content}>
             <div className={classes.rating}>
               <RatingInput rating={rating} onChange={setRating} />
@@ -170,7 +170,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
               />
             </div>
           </div>
-        </Themer>
+        </ThemeProvider>
       </ViewBody>
 
       <ButtonField>

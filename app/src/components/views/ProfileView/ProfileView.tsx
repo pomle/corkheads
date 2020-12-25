@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ProfileHead from "./components/ProfileHead";
 import Panel from "./components/Panel";
 import CollectionSection from "./components/CollectionSection";
@@ -59,7 +59,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
   const classes = useStyles();
 
   return (
-    <Themer theme="dusk">
+    <ThemeProvider theme="dusk">
       <HeaderLayout>
         <>
           {nav}
@@ -67,7 +67,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
           <ProfileHead userId={userId} />
         </>
 
-        <Themer theme="pure">
+        <ThemeProvider theme="pure">
           <Panel>
             <HeaderLayout>
               <div className={classes.sectionControl}>
@@ -168,9 +168,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
               </SlidingWindow>
             </HeaderLayout>
           </Panel>
-        </Themer>
+        </ThemeProvider>
       </HeaderLayout>
-    </Themer>
+    </ThemeProvider>
   );
 };
 

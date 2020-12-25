@@ -8,7 +8,7 @@ import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
 import { useArticle } from "components/hooks/db/useArticles";
-import Themer from "components/ui/theme/Themer";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import AreaButton from "components/ui/trigger/AreaButton";
@@ -68,7 +68,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   const classes = useStyles();
 
   return (
-    <Themer theme="cream">
+    <ThemeProvider theme="cream">
       <HeaderLayout>
         <ViewCap>
           {nav}
@@ -84,23 +84,23 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </AreaButton>
 
           <div className={classes.actionBox}>
-            <Themer theme="pure">
+            <ThemeProvider theme="pure">
               <ActionBox
                 routes={routes}
                 userId={userId}
                 articleId={articleId}
               />
-            </Themer>
+            </ThemeProvider>
           </div>
 
           <div className={classes.userSection}>
-            <Themer theme="pure">
+            <ThemeProvider theme="pure">
               <UserSections userId={userId} articleId={articleId} />
-            </Themer>
+            </ThemeProvider>
           </div>
         </ViewBody>
       </HeaderLayout>
-    </Themer>
+    </ThemeProvider>
   );
 };
 
