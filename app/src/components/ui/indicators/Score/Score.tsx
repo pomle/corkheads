@@ -20,17 +20,17 @@ const useStyles = makeStyles((theme: Theme) => {
       justifyContent: "space-around",
       "& .star": {
         "& svg": {
-          margin: "0.5px",
+          margin: "0.1em",
           height: "1em",
           width: "1em",
         },
         "&.empty": {
-          "& svg path": {
+          "& path": {
             fill: getEmptyColor(),
           },
         },
         "&.filled": {
-          "& svg path": {
+          "& path": {
             fill: getFilledColor(),
           },
         },
