@@ -4,7 +4,6 @@ import { converter as article } from "types/Article";
 import { converter as checkIn } from "types/CheckIn";
 import { converter as user } from "types/User";
 import { converter as userArticle } from "types/UserArticle";
-import { converter as userCollectionArticle } from "types/UserCollectionArticle";
 
 export function useCollection() {
   const db = useDB();
@@ -28,9 +27,6 @@ export function useUserCollection(userId: string) {
       userArticle: userCollection
         .collection("articles")
         .withConverter(userArticle),
-      userCollectionArticle: userCollection
-        .collection("collection")
-        .withConverter(userCollectionArticle),
       userSearchHistory: userCollection.collection("search-history"),
     };
   }, [db, userId]);

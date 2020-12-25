@@ -4,6 +4,7 @@ import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
 
 type SortFields =
+  | "collection.addedTimestamp"
   | "rating.love"
   | "rating.score"
   | "wishlist.addedTimestamp"

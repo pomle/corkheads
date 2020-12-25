@@ -5,9 +5,8 @@ import { Bottling } from "types/Bottling";
 import { useArticle } from "components/hooks/db/useArticles";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { useUserArticleBottlingUpdate } from "components/hooks/db/useUserArticleBottlingUpdate";
-import { useUserCollectionArticle } from "components/hooks/db/useUserCollectionArticles";
-import { Inventory } from "types/Inventory";
 import { useUserArticleInventoryUpdate } from "components/hooks/db/useUserArticleInventoryUpdate";
+import { Inventory } from "types/Inventory";
 
 const STORE_DELAY = 5000;
 

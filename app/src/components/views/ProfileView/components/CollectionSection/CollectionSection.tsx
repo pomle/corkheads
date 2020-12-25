@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import CollectionList from "components/ui/layout/CollectionList";
-import {
-  UserCollectionArticleQuery,
-  useUserCollectionArticleQuery,
-} from "components/hooks/db/useUserCollectionArticleQuery";
 import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
+import {
+  UserArticleQuery,
+  useUserArticleQuery,
+} from "components/hooks/db/useUserArticleQuery";
 
 interface CollectionSectionProps {
   userId: string;
@@ -17,17 +17,18 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({
   userId,
   routes,
 }) => {
-  const query = useMemo((): UserCollectionArticleQuery => {
+  const query = useMemo((): UserArticleQuery => {
     return {
       filters: {
         userId,
+        collection: true,
       },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
+      order: [{ field: "collection.addedTimestamp", dir: "desc" }],
       limit: 4,
     };
   }, [userId]);
 
-  const request = useUserCollectionArticleQuery(query);
+  const request = useUserArticleQuery(query);
 
   return (
     <CollectionList>
