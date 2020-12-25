@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import ToggleButton from "components/ui/trigger/ToggleButton";
-import { useUserWishlistArticle } from "components/hooks/db/useUserWishlistArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 interface WishlistToggleButtonProps {
   userId: string;
@@ -11,7 +11,7 @@ const WishlistToggleButton: React.FC<WishlistToggleButtonProps> = ({
   userId,
   articleId,
 }) => {
-  const entry = useUserWishlistArticle(userId, articleId);
+  const entry = useUserArticle(userId, articleId);
 
   const setActive = useCallback(
     (active: boolean) => {
@@ -20,7 +20,7 @@ const WishlistToggleButton: React.FC<WishlistToggleButtonProps> = ({
       }
       entry.doc.set(
         {
-          active,
+          wishlist: { active },
         },
         { merge: true }
       );
@@ -28,7 +28,7 @@ const WishlistToggleButton: React.FC<WishlistToggleButtonProps> = ({
     [entry]
   );
 
-  const onWishlist = entry?.data?.active;
+  const onWishlist = entry?.data?.wishlist?.active;
 
   return (
     <ToggleButton toggled={onWishlist} onClick={() => setActive(!onWishlist)}>

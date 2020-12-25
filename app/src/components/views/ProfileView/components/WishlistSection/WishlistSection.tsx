@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
-import {
-  UserWishlistArticleQuery,
-  useUserWishlistArticleQuery,
-} from "components/hooks/db/useUserWishlistArticleQuery";
 import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
+import {
+  UserArticleQuery,
+  useUserArticleQuery,
+} from "components/hooks/db/useUserArticleQuery";
 
 const useStyles = makeStyles({
   list: {
@@ -24,17 +24,18 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
   userId,
   routes,
 }) => {
-  const query = useMemo((): UserWishlistArticleQuery => {
+  const query = useMemo((): UserArticleQuery => {
     return {
       filters: {
         userId,
+        wishlist: true,
       },
-      order: [{ field: "addedTimestamp", dir: "desc" }],
+      order: [{ field: "wishlist.addedTimestamp", dir: "desc" }],
       limit: 3,
     };
   }, [userId]);
 
-  const request = useUserWishlistArticleQuery(query);
+  const request = useUserArticleQuery(query);
 
   const classes = useStyles();
 

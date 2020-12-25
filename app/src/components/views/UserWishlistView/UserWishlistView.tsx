@@ -6,16 +6,16 @@ import { makeStyles } from "@material-ui/styles";
 import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
-import {
-  UserWishlistArticleQuery,
-  useUserWishlistArticleQuery,
-} from "components/hooks/db/useUserWishlistArticleQuery";
 import ItemList from "components/ui/layout/ItemList";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useArticles } from "components/hooks/db/useArticles";
 import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
+import {
+  UserArticleQuery,
+  useUserArticleQuery,
+} from "components/hooks/db/useUserArticleQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
@@ -40,16 +40,17 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
 }) => {
   const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
 
-  const query = useMemo((): UserWishlistArticleQuery => {
+  const query = useMemo((): UserArticleQuery => {
     return {
       filters: {
         userId,
+        wishlist: true,
       },
       limit: MAX_ITEMS,
     };
   }, [userId]);
 
-  const request = useUserWishlistArticleQuery(query);
+  const request = useUserArticleQuery(query);
 
   const articles = useArticles(request.results.map((p) => p.articleId));
 
