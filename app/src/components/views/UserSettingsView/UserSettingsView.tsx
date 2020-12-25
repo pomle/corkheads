@@ -38,7 +38,7 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
         <ViewBody>
           <form className={classes.form}>
             <EntryList>
-              <Entry name="Display name">
+              <Entry name="Name">
                 <input
                   type="text"
                   placeholder="Drinker Drinkinsson"
