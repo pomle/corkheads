@@ -1,27 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "components/ui/layout/Photo";
 import { createArticle } from "types/Article";
+import CutoutImageItem from "components/ui/layout/CutoutImageItem";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useArticle } from "components/hooks/db/useArticles";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  WishlistItem: {
-    alignItems: "center",
-    background: Colors.Sky,
-    borderRadius: "12px",
-    display: "grid",
-    gridAutoFlow: "column",
-    gridTemplateColumns: "72px auto",
-  },
-  photo: {
-    borderRadius: "12px 0 0 12px",
-    overflow: "hidden",
-    height: "64px",
-    width: "64px",
-  },
   displayName: {
     color: "#1b2230",
     fontSize: "14px",
@@ -54,17 +40,14 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.WishlistItem}>
-      <div className={classes.photo}>
-        <Photo url={photoURL} />
-      </div>
+    <CutoutImageItem photoURL={photoURL}>
       <div className={classes.content}>
         <div className={classes.displayName}>{displayName}</div>
         <div className={classes.subText}>
           {article.bottling && <BottlingMeta bottling={article.bottling} />}
         </div>
       </div>
-    </div>
+    </CutoutImageItem>
   );
 };
 

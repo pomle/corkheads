@@ -5,49 +5,21 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useArticle } from "components/hooks/db/useArticles";
 import { createArticle } from "types/Article";
-import Photo from "components/ui/layout/Photo";
-
-function color(theme: Theme) {
-  return Colors.Gold;
-}
-
-function highlightColor(theme: Theme) {
-  return Colors.MatteGold;
-}
+import CutoutImageItem from "components/ui/layout/CutoutImageItem";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  ArticleItem: {
-    alignItems: "center",
-    background: Colors.BlueSmoke,
-    borderRadius: "12px",
-    display: "grid",
-    gridAutoFlow: "column",
-    gridTemplateColumns: "72px auto",
-  },
-  photo: {
-    borderRadius: "12px 0 0 12px",
-    overflow: "hidden",
-    height: "64px",
-    width: "64px",
-  },
   content: {
     display: "grid",
     gridGap: "4px",
     padding: "8px",
   },
   displayName: {
-    color: color(theme),
+    color: theme.color.title,
     fontSize: "14px",
-    lineHeight: 1.25,
   },
   meta: {
     color: theme.color.text,
     fontSize: "12px",
-  },
-  subText: {
-    color: Colors.MarbleBlue,
-    fontSize: "12px",
-    fontWeight: 500,
   },
 }));
 
@@ -65,10 +37,7 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.ArticleItem}>
-      <div className={classes.photo}>
-        <Photo url={photoURL} />
-      </div>
+    <CutoutImageItem photoURL={photoURL}>
       <div className={classes.content}>
         <div className={classes.displayName}>{displayName}</div>
         <div className={classes.meta}>
@@ -76,7 +45,7 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
         </div>
         <ItemRating aggregate={ratingAggregate} />
       </div>
-    </div>
+    </CutoutImageItem>
   );
 };
 

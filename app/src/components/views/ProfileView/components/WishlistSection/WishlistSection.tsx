@@ -5,6 +5,7 @@ import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
 
 const useStyles = makeStyles({
   list: {
@@ -40,15 +41,17 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
   const classes = useStyles();
 
   return (
-    <div className={classes.list}>
-      {request.results.map((pointer) => (
-        <WishlistArticleItemButton
-          key={pointer.articleId}
-          pointer={pointer}
-          route={routes.article}
-        />
-      ))}
-    </div>
+    <ThemeProvider theme="sky">
+      <div className={classes.list}>
+        {request.results.map((pointer) => (
+          <WishlistArticleItemButton
+            key={pointer.articleId}
+            pointer={pointer}
+            route={routes.article}
+          />
+        ))}
+      </div>
+    </ThemeProvider>
   );
 };
 

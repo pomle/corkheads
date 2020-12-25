@@ -75,18 +75,20 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList>
-              {pointers.slice(0, size).map((pointer) => {
-                return (
-                  <WishlistArticleItemButton
-                    key={pointer.articleId}
-                    pointer={pointer}
-                    route={routes.article}
-                  />
-                );
-              })}
-            </ItemList>
-            <ViewportDetector onEnter={bump} />
+            <ThemeProvider theme="sky">
+              <ItemList>
+                {pointers.slice(0, size).map((pointer) => {
+                  return (
+                    <WishlistArticleItemButton
+                      key={pointer.articleId}
+                      pointer={pointer}
+                      route={routes.article}
+                    />
+                  );
+                })}
+              </ItemList>
+              <ViewportDetector onEnter={bump} />
+            </ThemeProvider>
           </div>
         </ViewBody>
       </HeaderLayout>
