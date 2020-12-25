@@ -1,8 +1,23 @@
 import { Change } from "firebase-functions";
 import * as admin from "firebase-admin";
 
-export function calculateActiveDiff(
-  change: Change<admin.firestore.DocumentSnapshot>
+type Snap = admin.firestore.DocumentSnapshot;
+
+export function calculateActiveDiff<T extends Snap>(
+  change: Change<T>,
+  resolveFlag: (snap: T) => any
 ) {
-  return +!!change.after.data()?.active - +!!change.before.data()?.active;
+  return +!!resolveFlag(change.after) - +!!resolveFlag(change.before);
+}
+
+export function calculateCollectionSizeDiff(change: Change<Snap>) {
+  return calculateActiveDiff(change, (snap) => snap.data()?.collection?.active);
+}
+
+export function calculateWishlistSizeDiff(change: Change<Snap>) {
+  return calculateActiveDiff(change, (snap) => snap.data()?.wishlist?.active);
+}
+
+export function calculateCheckInCountDiff(change: Change<Snap>) {
+  return calculateActiveDiff(change, (snap) => snap.data()?.active);
 }

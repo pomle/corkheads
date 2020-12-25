@@ -1,37 +1,27 @@
 import * as functions from "firebase-functions";
 import { admin } from "../admin";
-import { calculateActiveDiff } from "./diff";
+import {
+  calculateCollectionSizeDiff,
+  calculateWishlistSizeDiff,
+  calculateCheckInCountDiff,
+} from "./diff";
 
 const db = admin.firestore();
+const increment = admin.firestore.FieldValue.increment;
 
-export const collectionSizeAggregate = functions.firestore
-  .document("users/{userId}/collection/{articleId}")
+export const articleSizeAggregate = functions.firestore
+  .document("users/{userId}/articles/{articleId}")
   .onWrite(async (change, context) => {
     const { userId } = context.params;
     const userRef = db.collection("users").doc(userId);
 
-    const diff = calculateActiveDiff(change);
+    const collectionDiff = calculateCollectionSizeDiff(change);
+    const wishlistDiff = calculateWishlistSizeDiff(change);
 
     await db.runTransaction(async (transaction) => {
-      const collectionSize = admin.firestore.FieldValue.increment(diff);
       transaction.update(userRef, {
-        collectionSize,
-      });
-    });
-  });
-
-export const wishlistSizeAggregate = functions.firestore
-  .document("users/{userId}/wishlist/{articleId}")
-  .onWrite(async (change, context) => {
-    const { userId } = context.params;
-    const userRef = db.collection("users").doc(userId);
-
-    const diff = calculateActiveDiff(change);
-
-    await db.runTransaction(async (transaction) => {
-      const wishlistSize = admin.firestore.FieldValue.increment(diff);
-      transaction.update(userRef, {
-        wishlistSize,
+        collectionSize: increment(collectionDiff),
+        wishlistSize: increment(wishlistDiff),
       });
     });
   });
@@ -42,12 +32,11 @@ export const checkInCountAggregate = functions.firestore
     const { userId } = context.params;
     const userRef = db.collection("users").doc(userId);
 
-    const diff = calculateActiveDiff(change);
+    const diff = calculateCheckInCountDiff(change);
 
     await db.runTransaction(async (transaction) => {
-      const checkInCount = admin.firestore.FieldValue.increment(diff);
       transaction.update(userRef, {
-        checkInCount,
+        checkInCount: increment(diff),
       });
     });
   });
