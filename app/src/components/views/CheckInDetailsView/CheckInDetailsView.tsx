@@ -79,6 +79,7 @@ interface CheckInDetailsViewProps {
   nav: React.ReactNode;
   routes: {
     article: (articleId: string) => void;
+    user: (userId: string) => void;
     picture: () => void;
   };
   checkIn: CheckIn;
@@ -143,7 +144,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
         </ThemeProvider>
 
         <div className={classes.user}>
-          <button type="button">
+          <button type="button" onClick={() => routes.user(checkIn.userId)}>
             <UserItem pointer={{ userId: checkIn.userId }} />
           </button>
         </div>

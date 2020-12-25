@@ -18,6 +18,7 @@ import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import WishlistRoute from "components/route/routes/WishlistRoute";
 import { paths as rootPaths } from "components/route/paths";
 import SearchRoutes from "../SearchRoutes";
+import UserRoutes from "../UserRoutes/UserRoutes";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -39,6 +40,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       search: rootPaths.search,
       settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
+      user: rootPaths.user,
       wishlist: path.append("/wishlist", {}),
     }),
     [path]
@@ -163,6 +165,15 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               path={match.path}
               userId={user.id}
               checkInId={match.params.checkInId}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.user} transition={SlideRight}>
+          {(match) => (
+            <UserRoutes
+              origin={paths.here}
+              path={match.path}
+              userId={match.params.userId}
             />
           )}
         </Screen>

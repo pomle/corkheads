@@ -12,4 +12,7 @@ export const paths = {
     checkInId: stringCodec,
   }),
   search: root.append("/search", {}),
+  user: root.append("/user/:userId", {
+    userId: stringCodec,
+  }),
 };

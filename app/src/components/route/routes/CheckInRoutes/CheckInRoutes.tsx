@@ -9,6 +9,7 @@ import { Path } from "lib/path";
 import { stringCodec } from "components/route/codecs";
 import { SlideRight } from "components/ui/transitions/Slide";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
+import { paths as rootPaths } from "components/route/paths";
 
 interface CheckInRoutesProps {
   origin: Path<{}>;
@@ -29,6 +30,7 @@ const CheckInRoutes: React.FC<CheckInRoutesProps> = ({
     () => ({
       article: path.append("/article/:articleId", { articleId: stringCodec }),
       picture: path.append("/picture", {}),
+      user: rootPaths.user,
     }),
     [path]
   );
@@ -56,6 +58,10 @@ const CheckInRoutes: React.FC<CheckInRoutesProps> = ({
       },
       article(articleId: string) {
         const url = paths.article.url({ articleId });
+        history.push(url);
+      },
+      user(userId: string) {
+        const url = paths.user.url({ userId });
         history.push(url);
       },
     }),
