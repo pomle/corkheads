@@ -8,6 +8,8 @@ import { Colors, Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { useUser } from "components/hooks/db/useUsers";
 import { User } from "types/User";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
+import Badge from "components/ui/icons/Badge";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -16,10 +18,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 700,
     gridArea: "1 / 1 / 2 / 2",
   },
-  meta: {
-    color: theme.color.text,
+  comment: {
+    color: theme.color.accent,
     fontSize: "12px",
     fontWeight: 500,
+    margin: 0,
+    padding: 0,
   },
   checkInMeta: {
     alignItems: "center",
@@ -36,7 +40,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: Colors.X1,
   },
   rating: {},
+  badge: {
+    alignSelf: "center",
+    gridArea: "1 / 2 / 4 / 3",
+    justifySelf: "end",
+    paddingLeft: "8px",
+  },
 }));
+
+function resolveBadgeType(count?: number) {
+  if (count) {
+    if (count > 10) {
+      return "heart";
+    } else if (count > 5) {
+      return "diamond";
+    }
+  }
+  return "badge";
+}
 
 function resolvePhotoURL(checkIn: CheckIn, article: Article) {
   if (checkIn.photoURL) {
@@ -69,11 +90,14 @@ interface CheckInItemProps {
 
 const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   const user = useUser(checkIn.userId)?.data;
+  const userArticle = useUserArticle(checkIn.userId, checkIn.articleId)?.data;
 
   const userDisplayName = resolveUserDisplayName(user);
 
   const { displayName: articleDisplayName } = article;
   const { rating, timestamp } = checkIn;
+
+  const checkInCount = userArticle?.checkIns;
 
   const photoURL = resolvePhotoURL(checkIn, article);
 
@@ -82,7 +106,9 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
   return (
     <ImageItem imageURL={photoURL}>
       <div className={classes.displayName}>{articleDisplayName}</div>
-      <blockquote className={classes.meta}>{checkIn.comment}</blockquote>
+      {checkIn.comment && (
+        <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
+      )}
       <div className={classes.checkInMeta}>
         <div className={classes.rating}>
           <ItemRating rating={rating} />
@@ -93,6 +119,9 @@ const CheckInItem: React.FC<CheckInItemProps> = ({ checkIn, article }) => {
         </div>
         {" – "}
         <div className={classes.username}>{userDisplayName}</div>
+      </div>
+      <div className={classes.badge}>
+        <Badge type={resolveBadgeType(checkInCount)}>{checkInCount}</Badge>
       </div>
     </ImageItem>
   );
