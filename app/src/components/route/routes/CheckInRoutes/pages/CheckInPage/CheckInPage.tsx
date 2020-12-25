@@ -13,6 +13,7 @@ interface CheckInPageProps {
   routes: {
     back: () => void;
     article: (articleId: string) => void;
+    user: (userId: string) => void;
     picture: () => void;
   };
 }
