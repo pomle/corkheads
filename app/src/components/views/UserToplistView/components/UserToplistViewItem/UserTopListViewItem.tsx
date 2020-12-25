@@ -11,9 +11,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     "& .rank": {
       color: theme.color.title,
-      flex: "0 40px",
+      flex: "0 16px",
       fontFamily: "Bree Serif",
-      fontSize: "24px",
+      fontSize: "16px",
+      marginRight: "16px",
+      textAlign: "right",
     },
     "& > :last-child": {
       flex: 1,
