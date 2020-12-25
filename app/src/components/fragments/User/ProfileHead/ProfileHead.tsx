@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { firestore } from "firebase/app";
 import { makeStyles } from "@material-ui/styles";
-import { UserData, useUserData } from "components/hooks/db/useUserData";
+import { useUserProfile } from "components/hooks/db/useUserProfile";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import Photo from "components/ui/layout/Photo";
 import { User } from "types/User";
@@ -10,7 +10,6 @@ import { useSwitch } from "components/hooks/useSwitch";
 import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
-import { useUser } from "components/hooks/db/useUsers";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 
@@ -76,15 +75,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function resolveDisplayName(userData: UserData, user?: User) {
-  if (userData.profile) {
-    const profile = userData.profile;
+function resolveDisplayName(user: User) {
+  if (user.profile) {
+    const profile = user.profile;
     if (profile.displayName) {
       return profile.displayName;
     }
   }
 
-  return "Drinker Drinkinson";
+  return "Anonymous";
 }
 
 interface ProfileHeadProps {
@@ -92,9 +91,7 @@ interface ProfileHeadProps {
 }
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
-  const user = useUser(userId)?.data;
-
-  const { userData, updateProfile } = useUserData(userId);
+  const { user, updateProfile } = useUserProfile(userId);
 
   const clearControl = useSwitch(false);
 
@@ -123,8 +120,8 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   }, [clearControl, updateProfile]);
 
   let photoURL;
-  if (userData.profile) {
-    photoURL = userData.profile.photoURL;
+  if (user.profile) {
+    photoURL = user.profile.photoURL;
   }
 
   const hasPhoto = !!photoURL;
@@ -154,7 +151,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
       </div>
 
       <div className={classes.identity}>
-        <h2>{resolveDisplayName(userData, user)}</h2>
+        <h2>{resolveDisplayName(user)}</h2>
         <div className="username">@{user?.username}</div>
       </div>
     </div>
