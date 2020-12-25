@@ -2,10 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Colors, Theme } from "components/ui/theme/themes";
 
-type StyleProps = {
-  hasContext: boolean;
-};
-
 function getMainColor(theme: Theme) {
   return theme.color.title;
 }
@@ -22,8 +18,7 @@ const useStyles = makeStyles((theme: Theme) => {
     SectionTitle: {
       alignItems: "center",
       display: "flex",
-      justifyContent: (props: StyleProps) =>
-        props.hasContext ? "space-between" : "center",
+      justifyContent: "space-between",
       "& > .main": {
         color: getMainColor(theme),
         fontSize: "18px",
@@ -42,7 +37,7 @@ interface SectionProps {
 }
 
 const SectionTitle: React.FC<SectionProps> = ({ main, context }) => {
-  const classes = useStyles({ hasContext: !!context });
+  const classes = useStyles();
   return (
     <div className={classes.SectionTitle}>
       <h3 className="main">{main}</h3>
