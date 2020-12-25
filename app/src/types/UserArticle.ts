@@ -5,8 +5,10 @@ import { Rating } from "./Rating";
 
 export type UserArticle = {
   id: string;
+  displayName?: string;
   checkIns: number;
   owner: boolean;
+  photoURL?: string;
   rating?: Rating;
   bottling?: Partial<Bottling>;
 };
