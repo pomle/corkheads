@@ -137,7 +137,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
       displayName:
         article.displayName && article.displayName.length > 0
           ? article.displayName
-          : "Preview",
+          : "Display name",
       ratingAggregate: {
         count: 1,
         sum: previewScore,
