@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import BadgeIcon from "assets/graphics/icons/badge.svg";
 import DiamondIcon from "assets/graphics/icons/diamond.svg";
 import HeartIcon from "assets/graphics/icons/heart.svg";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 
 type Type = "badge" | "diamond" | "heart";
 

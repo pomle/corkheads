@@ -1,7 +1,8 @@
 import React from "react";
 import ActionButton from "components/ui/trigger/ActionButton";
 import { makeStyles } from "@material-ui/styles";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import CollectionToggleButton from "./components/CollectionToggleButton";
 import WishlistToggleButton from "./components/WishlistToggleButton";

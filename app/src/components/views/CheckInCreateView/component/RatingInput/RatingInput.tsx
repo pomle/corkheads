@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import { Rating, VALID_SCORE } from "types/Rating";
 
 const LOVE_DELAY_MS = 1000;

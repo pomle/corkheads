@@ -1,0 +1,17 @@
+export const Colors = {
+  BlueSmoke: "#222a3a",
+  Cream: "#f2ecdd",
+  MatteGold: "#ffefc4",
+  Gold: "#f5d47b",
+  ShinyGold: "#f4b16b",
+  MarbleBlue: "#5f6674",
+  Hearty: "#ea7884",
+  X2: "#dde4ef",
+  Milk: "#f9f6ee",
+  Navy: "#1b2230",
+  Sky: "#eef2f8",
+  X1: "#a3aab4",
+  Slate: "#3d4351",
+  Sot: "#8f96a2",
+  White: "#ffffff",
+};

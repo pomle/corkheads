@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import ImageItem from "components/ui/layout/ImageItem";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";

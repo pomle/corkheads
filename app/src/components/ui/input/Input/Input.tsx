@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 
 type StyleProps = {
   hasSymbol: boolean;

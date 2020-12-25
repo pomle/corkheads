@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 

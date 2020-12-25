@@ -14,7 +14,7 @@ import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
 import SearchArticleItem from "components/fragments/Article/SearchArticleItem";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import {
   ArticleSearchQuery,
   useArticleSearch,

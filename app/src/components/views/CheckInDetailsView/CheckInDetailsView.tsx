@@ -9,7 +9,7 @@ import { CheckIn } from "types/CheckIn";
 import { User } from "types/User";
 import Photo from "components/ui/layout/Photo";
 import CheckInItem from "components/fragments/CheckIn/CheckInItem";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
 import UserItem from "components/fragments/User/UserItem";
 

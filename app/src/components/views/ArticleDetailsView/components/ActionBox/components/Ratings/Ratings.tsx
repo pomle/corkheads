@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 import { RatingAggregate } from "types/RatingAggregate";
 import { useArticle } from "components/hooks/db/useArticles";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
-import { Colors, Theme } from "components/ui/theme/themes";
+import { Theme } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 import NumberedRating from "./components/NumberedRating";
 
 const useStyles = makeStyles((theme: Theme) => ({

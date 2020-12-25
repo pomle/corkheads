@@ -1,7 +1,7 @@
 import React from "react";
 import * as Trans from "./locales";
 import { makeStyles } from "@material-ui/styles";
-import { Colors } from "components/ui/theme/themes";
+import { Colors } from "components/ui/theme/colors";
 
 const useStyles = makeStyles({
   FindDrinkOverlayView: {
