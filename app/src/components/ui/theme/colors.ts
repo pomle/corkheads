@@ -7,11 +7,11 @@ export const Colors = {
   X1: "#a3aab4",
   X2: "#dde4ef",
   Hearty: "#ea7884",
+  Sky: "#eef2f8",
   Cream: "#f2ecdd",
   ShinyGold: "#f4b16b",
   Gold: "#f5d47b",
   Milk: "#f9f6ee",
   MatteGold: "#ffefc4",
-  Sky: "#eef2f8",
   White: "#ffffff",
 };

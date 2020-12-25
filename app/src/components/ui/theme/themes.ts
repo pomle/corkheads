@@ -28,9 +28,9 @@ const dusk: Theme = {
   color: {
     action: Colors.Gold,
     accent: Colors.ShinyGold,
-    title: Colors.X1,
+    title: Colors.Gold,
     surface: Colors.BlueSmoke,
-    text: Colors.Sot,
+    text: Colors.MarbleBlue,
   },
 };
 
@@ -38,9 +38,9 @@ const sky: Theme = {
   color: {
     action: Colors.Navy,
     accent: Colors.MatteGold,
-    title: Colors.Sot,
+    title: Colors.BlueSmoke,
     surface: Colors.Sky,
-    text: Colors.Sot,
+    text: Colors.MarbleBlue,
   },
 };
 
