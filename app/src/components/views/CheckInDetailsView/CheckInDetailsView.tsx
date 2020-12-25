@@ -8,40 +8,58 @@ import { Article } from "types/Article";
 import { CheckIn } from "types/CheckIn";
 import { User } from "types/User";
 import Photo from "components/ui/layout/Photo";
-import CheckInItem from "components/fragments/CheckIn/CheckInItem";
 import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
 import UserItem from "components/fragments/User/UserItem";
+import ThemeProvider from "components/ui/theme/ThemeProvider";
+import Score from "components/ui/indicators/Score";
+import ArticleItem from "components/fragments/Article/ArticleItem";
 
 const useStyles = makeStyles({
   photo: {
-    background: "#0003",
-    height: "100vw",
+    background: Colors.Slate,
+    height: "calc(100vw - 32px)",
     maxHeight: "400px",
+    width: "calc(100vw - 32px)",
+  },
+  summary: {
+    background: Colors.BlueSmoke,
+    borderRadius: "8px",
+    margin: "16px auto",
+    overflow: "hidden",
+    width: "calc(100vw - 32px)",
+  },
+  score: {
+    display: "flex",
+    fontSize: "24px",
+    justifyContent: "center",
+    padding: "16px",
+    "& .star.filled path": {
+      fill: Colors.MarbleBlue,
+    },
+    "& .star.empty path": {
+      fill: "none",
+      stroke: Colors.MarbleBlue,
+      strokeWidth: "4px",
+    },
+  },
+  meta: {
+    borderTop: `dashed 1px ${Colors.Navy}`,
+    padding: "16px",
   },
   checkIn: {
-    background: "#0003",
-    borderRadius: "16px",
     display: "flex",
     flexFlow: "column",
     justifyContent: "stretch",
     margin: "16px",
-    padding: "8px",
   },
   user: {
-    background: "#0003",
-    borderRadius: "16px",
-    display: "flex",
-    flexFlow: "column",
-    justifyContent: "stretch",
     margin: "16px",
-    padding: "8px",
   },
   comment: {
-    color: Colors.Gold,
-    fontFamily: "Bree Serif",
-    fontSize: "16px",
-    margin: "16px",
+    color: Colors.MarbleBlue,
+    fontSize: "14px",
+    fontWeight: 700,
   },
 });
 
@@ -75,45 +93,60 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   article,
   user,
 }) => {
+  const score = checkIn.rating.score;
+
   const photoURL = resolvePhotoURL(checkIn, article);
 
   const classes = useStyles();
 
   return (
     <HeaderLayout>
-      <ViewCap>
-        {nav}
-        <ViewTitle title="Check in" />
-      </ViewCap>
+      <ThemeProvider theme="dusk">
+        <ViewCap>
+          {nav}
+          <ViewTitle title="Check in" />
+        </ViewCap>
+      </ThemeProvider>
       <ViewBody>
-        <AreaButton onClick={routes.picture} className={classes.photo}>
-          <Photo url={photoURL} size="contain" />
-        </AreaButton>
+        <div className={classes.summary}>
+          <AreaButton onClick={routes.picture} className={classes.photo}>
+            <Photo url={photoURL} size="cover" />
+          </AreaButton>
 
-        <div className={classes.checkIn}>
-          <button
-            type="button"
-            onClick={() => routes.article(checkIn.articleId)}
-          >
-            <CheckInItem
-              pointer={{
-                checkInId: checkIn.id,
-                userId: user.id,
-                articleId: article.id,
-              }}
-            />
-          </button>
+          <div className={classes.score}>
+            <Score score={score || 0} />
+          </div>
+
+          {checkIn.comment && (
+            <div className={classes.meta}>
+              <blockquote className={classes.comment}>
+                {checkIn.comment}
+              </blockquote>
+            </div>
+          )}
         </div>
+
+        <ThemeProvider theme="dusk">
+          <div className={classes.checkIn}>
+            <button
+              type="button"
+              onClick={() => routes.article(checkIn.articleId)}
+            >
+              <ArticleItem
+                pointer={{
+                  userId: user.id,
+                  articleId: checkIn.articleId,
+                }}
+              />
+            </button>
+          </div>
+        </ThemeProvider>
 
         <div className={classes.user}>
           <button type="button">
-            <UserItem user={user} />
+            <UserItem pointer={{ userId: checkIn.userId }} />
           </button>
         </div>
-
-        {checkIn.comment && (
-          <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
-        )}
       </ViewBody>
     </HeaderLayout>
   );
