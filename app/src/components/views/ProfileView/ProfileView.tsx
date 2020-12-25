@@ -5,7 +5,7 @@ import Section from "components/ui/layout/Section";
 import SectionList from "components/ui/layout/SectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import ProfileHead from "./components/ProfileHead";
+import ProfileHead from "components/fragments/User/ProfileHead";
 import Panel from "./components/Panel";
 import CheckInSection from "./components/CheckInSection";
 import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
