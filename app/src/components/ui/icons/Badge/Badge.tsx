@@ -21,6 +21,7 @@ const COLORS: Record<Type, string> = {
 
 type StyleProps = {
   type: Type;
+  size: number;
 };
 
 const useStyles = makeStyles({
@@ -33,13 +34,13 @@ const useStyles = makeStyles({
     color: (props: StyleProps) => COLORS[props.type],
     display: "flex",
     fontFamily: "Roboto",
-    fontSize: "14px",
+    fontSize: (props: StyleProps) => `${props.size}px`,
     fontWeight: 700,
     justifyContent: "center",
-    height: "2em",
+    height: "24px",
     position: "relative",
     textAlign: "center",
-    width: "2em",
+    width: "24px",
   },
 });
 
@@ -48,7 +49,17 @@ interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ children, type = "badge" }) => {
-  const classes = useStyles({ type });
+  let size = 12;
+  if (typeof children === "number" || typeof children === "string") {
+    const length = children.toString().length;
+    if (length > 3) {
+      size = 8;
+    } else if (length > 2) {
+      size = 10;
+    }
+  }
+
+  const classes = useStyles({ type, size });
   return <div className={classes.Badge}>{children}</div>;
 };
 
