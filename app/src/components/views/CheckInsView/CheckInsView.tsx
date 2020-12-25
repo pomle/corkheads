@@ -14,6 +14,7 @@ import {
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import CheckInItemButton from "components/fragments/CheckIn/CheckInItem/Button";
+import { useMe } from "components/hooks/useMe";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
@@ -37,6 +38,8 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
   routes,
   filterUserIds,
 }) => {
+  const me = useMe();
+
   const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
 
   const query = useMemo((): CheckInQuery => {
@@ -56,6 +59,15 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
 
   const request = useCheckInQuery(query);
 
+  let title = "Check ins";
+  if (filterUserIds) {
+    if (filterUserIds.length === 1 && filterUserIds[0] === me?.id) {
+      title = "Your check ins";
+    }
+  } else if (filterUserIds === undefined) {
+    title = "Recent check ins";
+  }
+
   const classes = useStyles();
 
   return (
@@ -64,7 +76,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
         <ViewCap>
           {nav}
           <ViewHead>
-            <h1>Check ins</h1>
+            <h1>{title}</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>
