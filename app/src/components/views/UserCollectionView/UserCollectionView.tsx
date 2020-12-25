@@ -7,15 +7,15 @@ import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import CollectionList from "components/ui/layout/CollectionList";
-import {
-  UserCollectionArticleQuery,
-  useUserCollectionArticleQuery,
-} from "components/hooks/db/useUserCollectionArticleQuery";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import { useArticles } from "components/hooks/db/useArticles";
 import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
+import {
+  UserArticleQuery,
+  useUserArticleQuery,
+} from "components/hooks/db/useUserArticleQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -43,16 +43,17 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
 }) => {
   const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
 
-  const query = useMemo((): UserCollectionArticleQuery => {
+  const query = useMemo((): UserArticleQuery => {
     return {
       filters: {
         userId,
+        collection: true,
       },
       limit: MAX_ITEMS,
     };
   }, [userId]);
 
-  const request = useUserCollectionArticleQuery(query);
+  const request = useUserArticleQuery(query);
 
   const articles = useArticles(
     request.results.map((pointer) => pointer.articleId)

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import ToggleButton from "components/ui/trigger/ToggleButton";
-import { useUserCollectionArticle } from "components/hooks/db/useUserCollectionArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
 
 interface CollectionToggleButtonProps {
   userId: string;
@@ -11,7 +11,7 @@ const CollectionToggleButton: React.FC<CollectionToggleButtonProps> = ({
   userId,
   articleId,
 }) => {
-  const entry = useUserCollectionArticle(userId, articleId);
+  const entry = useUserArticle(userId, articleId);
 
   const setActive = useCallback(
     (active: boolean) => {
@@ -20,7 +20,7 @@ const CollectionToggleButton: React.FC<CollectionToggleButtonProps> = ({
       }
       entry.doc.set(
         {
-          active,
+          collection: { active },
         },
         { merge: true }
       );
@@ -28,7 +28,7 @@ const CollectionToggleButton: React.FC<CollectionToggleButtonProps> = ({
     [entry]
   );
 
-  const inCollection = entry?.data?.active;
+  const inCollection = entry?.data?.collection?.active;
 
   return (
     <ToggleButton
