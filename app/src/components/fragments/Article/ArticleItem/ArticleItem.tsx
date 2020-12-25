@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
-import { Colors } from "components/ui/theme/colors";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useArticle } from "components/hooks/db/useArticles";
