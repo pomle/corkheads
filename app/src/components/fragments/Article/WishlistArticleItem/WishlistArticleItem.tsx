@@ -1,9 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
-import { Article } from "types/Article";
+import { createArticle } from "types/Article";
 import { Colors, Theme } from "components/ui/theme/themes";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
+import { useArticle } from "components/hooks/db/useArticles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   WishlistItem: {
@@ -39,12 +40,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface WishlistArticleItemProps {
-  article: Article;
+  pointer: { articleId: string };
 }
 
 const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
-  article,
+  pointer: { articleId },
 }) => {
+  const article = useArticle(articleId)?.data || createArticle(articleId);
+
   const { displayName, photoURL } = article;
 
   const classes = useStyles();

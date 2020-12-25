@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import CollectionArticleItem from "components/fragments/Article/CollectionArticleItem";
 import CollectionList from "components/ui/layout/CollectionList";
 import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
+import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
 
 interface CollectionSectionProps {
   userId: string;
@@ -31,16 +31,13 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({
 
   return (
     <CollectionList>
-      {request.results.map(({ articleEntry }) => {
-        const article = articleEntry.data;
-
+      {request.results.map((pointer) => {
         return (
-          <button
-            key={articleEntry.id}
-            onClick={() => routes.article(articleEntry.id)}
-          >
-            {article && <CollectionArticleItem article={article} />}
-          </button>
+          <CollectionArticleItemButton
+            key={pointer.articleId}
+            pointer={pointer}
+            route={routes.article}
+          />
         );
       })}
     </CollectionList>

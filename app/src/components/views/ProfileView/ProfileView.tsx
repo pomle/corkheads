@@ -19,6 +19,7 @@ import Scroll from "components/ui/layout/Scroll";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import Badge from "components/ui/icons/Badge";
 import Badged from "components/ui/typography/Badged";
+import TextItem from "components/ui/layout/TextItem";
 
 const useStyles = makeStyles({
   sectionControl: {
@@ -38,7 +39,8 @@ interface ProfileViewProps {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
     collection: () => string;
-    checkIns: () => string;
+    communityCheckIns: () => string;
+    checkIns: (filter: string) => string;
     toplist: () => string;
     wishlist: () => string;
   };
@@ -86,13 +88,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                       header={
                         <SectionTitle
                           main="Recent check ins"
-                          context={<Link to={routes.checkIns}>See all ›</Link>}
+                          context={
+                            <Link to={routes.communityCheckIns}>See all ›</Link>
+                          }
                         />
                       }
                     >
                       <CheckInSection userId={userId} routes={routes} />
                     </Section>
                   </SectionList>
+                  <TextItem>
+                    <Link to={routes.communityCheckIns}>See all ›</Link>
+                  </TextItem>
                 </Scroll>
 
                 <Scroll>
@@ -105,7 +112,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                               Check ins <Badge>{checkInCount}</Badge>
                             </Badged>
                           }
-                          context={<Link to={routes.checkIns}>See all ›</Link>}
+                          context={
+                            <Link to={routes.checkIns(userId)}>See all ›</Link>
+                          }
                         />
                       }
                     >

@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { UserCollectionArticle } from "types/UserCollectionArticle";
+import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
-import { useIds } from "./useIds";
-import { useUserArticleTuple } from "./useUserArticles";
 
 type SortOrder = {
   field: keyof UserCollectionArticle;
@@ -17,10 +16,15 @@ export type UserCollectionArticleQuery = {
   limit?: number;
 };
 
+export type UserArticlePointer = {
+  articleId: string;
+  userId: string;
+};
+
 export function useUserCollectionArticleQuery(
   query: UserCollectionArticleQuery
-) {
-  const [ids, setIds] = useIds();
+): QueryRequest<UserArticlePointer> {
+  const [results, setResults] = useState<UserArticlePointer[]>([]);
 
   const db = useDB();
 
@@ -45,12 +49,21 @@ export function useUserCollectionArticleQuery(
     }
 
     return q.onSnapshot((result) => {
-      const ids = result.docs.map((doc) => doc.id);
-      setIds(ids);
+      const results = result.docs.map((doc) => {
+        return {
+          articleId: doc.id,
+          userId,
+        };
+      });
+      setResults(results);
     });
-  }, [db, query, setIds]);
+  }, [db, query, setResults]);
 
-  console.log(ids);
-  const userId = query.filters.userId;
-  return useUserArticleTuple(userId, ids);
+  return useMemo(
+    () => ({
+      busy: false,
+      results,
+    }),
+    [results]
+  );
 }

@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
-import WishlistArticleItem from "components/fragments/Article/WishlistArticleItem";
 import {
   UserWishlistArticleQuery,
   useUserWishlistArticleQuery,
 } from "components/hooks/db/useUserWishlistArticleQuery";
+import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
 
 const useStyles = makeStyles({
   list: {
@@ -40,18 +40,13 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
 
   return (
     <div className={classes.list}>
-      {request.results.map(({ articleEntry }) => {
-        const article = articleEntry.data;
-
-        return (
-          <button
-            key={articleEntry.id}
-            onClick={() => routes.article(articleEntry.id)}
-          >
-            {article && <WishlistArticleItem article={article} />}
-          </button>
-        );
-      })}
+      {request.results.map((pointer) => (
+        <WishlistArticleItemButton
+          key={pointer.articleId}
+          pointer={pointer}
+          route={routes.article}
+        />
+      ))}
     </div>
   );
 };

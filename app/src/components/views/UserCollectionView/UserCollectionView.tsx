@@ -7,16 +7,15 @@ import Themer from "components/ui/theme/Themer";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import CollectionList from "components/ui/layout/CollectionList";
-import CollectionArticleItem from "components/fragments/Article/CollectionArticleItem";
 import {
   UserCollectionArticleQuery,
   useUserCollectionArticleQuery,
 } from "components/hooks/db/useUserCollectionArticleQuery";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
-import { useContentCache } from "components/hooks/useContentCache";
-import { byDisplayName } from "lib/sort/userArticleTuple";
-import { createArticle } from "types/Article";
+import { byDisplayName } from "lib/sort/article";
+import { useArticles } from "components/hooks/db/useArticles";
+import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -55,9 +54,18 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
 
   const request = useUserCollectionArticleQuery(query);
 
-  const items = useMemo(() => {
-    return Array.from(request.results.values()).sort(byDisplayName);
-  }, [request.results]);
+  const articles = useArticles(
+    request.results.map((pointer) => pointer.articleId)
+  );
+
+  const pointers = useMemo(() => {
+    return Array.from(articles.values())
+      .sort(byDisplayName)
+      .map((entry) => ({
+        articleId: entry.id,
+        userId: userId,
+      }));
+  }, [articles, userId]);
 
   const classes = useStyles();
 
@@ -74,29 +82,17 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            {useContentCache(() => {
-              if (request.busy) {
-                return;
-              }
-
-              return (
-                <CollectionList>
-                  {items.slice(0, size).map(({ articleEntry }) => {
-                    const article =
-                      articleEntry.data || createArticle(articleEntry.id);
-
-                    return (
-                      <button
-                        key={articleEntry.id}
-                        onClick={() => routes.article(articleEntry.id)}
-                      >
-                        <CollectionArticleItem article={article} />
-                      </button>
-                    );
-                  })}
-                </CollectionList>
-              );
-            }, [size, items, request])}
+            <CollectionList>
+              {pointers.slice(0, size).map((pointer) => {
+                return (
+                  <CollectionArticleItemButton
+                    key={pointer.articleId}
+                    pointer={pointer}
+                    route={routes.article}
+                  />
+                );
+              })}
+            </CollectionList>
             <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>

@@ -95,7 +95,13 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
             type="button"
             onClick={() => routes.article(checkIn.articleId)}
           >
-            <CheckInItem checkIn={checkIn} article={article} />
+            <CheckInItem
+              pointer={{
+                checkInId: checkIn.id,
+                userId: user.id,
+                articleId: article.id,
+              }}
+            />
           </button>
         </div>
 

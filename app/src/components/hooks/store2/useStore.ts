@@ -13,6 +13,11 @@ export type QueryResult<T> = {
   results: ResultMap<T>;
 };
 
+export type QueryRequest<T> = {
+  busy: boolean;
+  results: T[];
+};
+
 export function useStore<T>(
   collection: firestore.CollectionReference<T>,
   unstableIds: string[]

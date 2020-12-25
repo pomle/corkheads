@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { UserArticle } from "types/UserArticle";
+import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
-import { useIds } from "./useIds";
-import { useUserArticleTuple } from "./useUserArticles";
 
 type SortFields = "rating.love" | "rating.score" | keyof UserArticle;
 
@@ -20,8 +19,15 @@ export type UserArticleQuery = {
   limit?: number;
 };
 
-export function useUserArticleQuery(query: UserArticleQuery) {
-  const [ids, setIds] = useIds();
+export type UserArticlePointer = {
+  articleId: string;
+  userId: string;
+};
+
+export function useUserArticleQuery(
+  query: UserArticleQuery
+): QueryRequest<UserArticlePointer> {
+  const [results, setResults] = useState<UserArticlePointer[]>([]);
 
   const db = useDB();
 
@@ -45,11 +51,21 @@ export function useUserArticleQuery(query: UserArticleQuery) {
     }
 
     return q.onSnapshot((result) => {
-      const ids = result.docs.map((doc) => doc.id);
-      setIds(ids);
+      const results = result.docs.map((doc) => {
+        return {
+          articleId: doc.id,
+          userId,
+        };
+      });
+      setResults(results);
     });
-  }, [db, query, setIds]);
+  }, [db, query, setResults]);
 
-  const userId = query.filters.userId;
-  return useUserArticleTuple(userId, ids);
+  return useMemo(
+    () => ({
+      busy: false,
+      results,
+    }),
+    [results]
+  );
 }
