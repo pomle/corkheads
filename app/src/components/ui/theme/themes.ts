@@ -73,7 +73,7 @@ const cream: Theme = {
 const pure: Theme = {
   color: {
     action: Colors.ShinyGold,
-    accent: Colors.MatteGold,
+    accent: Colors.Gold,
     title: Colors.Navy,
     surface: Colors.White,
     text: Colors.Sot,
