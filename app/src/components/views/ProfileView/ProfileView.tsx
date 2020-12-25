@@ -14,8 +14,13 @@ import Scroll from "components/ui/layout/Scroll";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import TextItem from "components/ui/layout/TextItem";
 import Dashboard from "components/fragments/User/Dashboard/Dashboard";
+import ViewCap from "components/ui/layout/ViewCap";
+import ViewHead from "components/ui/layout/ViewHead";
 
 const useStyles = makeStyles({
+  head: {
+    marginTop: "-32px",
+  },
   sectionControl: {
     borderBottom: "dashed 1px #dde4ef",
     padding: "8px",
@@ -51,11 +56,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
   return (
     <ThemeProvider theme="dusk">
       <HeaderLayout>
-        <>
+        <ViewCap>
           {nav}
 
-          <ProfileHead userId={userId} />
-        </>
+          <div className={classes.head}>
+            <ViewHead>
+              <ProfileHead userId={userId} />
+            </ViewHead>
+          </div>
+        </ViewCap>
 
         <ThemeProvider theme="pure">
           <Panel>
