@@ -17,6 +17,8 @@ import SlidingWindow from "components/ui/transitions/SlidingWindow";
 import UserCheckInSection from "./components/UserCheckInSection";
 import Scroll from "components/ui/layout/Scroll";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
+import Badge from "components/ui/icons/Badge";
+import Badged from "components/ui/typography/Badged";
 
 const useStyles = makeStyles({
   sectionControl: {
@@ -98,7 +100,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     <Section
                       header={
                         <SectionTitle
-                          main={<>Check ins ({checkInCount})</>}
+                          main={
+                            <Badged>
+                              Check ins <Badge>{checkInCount}</Badge>
+                            </Badged>
+                          }
                           context={<Link to={routes.checkIns}>See all ›</Link>}
                         />
                       }
@@ -109,7 +115,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     <Section
                       header={
                         <SectionTitle
-                          main="Favorites"
+                          main={<>Favorites</>}
                           context={<Link to={routes.toplist}>See all ›</Link>}
                         />
                       }
@@ -120,7 +126,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     <Section
                       header={
                         <SectionTitle
-                          main={<>Collection ({collectionSize})</>}
+                          main={
+                            <Badged>
+                              Collection <Badge>{collectionSize}</Badge>
+                            </Badged>
+                          }
                           context={
                             <Link to={routes.collection}>See all ›</Link>
                           }
@@ -133,7 +143,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                     <Section
                       header={
                         <SectionTitle
-                          main={<>Wish list ({wishlistSize})</>}
+                          main={
+                            <Badged>
+                              Wish list <Badge>{wishlistSize}</Badge>
+                            </Badged>
+                          }
                           context={<Link to={routes.wishlist}>See all ›</Link>}
                         />
                       }
