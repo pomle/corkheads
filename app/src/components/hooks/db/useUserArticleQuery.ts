@@ -3,7 +3,11 @@ import { UserArticle } from "types/UserArticle";
 import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
 
-type SortFields = "rating.love" | "rating.score" | keyof UserArticle;
+type SortFields =
+  | "rating.love"
+  | "rating.score"
+  | "wishlist.addedTimestamp"
+  | keyof UserArticle;
 
 type SortOrder = {
   field: SortFields;
@@ -13,7 +17,8 @@ type SortOrder = {
 export type UserArticleQuery = {
   filters: {
     userId: string;
-    owner?: boolean;
+    collection?: boolean;
+    wishlist?: boolean;
   };
   order?: SortOrder[];
   limit?: number;
@@ -36,8 +41,15 @@ export function useUserArticleQuery(
 
     let q = db.collection("users").doc(userId).collection("articles").limit(20);
 
-    if (query.filters.owner !== undefined) {
-      q = q.where("owner", "==", query.filters.owner);
+    if (query.filters) {
+      const filters = query.filters;
+      if (filters.collection !== undefined) {
+        q = q.where("collection.active", "==", filters.collection);
+      }
+
+      if (filters.wishlist !== undefined) {
+        q = q.where("wishlist.active", "==", filters.wishlist);
+      }
     }
 
     if (query.order) {
