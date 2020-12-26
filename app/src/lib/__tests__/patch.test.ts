@@ -185,7 +185,6 @@ describe("getPreferredBottling", () => {
     const article: Article = {
       id: "",
       displayName: "A",
-      manufacturer: "A",
       bottling: {
         barcodes: [],
         bottler: {
@@ -225,7 +224,6 @@ describe("getPreferredBottling", () => {
     const article: Article = {
       id: "",
       displayName: "A",
-      manufacturer: "A",
       bottling: {
         barcodes: [],
         bottler: {
