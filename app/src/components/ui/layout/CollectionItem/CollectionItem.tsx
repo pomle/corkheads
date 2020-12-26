@@ -2,11 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Colors } from "components/ui/theme/colors";
 import Photo from "../Photo";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   CollectionItem: {
     alignItems: "center",
-    background: Colors.Sky,
+    background: theme.color.surface,
     borderRadius: "8px",
     display: "flex",
     flexFlow: "column",
@@ -15,13 +16,14 @@ const useStyles = makeStyles({
     width: "100%",
   },
   photo: {
-    background: Colors.X2,
-    minHeight: "136px",
-    minWidth: "136px",
+    background: theme.color.panel,
+    height: "136px",
     width: "100%",
   },
-  content: {},
-});
+  content: {
+    color: theme.color.text,
+  },
+}));
 
 interface CollectionItemProps {
   imageURL?: string;

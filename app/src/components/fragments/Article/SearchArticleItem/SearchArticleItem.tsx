@@ -11,11 +11,11 @@ import { useArticle } from "components/hooks/db/useArticles";
 import { createArticle } from "types/Article";
 
 function color(theme: Theme) {
-  return Colors.Gold;
+  return theme.color.accent;
 }
 
 function highlightColor(theme: Theme) {
-  return Colors.MatteGold;
+  return theme.color.action;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({

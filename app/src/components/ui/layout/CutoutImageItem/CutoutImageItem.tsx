@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
   },
   photo: {
+    background: theme.color.panel,
     height: "100%",
     width: "100%",
   },

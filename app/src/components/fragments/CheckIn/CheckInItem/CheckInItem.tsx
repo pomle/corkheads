@@ -109,11 +109,11 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
         <div className={classes.rating}>
           <ItemRating rating={rating} />
         </div>
-        {" – "}
+        &nbsp;•&nbsp;
         <div className={classes.timestamp}>
           {timestamp && <PassedTime date={timestamp} />}
         </div>
-        {" – "}
+        &nbsp;•&nbsp;
         <UserHandle user={user} />
       </div>
       <div className={classes.badge}>
