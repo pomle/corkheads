@@ -8,7 +8,7 @@ function color(theme: Theme) {
 
 const useStyles = makeStyles((theme: Theme) => ({
   ViewHead: {
-    padding: "8px 16px",
+    padding: "16px",
     "& h1": {
       color: color(theme),
       fontSize: "20px",
