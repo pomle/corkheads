@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       alignItems: "center",
       display: "flex",
       margin: 0,
-      padding: 0,
+      padding: "12px 0",
       justifyContent: "space-between",
     },
     "& dt": {
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         color: theme.color.action,
         flex: 1,
         fontSize: "14px",
-        padding: "12px 0",
         textAlign: "right",
         "&::placeholder": {
           color: theme.color.action + "90",
