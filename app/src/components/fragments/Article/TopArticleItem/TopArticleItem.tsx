@@ -7,25 +7,30 @@ import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { useArticle } from "components/hooks/db/useArticles";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
+import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
+import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  displayName: {
-    color: theme.color.title,
-    fontSize: "14px",
-    fontWeight: 700,
-    gridColumn: "1 / 3",
+  TopArticleItem: {
+    display: "grid",
+    gridAutoFlow: "row",
+    gridGap: "4px",
+    gridTemplateColumns: "1fr auto",
+    "& .displayName": {
+      color: theme.color.title,
+      fontSize: "14px",
+      fontWeight: 700,
+    },
+    "& .meta": {
+      color: theme.color.text,
+      fontSize: "12px",
+      fontWeight: 500,
+    },
+    "& .checkIns": {
+      gridArea: "1 / 2 / 4 / 3",
+    },
+    "& .rating": {},
   },
-  subText: {
-    color: theme.color.text,
-    fontSize: "12px",
-    fontWeight: 500,
-  },
-  checkIns: {
-    color: "#e2e2e2",
-    fontSize: "10px",
-    textAlign: "right",
-  },
-  rating: {},
 }));
 
 type TopArticleItemPointer = {
@@ -51,11 +56,17 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>{displayName || "• • •"}</div>
-      <div></div>
-      <div className={classes.checkIns}>{checkIns} check ins</div>
-      <div className={classes.rating}>
-        {rating && <ItemRating rating={rating} />}
+      <div className={classes.TopArticleItem}>
+        <div className="displayName">{displayName || "• • •"}</div>
+        {article.bottling && (
+          <div className="meta">
+            <BottlingMeta bottling={article.bottling} />
+          </div>
+        )}
+        <div className="rating">{rating && <ItemRating rating={rating} />}</div>
+        <div className="checkIns">
+          <CheckInCountBadge count={checkIns} />
+        </div>
       </div>
     </ImageItem>
   );
