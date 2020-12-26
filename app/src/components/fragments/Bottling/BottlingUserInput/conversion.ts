@@ -22,6 +22,7 @@ export function toEntries(bottling: Bottling): Entries {
     bottlingDate: dateToString(bottling.date),
     bottlingYear: bottling.year?.toString() || "",
     category: bottling.category?.toString() || "",
+    displayName: bottling.displayName || "",
     distillBatchNo: distill.batch.number || "",
     distillCaskNo: distill.cask.number || "",
     distillCaskType: distill.cask.type || "",
@@ -90,6 +91,11 @@ export function toBottling(entries: Entries): Bottling {
   const category = toCategoryMaybe(entries.category);
   if (category) {
     bottling.category = category;
+  }
+
+  const displayName = entries.displayName.trim();
+  if (displayName.length > 0) {
+    bottling.displayName = displayName;
   }
 
   const distillerName = entries.distillerName;
