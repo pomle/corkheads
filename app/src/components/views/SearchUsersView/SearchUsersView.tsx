@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -41,17 +40,12 @@ const MIN_QUERY_LENGTH = 3;
 
 interface SearchUsersViewProps {
   nav: React.ReactNode;
-  userId: string;
   routes: {
     user: (userId: string) => void;
   };
 }
 
-const SearchUsersView: React.FC<SearchUsersViewProps> = ({
-  nav,
-  userId,
-  routes,
-}) => {
+const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
   const [query, setQuery] = useState<string>("");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
@@ -63,7 +57,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({
       },
       limit: 5,
     }),
-    [executedQuery, userId]
+    [executedQuery]
   );
 
   const request = useUserSearch(searchQuery);
@@ -77,7 +71,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({
           {nav}
           <ViewHead>
             <h1>
-              <Locales.FindDrink />
+              <Locales.FindFriend />
             </h1>
             <div className={classes.searchBar}>
               <Input
