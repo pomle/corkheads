@@ -15,7 +15,6 @@ import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useArticle } from "components/hooks/db/useArticles";
 import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
-import UserDisplayName from "components/fragments/User/DisplayName";
 import UserHandle from "components/fragments/User/UserHandle";
 
 const useStyles = makeStyles((theme: Theme) => ({

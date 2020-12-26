@@ -1,12 +1,10 @@
 import React from "react";
-import { useArticle } from "components/hooks/db/useArticles";
 import CheckInDetailsView from "components/views/CheckInDetailsView";
 import LoadingView from "components/views/LoadingView";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
-import { useUser } from "components/hooks/db/useUsers";
 
 interface CheckInPageProps {
   checkInId: string;

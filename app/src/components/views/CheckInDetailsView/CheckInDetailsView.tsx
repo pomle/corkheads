@@ -6,7 +6,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { Article, createArticle } from "types/Article";
 import { CheckIn, createCheckIn } from "types/CheckIn";
-import { createUser, User } from "types/User";
+import { createUser } from "types/User";
 import Photo from "components/ui/layout/Photo";
 import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
@@ -14,7 +14,7 @@ import UserItem from "components/fragments/User/UserItem";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import Score from "components/ui/indicators/Score";
 import ArticleItem from "components/fragments/Article/ArticleItem";
-import { useCheckIn, useCheckIns } from "components/hooks/db/useCheckIns";
+import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useArticle } from "components/hooks/db/useArticles";
 import { useUser } from "components/hooks/db/useUsers";
 
