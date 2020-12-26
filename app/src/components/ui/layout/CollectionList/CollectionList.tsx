@@ -7,7 +7,7 @@ const useStyles = makeStyles({
     gap: "16px",
     gridTemplateColumns: "repeat(auto-fit, minmax(154px, 1fr))",
     "& > *": {
-      justifySelf: "center",
+      justifySelf: "stretch",
     },
   },
 });

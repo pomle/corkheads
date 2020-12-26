@@ -7,17 +7,18 @@ const useStyles = makeStyles({
   CollectionItem: {
     alignItems: "center",
     background: Colors.Sky,
-    borderRadius: "12px",
+    borderRadius: "8px",
     display: "flex",
     flexFlow: "column",
     overflow: "hidden",
     height: "100%",
-    width: "min-content",
+    width: "100%",
   },
   photo: {
     background: Colors.X2,
-    height: "144px",
-    width: "144px",
+    minHeight: "136px",
+    minWidth: "136px",
+    width: "100%",
   },
   content: {},
 });
