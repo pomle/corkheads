@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
+import { Colors } from "components/ui/theme/colors";
 
 const useStyles = makeStyles({
   RoundedImageItem: {
@@ -10,6 +11,7 @@ const useStyles = makeStyles({
     gridTemplateColumns: "64px auto",
   },
   photo: {
+    background: Colors.BlueSmoke,
     borderRadius: "50%",
     overflow: "hidden",
     height: "64px",
