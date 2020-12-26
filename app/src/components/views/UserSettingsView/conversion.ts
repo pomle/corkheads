@@ -12,12 +12,12 @@ export function toUser(entries: Entries): User {
   const user = createUser("anonymous");
   const profile: User["profile"] = (user.profile = {});
 
-  const name = entries.name;
+  const name = entries.name.trim();
   if (name.length) {
     profile.displayName = name;
   }
 
-  const username = entries.username;
+  const username = entries.username.trim();
   if (username.length) {
   }
 
