@@ -9,6 +9,7 @@ import { useArticle } from "components/hooks/db/useArticles";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   TopArticleItem: {
@@ -45,12 +46,10 @@ interface TopArticleItemProps {
 const TopArticleItem: React.FC<TopArticleItemProps> = ({
   pointer: { articleId, userId },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
-  const userArticle =
-    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL } = article;
-  const { checkIns, rating } = userArticle;
+  const { checkIns, rating } = article;
 
   const classes = useStyles();
 
