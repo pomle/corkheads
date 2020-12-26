@@ -36,7 +36,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MIN_QUERY_LENGTH = 3;
+const MIN_QUERY_LENGTH = 1;
 
 interface SearchUsersViewProps {
   nav: React.ReactNode;
