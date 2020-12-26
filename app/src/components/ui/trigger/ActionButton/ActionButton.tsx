@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) => {
       )`,
       borderRadius: "4px",
       color: Colors.White,
-      padding: "16px 24px 16px 24px",
+      padding: "12px",
       position: "relative",
       textAlign: "center",
       transition: "color 0.3s",
