@@ -3,10 +3,9 @@ import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
-import { Colors } from "components/ui/theme/colors";
 import Badge from "components/ui/icons/Badge";
-import UserDisplayName from "../DisplayName";
 import Username from "../Username";
+import UserHandle from "../UserHandle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   UserItem: {
@@ -14,14 +13,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateColumns: "1fr auto",
     gridGap: "4px",
     padding: "8px",
-    width: "100%",
     "& .displayName": {
-      color: Colors.Gold,
+      color: theme.color.accent,
       fontSize: "14px",
       gridArea: "1 / 1 / 2 / 2",
     },
     "& .username": {
-      color: Colors.MarbleBlue,
       fontSize: "10px",
       gridArea: "2 / 1 / 3 / 2",
     },
@@ -52,7 +49,7 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
     <RoundedImageItem photoURL={photoURL}>
       <div className={classes.UserItem}>
         <div className="displayName">
-          <UserDisplayName user={user} />
+          <UserHandle user={user} />
         </div>
         <div className="username">{user && <Username user={user} />}</div>
         <div className="stats">
