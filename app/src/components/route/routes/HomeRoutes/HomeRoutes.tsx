@@ -16,9 +16,9 @@ import CollectionRoute from "components/route/routes/CollectionRoute";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import WishlistRoute from "components/route/routes/WishlistRoute";
+import SearchArticleRoutes from "components/route/routes/SearchArticleRoutes";
+import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
-import SearchRoutes from "../SearchRoutes";
-import UserRoutes from "../UserRoutes/UserRoutes";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -179,7 +179,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         </Screen>
         <Screen path={paths.search} transition={SlideDown}>
           {(match) => (
-            <SearchRoutes
+            <SearchArticleRoutes
               origin={paths.here}
               path={match.path}
               userId={user.id}
