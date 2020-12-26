@@ -10,7 +10,7 @@ function resolveUserHandle(user?: User) {
   if (user) {
     const profile = user.profile;
     if (profile?.username) {
-      return `@${profile.username}`;
+      return profile.username;
     }
     if (profile?.displayName) {
       return profile.displayName;
