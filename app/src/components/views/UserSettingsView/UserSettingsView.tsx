@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
-import { useUser } from "components/hooks/db/useUsers";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
+import { useUserInput } from "components/hooks/useUserInput";
 import config from "config/app.config.js";
+import { toEntries, toUser } from "./conversion";
+import { useProfile } from "./hooks";
 
 const useStyles = makeStyles({
   form: {
@@ -22,9 +24,15 @@ interface UserSettingsViewProps {
 }
 
 const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
-  const userEntry = useUser(userId);
-  const user = userEntry?.data;
-  const profile = user?.profile;
+  const { user, handleUserChange } = useProfile(userId);
+
+  const entries = useMemo(() => {
+    return toEntries(user);
+  }, [user]);
+
+  const userInput = useUserInput(entries, (entries) => {
+    handleUserChange(toUser(entries));
+  });
 
   const classes = useStyles();
 
@@ -42,18 +50,12 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
               <Entry name="Name">
                 <input
                   type="text"
-                  placeholder="Drinker Drinkinsson"
-                  value={profile?.displayName || ""}
-                  onChange={() => undefined}
+                  placeholder="Your name"
+                  {...userInput.name}
                 />
               </Entry>
               <Entry name="Username">
-                <input
-                  type="text"
-                  placeholder="@"
-                  value={user?.username || ""}
-                  onChange={() => undefined}
-                />
+                <input type="text" placeholder="@" {...userInput.username} />
               </Entry>
               <Entry name="Version">
                 <code>{config.version}</code>
