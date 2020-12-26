@@ -16,6 +16,7 @@ import { useArticle } from "components/hooks/db/useArticles";
 import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 import UserDisplayName from "components/fragments/User/DisplayName";
+import UserHandle from "components/fragments/User/UserHandle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -114,7 +115,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
           {timestamp && <PassedTime date={timestamp} />}
         </div>
         {" – "}
-        <UserDisplayName user={user} />
+        <UserHandle user={user} />
       </div>
       <div className={classes.badge}>
         <Badge type={resolveBadgeType(checkInCount)}>{checkInCount}</Badge>
