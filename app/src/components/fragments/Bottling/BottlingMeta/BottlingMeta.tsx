@@ -44,7 +44,7 @@ const BottlingMeta: React.FC<BottlingMetaProps> = ({ bottling }) => {
     parts.push(<ABV key="abv" percent={distill.alcoholByVolumePercentage} />);
   }
 
-  return <>{interleave(parts, " – ")}</>;
+  return <>{interleave(parts, <>&ensp;•&ensp;</>)}</>;
 };
 
 export default BottlingMeta;
