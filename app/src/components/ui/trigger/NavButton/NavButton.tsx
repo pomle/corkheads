@@ -9,19 +9,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.color.action,
     display: "flex",
     fontSize: "14px",
-    fontWeight: () => {
-      if (theme.color.action === Colors.MatteGold) {
-        return 400;
-      }
-      return 500;
-    },
+    fontWeight: 500,
   },
   icon: {
-    marginRight: 5,
+    marginRight: 4,
     "& > svg": {
       display: "block",
-      height: "10px",
-      width: "10px",
+      height: "8px",
+      width: "8px",
       "& > path": {
         fill: theme.color.action,
         stroke: theme.color.action,
