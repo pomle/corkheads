@@ -245,7 +245,6 @@ describe("getPreferredBottling", () => {
 
     const userArticle: UserArticle = {
       id: "",
-      owner: false,
       checkIns: 0,
       bottling: {
         barcodes: [],
