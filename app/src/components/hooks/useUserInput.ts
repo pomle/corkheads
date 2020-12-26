@@ -1,5 +1,27 @@
 import { useCallback, useMemo, ChangeEvent, useState, useEffect } from "react";
 
+function isTextInput(
+  input: HTMLInputElement | HTMLSelectElement
+): input is HTMLInputElement {
+  if ("type" in input) {
+    if (input.type === "text") {
+      return true;
+    }
+  }
+  return false;
+}
+
+function readValue(input: HTMLInputElement | HTMLSelectElement) {
+  const value = input.value;
+  if (isTextInput(input)) {
+    if (input.pattern) {
+      const re = new RegExp(`${input.pattern}`);
+      return value.replace(re, "");
+    }
+  }
+  return value;
+}
+
 type InputProps = {
   value: string;
   onChange: (
@@ -35,7 +57,8 @@ export function useUserInput<T extends Record<string, string>>(
         onChange: (
           event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
         ) => {
-          merge(key, event.target.value);
+          const value = readValue(event.target);
+          merge(key, value);
         },
       };
     }
