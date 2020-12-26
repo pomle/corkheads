@@ -1,6 +1,6 @@
 import React from "react";
 import NavigationBar from "components/ui/layout/NavigationBar";
-import ExploreArticlesView from "components/views/ExploreArticlesView";
+import SearchArticlesView from "components/views/SearchArticlesView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import CancelButton from "components/ui/trigger/CancelButton/CancelButton";
 import { useMe } from "components/hooks/useMe";
@@ -29,7 +29,7 @@ const FindPage: React.FC<FindPageProps> = ({ routes }) => {
 
   return (
     <ErrorBoundary nav={nav}>
-      {() => <ExploreArticlesView nav={nav} userId={user.id} routes={routes} />}
+      {() => <SearchArticlesView nav={nav} userId={user.id} routes={routes} />}
     </ErrorBoundary>
   );
 };

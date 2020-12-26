@@ -24,7 +24,6 @@ import EntryList from "components/ui/layout/EntryList";
 import PassedTime from "components/ui/format/PassedTime";
 
 const useStyles = makeStyles({
-  ArticleSelect: {},
   searchBar: {
     marginTop: "12px",
   },
@@ -44,7 +43,7 @@ const useStyles = makeStyles({
 
 const MIN_QUERY_LENGTH = 3;
 
-interface ExploreArticlesViewProps {
+interface SearchArticlesViewProps {
   nav: React.ReactNode;
   userId: string;
   routes: {
@@ -53,7 +52,7 @@ interface ExploreArticlesViewProps {
   };
 }
 
-const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
+const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
   nav,
   userId,
   routes,
@@ -174,4 +173,4 @@ const ExploreArticlesView: React.FC<ExploreArticlesViewProps> = ({
   );
 };
 
-export default ExploreArticlesView;
+export default SearchArticlesView;
