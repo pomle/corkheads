@@ -16,6 +16,7 @@ import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 import UserHandle from "components/fragments/User/UserHandle";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -73,16 +74,14 @@ interface CheckInItemProps {
 const CheckInItem: React.FC<CheckInItemProps> = ({
   pointer: { checkInId, userId, articleId },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
   const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
   const user = useUser(userId)?.data || createUser(userId);
-  const userArticle =
-    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
 
   const { displayName: articleDisplayName } = article;
   const { rating, timestamp } = checkIn;
 
-  const checkInCount = userArticle?.checkIns;
+  const checkInCount = article?.checkIns;
 
   const photoURL = resolvePhotoURL(checkIn, article);
 

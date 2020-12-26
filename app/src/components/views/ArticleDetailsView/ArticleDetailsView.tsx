@@ -12,6 +12,7 @@ import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
 import AreaButton from "components/ui/trigger/AreaButton";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -61,9 +62,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   userId,
   articleId,
 }) => {
-  const articleEntry = useArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId) || PLACEHOLDER;
 
-  const { displayName, photoURL } = articleEntry?.data || PLACEHOLDER;
+  const { displayName, photoURL } = article;
 
   const classes = useStyles();
 
