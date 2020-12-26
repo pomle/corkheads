@@ -16,11 +16,15 @@ import TextItem from "components/ui/layout/TextItem";
 import Dashboard from "components/fragments/User/Dashboard/Dashboard";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
-import MainButton from "components/ui/trigger/MainButton/MainButton";
+import ButtonSet from "components/ui/layout/ButtonSet";
+import ActionButton from "components/ui/trigger/ActionButton";
 
 const useStyles = makeStyles({
   head: {
     marginTop: "-32px",
+  },
+  findFriendsButton: {
+    padding: "16px",
   },
   sectionControl: {
     borderBottom: "dashed 1px #dde4ef",
@@ -84,11 +88,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
 
               <SlidingWindow activeIndex={section}>
                 <Scroll>
-                  <SectionList>
-                    <MainButton onClick={routes.userSearch}>
-                      Find freinds
-                    </MainButton>
+                  <div className={classes.findFriendsButton}>
+                    <ButtonSet>
+                      <ActionButton onClick={routes.userSearch}>
+                        Find friends
+                      </ActionButton>
+                    </ButtonSet>
+                  </div>
 
+                  <SectionList>
                     <Section
                       header={
                         <SectionTitle
