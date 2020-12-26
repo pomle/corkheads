@@ -10,12 +10,12 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 import { useUser } from "components/hooks/db/useUsers";
 import { createUser } from "types/User";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
-import Badge from "components/ui/icons/Badge";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useArticle } from "components/hooks/db/useArticles";
 import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 import UserHandle from "components/fragments/User/UserHandle";
+import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -53,17 +53,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingLeft: "8px",
   },
 }));
-
-function resolveBadgeType(count?: number) {
-  if (count) {
-    if (count > 10) {
-      return "heart";
-    } else if (count > 5) {
-      return "diamond";
-    }
-  }
-  return "badge";
-}
 
 function resolvePhotoURL(checkIn: CheckIn, article: Article) {
   if (checkIn.photoURL) {
@@ -117,7 +106,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
         <UserHandle user={user} />
       </div>
       <div className={classes.badge}>
-        <Badge type={resolveBadgeType(checkInCount)}>{checkInCount}</Badge>
+        <CheckInCountBadge count={checkInCount} />
       </div>
     </ImageItem>
   );
