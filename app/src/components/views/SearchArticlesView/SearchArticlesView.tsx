@@ -12,7 +12,7 @@ import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.sv
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
-import SearchArticleItem from "components/fragments/Article/SearchArticleItem";
+import SearchArticleItemButtom from "components/fragments/Article/SearchArticleItem/Button";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
 import { Colors } from "components/ui/theme/colors";
 import {
@@ -73,17 +73,16 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
     [executedQuery, userId]
   );
 
-  const searchRequest = useArticleSearch(searchQuery);
-  const results = searchRequest.results;
+  const request = useArticleSearch(searchQuery);
 
   const searchHistory = useSearchHistory(userId);
 
   const handleSelect = useCallback(
-    (article: Article) => {
+    (articleId: string) => {
       searchHistory.add({
         text: searchQuery.search.text,
       });
-      routes.article(article.id);
+      routes.article(articleId);
     },
     [searchQuery, searchHistory, routes]
   );
@@ -110,7 +109,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
             </div>
           </ViewHead>
           <div className={classes.searchBusy}>
-            {searchRequest.busy && <LineThrobber color={Colors.MatteGold} />}
+            {request.busy && <LineThrobber color={Colors.MatteGold} />}
           </div>
         </ViewCap>
       </ThemeProvider>
@@ -118,15 +117,12 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
         <div className={classes.searchResults}>
           {executedQuery.length ? (
             <ItemList divided>
-              {results.map((result) => {
-                const article = result.entry.data;
+              {request.results.map((result) => {
                 return (
-                  <button
-                    key={article.id}
-                    onClick={() => handleSelect(article)}
-                  >
-                    <SearchArticleItem searchResult={result} />
-                  </button>
+                  <SearchArticleItemButtom
+                    result={result}
+                    route={handleSelect}
+                  />
                 );
               })}
 

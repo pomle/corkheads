@@ -35,21 +35,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface SearchArticleItemProps {
-  searchResult: SearchResult;
+  result: SearchResult;
 }
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
-  searchResult,
+  result: { articleId, matches },
 }) => {
-  const {
-    hit,
-    entry: { data },
-  } = searchResult;
-
-  const article = useArticle(data.id)?.data || createArticle(data.id);
+  const article = useArticle(articleId)?.data || createArticle(articleId);
 
   const { displayName, photoURL, ratingAggregate } = article;
-  const displayNameMatch = hit.matches?.displayName?.value;
+  const displayNameMatch = matches?.displayName?.value;
 
   const classes = useStyles();
 

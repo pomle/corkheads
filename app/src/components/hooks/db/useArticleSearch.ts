@@ -1,11 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { GuaranteedEntry, isGuaranteed } from "types/Entry";
-import { useArticles } from "./useArticles";
 import { ArticleSearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
-import { ResultMap } from "../store2/ResultMap";
-import { QueryResult } from "../store2/useStore";
+import { QueryRequest } from "../store2/useStore";
 
 export type { ArticleSearchQuery };
 
@@ -22,17 +19,12 @@ type SearchHit<T> = {
   matches?: Matches<T>;
 };
 
-export type SearchResult = {
-  hit: SearchHit<Article>;
-  entry: GuaranteedEntry<Article>;
-};
-
-const EMPTY: ResultMap<SearchResult> = new ResultMap();
+export type SearchResult = SearchHit<Article & UserArticle>;
 
 export function useArticleSearch(
   query: ArticleSearchQuery
-): QueryResult<SearchResult> {
-  const [hits, setHits] = useState<SearchHit<Article>[]>([]);
+): QueryRequest<SearchResult> {
+  const [results, setResults] = useState<SearchResult[]>([]);
   const { busy, search } = useSearch();
   const flight = useRef<number>(0);
 
@@ -40,7 +32,7 @@ export function useArticleSearch(
     const flightRecord = ++flight.current;
 
     if (query.search.text.length === 0) {
-      setHits([]);
+      setResults([]);
       return;
     }
 
@@ -72,37 +64,15 @@ export function useArticleSearch(
         });
       }
 
-      setHits(Array.from(hits.values()));
+      setResults(Array.from(hits.values()));
     });
-  }, [setHits, search, query]);
+  }, [setResults, search, query]);
 
-  const articleIds = hits.map((hit) => hit.articleId);
-  const articlesResult = useArticles(articleIds);
-
-  return useMemo(() => {
-    if (articlesResult.size === 0) {
-      console.log("Returning empty");
-      return {
-        busy,
-        results: EMPTY,
-      };
-    }
-
-    const results: ResultMap<SearchResult> = new ResultMap();
-    for (const hit of hits) {
-      const articleId = hit.articleId;
-      const entry = articlesResult.get(articleId);
-      if (entry && isGuaranteed(entry)) {
-        results.set(articleId, {
-          hit,
-          entry,
-        });
-      }
-    }
-
-    return {
-      busy: busy || hits.length !== results.size,
+  return useMemo(
+    () => ({
+      busy,
       results,
-    };
-  }, [busy, hits, articlesResult]);
+    }),
+    [busy, results]
+  );
 }
