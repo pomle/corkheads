@@ -1,13 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { createArticle } from "types/Article";
 import CutoutImageItem from "components/ui/layout/CutoutImageItem";
 import { Theme } from "components/ui/theme/themes";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
-import { useArticle } from "components/hooks/db/useArticles";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
-import { createUserArticle } from "types/UserArticle";
 import PassedTime from "components/ui/format/PassedTime";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   WishlistArticleItem: {
@@ -39,12 +36,10 @@ interface WishlistArticleItemProps {
 const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
   pointer: { articleId, userId },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
-  const userArticle =
-    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL } = article;
-  const addedDate = userArticle.wishlist?.addedTimestamp;
+  const addedDate = article.wishlist?.addedTimestamp;
 
   const classes = useStyles();
 

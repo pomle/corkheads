@@ -36,10 +36,6 @@ export function getEffectiveBottlingChanges(
   bottling: Partial<Bottling>,
   article: Article
 ): Partial<Bottling> {
-  const bottlings: Partial<Bottling>[] = [DEFAULT_BOTTLING];
-  if (article.bottling) {
-    bottlings.push(article.bottling);
-  }
-  const sourceBottling = merge.all(bottlings);
+  const sourceBottling = createSourceBottling(article);
   return findDiff(sourceBottling, bottling);
 }

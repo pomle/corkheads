@@ -4,14 +4,15 @@ import SearchArticleItem from ".";
 
 interface SearchArticleItemButtonProps {
   result: SearchResult;
+  userId: string;
   route: (articleId: string) => void;
 }
 
 const SearchArticleItemButton: React.FC<SearchArticleItemButtonProps> = React.memo(
-  ({ result, route }) => {
+  ({ userId, result, route }) => {
     return (
       <button onClick={() => route(result.articleId)}>
-        <SearchArticleItem result={result} />
+        <SearchArticleItem userId={userId} result={result} />
       </button>
     );
   }

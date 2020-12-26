@@ -1,11 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { RatingAggregate } from "types/RatingAggregate";
-import { useArticle } from "components/hooks/db/useArticles";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import NumberedRating from "./components/NumberedRating";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Ratings: {
@@ -35,14 +34,13 @@ interface RatingsProps {
 }
 
 const Ratings: React.FC<RatingsProps> = ({ userId, articleId }) => {
-  const article = useArticle(articleId)?.data;
-  const userArticle = useUserArticle(userId, articleId)?.data;
+  const article = useUserVirtualArticle(userId, articleId);
 
   const averageRating = article?.ratingAggregate
     ? calcAverageRating(article.ratingAggregate)
     : null;
 
-  const myRating = userArticle?.rating;
+  const myRating = article?.rating;
 
   const classes = useStyles();
 
