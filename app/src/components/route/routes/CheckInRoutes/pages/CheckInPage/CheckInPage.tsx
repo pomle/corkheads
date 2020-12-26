@@ -24,17 +24,13 @@ const CheckInPage: React.FC<CheckInPageProps> = ({ checkInId, routes }) => {
   );
 
   const checkInEntry = useCheckIn(checkInId);
-  const articleEntry = useArticle(checkInEntry?.data?.articleId);
-  const userEntry = useUser(checkInEntry?.data?.userId);
 
   return (
     <ErrorBoundary nav={nav}>
       {() => {
         const checkIn = checkInEntry?.data;
-        const article = articleEntry?.data;
-        const user = userEntry?.data;
 
-        if (!checkIn || !article || !user) {
+        if (!checkIn) {
           return <LoadingView nav={nav} />;
         }
 
@@ -42,9 +38,7 @@ const CheckInPage: React.FC<CheckInPageProps> = ({ checkInId, routes }) => {
           <CheckInDetailsView
             nav={nav}
             routes={routes}
-            checkIn={checkIn}
-            article={article}
-            user={user}
+            checkInId={checkIn.id}
           />
         );
       }}

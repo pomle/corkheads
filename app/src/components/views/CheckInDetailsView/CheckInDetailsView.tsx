@@ -4,9 +4,9 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/Article";
-import { CheckIn } from "types/CheckIn";
-import { User } from "types/User";
+import { Article, createArticle } from "types/Article";
+import { CheckIn, createCheckIn } from "types/CheckIn";
+import { createUser, User } from "types/User";
 import Photo from "components/ui/layout/Photo";
 import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
@@ -14,6 +14,9 @@ import UserItem from "components/fragments/User/UserItem";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import Score from "components/ui/indicators/Score";
 import ArticleItem from "components/fragments/Article/ArticleItem";
+import { useCheckIn, useCheckIns } from "components/hooks/db/useCheckIns";
+import { useArticle } from "components/hooks/db/useArticles";
+import { useUser } from "components/hooks/db/useUsers";
 
 const useStyles = makeStyles({
   photo: {
@@ -82,20 +85,21 @@ interface CheckInDetailsViewProps {
     user: (userId: string) => void;
     picture: () => void;
   };
-  checkIn: CheckIn;
-  article: Article;
-  user: User;
+  checkInId: string;
 }
 
 const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   nav,
   routes,
-  checkIn,
-  article,
-  user,
+  checkInId,
 }) => {
-  const score = checkIn.rating.score;
+  const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
+  const { articleId, userId } = checkIn;
 
+  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const user = useUser(userId)?.data || createUser(userId);
+
+  const score = checkIn.rating.score;
   const photoURL = resolvePhotoURL(checkIn, article);
 
   const classes = useStyles();
