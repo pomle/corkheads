@@ -9,13 +9,13 @@ import { Path } from "lib/path";
 import { stringCodec } from "components/route/codecs";
 import ArticleCreatePage from "components/route/pages/ArticleCreatePage";
 
-interface SearchRoutesProps {
+interface SearchArticleRoutesProps {
   origin: Path<{}>;
   path: Path<{}>;
   userId: string;
 }
 
-const SearchRoutes: React.FC<SearchRoutesProps> = ({
+const SearchArticleRoutes: React.FC<SearchArticleRoutesProps> = ({
   userId,
   origin,
   path,
@@ -103,4 +103,4 @@ const SearchRoutes: React.FC<SearchRoutesProps> = ({
   );
 };
 
-export default SearchRoutes;
+export default SearchArticleRoutes;
