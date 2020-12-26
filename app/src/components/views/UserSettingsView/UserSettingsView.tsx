@@ -12,7 +12,7 @@ import config from "config/app.config.js";
 
 const useStyles = makeStyles({
   form: {
-    padding: "24px",
+    padding: "8px 24px",
   },
 });
 
