@@ -119,6 +119,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
               {request.results.map((result) => {
                 return (
                   <SearchArticleItemButtom
+                    userId={userId}
                     result={result}
                     route={handleSelect}
                   />

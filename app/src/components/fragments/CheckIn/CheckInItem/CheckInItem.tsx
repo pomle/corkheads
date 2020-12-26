@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Article, createArticle } from "types/Article";
+import { Article } from "types/Article";
 import { CheckIn, createCheckIn } from "types/CheckIn";
 import PassedTime from "components/ui/format/PassedTime";
 import ImageItem from "components/ui/layout/ImageItem";
@@ -9,10 +9,7 @@ import { Colors } from "components/ui/theme/colors";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { useUser } from "components/hooks/db/useUsers";
 import { createUser } from "types/User";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
-import { useArticle } from "components/hooks/db/useArticles";
-import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 import UserHandle from "components/fragments/User/UserHandle";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";

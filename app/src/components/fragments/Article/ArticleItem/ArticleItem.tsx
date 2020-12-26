@@ -3,9 +3,8 @@ import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
-import { useArticle } from "components/hooks/db/useArticles";
-import { createArticle } from "types/Article";
 import CutoutImageItem from "components/ui/layout/CutoutImageItem";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   content: {
@@ -30,7 +29,7 @@ interface ArticleItemProps {
 const ArticleItem: React.FC<ArticleItemProps> = ({
   pointer: { articleId, userId },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL, ratingAggregate } = article;
 

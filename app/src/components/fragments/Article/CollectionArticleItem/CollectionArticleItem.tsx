@@ -1,13 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { createArticle } from "types/Article";
 import CollectionItem from "components/ui/layout/CollectionItem/CollectionItem";
-import { useArticle } from "components/hooks/db/useArticles";
 import { Theme } from "components/ui/theme/themes";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
-import { createUserArticle } from "types/UserArticle";
 import PassedTime from "components/ui/format/PassedTime";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
   CollectionArticleItem: {
@@ -39,13 +36,11 @@ interface CollectionArticleItemProps {
 const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
   pointer: { articleId, userId },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
-  const userArticle =
-    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL } = article;
 
-  const addedDate = userArticle.collection?.addedTimestamp;
+  const addedDate = article.collection?.addedTimestamp;
 
   const classes = useStyles();
 

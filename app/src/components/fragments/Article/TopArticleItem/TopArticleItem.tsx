@@ -1,12 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { createArticle } from "types/Article";
-import { createUserArticle } from "types/UserArticle";
 import ImageItem from "components/ui/layout/ImageItem";
 import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
-import { useArticle } from "components/hooks/db/useArticles";
-import { useUserArticle } from "components/hooks/db/useUserArticles";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";

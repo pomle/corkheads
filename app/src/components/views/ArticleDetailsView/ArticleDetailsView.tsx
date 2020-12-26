@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
-import { useArticle } from "components/hooks/db/useArticles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";

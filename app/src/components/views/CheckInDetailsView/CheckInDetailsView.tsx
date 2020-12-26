@@ -4,7 +4,7 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article, createArticle } from "types/Article";
+import { Article } from "types/Article";
 import { CheckIn, createCheckIn } from "types/CheckIn";
 import { createUser } from "types/User";
 import Photo from "components/ui/layout/Photo";
@@ -15,8 +15,8 @@ import ThemeProvider from "components/ui/theme/ThemeProvider";
 import Score from "components/ui/indicators/Score";
 import ArticleItem from "components/fragments/Article/ArticleItem";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
-import { useArticle } from "components/hooks/db/useArticles";
 import { useUser } from "components/hooks/db/useUsers";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles({
   photo: {
@@ -96,7 +96,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
   const { articleId, userId } = checkIn;
 
-  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
   const user = useUser(userId)?.data || createUser(userId);
 
   const score = checkIn.rating.score;

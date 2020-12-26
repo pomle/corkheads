@@ -6,8 +6,7 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import Highlighted from "./components/Highlighted";
-import { useArticle } from "components/hooks/db/useArticles";
-import { createArticle } from "types/Article";
+import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 function color(theme: Theme) {
   return theme.color.accent;
@@ -34,13 +33,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface SearchArticleItemProps {
+  userId: string;
   result: SearchResult;
 }
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
+  userId,
   result: { articleId, matches },
 }) => {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL, ratingAggregate } = article;
   const displayNameMatch = matches?.displayName?.value;
