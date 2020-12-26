@@ -66,7 +66,7 @@ export function useUserSearch(
       });
       setResults(results);
     });
-  }, [setResults, query]);
+  }, [db, setResults, query]);
 
   return useMemo(
     () => ({
