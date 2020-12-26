@@ -17,6 +17,12 @@ export function upgrade(source: unknown): UserArticle {
       delete output.loveIt;
     }
 
+    if (output?.collection?.addedTimestamp) {
+      output.collection.addedTimestamp = toMoment(
+        output.collection.addedTimestamp
+      );
+    }
+
     if (output?.wishlist?.addedTimestamp) {
       output.wishlist.addedTimestamp = toMoment(output.wishlist.addedTimestamp);
     }
