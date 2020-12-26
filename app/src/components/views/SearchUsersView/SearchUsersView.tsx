@@ -77,7 +77,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
               <Input
                 symbol={<SearchIcon />}
                 type="search"
-                placeholder="Enter a user's name or username"
+                placeholder="Search for friends"
                 value={query}
                 onChange={setQuery}
               />
