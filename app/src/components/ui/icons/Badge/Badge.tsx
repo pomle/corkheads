@@ -49,13 +49,13 @@ interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ children, type = "badge" }) => {
-  let size = 12;
+  let size = 11;
   if (typeof children === "number" || typeof children === "string") {
     const length = children.toString().length;
     if (length > 3) {
-      size = 8;
+      size = 7;
     } else if (length > 2) {
-      size = 10;
+      size = 9;
     }
   }
 
