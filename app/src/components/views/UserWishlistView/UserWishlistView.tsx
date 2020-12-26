@@ -59,6 +59,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
       .sort(byDisplayName)
       .map((e) => ({
         articleId: e.id,
+        userId,
       }));
   }, [articles]);
 

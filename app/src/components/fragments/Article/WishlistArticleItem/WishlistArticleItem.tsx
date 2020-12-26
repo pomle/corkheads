@@ -6,46 +6,63 @@ import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useArticle } from "components/hooks/db/useArticles";
+import { useUserArticle } from "components/hooks/db/useUserArticles";
+import { createUserArticle } from "types/UserArticle";
+import PassedTime from "components/ui/format/PassedTime";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  displayName: {
-    color: "#1b2230",
-    fontSize: "14px",
-    fontWeight: 700,
-    gridColumn: "1 / 3",
-  },
-  subText: {
-    color: Colors.MarbleBlue,
-    fontSize: "12px",
-    fontWeight: 500,
-  },
-  content: {
+  WishlistArticleItem: {
     display: "grid",
     gridGap: "4px",
     padding: "8px",
+    "& > .displayName": {
+      color: theme.color.title,
+      fontSize: "14px",
+      fontWeight: 700,
+    },
+    "& > .meta": {
+      color: theme.color.text,
+      fontSize: "12px",
+      fontWeight: 500,
+    },
+    "& > .date": {
+      color: theme.color.text,
+      fontSize: "10px",
+      fontWeight: 500,
+    },
   },
 }));
 
 interface WishlistArticleItemProps {
-  pointer: { articleId: string };
+  pointer: { articleId: string; userId: string };
 }
 
 const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
-  pointer: { articleId },
+  pointer: { articleId, userId },
 }) => {
   const article = useArticle(articleId)?.data || createArticle(articleId);
+  const userArticle =
+    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
 
   const { displayName, photoURL } = article;
+  const addedDate = userArticle.wishlist?.addedTimestamp;
 
   const classes = useStyles();
 
   return (
     <CutoutImageItem photoURL={photoURL}>
-      <div className={classes.content}>
-        <div className={classes.displayName}>{displayName}</div>
-        <div className={classes.subText}>
-          {article.bottling && <BottlingMeta bottling={article.bottling} />}
-        </div>
+      <div className={classes.WishlistArticleItem}>
+        <div className="displayName">{displayName}</div>
+        {article.bottling && (
+          <div className="meta">
+            <BottlingMeta bottling={article.bottling} />
+          </div>
+        )}
+        {addedDate && (
+          <div className="date">
+            Added <PassedTime date={addedDate} />
+          </div>
+        )}
       </div>
     </CutoutImageItem>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import WishlistArticleItem from ".";
 
 interface WishlistArticleItemButtonProps {
-  pointer: { articleId: string };
+  pointer: { articleId: string; userId: string };
   route: (articleId: string) => void;
 }
 
