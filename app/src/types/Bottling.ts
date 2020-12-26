@@ -28,13 +28,13 @@ export type Batch = {
 };
 
 export type Distill = {
-  distillery: Distillery;
   age?: number;
-  year?: number; // Year it was distilled
-  date?: Moment; // Date it was distilled
   alcoholByVolumePercentage?: number;
-  cask: Cask;
   batch: Batch;
+  cask: Cask;
+  date?: Moment; // Date it was distilled
+  distillery: Distillery;
+  year?: number; // Year it was distilled
 };
 
 export type Bottler = {
@@ -47,21 +47,22 @@ export type Series = {
 };
 
 export type Bottling = {
-  label?: string;
-  distill: Distill;
+  barcodes: BarCode[]; // Barcodes printed on bottles in this bottling
   bottler: Bottler;
-  category?: Category;
-  series: Series;
-  code?: string;
   bottleSize?: string;
   bottlesProduced?: number;
-  year?: number;
+  category?: Category;
+  code?: string;
   date?: Moment;
-  barcodes: BarCode[]; // Barcodes printed on bottles in this bottling
+  distill: Distill;
+  label?: string;
+  series: Series;
+  year?: number;
 };
 
 export function createBottling(): Bottling {
   return {
+    barcodes: [],
     bottler: {},
     distill: {
       batch: {},
@@ -69,6 +70,5 @@ export function createBottling(): Bottling {
       distillery: {},
     },
     series: {},
-    barcodes: [],
   };
 }
