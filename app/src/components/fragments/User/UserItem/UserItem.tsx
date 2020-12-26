@@ -3,18 +3,31 @@ import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
+import { Colors } from "components/ui/theme/colors";
+import Badge from "components/ui/icons/Badge";
+import UserDisplayName from "../DisplayName";
 
 const useStyles = makeStyles((theme: Theme) => ({
   content: {
     display: "grid",
     gridGap: "4px",
     padding: "8px",
+    width: "100%",
   },
   displayName: {
-    color: theme.color.action,
+    color: Colors.Gold,
     fontSize: "14px",
     fontWeight: 700,
-    gridColumn: "1 / 3",
+    gridColumn: "1 / 2",
+  },
+  username: {
+    color: Colors.MarbleBlue,
+    fontSize: "10px",
+    gridColumn: "1 / 2",
+  },
+  stats: {
+    alignSelf: "center",
+    gridArea: "1 / 2 / 3 / 3",
   },
 }));
 
