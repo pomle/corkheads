@@ -3,6 +3,8 @@ import { useUserProfile } from "components/hooks/db/useUserProfile";
 import { debounce } from "lib/debounce";
 import { User } from "types/User";
 
+const STORE_DELAY = 3000;
+
 export function useProfile(userId: string) {
   const { user, updateProfile } = useUserProfile(userId);
 
@@ -10,7 +12,7 @@ export function useProfile(userId: string) {
     const setUser = (user: User) => {
       updateProfile(user.profile);
     };
-    return debounce(setUser, 2500);
+    return debounce(setUser, STORE_DELAY);
   }, [updateProfile]);
 
   return useMemo(
