@@ -10,6 +10,7 @@ import { useSwitch } from "components/hooks/useSwitch";
 import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
+import Username from "components/fragments/User/Username";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
@@ -160,7 +161,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
       <div className={classes.identity}>
         <h2>{resolveDisplayName(user)}</h2>
-        <div className="username">@{user?.username}</div>
+        {user && <Username user={user} />}
       </div>
     </div>
   );

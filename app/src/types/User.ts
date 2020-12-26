@@ -8,7 +8,6 @@ export type Profile = {
 
 export type User = {
   id: string;
-  username?: string;
   profile?: Profile;
   readonly collectionSize?: number;
   readonly wishlistSize?: number;
