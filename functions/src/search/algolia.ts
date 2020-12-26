@@ -16,6 +16,7 @@ export const onArticleCreated = functions.firestore
   .onCreate((snap, context) => {
     const data = snap.data();
     data.objectID = context.params.articleId;
+    console.log("Writing %s", data.objectID, data);
     return articlesIndex.saveObject(data);
   });
 
@@ -24,6 +25,7 @@ export const onArticleUpdated = functions.firestore
   .onUpdate((snap, context) => {
     const data = snap.after.data();
     data.objectID = context.params.articleId;
+    console.log("Writing %s", data.objectID, data);
     return articlesIndex.saveObject(data);
   });
 
@@ -31,6 +33,7 @@ export const onArticleDeleted = functions.firestore
   .document("articles/{articleId}")
   .onDelete((snap, context) => {
     const objectID = context.params.articleId;
+    console.log("Deleting %s", objectID);
     return articlesIndex.deleteObject(objectID);
   });
 
@@ -42,6 +45,7 @@ export const onUserArticleCreated = functions.firestore
     data.objectID = [articleId, userId].join("/");
     data.articleId = articleId;
     data.userId = userId;
+    console.log("Writing %s", data.objectID, data);
     return userArticlesIndex.saveObject(data);
   });
 
@@ -53,6 +57,7 @@ export const onUserArticleUpdated = functions.firestore
     data.objectID = [articleId, userId].join("/");
     data.articleId = articleId;
     data.userId = userId;
+    console.log("Writing %s", data.objectID, data);
     return userArticlesIndex.saveObject(data);
   });
 
@@ -60,5 +65,6 @@ export const onUserArticleDeleted = functions.firestore
   .document("users/{userId}/articles/{articleId}")
   .onDelete((snap, context) => {
     const objectID = context.params.articleId;
+    console.log("Deleting %s", objectID);
     return userArticlesIndex.deleteObject(objectID);
   });
