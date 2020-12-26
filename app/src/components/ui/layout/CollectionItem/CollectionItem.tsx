@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Colors } from "components/ui/theme/colors";
 import Photo from "../Photo";
 import { Theme } from "components/ui/theme/themes";
 

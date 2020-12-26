@@ -61,7 +61,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         articleId: e.id,
         userId,
       }));
-  }, [articles]);
+  }, [articles, userId]);
 
   const classes = useStyles();
 
