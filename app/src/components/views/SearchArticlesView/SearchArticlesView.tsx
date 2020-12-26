@@ -5,7 +5,6 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import * as Locales from "./locales";
-import { Article } from "types/Article";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
 import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
