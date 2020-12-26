@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         border: "none",
         color: theme.color.action,
         flex: 1,
-        fontSize: "14px",
         textAlign: "right",
         "&::placeholder": {
           color: theme.color.action + "90",
