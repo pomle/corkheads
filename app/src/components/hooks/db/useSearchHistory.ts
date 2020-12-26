@@ -9,7 +9,7 @@ type Query = {
   text: string;
 };
 
-type SearchHistoryEntry = {
+export type SearchHistoryEntry = {
   id: string;
   query: Query;
   timestamp?: Moment;

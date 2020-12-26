@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/styles";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import * as Locales from "./locales";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
 import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
@@ -19,8 +18,8 @@ import {
   useArticleSearch,
 } from "components/hooks/db/useArticleSearch";
 import { useSearchHistory } from "components/hooks/db/useSearchHistory";
-import EntryList from "components/ui/layout/EntryList";
-import PassedTime from "components/ui/format/PassedTime";
+import SearchHistory from "./components/SearchHistory";
+import * as Locales from "./locales";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -137,30 +136,10 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
                 Type at least {MIN_QUERY_LENGTH - query.length} more characters
                 to search.
               </TextItem>
-              <EntryList>
-                {searchHistory.entries.map((entry) => {
-                  return (
-                    <button
-                      key={entry.id}
-                      type="button"
-                      onClick={() => setQuery(entry.query.text)}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        padding: "16px 0",
-                        width: "100%",
-                      }}
-                    >
-                      <div>{entry.query.text}</div>
-                      <div>
-                        {entry.timestamp && (
-                          <PassedTime date={entry.timestamp} />
-                        )}
-                      </div>
-                    </button>
-                  );
-                })}
-              </EntryList>
+              <SearchHistory
+                entries={searchHistory.entries}
+                onSelect={setQuery}
+              />
             </>
           )}
         </div>
