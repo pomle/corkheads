@@ -10,7 +10,6 @@ export type UserArticle = {
   id: string;
   displayName?: string;
   checkIns: number;
-  owner: boolean;
   photoURL?: string;
   rating?: Rating;
   bottling?: Partial<Bottling>;
@@ -29,7 +28,6 @@ export function createUserArticle(id: string): UserArticle {
   return {
     id,
     checkIns: 0,
-    owner: false,
   };
 }
 
