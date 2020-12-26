@@ -10,6 +10,7 @@ export type FieldName =
   | "bottlingDate"
   | "bottlingYear"
   | "category"
+  | "displayName"
   | "distillBatchNo"
   | "distillCaskNo"
   | "distillCaskType"

@@ -54,6 +54,7 @@ export type Bottling = {
   category?: Category;
   code?: string;
   date?: Moment;
+  displayName?: string;
   distill: Distill;
   label?: string;
   series: Series;
