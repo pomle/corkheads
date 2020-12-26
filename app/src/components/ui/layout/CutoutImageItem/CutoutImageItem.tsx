@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   CutoutImageItem: {
     alignItems: "center",
     background: theme.color.surface,
-    borderRadius: "12px",
+    borderRadius: "8px",
     display: "grid",
     gridAutoFlow: "column",
     gridTemplateColumns: "64px auto",
