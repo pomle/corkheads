@@ -57,6 +57,9 @@ const useStyles = makeStyles({
     margin: "16px",
   },
   user: {
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "stretch",
     margin: "16px",
   },
   comment: {
