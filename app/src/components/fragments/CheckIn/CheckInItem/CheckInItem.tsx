@@ -8,13 +8,14 @@ import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { useUser } from "components/hooks/db/useUsers";
-import { createUser, User } from "types/User";
+import { createUser } from "types/User";
 import { useUserArticle } from "components/hooks/db/useUserArticles";
 import Badge from "components/ui/icons/Badge";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useArticle } from "components/hooks/db/useArticles";
 import { createUserArticle } from "types/UserArticle";
 import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
+import UserDisplayName from "components/fragments/User/DisplayName";
 
 const useStyles = makeStyles((theme: Theme) => ({
   displayName: {
@@ -76,18 +77,6 @@ function resolvePhotoURL(checkIn: CheckIn, article: Article) {
   return;
 }
 
-function resolveUserDisplayName(user?: User) {
-  if (user) {
-    if (user.username) {
-      return `@${user.username}`;
-    }
-    if (user.profile?.displayName) {
-      return user.profile.displayName;
-    }
-  }
-  return "• • •";
-}
-
 interface CheckInItemProps {
   pointer: CheckInPointer;
 }
@@ -100,8 +89,6 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
   const user = useUser(userId)?.data || createUser(userId);
   const userArticle =
     useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
-
-  const userDisplayName = resolveUserDisplayName(user);
 
   const { displayName: articleDisplayName } = article;
   const { rating, timestamp } = checkIn;
@@ -127,7 +114,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
           {timestamp && <PassedTime date={timestamp} />}
         </div>
         {" – "}
-        <div className={classes.username}>{userDisplayName}</div>
+        <UserDisplayName user={user} />
       </div>
       <div className={classes.badge}>
         <Badge type={resolveBadgeType(checkInCount)}>{checkInCount}</Badge>

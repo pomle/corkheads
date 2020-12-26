@@ -33,7 +33,11 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
     <RoundedImageItem photoURL={photoURL}>
       <div className={classes.content}>
         <div className={classes.displayName}>
-          {user?.username ? "@" + user.username : ""}
+          <UserDisplayName user={user} />
+        </div>
+        <div className={classes.stats}>
+          <Badge type="badge">{user?.checkInCount}</Badge>
+          <Badge type="diamond">{user?.collectionSize}</Badge>
         </div>
       </div>
     </RoundedImageItem>
