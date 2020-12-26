@@ -18,11 +18,8 @@ import {
 } from "components/hooks/db/useUserArticleQuery";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  head: {
-    textAlign: "center",
-  },
   body: {
-    margin: "0 16px",
+    margin: "16px",
   },
 }));
 
@@ -71,14 +68,12 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme="cream">
+    <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
           <ViewHead>
-            <div className={classes.head}>
-              <h1>Collection</h1>
-            </div>
+            <h1>Collection</h1>
           </ViewHead>
         </ViewCap>
         <ViewBody>
