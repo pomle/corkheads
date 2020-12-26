@@ -19,6 +19,7 @@ import WishlistRoute from "components/route/routes/WishlistRoute";
 import SearchArticleRoutes from "components/route/routes/SearchArticleRoutes";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
+import SearchUserRoutes from "components/route/routes/SearchUserRoutes";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -41,6 +42,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
       user: rootPaths.user,
+      userSearch: path.append("/user-search", {}),
       wishlist: path.append("/wishlist", {}),
     }),
     [path]
@@ -58,6 +60,10 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       },
       search() {
         const url = rootPaths.search.url({});
+        history.push(url);
+      },
+      userSearch() {
+        const url = paths.userSearch.url({});
         history.push(url);
       },
     }),
@@ -81,6 +87,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         return paths.communityCheckIns.url({});
       },
       search: routes.search,
+      userSearch: routes.userSearch,
       settings: () => {
         const url = paths.settings.url({});
         history.push(url);
@@ -184,6 +191,11 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               path={match.path}
               userId={user.id}
             />
+          )}
+        </Screen>
+        <Screen path={paths.userSearch} transition={SlideDown}>
+          {(match) => (
+            <SearchUserRoutes origin={paths.here} path={match.path} />
           )}
         </Screen>
       </ViewStack>

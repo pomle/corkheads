@@ -16,6 +16,7 @@ import TextItem from "components/ui/layout/TextItem";
 import Dashboard from "components/fragments/User/Dashboard/Dashboard";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
+import MainButton from "components/ui/trigger/MainButton/MainButton";
 
 const useStyles = makeStyles({
   head: {
@@ -41,6 +42,7 @@ interface ProfileViewProps {
     communityCheckIns: () => string;
     checkIns: () => string;
     toplist: () => string;
+    userSearch: () => void;
     wishlist: () => string;
   };
   userId: string;
@@ -83,6 +85,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
               <SlidingWindow activeIndex={section}>
                 <Scroll>
                   <SectionList>
+                    <MainButton onClick={routes.userSearch}>
+                      Find freinds
+                    </MainButton>
+
                     <Section
                       header={
                         <SectionTitle
