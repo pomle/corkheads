@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme: Theme) => ({
       borderColor: Colors.MarbleBlue,
       borderRadius: "4px",
       flex: "1",
-      fontSize: "14px",
       padding: "12px",
       paddingLeft: (props: StyleProps) => (props.hasSymbol ? "37px" : "12px"),
       "&:focus": {
