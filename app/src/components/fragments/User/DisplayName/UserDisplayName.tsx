@@ -13,7 +13,8 @@ function resolveUserDisplayName(user?: User) {
       return profile.displayName;
     }
   }
-  return "• • •";
+
+  return "Anonymous";
 }
 
 interface UserDisplayNameProps {
