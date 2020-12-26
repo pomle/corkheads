@@ -74,6 +74,16 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
     <input type="text" placeholder="ex. 70cl, 40cl" {...userInput.bottleSize} />
   );
 
+  const BottlingCategory = (
+    <select {...userInput.category} placeholder="Type">
+      <option value={undefined} hidden></option>
+      <option value={Category.Blended}>Blended</option>
+      <option value={Category.Bourbon}>Bourbon</option>
+      <option value={Category.Rye}>Rye</option>
+      <option value={Category.SingleMalt}>Single Malt</option>
+    </select>
+  );
+
   const BottlingYear = (
     <input type="number" placeholder="Year" {...userInput.bottlingYear} />
   );
@@ -92,16 +102,6 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
       placeholder="Olorosso, Bourbon"
       {...userInput.distillCaskType}
     />
-  );
-
-  const BottlingCategory = (
-    <select {...userInput.category} placeholder="Type">
-      <option value={undefined} hidden></option>
-      <option value={Category.Blended}>Blended</option>
-      <option value={Category.Bourbon}>Bourbon</option>
-      <option value={Category.Rye}>Rye</option>
-      <option value={Category.SingleMalt}>Single Malt</option>
-    </select>
   );
 
   const Distillery = (
