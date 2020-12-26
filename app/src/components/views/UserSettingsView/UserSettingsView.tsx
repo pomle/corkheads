@@ -55,7 +55,12 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
                 />
               </Entry>
               <Entry name="Username">
-                <input type="text" placeholder="@" {...userInput.username} />
+                <input
+                  type="text"
+                  pattern="[^A-Za-z0-9\-\.]"
+                  placeholder="@"
+                  {...userInput.username}
+                />
               </Entry>
               <Entry name="Version">
                 <code>{config.version}</code>

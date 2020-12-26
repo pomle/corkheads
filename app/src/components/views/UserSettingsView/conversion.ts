@@ -4,7 +4,7 @@ import { Entries } from "./types";
 export function toEntries(user: User): Entries {
   return {
     name: user.profile?.displayName || "",
-    username: user.username || "",
+    username: user.profile?.username || "",
   };
 }
 
@@ -19,6 +19,7 @@ export function toUser(entries: Entries): User {
 
   const username = entries.username.trim();
   if (username.length) {
+    profile.username = username;
   }
 
   return user;

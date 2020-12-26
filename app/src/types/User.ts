@@ -2,6 +2,7 @@ import { createConverter } from "lib/firestore/converter";
 
 export type Profile = {
   displayName?: string;
+  username?: string;
   photoURL?: string;
 };
 
