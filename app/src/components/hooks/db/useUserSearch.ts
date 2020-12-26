@@ -46,7 +46,7 @@ export function useUserSearch(
     setBusy(true);
 
     let q = db.collection("users").limit(20);
-    q = q.where("username", "==", query.search.text);
+    q = q.where("profile.username", "==", query.search.text);
 
     if (query.limit) {
       q = q.limit(query.limit);
