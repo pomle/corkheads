@@ -1,11 +1,12 @@
 import { Colors } from "./colors";
 
 type ColorTheme = {
-  accent: string;
-  action: string;
-  title: string;
-  surface: string;
-  text: string;
+  accent: Colors;
+  action: Colors;
+  panel: Colors;
+  surface: Colors;
+  text: Colors;
+  title: Colors;
 };
 
 export type Theme = {
@@ -16,9 +17,10 @@ export type ThemeName = "dusk" | "storm" | "cream" | "pure" | "sky";
 
 const storm: Theme = {
   color: {
-    action: Colors.ShinyGold,
-    accent: Colors.MatteGold,
-    title: Colors.ShinyGold,
+    action: Colors.Gold,
+    accent: Colors.Gold,
+    title: Colors.Gold,
+    panel: Colors.BlueSmoke,
     surface: Colors.Navy,
     text: Colors.MarbleBlue,
   },
@@ -26,41 +28,45 @@ const storm: Theme = {
 
 const dusk: Theme = {
   color: {
-    action: Colors.Gold,
     accent: Colors.ShinyGold,
-    title: Colors.Gold,
+    action: Colors.Gold,
+    panel: Colors.White,
     surface: Colors.BlueSmoke,
     text: Colors.MarbleBlue,
+    title: Colors.Sot,
   },
 };
 
 const sky: Theme = {
   color: {
-    action: Colors.Navy,
     accent: Colors.MatteGold,
-    title: Colors.BlueSmoke,
+    action: Colors.Navy,
+    panel: Colors.X2,
     surface: Colors.Sky,
     text: Colors.MarbleBlue,
+    title: Colors.BlueSmoke,
   },
 };
 
 const cream: Theme = {
   color: {
-    action: Colors.BlueSmoke,
     accent: Colors.MatteGold,
-    title: Colors.BlueSmoke,
+    action: Colors.BlueSmoke,
+    panel: Colors.White,
     surface: Colors.Milk,
     text: Colors.BlueSmoke,
+    title: Colors.BlueSmoke,
   },
 };
 
 const pure: Theme = {
   color: {
-    action: Colors.ShinyGold,
     accent: Colors.Gold,
-    title: Colors.Navy,
+    action: Colors.ShinyGold,
+    panel: Colors.X2,
     surface: Colors.White,
     text: Colors.Sot,
+    title: Colors.Navy,
   },
 };
 
