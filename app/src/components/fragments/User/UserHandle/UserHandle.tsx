@@ -3,12 +3,15 @@ import { makeStyles } from "@material-ui/styles";
 import { User } from "types/User";
 
 const useStyles = makeStyles({
-  UserDisplayName: {},
+  UserHandle: {},
 });
 
-function resolveUserDisplayName(user?: User) {
+function resolveUserHandle(user?: User) {
   if (user) {
     const profile = user.profile;
+    if (profile?.username) {
+      return profile.username;
+    }
     if (profile?.displayName) {
       return profile.displayName;
     }
@@ -16,18 +19,14 @@ function resolveUserDisplayName(user?: User) {
   return "• • •";
 }
 
-interface UserDisplayNameProps {
+interface UserHandleProps {
   user?: User;
 }
 
-const UserDisplayName: React.FC<UserDisplayNameProps> = ({ user }) => {
+const UserHandle: React.FC<UserHandleProps> = ({ user }) => {
   const classes = useStyles();
 
-  return (
-    <div className={classes.UserDisplayName}>
-      {resolveUserDisplayName(user)}
-    </div>
-  );
+  return <div className={classes.UserHandle}>{resolveUserHandle(user)}</div>;
 };
 
-export default UserDisplayName;
+export default UserHandle;
