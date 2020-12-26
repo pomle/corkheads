@@ -8,6 +8,7 @@ import { useUser } from "components/hooks/db/useUsers";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
+import config from "config/app.config.js";
 
 const useStyles = makeStyles({
   form: {
@@ -53,6 +54,9 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
                   value={user?.username || ""}
                   onChange={() => undefined}
                 />
+              </Entry>
+              <Entry name="Version">
+                <code>{config.version}</code>
               </Entry>
             </EntryList>
           </form>
