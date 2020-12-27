@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     background: theme.color.surface,
     borderRadius: "8px",
+    color: theme.color.text,
     display: "grid",
     gridAutoFlow: "column",
     gridTemplateColumns: "64px auto",
@@ -18,9 +19,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.panel,
     height: "100%",
     width: "100%",
-  },
-  content: {
-    color: theme.color.text,
   },
 }));
 
@@ -39,7 +37,7 @@ const CutoutImageItem: React.FC<CutoutImageItemProps> = ({
       <div className={classes.photo}>
         <Photo url={photoURL} />
       </div>
-      <div className={classes.content}>{children}</div>
+      {children}
     </div>
   );
 };

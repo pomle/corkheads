@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => {
         ${Colors.Gold}
       )`,
       borderRadius: "4px",
-      color: Colors.White,
+      color: theme.color.surface,
       padding: "12px",
       position: "relative",
       textAlign: "center",

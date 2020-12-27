@@ -38,8 +38,6 @@ const useStyles = makeStyles({
     fontWeight: 700,
     justifyContent: "center",
     height: "24px",
-    position: "relative",
-    textAlign: "center",
     width: "24px",
   },
 });

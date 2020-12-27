@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       fontWeight: 700,
     },
     "& .meta": {
-      color: theme.color.text,
       fontSize: "12px",
       fontWeight: 500,
     },
-    "& .checkIns": {
+    "& .badge": {
+      alignSelf: "center",
       gridArea: "1 / 2 / 4 / 3",
     },
     "& .rating": {},
@@ -59,7 +59,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
           </div>
         )}
         <div className="rating">{rating && <ItemRating rating={rating} />}</div>
-        <div className="checkIns">
+        <div className="badge">
           <CheckInCountBadge count={checkIns} />
         </div>
       </div>

@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   ImageItem: {
     alignItems: "center",
     background: theme.color.surface,
+    color: theme.color.text,
     display: "grid",
     gridTemplateColumns: "auto minmax(0, 1fr)",
     gridGap: "16px",
@@ -17,13 +18,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     height: "64px",
     width: "64px",
-  },
-  content: {
-    display: "grid",
-    flex: "1",
-    gridAutoFlow: "row",
-    gridGap: "4px",
-    lineHeight: 1,
   },
 }));
 
@@ -38,7 +32,7 @@ const ImageItem: React.FC<ImageItemProps> = ({ imageURL, children }) => {
       <div className={classes.photo}>
         <Photo url={imageURL} />
       </div>
-      <div className={classes.content}>{children}</div>
+      {children}
     </div>
   );
 };

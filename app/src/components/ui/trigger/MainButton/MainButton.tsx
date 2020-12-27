@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
         ${Colors.ShinyGold},
         ${Colors.Gold}
       )`,
-      borderRadius: "4px",
-      color: Colors.White,
+      color: theme.color.surface,
       padding: "16px 24px 16px 24px",
       textAlign: "center",
       transition: "color 0.3s",

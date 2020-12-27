@@ -16,39 +16,37 @@ import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  displayName: {
-    color: theme.color.title,
-    fontSize: "14px",
-    fontWeight: 700,
-    gridArea: "1 / 1 / 2 / 2",
-  },
-  comment: {
-    color: theme.color.accent,
-    fontSize: "12px",
-    fontWeight: 500,
-    margin: 0,
-    padding: 0,
-  },
-  checkInMeta: {
-    alignItems: "center",
-    color: Colors.X2,
-    display: "flex",
-    fontSize: "10px",
-    gap: "8px",
-    gridArea: "3 / 1 / 4 / 2",
-  },
-  username: {
-    color: Colors.X1,
-  },
-  timestamp: {
-    color: Colors.X1,
-  },
-  rating: {},
-  badge: {
-    alignSelf: "center",
-    gridArea: "1 / 2 / 4 / 3",
-    justifySelf: "end",
-    paddingLeft: "8px",
+  CheckInItem: {
+    display: "grid",
+    gridGap: "2px",
+    "& .displayName": {
+      color: theme.color.title,
+      fontSize: "14px",
+      fontWeight: 700,
+      gridArea: "1 / 1 / 2 / 2",
+    },
+    "& .comment": {
+      color: theme.color.text,
+      fontSize: "12px",
+      fontWeight: 500,
+    },
+    "& .meta": {
+      alignItems: "center",
+      color: () => {
+        if (theme.color.surface === Colors.White) {
+          return Colors.Sot;
+        }
+        return theme.color.text;
+      },
+      display: "flex",
+      fontSize: "10px",
+    },
+    "& .badge": {
+      alignSelf: "center",
+      gridArea: "1 / 2 / 4 / 3",
+      justifySelf: "end",
+      paddingLeft: "8px",
+    },
   },
 }));
 
@@ -86,23 +84,27 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>{articleDisplayName}</div>
-      {checkIn.comment && (
-        <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
-      )}
-      <div className={classes.checkInMeta}>
-        <div className={classes.rating}>
-          <ItemRating rating={rating} />
+      <div className={classes.CheckInItem}>
+        <div className="displayName">{articleDisplayName}</div>
+        {checkIn.comment && (
+          <blockquote className="comment">{checkIn.comment}</blockquote>
+        )}
+        <div className="meta">
+          <div className="rating">
+            <ItemRating rating={rating} />
+          </div>
+          &ensp;•&ensp;
+          <div className="timestamp">
+            {timestamp && <PassedTime date={timestamp} />}
+          </div>
+          &ensp;•&ensp;
+          <div className="user">
+            <UserHandle user={user} />
+          </div>
         </div>
-        &nbsp;•&nbsp;
-        <div className={classes.timestamp}>
-          {timestamp && <PassedTime date={timestamp} />}
+        <div className="badge">
+          <CheckInCountBadge count={checkInCount} />
         </div>
-        &nbsp;•&nbsp;
-        <UserHandle user={user} />
-      </div>
-      <div className={classes.badge}>
-        <CheckInCountBadge count={checkInCount} />
       </div>
     </ImageItem>
   );

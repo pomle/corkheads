@@ -7,18 +7,17 @@ import CutoutImageItem from "components/ui/layout/CutoutImageItem";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  content: {
+  ArticleItem: {
     display: "grid",
-    gridGap: "4px",
+    gridGap: "2px",
     padding: "8px",
-  },
-  displayName: {
-    color: theme.color.title,
-    fontSize: "14px",
-  },
-  meta: {
-    color: theme.color.text,
-    fontSize: "12px",
+    "& .displayName": {
+      color: theme.color.title,
+      fontSize: "14px",
+    },
+    "& .meta": {
+      fontSize: "12px",
+    },
   },
 }));
 
@@ -37,9 +36,9 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
 
   return (
     <CutoutImageItem photoURL={photoURL}>
-      <div className={classes.content}>
-        <div className={classes.displayName}>{displayName}</div>
-        <div className={classes.meta}>
+      <div className={classes.ArticleItem}>
+        <div className="displayName">{displayName}</div>
+        <div className="meta">
           {article.bottling && <BottlingMeta bottling={article.bottling} />}
         </div>
         <ItemRating aggregate={ratingAggregate} />

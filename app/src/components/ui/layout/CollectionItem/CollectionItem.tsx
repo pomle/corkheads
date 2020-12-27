@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     background: theme.color.surface,
     borderRadius: "8px",
+    color: theme.color.text,
     display: "flex",
     flexFlow: "column",
     overflow: "hidden",
@@ -18,9 +19,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.panel,
     height: "136px",
     width: "100%",
-  },
-  content: {
-    color: theme.color.text,
   },
 }));
 
@@ -39,7 +37,7 @@ const CollectionItem: React.FC<CollectionItemProps> = ({
       <div className={classes.photo}>
         <Photo url={imageURL} />
       </div>
-      <div className={classes.content}>{children}</div>
+      {children}
     </div>
   );
 };

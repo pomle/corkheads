@@ -17,7 +17,7 @@ const useStyles = makeStyles({
     display: "flex",
     height: "100%",
     transform,
-    transition: "all 0.5s ease",
+    transition: "all 0.3s ease",
     "& > *": {
       flex: "100%",
     },

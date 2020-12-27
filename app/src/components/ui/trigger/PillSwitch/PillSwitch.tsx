@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     padding: "8px",
     position: "relative",
-    transition: "color 0.5s",
+    transition: "color 0.3s",
     "&.active": {
       color: Colors.White,
     },
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
       `${(100 / props.itemCount) * props.selectedIndex}%`,
     position: "absolute",
     height: "100%",
-    transition: "left 0.5s",
+    transition: "left 0.3s",
     width: (props: StyleProps) => `${100 / props.itemCount}%`,
   },
 });
