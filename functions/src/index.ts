@@ -2,9 +2,14 @@ import * as search from "./search/algolia";
 import { aggregateArticle } from "./rating/aggregateArticle";
 import { checkInCountAggregate, articleSizeAggregate } from "./user/counts";
 
+exports.onUserCreated = search.onUserCreated;
+exports.onUserUpdated = search.onUserUpdated;
+exports.onUserDeleted = search.onUserDeleted;
+
 exports.onArticleCreated = search.onArticleCreated;
 exports.onArticleUpdated = search.onArticleUpdated;
 exports.onArticleDeleted = search.onArticleDeleted;
+
 exports.onUserArticleCreated = search.onUserArticleCreated;
 exports.onUserArticleUpdated = search.onUserArticleUpdated;
 exports.onUserArticleDeleted = search.onUserArticleDeleted;
