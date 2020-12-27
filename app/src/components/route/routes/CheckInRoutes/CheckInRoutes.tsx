@@ -92,7 +92,6 @@ const CheckInRoutes: React.FC<CheckInRoutesProps> = ({
             <ArticleRoutes
               origin={path}
               path={match.path}
-              userId={userId}
               articleId={match.params.articleId}
             />
           );

@@ -160,7 +160,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
             <ArticleRoutes
               origin={path}
               path={match.path}
-              userId={user.id}
               articleId={match.params.articleId}
             />
           )}

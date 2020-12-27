@@ -52,7 +52,6 @@ const WishlistRoute: React.FC<WishlistRouteProps> = ({
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}

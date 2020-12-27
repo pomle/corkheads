@@ -52,7 +52,6 @@ const CollectionRoute: React.FC<CollectionRouteProps> = ({
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}

@@ -52,7 +52,6 @@ const ToplistRoute: React.FC<ToplistRouteProps> = ({
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}

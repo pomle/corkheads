@@ -79,7 +79,6 @@ const SearchArticleRoutes: React.FC<SearchArticleRoutesProps> = ({
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}
@@ -89,7 +88,6 @@ const SearchArticleRoutes: React.FC<SearchArticleRoutesProps> = ({
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}

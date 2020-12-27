@@ -13,12 +13,10 @@ import { paths as rootPaths } from "components/route/paths";
 interface ArticleRoutesProps {
   origin: Path<{}>;
   path: Path<{}>;
-  userId: string;
   articleId: string;
 }
 
 const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
-  userId,
   articleId,
   path,
   origin,
@@ -86,11 +84,7 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
 
   return (
     <ViewStack>
-      <ArticlePage
-        routes={articlePageRoutes}
-        userId={userId}
-        articleId={articleId}
-      />
+      <ArticlePage routes={articlePageRoutes} articleId={articleId} />
       <Screen path={paths.picture} transition={ZoomCenter}>
         {() => (
           <ArticlePicturePage

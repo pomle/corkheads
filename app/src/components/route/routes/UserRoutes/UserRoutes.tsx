@@ -105,7 +105,6 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
           <ArticleRoutes
             origin={path}
             path={match.path}
-            userId={userId}
             articleId={match.params.articleId}
           />
         )}
