@@ -5,15 +5,21 @@ import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import { VALID_SCORE } from "types/Rating";
 
-function getEmptyColor() {
-  return Colors.X2;
+function getFilledColor(theme: Theme) {
+  return theme.color.accent;
 }
 
-function getFilledColor() {
-  return Colors.Gold;
+function getEmptyColor(theme: Theme) {
+  if (theme.color.surface === Colors.Navy) {
+    return theme.color.accent;
+  }
+  return theme.color.panel;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
+  const filledColor = getFilledColor(theme);
+  const emptyColor = getEmptyColor(theme);
+
   return {
     Score: {
       display: "inline-flex",
@@ -26,12 +32,23 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         "&.empty": {
           "& path": {
-            fill: getEmptyColor(),
+            fill: () => {
+              if (theme.color.surface === Colors.Navy) {
+                return "none";
+              }
+              return emptyColor;
+            },
+            stroke: () => {
+              if (theme.color.surface === Colors.Navy) {
+                return emptyColor;
+              }
+              return "none";
+            },
           },
         },
         "&.filled": {
           "& path": {
-            fill: getFilledColor(),
+            fill: filledColor,
           },
         },
       },
