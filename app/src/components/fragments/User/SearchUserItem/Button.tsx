@@ -1,17 +1,16 @@
 import React from "react";
-import { SearchResult } from "components/hooks/db/useUserSearch";
 import SearchUserItem from ".";
 
 interface SearchUserItemButtonProps {
-  result: SearchResult;
+  pointer: { userId: string };
   route: (userId: string) => void;
 }
 
 const SearchUserItemButton: React.FC<SearchUserItemButtonProps> = React.memo(
-  ({ result, route }) => {
+  ({ pointer, route }) => {
     return (
-      <button onClick={() => route(result.userId)}>
-        <SearchUserItem result={result} />
+      <button onClick={() => route(pointer.userId)}>
+        <SearchUserItem pointer={pointer} />
       </button>
     );
   }

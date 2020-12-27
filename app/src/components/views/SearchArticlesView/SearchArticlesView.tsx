@@ -13,14 +13,11 @@ import ItemList from "components/ui/layout/ItemList";
 import SearchArticleItemButtom from "components/fragments/Article/SearchArticleItem/Button";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
 import { Colors } from "components/ui/theme/colors";
-import {
-  ArticleSearchQuery,
-  useArticleSearch,
-} from "components/hooks/db/useArticleSearch";
 import { useSearchHistory } from "components/hooks/db/useSearchHistory";
 import SearchHistory from "./components/SearchHistory";
 import * as Locales from "./locales";
-import { SearchArea } from "components/hooks/algolia";
+import { SearchArea, SearchQuery } from "components/hooks/algolia";
+import { useOmniSearch } from "components/hooks/db/useOmniSearch";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -61,7 +58,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
 
   const searchQuery = useMemo(
-    (): ArticleSearchQuery => ({
+    (): SearchQuery => ({
       search: {
         text: executedQuery,
       },
@@ -73,7 +70,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
     [executedQuery, userId]
   );
 
-  const request = useArticleSearch(searchQuery);
+  const request = useOmniSearch(searchQuery);
 
   const searchHistory = useSearchHistory(userId);
 
@@ -117,7 +114,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
         <div className={classes.searchResults}>
           {executedQuery.length ? (
             <ItemList divided>
-              {request.results.map((result) => {
+              {request.results.article.map((result) => {
                 return (
                   <SearchArticleItemButtom
                     userId={userId}

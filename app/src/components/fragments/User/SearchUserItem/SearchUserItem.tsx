@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { SearchResult } from "components/hooks/db/useUserSearch";
 import UserItem from "../UserItem";
 
 const useStyles = makeStyles({
@@ -17,15 +16,15 @@ const useStyles = makeStyles({
 });
 
 interface SearchUserItemProps {
-  result: SearchResult;
+  pointer: { userId: string };
 }
 
-const SearchUserItem: React.FC<SearchUserItemProps> = ({ result }) => {
+const SearchUserItem: React.FC<SearchUserItemProps> = ({ pointer }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.SearchUserItem}>
-      <UserItem pointer={result} />
+      <UserItem pointer={pointer} />
       <div className={classes.state}>
         <button type="button">Friends</button>
       </div>

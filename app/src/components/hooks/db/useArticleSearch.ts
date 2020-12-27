@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { SearchArea, SearchQuery, useSearch } from "../algolia";
+import { SearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
 import { QueryRequest } from "../store2/useStore";
 

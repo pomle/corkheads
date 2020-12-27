@@ -1,9 +1,9 @@
-import { SearchResult } from "components/hooks/db/useArticleSearch";
 import React from "react";
+import { ArticleHit } from "components/hooks/db/useOmniSearch";
 import SearchArticleItem from ".";
 
 interface SearchArticleItemButtonProps {
-  result: SearchResult;
+  result: ArticleHit;
   userId: string;
   route: (articleId: string) => void;
 }

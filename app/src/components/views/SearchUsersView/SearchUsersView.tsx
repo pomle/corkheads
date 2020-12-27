@@ -12,12 +12,9 @@ import ItemList from "components/ui/layout/ItemList";
 import SearchUserItemButton from "components/fragments/User/SearchUserItem/Button";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
 import { Colors } from "components/ui/theme/colors";
-import {
-  UserSearchQuery,
-  useUserSearch,
-} from "components/hooks/db/useUserSearch";
 import * as Locales from "./locales";
-import { SearchArea } from "components/hooks/algolia";
+import { SearchArea, SearchQuery } from "components/hooks/algolia";
+import { useOmniSearch } from "components/hooks/db/useOmniSearch";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -52,16 +49,16 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
 
   const searchQuery = useMemo(
-    (): UserSearchQuery => ({
+    (): SearchQuery => ({
       search: {
         text: executedQuery,
       },
-      areas: SearchArea.Article,
+      areas: SearchArea.User,
     }),
     [executedQuery]
   );
 
-  const request = useUserSearch(searchQuery);
+  const request = useOmniSearch(searchQuery);
 
   const classes = useStyles();
 
@@ -93,9 +90,9 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
         <div className={classes.searchResults}>
           {executedQuery.length ? (
             <ItemList divided>
-              {request.results.map((result) => {
+              {request.results.user.map((result) => {
                 return (
-                  <SearchUserItemButton result={result} route={routes.user} />
+                  <SearchUserItemButton pointer={result} route={routes.user} />
                 );
               })}
             </ItemList>
