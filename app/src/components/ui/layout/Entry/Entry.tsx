@@ -19,17 +19,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       marginRight: "8px",
     },
     "& dd": {
-      display: "flex",
       flex: "1",
-      justifyContent: "stretch",
+      textAlign: "right",
       "& input, & select": {
         background: "none",
         border: "none",
         color: theme.color.action,
-        flex: "1",
         textAlign: "right",
+        width: "100%",
         "&::placeholder": {
-          color: theme.color.action + "90",
+          color: theme.color.text + "60",
           fontWeight: 400,
         },
       },
