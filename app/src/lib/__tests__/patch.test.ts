@@ -208,7 +208,6 @@ describe("getPreferredBottling", () => {
       bottler: {
         name: "A",
       },
-      displayName: "A",
       distill: {
         batch: {},
         cask: {},
@@ -268,7 +267,6 @@ describe("getPreferredBottling", () => {
       bottler: {
         name: "A",
       },
-      displayName: "A",
       distill: {
         batch: {},
         cask: {},

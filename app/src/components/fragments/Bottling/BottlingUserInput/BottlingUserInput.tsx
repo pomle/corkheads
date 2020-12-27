@@ -104,10 +104,6 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
     />
   );
 
-  const DisplayName = (
-    <input type="text" placeholder="Main name" {...userInput.displayName} />
-  );
-
   const Distillery = (
     <input
       type="text"
@@ -148,8 +144,6 @@ const BottlingUserInput: React.FC<BottlingUserInputProps> = ({
     <div className={classes.BottlingUserInput}>
       <section>
         <EntryList>
-          <Entry name="Display name">{DisplayName}</Entry>
-
           <Entry name="Label">{Label}</Entry>
 
           <Entry name="Series">{Series}</Entry>

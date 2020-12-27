@@ -162,7 +162,6 @@ describe("#toBottling", () => {
       bottlingDate: "1744-07-15",
       bottlingYear: "2007",
       category: "Bourbon",
-      displayName: "My Big Bottle of Bless Juice",
       distillBatchNo: "Batch No. 1337",
       distillCaskNo: "Cask No. 9",
       distillCaskType: "Olorosso",
@@ -336,17 +335,6 @@ describe("#toBottling", () => {
     entries.category = "";
     const bottling = toBottling(entries);
     expect(bottling).not.toHaveProperty("category");
-  });
-
-  it("finds display name", () => {
-    const bottling = toBottling(entries);
-    expect(bottling.displayName).toEqual("My Big Bottle of Bless Juice");
-  });
-
-  it("allows display name to be empty", () => {
-    entries.displayName = " ";
-    const bottling = toBottling(entries);
-    expect(bottling).not.toHaveProperty("displayName");
   });
 
   it("finds distill batch no", () => {

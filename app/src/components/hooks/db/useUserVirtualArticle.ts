@@ -19,7 +19,6 @@ export function useUserVirtualArticle(
     return {
       ...article,
       ...userArticle,
-      displayName: userArticle?.bottling?.displayName || article.displayName,
       bottling: getPreferredBottling(article, userArticle),
     };
   }, [article, userArticle]);

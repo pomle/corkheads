@@ -13,26 +13,6 @@ exports[`BottlingUserInput component renders as expected 1`] = `
       >
         <label>
           <dt>
-            Display name
-          </dt>
-          <dd>
-            <input
-              onChange={[Function]}
-              placeholder="Main name"
-              type="text"
-              value=""
-            />
-          </dd>
-        </label>
-      </dl>
-      <div
-        className="Divider"
-      />
-      <dl
-        className="Entry"
-      >
-        <label>
-          <dt>
             Label
           </dt>
           <dd>
