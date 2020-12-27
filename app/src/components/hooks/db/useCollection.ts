@@ -28,6 +28,7 @@ export function useUserCollection(userId: string) {
         .collection("articles")
         .withConverter(userArticle),
       userSearchHistory: userCollection.collection("search-history"),
+      userFollowing: userCollection.collection("following"),
     };
   }, [db, userId]);
 }
