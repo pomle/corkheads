@@ -9,11 +9,13 @@ import { stringCodec } from "components/route/codecs";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 
 interface SearchUserRoutesProps {
+  userId: string;
   origin: Path<{}>;
   path: Path<{}>;
 }
 
 const SearchUserRoutes: React.FC<SearchUserRoutesProps> = ({
+  userId,
   origin,
   path,
 }) => {
@@ -56,7 +58,7 @@ const SearchUserRoutes: React.FC<SearchUserRoutesProps> = ({
 
   return (
     <ViewStack>
-      <FindPage routes={findPageRoutes} />
+      <FindPage routes={findPageRoutes} userId={userId} />
       <Screen path={paths.user} transition={SlideRight}>
         {(match) => (
           <UserRoutes

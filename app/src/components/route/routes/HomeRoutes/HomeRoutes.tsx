@@ -194,7 +194,11 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         </Screen>
         <Screen path={paths.userSearch} transition={SlideDown}>
           {(match) => (
-            <SearchUserRoutes origin={paths.here} path={match.path} />
+            <SearchUserRoutes
+              origin={paths.here}
+              path={match.path}
+              userId={user.id}
+            />
           )}
         </Screen>
       </ViewStack>

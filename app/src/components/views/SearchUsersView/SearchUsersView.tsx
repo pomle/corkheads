@@ -9,13 +9,14 @@ import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.sv
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
-import SearchUserItemButton from "components/fragments/User/SearchUserItem/Button";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
 import { Colors } from "components/ui/theme/colors";
 import * as Locales from "./locales";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
 import { useQuery } from "components/hooks/useQuery";
+import { useFollowing } from "components/hooks/db/useFollowing";
+import SearchUserItem from "components/fragments/User/SearchUserItem";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -39,12 +40,17 @@ const MIN_QUERY_LENGTH = 1;
 
 interface SearchUsersViewProps {
   nav: React.ReactNode;
+  userId: string;
   routes: {
     user: (userId: string) => void;
   };
 }
 
-const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
+const SearchUsersView: React.FC<SearchUsersViewProps> = ({
+  nav,
+  routes,
+  userId,
+}) => {
   const [query, setQuery] = useQuery("query");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
@@ -60,6 +66,8 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
   );
 
   const request = useOmniSearch(searchQuery);
+
+  const following = useFollowing(userId);
 
   const classes = useStyles();
 
@@ -93,7 +101,12 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
             <ItemList divided>
               {request.results.user.map((result) => {
                 return (
-                  <SearchUserItemButton pointer={result} route={routes.user} />
+                  <SearchUserItem
+                    key={result.userId}
+                    pointer={result}
+                    routes={routes}
+                    following={following}
+                  />
                 );
               })}
             </ItemList>
