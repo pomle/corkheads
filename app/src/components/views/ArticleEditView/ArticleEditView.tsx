@@ -15,7 +15,7 @@ import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { debounce } from "lib/debounce";
-import PreviewItem from "./components/PreviewItem/PreviewItem";
+import PreviewArticleItem from "./components/PreviewArticleItem/PreviewArticleItem";
 import { getPreviewScore } from "./score";
 
 type StyleProps = {
@@ -183,7 +183,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
       </ViewBody>
       <ViewCap>
         <div className={classes.preview}>
-          <PreviewItem article={previewArticle} />
+          <PreviewArticleItem article={previewArticle} />
         </div>
         <ButtonField>
           <MainButton
