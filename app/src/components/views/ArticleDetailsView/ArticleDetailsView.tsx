@@ -2,7 +2,6 @@ import React from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/Article";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
@@ -39,11 +38,6 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const PLACEHOLDER: Article = {
-  id: "",
-  displayName: "Yeet",
-};
-
 interface ArticleDetailsViewProps {
   nav: React.ReactNode;
   routes: {
@@ -61,7 +55,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   userId,
   articleId,
 }) => {
-  const article = useUserVirtualArticle(userId, articleId) || PLACEHOLDER;
+  const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL } = article;
 
