@@ -83,15 +83,6 @@ const SearchArticleRoutes: React.FC<SearchArticleRoutesProps> = ({
           />
         )}
       </Screen>
-      <Screen path={paths.article} transition={SlideRight}>
-        {(match) => (
-          <ArticleRoutes
-            origin={path}
-            path={match.path}
-            articleId={match.params.articleId}
-          />
-        )}
-      </Screen>
       <Screen path={paths.createArticle} transition={SlideDown}>
         {() => (
           <ArticleCreatePage routes={createArticlePageRoutes} userId={userId} />
