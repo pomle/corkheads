@@ -55,7 +55,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
       search: {
         text: executedQuery,
       },
-      limit: 5,
+      areas: ["user"],
     }),
     [executedQuery]
   );

@@ -31,7 +31,7 @@ export type SearchQuery = {
     text: string;
   };
   areas: SearchArea[];
-  filters: SearchFilters;
+  filters?: SearchFilters;
 };
 
 const SEARCH_TYPE_DEBOUNCE = 250;
@@ -81,7 +81,7 @@ export function useSearch() {
         userArticle: areas.includes("article")
           ? userArticleIndex.search(text, {
               ...USER_ARTICLE_SEARCH_OPTIONS,
-              filters: encodeFilters(query.filters),
+              filters: query.filters && encodeFilters(query.filters),
             })
           : undefined,
       };

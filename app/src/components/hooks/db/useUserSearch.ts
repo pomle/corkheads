@@ -1,14 +1,9 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { User } from "types/User";
+import { SearchQuery, useSearch } from "../algolia";
 import { QueryRequest } from "../store2/useStore";
-import { useDB } from "../useDB";
 
-export type UserSearchQuery = {
-  search: {
-    text: string;
-  };
-  limit?: number;
-};
+export type UserSearchQuery = SearchQuery & { areas: ["user"] };
 
 type Match = {
   matchedWords: string[];
@@ -28,45 +23,28 @@ export function useUserSearch(
   query: UserSearchQuery
 ): QueryRequest<SearchResult> {
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [busy, setBusy] = useState<boolean>(false);
+  const { busy, search } = useSearch();
 
   const flight = useRef<number>(0);
-
-  const db = useDB();
 
   useEffect(() => {
     const flightRecord = ++flight.current;
 
     if (query.search.text.length === 0) {
       setResults([]);
-      setBusy(false);
       return;
     }
 
-    setBusy(true);
-
-    let q = db.collection("users").limit(20);
-    q = q.where("profile.username", "==", query.search.text);
-
-    if (query.limit) {
-      q = q.limit(query.limit);
-    }
-
-    return q.onSnapshot((result) => {
+    search(query).then((results) => {
       if (flight.current !== flightRecord) {
         return;
       }
 
-      setBusy(false);
-
-      const results = result.docs.map((doc) => {
-        return {
-          userId: doc.id,
-        };
-      });
-      setResults(results);
+      if (results.users) {
+        setResults((results.users.hits as unknown) as SearchResult[]);
+      }
     });
-  }, [db, setResults, query]);
+  }, [search, setResults, query]);
 
   return useMemo(
     () => ({
