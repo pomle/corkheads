@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { SearchQuery, useSearch } from "../algolia";
+import { SearchArea, SearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
 import { QueryRequest } from "../store2/useStore";
 
-export type ArticleSearchQuery = SearchQuery & { areas: ["article"] };
+export type ArticleSearchQuery = SearchQuery;
 
 type Match = {
   matchedWords: string[];

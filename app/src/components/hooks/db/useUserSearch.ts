@@ -3,7 +3,7 @@ import { User } from "types/User";
 import { SearchQuery, useSearch } from "../algolia";
 import { QueryRequest } from "../store2/useStore";
 
-export type UserSearchQuery = SearchQuery & { areas: ["user"] };
+export type UserSearchQuery = SearchQuery;
 
 type Match = {
   matchedWords: string[];

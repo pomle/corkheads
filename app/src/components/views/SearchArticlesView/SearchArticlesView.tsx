@@ -20,6 +20,7 @@ import {
 import { useSearchHistory } from "components/hooks/db/useSearchHistory";
 import SearchHistory from "./components/SearchHistory";
 import * as Locales from "./locales";
+import { SearchArea } from "components/hooks/algolia";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -64,7 +65,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
       search: {
         text: executedQuery,
       },
-      areas: ["article"],
+      areas: SearchArea.Article,
       filters: {
         userIds: [userId],
       },

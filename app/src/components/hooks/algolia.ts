@@ -20,7 +20,11 @@ export function useUserArticleIndex() {
   return useMemo(() => client.initIndex("user-articles"), [client]);
 }
 
-type SearchArea = "article" | "user";
+export enum SearchArea {
+  None,
+  Article = 1 << 1,
+  User = 1 << 2,
+}
 
 type SearchFilters = {
   userIds: string[];
@@ -30,7 +34,7 @@ export type SearchQuery = {
   search: {
     text: string;
   };
-  areas: SearchArea[];
+  areas: SearchArea;
   filters?: SearchFilters;
 };
 
@@ -72,18 +76,21 @@ export function useSearch() {
       const text = query.search.text;
 
       const requests = {
-        user: areas.includes("user")
-          ? userIndex.search(text, USER_SEARCH_OPTIONS)
-          : null,
-        article: areas.includes("article")
-          ? articleIndex.search(text, ARTICLE_SEARCH_OPTIONS)
-          : null,
-        userArticle: areas.includes("article")
-          ? userArticleIndex.search(text, {
-              ...USER_ARTICLE_SEARCH_OPTIONS,
-              filters: query.filters && encodeFilters(query.filters),
-            })
-          : null,
+        user:
+          (areas & SearchArea.User) === SearchArea.User
+            ? userIndex.search(text, USER_SEARCH_OPTIONS)
+            : null,
+        article:
+          (areas & SearchArea.Article) === SearchArea.Article
+            ? articleIndex.search(text, ARTICLE_SEARCH_OPTIONS)
+            : null,
+        userArticle:
+          (areas & SearchArea.Article) === SearchArea.Article
+            ? userArticleIndex.search(text, {
+                ...USER_ARTICLE_SEARCH_OPTIONS,
+                filters: query.filters && encodeFilters(query.filters),
+              })
+            : null,
       };
 
       return {

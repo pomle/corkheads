@@ -17,6 +17,7 @@ import {
   useUserSearch,
 } from "components/hooks/db/useUserSearch";
 import * as Locales from "./locales";
+import { SearchArea } from "components/hooks/algolia";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -55,7 +56,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
       search: {
         text: executedQuery,
       },
-      areas: ["user"],
+      areas: SearchArea.Article,
     }),
     [executedQuery]
   );
