@@ -5,30 +5,22 @@ import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import { SearchResult } from "components/hooks/db/useArticleSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
-import Highlighted from "./components/Highlighted";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
-function color(theme: Theme) {
-  return theme.color.accent;
-}
-
-function highlightColor(theme: Theme) {
-  return theme.color.action;
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
-  displayName: {
-    color: color(theme),
-    fontSize: "14px",
-    lineHeight: 1.25,
-    "& em": {
-      color: highlightColor(theme),
-      fontStyle: "normal",
+  SearchArticleItem: {
+    display: "grid",
+    gridAutoFlow: "rows",
+    gridGap: "2px",
+    "& .displayName": {
+      color: theme.color.accent,
+      fontSize: "14px",
+      lineHeight: 1.25,
     },
-  },
-  meta: {
-    color: theme.color.text,
-    fontSize: "12px",
+    "& .meta": {
+      color: theme.color.text,
+      fontSize: "12px",
+    },
   },
 }));
 
@@ -39,7 +31,7 @@ interface SearchArticleItemProps {
 
 const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
   userId,
-  result: { articleId, matches },
+  result: { articleId },
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
@@ -49,11 +41,13 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>{displayName}</div>
-      <div className={classes.meta}>
-        {article.bottling && <BottlingMeta bottling={article.bottling} />}
+      <div className={classes.SearchArticleItem}>
+        <div className="displayName">{displayName}</div>
+        <div className="meta">
+          {article.bottling && <BottlingMeta bottling={article.bottling} />}
+        </div>
+        <ItemRating aggregate={ratingAggregate} />
       </div>
-      <ItemRating aggregate={ratingAggregate} />
     </ImageItem>
   );
 };
