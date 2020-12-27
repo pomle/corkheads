@@ -74,16 +74,16 @@ export function useSearch() {
       const requests = {
         user: areas.includes("user")
           ? userIndex.search(text, USER_SEARCH_OPTIONS)
-          : undefined,
+          : null,
         article: areas.includes("article")
           ? articleIndex.search(text, ARTICLE_SEARCH_OPTIONS)
-          : undefined,
+          : null,
         userArticle: areas.includes("article")
           ? userArticleIndex.search(text, {
               ...USER_ARTICLE_SEARCH_OPTIONS,
               filters: query.filters && encodeFilters(query.filters),
             })
-          : undefined,
+          : null,
       };
 
       return {
