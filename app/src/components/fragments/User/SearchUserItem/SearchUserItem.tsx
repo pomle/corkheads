@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import UserItem from "../UserItem";
+import FriendStateButton from "./components/FriendStateButton";
+import { useFollowing } from "components/hooks/db/useFollowing";
 
 const useStyles = makeStyles({
   SearchUserItem: {
@@ -8,6 +10,9 @@ const useStyles = makeStyles({
     display: "flex",
     "& > *:first-child": {
       flex: "1",
+    },
+    "& .stats": {
+      display: "none",
     },
   },
   state: {
@@ -17,16 +22,41 @@ const useStyles = makeStyles({
 
 interface SearchUserItemProps {
   pointer: { userId: string };
+  routes: {
+    user: (userId: string) => void;
+  };
+  following: ReturnType<typeof useFollowing>;
 }
 
-const SearchUserItem: React.FC<SearchUserItemProps> = ({ pointer }) => {
+const SearchUserItem: React.FC<SearchUserItemProps> = ({
+  pointer,
+  routes,
+  following: { add, remove, users },
+}) => {
   const classes = useStyles();
+
+  const { userId } = pointer;
+
+  const isFollowing = users.has(pointer.userId);
+
+  const handleToggleFollowing = useCallback(() => {
+    if (isFollowing) {
+      remove(userId);
+    } else {
+      add(userId);
+    }
+  }, [isFollowing, userId, add, remove]);
 
   return (
     <div className={classes.SearchUserItem}>
-      <UserItem pointer={pointer} />
+      <button onClick={() => routes.user(pointer.userId)}>
+        <UserItem pointer={pointer} />
+      </button>
       <div className={classes.state}>
-        <button type="button">Friends</button>
+        <FriendStateButton
+          isFollowing={isFollowing}
+          onToggle={handleToggleFollowing}
+        />
       </div>
     </div>
   );
