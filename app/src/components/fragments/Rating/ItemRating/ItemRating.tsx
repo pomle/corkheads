@@ -26,7 +26,7 @@ interface ItemRatingProps {
 const ItemRating: React.FC<ItemRatingProps> = ({ rating, aggregate }) => {
   const classes = useStyles();
 
-  if (aggregate) {
+  if (aggregate && aggregate.count > 0) {
     return (
       <div className={classes.Rating}>
         <RatingAggregate ratingAggregate={aggregate} />
