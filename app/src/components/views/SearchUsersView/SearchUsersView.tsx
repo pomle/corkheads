@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -15,6 +15,7 @@ import { Colors } from "components/ui/theme/colors";
 import * as Locales from "./locales";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
+import { useQuery } from "components/hooks/useQuery";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -44,7 +45,7 @@ interface SearchUsersViewProps {
 }
 
 const SearchUsersView: React.FC<SearchUsersViewProps> = ({ nav, routes }) => {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useQuery("query");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
 

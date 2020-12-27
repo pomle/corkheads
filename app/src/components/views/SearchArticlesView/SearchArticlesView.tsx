@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
@@ -18,6 +18,7 @@ import SearchHistory from "./components/SearchHistory";
 import * as Locales from "./locales";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
+import { useQuery } from "components/hooks/useQuery";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -53,7 +54,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
   userId,
   routes,
 }) => {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useQuery("query");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
 
