@@ -8,18 +8,24 @@ import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle
 
 const useStyles = makeStyles((theme: Theme) => ({
   Ratings: {
+    borderTop: `dashed 1px ${theme.color.panel}`,
+    color: Colors.X1,
     display: "grid",
-    gridGap: "8px",
     gridTemplateColumns: "1fr 1fr",
+    "& em": {
+      color: theme.color.accent,
+      fontStyle: "normal",
+      fontWeight: 700,
+    },
     "& > div": {
       alignItems: "center",
-      background: Colors.Milk,
-      borderRadius: "8px",
-      color: theme.color.accent,
       lineHeight: 1.5,
       display: "flex",
       flexFlow: "column",
       padding: "16px",
+      "&:first-child": {
+        borderRight: `dashed 1px ${theme.color.panel}`,
+      },
     },
   },
 }));
@@ -47,16 +53,24 @@ const Ratings: React.FC<RatingsProps> = ({ userId, articleId }) => {
   return (
     <div className={classes.Ratings}>
       <div>
-        {averageRating ? <NumberedRating value={averageRating} max={5} /> : "-"}
-        <div>Corkheads rating</div>
+        <em>
+          {averageRating ? (
+            <NumberedRating value={averageRating} max={5} />
+          ) : (
+            "-"
+          )}
+        </em>
+        <div>Corkheads</div>
       </div>
       <div>
-        {myRating?.score ? (
-          <NumberedRating value={myRating.score} max={5} />
-        ) : (
-          "-"
-        )}
-        <div>My rating</div>
+        <em>
+          {myRating?.score ? (
+            <NumberedRating value={myRating.score} max={5} />
+          ) : (
+            "-"
+          )}
+        </em>
+        <div>You</div>
       </div>
     </div>
   );

@@ -68,7 +68,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme="cream">
+    <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
           {nav}
@@ -84,19 +84,11 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </AreaButton>
 
           <div className={classes.actionBox}>
-            <ThemeProvider theme="pure">
-              <ActionBox
-                routes={routes}
-                userId={userId}
-                articleId={articleId}
-              />
-            </ThemeProvider>
+            <ActionBox routes={routes} userId={userId} articleId={articleId} />
           </div>
 
           <div className={classes.userSection}>
-            <ThemeProvider theme="pure">
-              <UserSections userId={userId} articleId={articleId} />
-            </ThemeProvider>
+            <UserSections userId={userId} articleId={articleId} />
           </div>
         </ViewBody>
       </HeaderLayout>
