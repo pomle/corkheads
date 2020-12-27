@@ -44,19 +44,12 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
   const article = useUserVirtualArticle(userId, articleId);
 
   const { displayName, photoURL, ratingAggregate } = article;
-  const displayNameMatch = matches?.displayName?.value;
 
   const classes = useStyles();
 
   return (
     <ImageItem imageURL={photoURL}>
-      <div className={classes.displayName}>
-        {displayNameMatch ? (
-          <Highlighted text={displayNameMatch} />
-        ) : (
-          displayName
-        )}
-      </div>
+      <div className={classes.displayName}>{displayName}</div>
       <div className={classes.meta}>
         {article.bottling && <BottlingMeta bottling={article.bottling} />}
       </div>
