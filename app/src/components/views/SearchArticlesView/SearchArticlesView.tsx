@@ -64,6 +64,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
       search: {
         text: executedQuery,
       },
+      areas: ["article"],
       filters: {
         userIds: [userId],
       },

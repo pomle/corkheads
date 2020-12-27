@@ -5,6 +5,11 @@ export function useAlgolia() {
   return useMemo(createClient, []);
 }
 
+export function useUserIndex() {
+  const client = useAlgolia();
+  return useMemo(() => client.initIndex("users"), [client]);
+}
+
 export function useArticleIndex() {
   const client = useAlgolia();
   return useMemo(() => client.initIndex("articles"), [client]);
@@ -15,14 +20,17 @@ export function useUserArticleIndex() {
   return useMemo(() => client.initIndex("user-articles"), [client]);
 }
 
+type SearchArea = "article" | "user";
+
 type SearchFilters = {
   userIds: string[];
 };
 
-export type ArticleSearchQuery = {
+export type SearchQuery = {
   search: {
     text: string;
   };
+  areas: SearchArea[];
   filters: SearchFilters;
 };
 
@@ -31,6 +39,11 @@ const SEARCH_TYPE_DEBOUNCE = 250;
 const SEARCH_OPTIONS = {
   highlightPreTag: "[",
   highlightPostTag: "]",
+};
+
+const USER_SEARCH_OPTIONS = {
+  ...SEARCH_OPTIONS,
+  attributesToRetrieve: ["userId"],
 };
 
 const ARTICLE_SEARCH_OPTIONS = {
@@ -48,39 +61,44 @@ function encodeFilters(filters: SearchFilters) {
 }
 
 export function useSearch() {
-  const [busy, setBusy] = useState<ArticleSearchQuery>();
+  const [busy, setBusy] = useState<SearchQuery>();
+  const userIndex = useUserIndex();
   const articleIndex = useArticleIndex();
   const userArticleIndex = useUserArticleIndex();
 
   const performSearch = useCallback(
-    async (query: ArticleSearchQuery) => {
-      const searchRequests = [
-        articleIndex.search(query.search.text, ARTICLE_SEARCH_OPTIONS),
-      ];
+    async (query: SearchQuery) => {
+      const areas = query.areas;
+      const text = query.search.text;
 
-      if (query.filters.userIds.length > 0) {
-        searchRequests.push(
-          userArticleIndex.search(query.search.text, {
-            ...USER_ARTICLE_SEARCH_OPTIONS,
-            filters: encodeFilters(query.filters),
-          })
-        );
-      }
-
-      const [articles, userArticles] = await Promise.all(searchRequests);
+      const requests = {
+        user: areas.includes("user")
+          ? userIndex.search(text, USER_SEARCH_OPTIONS)
+          : undefined,
+        article: areas.includes("article")
+          ? articleIndex.search(text, ARTICLE_SEARCH_OPTIONS)
+          : undefined,
+        userArticle: areas.includes("article")
+          ? userArticleIndex.search(text, {
+              ...USER_ARTICLE_SEARCH_OPTIONS,
+              filters: encodeFilters(query.filters),
+            })
+          : undefined,
+      };
 
       return {
-        articles,
-        userArticles: userArticles ? userArticles : undefined,
+        articles: await requests.article,
+        users: await requests.user,
+        userArticles: await requests.userArticle,
       };
     },
-    [articleIndex, userArticleIndex]
+    [userIndex, articleIndex, userArticleIndex]
   );
 
   const search = useMemo(() => {
     let timer: NodeJS.Timeout;
 
-    return (query: ArticleSearchQuery): ReturnType<typeof performSearch> => {
+    return (query: SearchQuery): ReturnType<typeof performSearch> => {
       clearTimeout(timer);
 
       setBusy(query);

@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Article } from "types/Article";
-import { ArticleSearchQuery, useSearch } from "../algolia";
+import { SearchQuery, useSearch } from "../algolia";
 import { UserArticle } from "types/UserArticle";
 import { QueryRequest } from "../store2/useStore";
 
-export type { ArticleSearchQuery };
+export type ArticleSearchQuery = SearchQuery & { areas: ["article"] };
 
 type Match = {
   matchedWords: string[];
@@ -43,25 +43,27 @@ export function useArticleSearch(
 
       const hits: Map<string, SearchHit<Article & UserArticle>> = new Map();
 
-      results.articles.hits.forEach((hit) => {
-        const record = {
-          articleId: hit.objectID,
-          matches: hit._highlightResult as Matches<Article & UserArticle>,
-        };
+      if (results.articles) {
+        results.articles.hits.forEach((hit) => {
+          const record = {
+            articleId: hit.objectID,
+            matches: hit._highlightResult as Matches<Article & UserArticle>,
+          };
 
-        hits.set(hit.objectID, record);
-      });
-
-      if (results.userArticles) {
-        results.userArticles.hits.forEach((hit: any) => {
-          if (!hits.has(hit.articleId)) {
-            const record = {
-              articleId: hit.articleId,
-              matches: hit._highlightResult as Matches<Article & UserArticle>,
-            };
-            hits.set(hit.articleId, record);
-          }
+          hits.set(hit.objectID, record);
         });
+
+        if (results.userArticles) {
+          results.userArticles.hits.forEach((hit: any) => {
+            if (!hits.has(hit.articleId)) {
+              const record = {
+                articleId: hit.articleId,
+                matches: hit._highlightResult as Matches<Article & UserArticle>,
+              };
+              hits.set(hit.articleId, record);
+            }
+          });
+        }
       }
 
       setResults(Array.from(hits.values()));
