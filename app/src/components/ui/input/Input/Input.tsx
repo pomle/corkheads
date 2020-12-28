@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
-import { Colors } from "components/ui/theme/colors";
 
 type StyleProps = {
   hasSymbol: boolean;
@@ -12,18 +11,18 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     position: "relative",
     "& > input": {
-      color: theme.color.accent,
-      border: "solid 1px",
-      borderColor: Colors.MarbleBlue,
+      color: theme.color.action,
+      background: theme.color.panel,
       borderRadius: "4px",
       flex: "1",
       padding: "12px",
       paddingLeft: (props: StyleProps) => (props.hasSymbol ? "37px" : "12px"),
+      transition: "box-shadow 0.1s",
       "&:focus": {
-        borderColor: theme.color.accent,
+        boxShadow: "0 5px 8px #00000030",
       },
       "&::placeholder": {
-        color: Colors.MarbleBlue,
+        color: theme.color.text,
       },
     },
     "& .symbol": {
@@ -34,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       "& svg": {
         height: "100%",
         width: "100%",
+        "& path": {
+          fill: theme.color.action,
+        },
       },
     },
   },
