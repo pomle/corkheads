@@ -10,7 +10,6 @@ import ThemeProvider from "components/ui/theme/ThemeProvider";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
-import { Colors } from "components/ui/theme/colors";
 import * as Locales from "./locales";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
@@ -91,7 +90,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({
             </div>
           </ViewHead>
           <div className={classes.searchBusy}>
-            {request.busy && <LineThrobber color={Colors.MatteGold} />}
+            {request.busy && <LineThrobber />}
           </div>
         </ViewCap>
       </ThemeProvider>

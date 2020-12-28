@@ -26,7 +26,7 @@ const ButtonContent: React.FC<ButtonContentProps> = ({
       <div className="content">{children}</div>
       {busy && (
         <div className={classes.busy}>
-          <LineThrobber color="#fff4" />
+          <LineThrobber />
         </div>
       )}
     </>
