@@ -1,15 +1,13 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
+import SearchLayout from "components/ui/layout/SearchLayout";
 import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
 import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
-import LineThrobber from "components/ui/throbbers/LineThrobber";
 import * as Locales from "./locales";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
@@ -20,15 +18,6 @@ import SearchUserItem from "components/fragments/User/SearchUserItem";
 const useStyles = makeStyles({
   searchBar: {
     marginTop: "12px",
-  },
-  searchBusy: {
-    position: "relative",
-    "& > *": {
-      bottom: 0,
-      height: "2px",
-      position: "absolute",
-      width: "100%",
-    },
   },
   searchResults: {
     margin: "24px",
@@ -71,7 +60,7 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({
   const classes = useStyles();
 
   return (
-    <HeaderLayout>
+    <SearchLayout busy={request.busy}>
       <ThemeProvider theme="dusk">
         <ViewCap>
           {nav}
@@ -89,35 +78,30 @@ const SearchUsersView: React.FC<SearchUsersViewProps> = ({
               />
             </div>
           </ViewHead>
-          <div className={classes.searchBusy}>
-            {request.busy && <LineThrobber />}
-          </div>
         </ViewCap>
       </ThemeProvider>
-      <ViewBody>
-        <div className={classes.searchResults}>
-          {executedQuery.length ? (
-            <ItemList divided>
-              {request.results.user.map((result) => {
-                return (
-                  <SearchUserItem
-                    key={result.userId}
-                    pointer={result}
-                    routes={routes}
-                    following={following}
-                  />
-                );
-              })}
-            </ItemList>
-          ) : (
-            <TextItem>
-              Type at least {MIN_QUERY_LENGTH - query.length} more characters to
-              search.
-            </TextItem>
-          )}
-        </div>
-      </ViewBody>
-    </HeaderLayout>
+      <div className={classes.searchResults}>
+        {executedQuery.length ? (
+          <ItemList divided>
+            {request.results.user.map((result) => {
+              return (
+                <SearchUserItem
+                  key={result.userId}
+                  pointer={result}
+                  routes={routes}
+                  following={following}
+                />
+              );
+            })}
+          </ItemList>
+        ) : (
+          <TextItem>
+            Type at least {MIN_QUERY_LENGTH - query.length} more characters to
+            search.
+          </TextItem>
+        )}
+      </div>
+    </SearchLayout>
   );
 };
 
