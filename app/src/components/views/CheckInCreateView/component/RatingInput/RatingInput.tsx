@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Star } from "assets/graphics/icons/star.svg";
+import { ReactComponent as HeartIcon } from "assets/graphics/icons/heart.svg";
 import { Colors } from "components/ui/theme/colors";
 import { Rating, VALID_SCORE } from "types/Rating";
 
@@ -30,14 +31,14 @@ const useStyles = makeStyles({
           width: "32px",
           "& path": {
             fill: "transparent",
-            stroke: Colors.MatteGold,
+            stroke: Colors.Gold,
             strokeWidth: "3px",
             transition: "fill 1s cubic-bezier(0, 0, 0.02, 0.98)",
           },
         },
         "&.filled": {
           "& svg path": {
-            fill: Colors.MatteGold,
+            fill: Colors.Gold,
           },
         },
         "&.score-5": {
@@ -49,7 +50,11 @@ const useStyles = makeStyles({
         },
       },
     },
-    "& button.love": {
+    "& .love": {
+      display: "flex",
+      justifyContent: "center",
+    },
+    "& .love button": {
       display: (props: StyleProps) => (props.canLove ? "initial" : "none"),
       filter: "grayscale(1) opacity(0.3)",
       fontSize: "60px",
@@ -137,10 +142,10 @@ const RatingInput: React.FC<RatingInputProps> = ({ rating, onChange }) => {
       <div className="love">
         <button
           type="button"
-          className={`love ${rating.love ? "active" : "inactive"}`}
+          className={rating.love ? "active" : "inactive"}
           onPointerDown={() => setLove(true)}
         >
-          💖
+          <HeartIcon />
         </button>
       </div>
     </div>
