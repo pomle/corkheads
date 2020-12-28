@@ -31,9 +31,9 @@ interface PhotoProps {
   size?: Size;
 }
 
-const Photo: React.FC<PhotoProps> = ({ url, size = "cover" }) => {
+const Photo: React.FC<PhotoProps> = ({ url, size = "cover", children }) => {
   const classes = useStyles({ imageURL: url, size });
-  return <div className={classes.Photo} />;
+  return <div className={classes.Photo}>{children}</div>;
 };
 
 export default Photo;
