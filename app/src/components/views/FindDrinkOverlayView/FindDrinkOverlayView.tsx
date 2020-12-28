@@ -1,7 +1,7 @@
 import React from "react";
-import * as Trans from "./locales";
 import { makeStyles } from "@material-ui/styles";
 import { Colors } from "components/ui/theme/colors";
+import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
 
 const useStyles = makeStyles({
   FindDrinkOverlayView: {
@@ -21,13 +21,19 @@ const useStyles = makeStyles({
     fontSize: "16px",
     fontWeight: 500,
     justifyContent: "center",
-    height: "96px",
+    height: "80px",
     padding: "16px",
     pointerEvents: "all",
     position: "absolute",
     right: "16px",
     textAlign: "center",
-    width: "96px",
+    width: "80px",
+    "& svg": {
+      width: "60%",
+      "& path": {
+        fill: "#fff",
+      },
+    },
   },
 });
 
@@ -45,7 +51,7 @@ const FindDrinkOverlayView: React.FC<FindDrinkOverlayViewProps> = ({
   return (
     <div className={classes.FindDrinkOverlayView}>
       <button onClick={routes.search} className={classes.button}>
-        <Trans.FindDrink />
+        <SearchIcon />
       </button>
     </div>
   );
