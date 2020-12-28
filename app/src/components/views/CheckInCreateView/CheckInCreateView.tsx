@@ -10,48 +10,45 @@ import { useCommitCheckIn } from "./hooks";
 import { Rating } from "types/Rating";
 import ViewHead from "components/ui/layout/ViewHead";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Colors } from "components/ui/theme/colors";
-import Divider from "components/ui/layout/Divider";
 import Input from "components/ui/input/Input/Input";
-import BurgerLayout from "components/ui/layout/BurgerLayout";
+import FooterLayout from "components/ui/layout/FooterLayout/FooterLayout";
 import ButtonField from "components/ui/layout/ButtonField";
 import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
+import { Theme, themes } from "components/ui/theme/themes";
 
 type StyleProps = {
   busy: boolean;
   love: boolean;
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   head: {
     textAlign: "center",
   },
-  content: {
-    background: (props: StyleProps) =>
-      props.love
-        ? `linear-gradient(to bottom, rgb(125 11 63 / 30%), ${Colors.BlueSmoke})`
-        : Colors.BlueSmoke,
-    borderRadius: "8px",
-    color: "#5a5a5a",
-    display: "grid",
+  body: {
     filter: (props: StyleProps) =>
       props.busy ? "grayscale(0.25) opacity(0.5)" : "none",
-    gridAutoFlow: "row",
-    gridGap: "24px",
-    margin: "28px",
-    padding: "24px",
     pointerEvents: (props: StyleProps) => (props.busy ? "none" : "all"),
-    textAlign: "center",
     transition: "filter 0.5s ease",
   },
-  rating: {
-    margin: "0 auto",
-    width: "90%",
+  panel: {
+    background: themes.dusk.color.surface,
+    borderRadius: "4px",
+    overflow: "hidden",
+    margin: "24px",
   },
-  photo: {},
-});
+  rating: {
+    margin: "24px",
+  },
+  photo: {
+    background: themes.dusk.color.panel,
+  },
+  meta: {
+    padding: "16px",
+  },
+}));
 
 function isCheckInValid(checkIn: CheckIn) {
   return checkIn.rating.score !== undefined;
@@ -137,40 +134,40 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const classes = useStyles({ love: rating.love, busy: handleCheckIn.busy });
 
   return (
-    <BurgerLayout>
-      <ThemeProvider theme="dusk">
-        <ViewCap>
-          {nav}
-          <ViewHead>
-            <div className={classes.head}>
-              <h1>{article.displayName}</h1>
-            </div>
-          </ViewHead>
-        </ViewCap>
-      </ThemeProvider>
+    <FooterLayout>
       <ViewBody>
         <ThemeProvider theme="dusk">
-          <div className={classes.content}>
-            <div className={classes.rating}>
-              <RatingInput rating={rating} onChange={setRating} />
-            </div>
-
-            <Divider />
-
-            <div className={classes.photo}>
-              <PhotoInput photoURL={photoURL} onFile={handleFile} />
-            </div>
-
-            <div>
-              <Input
-                type="text"
-                placeholder="Enter comment"
-                value={checkIn.comment || ""}
-                onChange={setComment}
-              />
-            </div>
-          </div>
+          <ViewCap>
+            {nav}
+            <ViewHead>
+              <div className={classes.head}>
+                <h1>{article.displayName}</h1>
+              </div>
+            </ViewHead>
+          </ViewCap>
         </ThemeProvider>
+        <div className={classes.body}>
+          <div className={classes.rating}>
+            <RatingInput rating={rating} onChange={setRating} />
+          </div>
+
+          <ThemeProvider theme="dusk">
+            <div className={classes.panel}>
+              <div className={classes.photo}>
+                <PhotoInput photoURL={photoURL} onFile={handleFile} />
+              </div>
+
+              <div className={classes.meta}>
+                <Input
+                  type="text"
+                  placeholder="Enter comment"
+                  value={checkIn.comment || ""}
+                  onChange={setComment}
+                />
+              </div>
+            </div>
+          </ThemeProvider>
+        </div>
       </ViewBody>
 
       <ButtonField>
@@ -182,7 +179,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
           Check in now
         </MainButton>
       </ButtonField>
-    </BurgerLayout>
+    </FooterLayout>
   );
 };
 
