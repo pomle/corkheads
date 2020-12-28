@@ -13,7 +13,7 @@ export type Theme = {
   color: ColorTheme;
 };
 
-export type ThemeName = "dusk" | "storm" | "cream" | "pure" | "sky";
+export type ThemeName = "dusk" | "storm" | "pure" | "sky";
 
 const storm: Theme = {
   color: {
@@ -48,17 +48,6 @@ const sky: Theme = {
   },
 };
 
-const cream: Theme = {
-  color: {
-    accent: Colors.MatteGold,
-    action: Colors.BlueSmoke,
-    panel: Colors.White,
-    surface: Colors.Milk,
-    text: Colors.BlueSmoke,
-    title: Colors.BlueSmoke,
-  },
-};
-
 const pure: Theme = {
   color: {
     accent: Colors.Gold,
@@ -71,7 +60,6 @@ const pure: Theme = {
 };
 
 export const themes: Record<ThemeName, Theme> = {
-  cream,
   dusk,
   pure,
   storm,
