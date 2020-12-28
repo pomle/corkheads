@@ -1,26 +1,23 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Photo from "components/ui/layout/Photo";
-import { Colors } from "components/ui/theme/colors";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import ImageSelect from "components/ui/trigger/ImageSelect";
+import { Theme } from "components/ui/theme/themes";
 
 type StyleProps = {
   hasPhoto: boolean;
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   PhotoInput: {
     "& > button": {
       width: "100%",
     },
   },
   canvas: {
-    background: (props: StyleProps) => (props.hasPhoto ? "#000" : "none"),
-    border: (props: StyleProps) =>
-      !props.hasPhoto ? `dashed 1px ${Colors.MarbleBlue}` : "none",
-    borderRadius: "8px",
-    overflow: "hidden",
+    background: (props: StyleProps) =>
+      props.hasPhoto ? "#000" : theme.color.panel,
     position: "relative",
     "& .preview": {
       position: "relative",
@@ -47,7 +44,7 @@ const useStyles = makeStyles({
       },
     },
   },
-});
+}));
 
 interface PhotoInputProps {
   photoURL?: string;
