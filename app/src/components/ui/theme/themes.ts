@@ -30,7 +30,7 @@ const dusk: Theme = {
   color: {
     accent: Colors.ShinyGold,
     action: Colors.Gold,
-    panel: Colors.White,
+    panel: Colors.X3,
     surface: Colors.BlueSmoke,
     text: Colors.MarbleBlue,
     title: Colors.Sot,
