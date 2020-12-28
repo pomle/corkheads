@@ -50,9 +50,7 @@ input {
 
 input {
   background: none;
-  color: #3d4351;
-  border: solid 1px #3d4351;
-  border-radius: 4px;
+  border: none;
   font-size: 16px;
   font-weight: 500;
 }
