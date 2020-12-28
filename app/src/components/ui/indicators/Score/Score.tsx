@@ -5,14 +5,13 @@ import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import { VALID_SCORE } from "types/Rating";
 
+const OUTLINE = new Set([Colors.BlueSmoke, Colors.Navy]);
+
 function getFilledColor(theme: Theme) {
-  return theme.color.accent;
+  return theme.color.action;
 }
 
 function getEmptyColor(theme: Theme) {
-  if (theme.color.surface === Colors.Navy) {
-    return theme.color.accent;
-  }
   return theme.color.panel;
 }
 
@@ -33,17 +32,18 @@ const useStyles = makeStyles((theme: Theme) => {
         "&.empty": {
           "& path": {
             fill: () => {
-              if (theme.color.surface === Colors.Navy) {
+              if (OUTLINE.has(theme.color.surface)) {
                 return "none";
               }
               return emptyColor;
             },
             stroke: () => {
-              if (theme.color.surface === Colors.Navy) {
-                return emptyColor;
+              if (OUTLINE.has(theme.color.surface)) {
+                return filledColor;
               }
               return "none";
             },
+            strokeWidth: "4px",
           },
         },
         "&.filled": {
