@@ -1,24 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
-
-const useStyles = makeStyles({
-  HeaderLayout: {
-    display: "flex",
-    flexFlow: "column",
-    height: "100%",
-  },
-  header: {
-    flex: "0 1",
-  },
-  content: {
-    flex: "auto",
-    height: "100%",
-    overflow: "hidden",
-    "& > *": {
-      height: "100%",
-    },
-  },
-});
+import BurgerLayout from "../BurgerLayout";
 
 interface HeaderLayoutProps {
   children: [React.ReactNode, React.ReactNode];
@@ -27,13 +8,12 @@ interface HeaderLayoutProps {
 const HeaderLayout: React.FC<HeaderLayoutProps> = ({
   children: [header, content],
 }) => {
-  const classes = useStyles();
-
   return (
-    <div className={classes.HeaderLayout}>
-      <div className={classes.header}>{header}</div>
-      <div className={classes.content}>{content}</div>
-    </div>
+    <BurgerLayout>
+      {header}
+      {content}
+      {null}
+    </BurgerLayout>
   );
 };
 
