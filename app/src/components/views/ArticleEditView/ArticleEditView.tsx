@@ -8,7 +8,7 @@ import { useBottling, useCommitArticle } from "./hooks";
 import BottlingUserInput from "components/fragments/Bottling/BottlingUserInput";
 import { Bottling } from "types/Bottling";
 import PhotoInput from "../CheckInCreateView/component/PhotoInput";
-import BurgerLayout from "components/ui/layout/BurgerLayout";
+import FooterLayout from "components/ui/layout/FooterLayout/FooterLayout";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ButtonField from "components/ui/layout/ButtonField";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
@@ -150,8 +150,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   const classes = useStyles({ busy: handleSave.busy });
 
   return (
-    <BurgerLayout>
-      {null}
+    <FooterLayout>
       <ViewBody>
         <ThemeProvider theme="dusk">
           <ViewCap>
@@ -195,7 +194,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
           </MainButton>
         </ButtonField>
       </ViewCap>
-    </BurgerLayout>
+    </FooterLayout>
   );
 };
 
