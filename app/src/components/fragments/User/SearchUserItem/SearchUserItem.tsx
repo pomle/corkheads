@@ -11,9 +11,6 @@ const useStyles = makeStyles({
     "& > *:first-child": {
       flex: "1",
     },
-    "& .stats": {
-      display: "none",
-    },
   },
   state: {
     flex: "0",
