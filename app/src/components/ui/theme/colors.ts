@@ -1,6 +1,7 @@
 export enum Colors {
   Navy = "#1b2230",
   BlueSmoke = "#222a3a",
+  X3 = "#283041",
   Slate = "#3d4351",
   MarbleBlue = "#5f6674",
   Sot = "#8f96a2",
