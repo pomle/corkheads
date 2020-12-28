@@ -24,7 +24,7 @@ type StyleProps = {
 
 const useStyles = makeStyles({
   form: {
-    padding: "24px",
+    padding: "16px",
     "& > .content": {
       display: "grid",
       filter: (props: StyleProps) =>
@@ -41,7 +41,10 @@ const useStyles = makeStyles({
     "& input": {
       fontSize: "16px",
     },
-    "& .photo": {},
+    "& .photo": {
+      borderRadius: "4px",
+      overflow: "hidden",
+    },
   },
   preview: {
     padding: "16px",
