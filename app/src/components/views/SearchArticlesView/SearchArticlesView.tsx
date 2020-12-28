@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
 import { ReactComponent as SearchIcon } from "assets/graphics/icons/magnifier.svg";
