@@ -12,7 +12,6 @@ import TextItem from "components/ui/layout/TextItem";
 import ItemList from "components/ui/layout/ItemList";
 import SearchArticleItemButtom from "components/fragments/Article/SearchArticleItem/Button";
 import LineThrobber from "components/ui/throbbers/LineThrobber";
-import { Colors } from "components/ui/theme/colors";
 import { useSearchHistory } from "components/hooks/db/useSearchHistory";
 import SearchHistory from "./components/SearchHistory";
 import * as Locales from "./locales";
@@ -107,7 +106,7 @@ const SearchArticlesView: React.FC<SearchArticlesViewProps> = ({
             </div>
           </ViewHead>
           <div className={classes.searchBusy}>
-            {request.busy && <LineThrobber color={Colors.MatteGold} />}
+            {request.busy && <LineThrobber />}
           </div>
         </ViewCap>
       </ThemeProvider>
