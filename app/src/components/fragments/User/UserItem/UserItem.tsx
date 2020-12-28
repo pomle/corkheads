@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
-import Badge from "components/ui/icons/Badge";
 import Username from "../Username";
 import UserHandle from "../UserHandle";
 
@@ -21,15 +20,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .username": {
       fontSize: "10px",
       gridArea: "2 / 1 / 3 / 2",
-    },
-    "& .stats": {
-      alignSelf: "center",
-      display: "grid",
-      gridArea: "1 / 2 / 3 / 3",
-      gridAutoFlow: "column",
-      "& > *": {
-        margin: "2px",
-      },
     },
   },
 }));
@@ -52,10 +42,6 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
           <UserHandle user={user} />
         </div>
         <div className="username">{user && <Username user={user} />}</div>
-        <div className="stats">
-          <Badge type="badge">{user?.checkInCount}</Badge>
-          <Badge type="diamond">{user?.collectionSize}</Badge>
-        </div>
       </div>
     </RoundedImageItem>
   );
