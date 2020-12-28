@@ -14,6 +14,9 @@ const useStyles = makeStyles({
       flex: "auto",
       height: "100%",
       overflow: "hidden",
+      "& > *": {
+        height: "100%",
+      },
     },
     "& > footer": {
       flex: "0 1",
