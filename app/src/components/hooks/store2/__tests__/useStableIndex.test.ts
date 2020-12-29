@@ -166,6 +166,42 @@ describe("useStableIndex", () => {
     expect(hook.result.current).toBe(ref);
   });
 
+  it("returns output when id list shrunk", () => {
+    const longList = ["a", "b"];
+    const shortList = ["a"];
+
+    const index = createIndex(source);
+
+    const hook = renderHook(({ ids, index }) => useStableIndex(ids, index), {
+      initialProps: {
+        ids: longList,
+        index,
+      },
+    });
+
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        a: "Alpha",
+        b: "Beta",
+      })
+    );
+
+    const ref = hook.result.current;
+
+    hook.rerender({
+      ids: shortList,
+      index,
+    });
+
+    expect(hook.result.current).not.toBe(ref);
+
+    expect(hook.result.current).toEqual(
+      ResultMap.from({
+        a: "Alpha",
+      })
+    );
+  });
+
   it("returns new index if source changes any accessed value", () => {
     const ids = ["b", "c", "d"];
 
