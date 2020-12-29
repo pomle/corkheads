@@ -16,7 +16,7 @@ export function useStableIndex<T>(
 
     const result = new ResultMap<T>();
 
-    let updateCache = false;
+    let updateCache = ids.length !== cache.current.size;
 
     for (const id of ids) {
       const content = get(id);
