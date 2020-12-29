@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
-import ItemList from "components/ui/layout/ItemList";
 import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
-import CheckInItemButton from "components/fragments/CheckIn/CheckInItem/Button";
+import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 interface CheckInSectionProps {
   userId: string;
@@ -28,19 +27,7 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId, routes }) => {
 
   const request = useCheckInQuery(query);
 
-  return (
-    <ItemList divided>
-      {request.results.map((pointer) => {
-        return (
-          <CheckInItemButton
-            key={pointer.checkInId}
-            pointer={pointer}
-            route={routes.checkIn}
-          />
-        );
-      })}
-    </ItemList>
-  );
+  return <CheckInList pointers={request.results} routes={routes} />;
 };
 
 export default CheckInSection;
