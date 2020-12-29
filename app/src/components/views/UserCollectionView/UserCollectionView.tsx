@@ -6,12 +6,11 @@ import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
-import CollectionList from "components/ui/layout/CollectionList";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import { useArticles } from "components/hooks/db/useArticles";
-import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
+import CollectionArticleList from "components/fragments/Article/CollectionArticleList";
 import {
   UserArticleQuery,
   useUserArticleQuery,
@@ -78,17 +77,10 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <CollectionList>
-              {pointers.slice(0, size).map((pointer) => {
-                return (
-                  <CollectionArticleItemButton
-                    key={pointer.articleId}
-                    pointer={pointer}
-                    route={routes.article}
-                  />
-                );
-              })}
-            </CollectionList>
+            <CollectionArticleList
+              pointers={pointers.slice(0, size)}
+              routes={routes}
+            />
             <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
