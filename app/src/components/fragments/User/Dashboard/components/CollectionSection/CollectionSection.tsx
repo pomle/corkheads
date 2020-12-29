@@ -1,10 +1,9 @@
 import React, { useMemo } from "react";
-import CollectionList from "components/ui/layout/CollectionList";
-import CollectionArticleItemButton from "components/fragments/Article/CollectionArticleItem/Button";
 import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
+import CollectionArticleList from "components/fragments/Article/CollectionArticleList";
 
 interface CollectionSectionProps {
   userId: string;
@@ -30,19 +29,7 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({
 
   const request = useUserArticleQuery(query);
 
-  return (
-    <CollectionList>
-      {request.results.map((pointer) => {
-        return (
-          <CollectionArticleItemButton
-            key={pointer.articleId}
-            pointer={pointer}
-            route={routes.article}
-          />
-        );
-      })}
-    </CollectionList>
-  );
+  return <CollectionArticleList pointers={request.results} routes={routes} />;
 };
 
 export default CollectionSection;
