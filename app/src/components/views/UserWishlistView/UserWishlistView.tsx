@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const MIN_ITEMS = 20;
 const MAX_ITEMS = 100;
+const INC_SIZE = 10;
 
 interface UserWishlistViewProps {
   nav: React.ReactNode;
@@ -37,7 +39,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
   routes,
   userId,
 }) => {
-  const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
+  const [size, bump] = useScrollSize(MIN_ITEMS, MAX_ITEMS, INC_SIZE);
 
   const query = useMemo((): UserArticleQuery => {
     return {
@@ -54,13 +56,17 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
   const articles = useArticles(request.results.map((p) => p.articleId));
 
   const pointers = useMemo(() => {
+    if (articles.size < request.results.length) {
+      return [];
+    }
+
     return Array.from(articles.values())
       .sort(byDisplayName)
       .map((e) => ({
         articleId: e.id,
         userId,
       }));
-  }, [articles, userId]);
+  }, [articles, userId, request]);
 
   const classes = useStyles();
 

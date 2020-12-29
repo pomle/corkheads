@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const MIN_ITEMS = 10;
 const MAX_ITEMS = 100;
+const INC_SIZE = 10;
 
 interface UserCollectionViewProps {
   nav: React.ReactNode;
@@ -37,7 +39,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   routes,
   userId,
 }) => {
-  const [size, bump] = useScrollSize(6, MAX_ITEMS, 6);
+  const [size, bump] = useScrollSize(MIN_ITEMS, MAX_ITEMS, INC_SIZE);
 
   const query = useMemo((): UserArticleQuery => {
     return {
@@ -56,13 +58,17 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
   );
 
   const pointers = useMemo(() => {
+    if (articles.size < request.results.length) {
+      return [];
+    }
+
     return Array.from(articles.values())
       .sort(byDisplayName)
       .map((entry) => ({
         articleId: entry.id,
         userId: userId,
       }));
-  }, [articles, userId]);
+  }, [articles, userId, request]);
 
   const classes = useStyles();
 
