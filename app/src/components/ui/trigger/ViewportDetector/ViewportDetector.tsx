@@ -4,13 +4,22 @@ import { AABB, intersects } from "lib/math";
 interface ViewportDetectorProps {
   onEnter?: () => void;
   onExit?: () => void;
-  size?: { width: string; height: string };
 }
+
+const EXPAND: AABB = {
+  t: 0.25,
+  b: 0,
+  l: 0,
+  r: 0,
+};
+
+const style = {
+  width: "100%",
+};
 
 const ViewportDetector: React.FC<ViewportDetectorProps> = ({
   onEnter,
   onExit,
-  size = { height: "100px", width: "100%" },
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,10 +45,10 @@ const ViewportDetector: React.FC<ViewportDetectorProps> = ({
       };
 
       const B: AABB = {
-        t: node.offsetTop,
-        l: node.offsetLeft,
-        b: node.offsetTop + node.offsetHeight,
-        r: node.offsetLeft + node.offsetWidth,
+        t: node.offsetTop - view.offsetHeight * EXPAND.t,
+        l: node.offsetLeft - view.offsetWidth * EXPAND.l,
+        b: node.offsetTop + node.offsetHeight + view.offsetHeight * EXPAND.b,
+        r: node.offsetLeft + node.offsetWidth + view.offsetWidth * EXPAND.r,
       };
 
       const overlap = intersects(A, B);
@@ -59,7 +68,7 @@ const ViewportDetector: React.FC<ViewportDetectorProps> = ({
     return () => view.removeEventListener("scroll", onScroll);
   }, [onEnter, onExit]);
 
-  return <div ref={ref} style={size} />;
+  return <div ref={ref} style={style} />;
 };
 
 export default ViewportDetector;
