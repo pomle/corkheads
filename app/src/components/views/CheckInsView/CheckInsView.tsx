@@ -6,15 +6,14 @@ import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
-import ItemList from "components/ui/layout/ItemList";
 import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
-import CheckInItemButton from "components/fragments/CheckIn/CheckInItem/Button";
 import { useMe } from "components/hooks/useMe";
+import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
@@ -53,9 +52,9 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
           dir: "desc",
         },
       ],
-      limit: Math.min(size + 20, MAX_ITEMS),
+      limit: MAX_ITEMS,
     };
-  }, [filterUserIds, size]);
+  }, [filterUserIds]);
 
   const request = useCheckInQuery(query);
 
@@ -67,6 +66,10 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
   } else if (filterUserIds === undefined) {
     title = "Recent check ins";
   }
+
+  const pointers = useMemo(() => {
+    return request.results.slice(0, size);
+  }, [request.results, size]);
 
   const classes = useStyles();
 
@@ -81,17 +84,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList divided>
-              {request.results.slice(0, size).map((pointer) => {
-                return (
-                  <CheckInItemButton
-                    key={pointer.checkInId}
-                    pointer={pointer}
-                    route={routes.checkIn}
-                  />
-                );
-              })}
-            </ItemList>
+            <CheckInList pointers={pointers} routes={routes} />
           </div>
           <ViewportDetector onEnter={bump} />
         </ViewBody>
