@@ -44,10 +44,11 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ItemList>
+            <ItemList divided>
               {request.results.map((pointer, index) => {
                 return (
                   <RankedTopArticleItem
+                    key={pointer.articleId}
                     rank={index + 1}
                     pointer={pointer}
                     routes={routes}
