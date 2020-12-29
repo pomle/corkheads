@@ -12,7 +12,6 @@ import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
 import SlidingWindow from "components/ui/transitions/SlidingWindow";
 import Scroll from "components/ui/layout/Scroll";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
-import TextItem from "components/ui/layout/TextItem";
 import Dashboard from "components/fragments/User/Dashboard/Dashboard";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
@@ -110,9 +109,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
                       <CheckInSection userId={userId} routes={routes} />
                     </Section>
                   </SectionList>
-                  <TextItem>
-                    <Link to={routes.communityCheckIns}>See all ›</Link>
-                  </TextItem>
                 </Scroll>
 
                 <Scroll>
