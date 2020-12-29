@@ -1,18 +1,9 @@
 import React, { useMemo } from "react";
-import { makeStyles } from "@material-ui/styles";
-import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
 import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
-import ThemeProvider from "components/ui/theme/ThemeProvider";
-
-const useStyles = makeStyles({
-  list: {
-    display: "grid",
-    gridGap: "16px",
-  },
-});
+import WishlistList from "components/fragments/Article/WishlistList";
 
 interface WishlistSectionProps {
   userId: string;
@@ -38,21 +29,7 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
 
   const request = useUserArticleQuery(query);
 
-  const classes = useStyles();
-
-  return (
-    <ThemeProvider theme="sky">
-      <div className={classes.list}>
-        {request.results.map((pointer) => (
-          <WishlistArticleItemButton
-            key={pointer.articleId}
-            pointer={pointer}
-            route={routes.article}
-          />
-        ))}
-      </div>
-    </ThemeProvider>
-  );
+  return <WishlistList pointers={request.results} routes={routes} />;
 };
 
 export default WishlistSection;

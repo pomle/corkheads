@@ -6,16 +6,15 @@ import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
-import ItemList from "components/ui/layout/ItemList";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useArticles } from "components/hooks/db/useArticles";
-import WishlistArticleItemButton from "components/fragments/Article/WishlistArticleItem/Button";
 import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
+import WishlistList from "components/fragments/Article/WishlistList";
 
 const useStyles = makeStyles((theme: Theme) => ({
   body: {
@@ -76,20 +75,8 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
-            <ThemeProvider theme="sky">
-              <ItemList>
-                {pointers.slice(0, size).map((pointer) => {
-                  return (
-                    <WishlistArticleItemButton
-                      key={pointer.articleId}
-                      pointer={pointer}
-                      route={routes.article}
-                    />
-                  );
-                })}
-              </ItemList>
-              <ViewportDetector onEnter={bump} />
-            </ThemeProvider>
+            <WishlistList pointers={pointers.slice(0, size)} routes={routes} />
+            <ViewportDetector onEnter={bump} />
           </div>
         </ViewBody>
       </HeaderLayout>
