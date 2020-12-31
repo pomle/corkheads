@@ -36,7 +36,6 @@ interface SearchViewProps {
   routes: {
     article: (articleId: string) => void;
     user: (userId: string) => void;
-    createArticle: () => string;
   };
 }
 

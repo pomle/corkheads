@@ -55,7 +55,7 @@ const SearchRoutes: React.FC<SearchRoutesProps> = ({
       },
       createArticle() {
         const url = paths.createArticle.url({});
-        return url;
+        history.push(url);
       },
     }),
     [path, paths, origin, history]
