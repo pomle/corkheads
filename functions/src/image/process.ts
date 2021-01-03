@@ -40,7 +40,7 @@ export function processSource(sourceId: string, imageId: string) {
   const source = createSource(sourceId);
 
   const derivatives = SIZES.map((size) => {
-    const formatId = `${size.x}x${size.y}`;
+    const formatId = `${size.x}x${size.y}.webp`;
     const file = createOutput(imageId, formatId);
 
     return {
