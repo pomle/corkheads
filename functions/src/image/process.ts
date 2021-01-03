@@ -15,6 +15,10 @@ const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   y: n,
 }));
 
+function createURL(bucket: string, path: string) {
+  return `https://storage.googleapis.com/${bucket}/${path}`;
+}
+
 function createStreamProcessor(resolution: Size) {
   return sharp()
     .resize(resolution.x, resolution.y, {
@@ -95,6 +99,7 @@ export function processSource(sourceId: string, imageId: string) {
     });
 
     return {
+      url: createURL(derivate.file.bucket.name, derivate.file.name),
       derivate,
       size: await size,
     };
