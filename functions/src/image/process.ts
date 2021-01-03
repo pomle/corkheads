@@ -1,6 +1,5 @@
 import * as sharp from "sharp";
 import { admin } from "../admin";
-import { shrinkToFitRect } from "./math";
 
 const userBucket = admin.storage().bucket("corkheads-user-public-media");
 const genBucket = admin.storage().bucket("corkheads-generated-media");
@@ -58,7 +57,7 @@ export function processSource(sourceId: string, imageId: string) {
   inputStream.setMaxListeners(20);
 
   const tasks = derivatives.map(async (derivate) => {
-    const process = new Promise<typeof derivate>((resolve, reject) => {
+    await new Promise<typeof derivate>((resolve, reject) => {
       const outputStream = derivate.file.createWriteStream();
       const processStream = createStreamProcessor(derivate.size);
 
@@ -72,28 +71,25 @@ export function processSource(sourceId: string, imageId: string) {
       inputStream.pipe(processStream).pipe(outputStream);
     });
 
-    const size = new Promise<Size>((resolve, reject) => {
-      inputStream
+    const size = await new Promise<Size>((resolve, reject) => {
+      const generatedStream = derivate.file.createReadStream();
+      generatedStream
         .pipe(
           sharp().metadata((error, metadata) => {
             if (error) {
               return reject(error);
             }
 
-            const inputSize = {
+            const outputSize = {
               x: metadata.width || 0,
               y: metadata.height || 0,
             };
-
-            const outputSize = shrinkToFitRect(inputSize, derivate.size);
 
             resolve(outputSize);
           })
         )
         .on("error", reject);
     });
-
-    await process;
 
     await derivate.file.setMetadata({
       contentType: "image/webp",
@@ -102,7 +98,7 @@ export function processSource(sourceId: string, imageId: string) {
     return {
       url: createURL(derivate.file.bucket.name, derivate.file.name),
       derivate,
-      size: await size,
+      size,
     };
   });
 
