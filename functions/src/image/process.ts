@@ -26,7 +26,7 @@ function createURL(bucket: string, path: string) {
 function createStreamProcessor(resolution: Size) {
   return sharp()
     .resize(resolution.x, resolution.y, {
-      fit: "contain",
+      fit: "inside",
       withoutEnlargement: true,
     })
     .webp({
