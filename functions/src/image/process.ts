@@ -9,6 +9,11 @@ type Size = {
   y: number;
 };
 
+type Metadata = {
+  resolution: Size;
+  size: number;
+};
+
 const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   x: n,
   y: n,
@@ -71,7 +76,7 @@ export function processSource(sourceId: string, imageId: string) {
       inputStream.pipe(processStream).pipe(outputStream);
     });
 
-    const size = await new Promise<Size>((resolve, reject) => {
+    const meta = await new Promise<Metadata>((resolve, reject) => {
       const generatedStream = derivate.file.createReadStream();
       generatedStream
         .pipe(
@@ -80,12 +85,13 @@ export function processSource(sourceId: string, imageId: string) {
               return reject(error);
             }
 
-            const outputSize = {
-              x: metadata.width || 0,
-              y: metadata.height || 0,
-            };
-
-            resolve(outputSize);
+            resolve({
+              size: metadata.size || 0,
+              resolution: {
+                x: metadata.width || 0,
+                y: metadata.height || 0,
+              },
+            });
           })
         )
         .on("error", reject);
@@ -98,7 +104,7 @@ export function processSource(sourceId: string, imageId: string) {
     return {
       url: createURL(derivate.file.bucket.name, derivate.file.name),
       derivate,
-      size,
+      meta,
     };
   });
 
