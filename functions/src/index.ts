@@ -1,6 +1,7 @@
 import * as search from "./search/algolia";
 import { aggregateArticle } from "./rating/aggregateArticle";
 import { checkInCountAggregate, articleSizeAggregate } from "./user/counts";
+import { createImageDerivatives } from "./image/create-image-derivatives";
 
 exports.onUserCreated = search.onUserCreated;
 exports.onUserUpdated = search.onUserUpdated;
@@ -15,6 +16,8 @@ exports.onUserArticleUpdated = search.onUserArticleUpdated;
 exports.onUserArticleDeleted = search.onUserArticleDeleted;
 
 exports.aggregateArticle = aggregateArticle;
+
+exports.createImageDerivatives = createImageDerivatives;
 
 exports.checkInCountAggregate = checkInCountAggregate;
 exports.articleSizeAggregate = articleSizeAggregate;
