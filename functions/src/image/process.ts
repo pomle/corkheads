@@ -55,6 +55,7 @@ export function processSource(sourceId: string, imageId: string) {
   });
 
   const inputStream = source.createReadStream();
+  inputStream.setMaxListeners(20);
 
   const tasks = derivatives.map(async (derivate) => {
     const process = new Promise<typeof derivate>((resolve, reject) => {
