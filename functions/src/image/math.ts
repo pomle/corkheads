@@ -19,3 +19,11 @@ export function fitRect(rect: Size, bounds: Size) {
 
   return { ...size };
 }
+
+export function shrinkToFitRect(rect: Size, bounds: Size): Size {
+  if (rect.x < bounds.x && rect.y < bounds.y) {
+    return { ...rect };
+  }
+
+  return fitRect(rect, bounds);
+}

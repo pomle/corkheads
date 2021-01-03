@@ -1,6 +1,6 @@
 import * as sharp from "sharp";
 import { admin } from "../admin";
-import { fitRect } from "./math";
+import { shrinkToFitRect } from "./math";
 
 const userBucket = admin.storage().bucket("corkheads-user-public-media");
 const genBucket = admin.storage().bucket("corkheads-generated-media");
@@ -85,7 +85,7 @@ export function processSource(sourceId: string, imageId: string) {
               y: metadata.height || 0,
             };
 
-            const outputSize = fitRect(inputSize, derivate.size);
+            const outputSize = shrinkToFitRect(inputSize, derivate.size);
 
             resolve(outputSize);
           })
