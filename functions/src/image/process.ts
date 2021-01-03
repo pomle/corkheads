@@ -90,6 +90,10 @@ export function processSource(sourceId: string, imageId: string) {
 
     await process;
 
+    await derivate.file.setMetadata({
+      contentType: "image/webp",
+    });
+
     return {
       derivate,
       size: await size,
