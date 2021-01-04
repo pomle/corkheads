@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import ViewCap from "components/ui/layout/ViewCap";
 import Input from "components/ui/input/Input/Input";
@@ -12,7 +12,6 @@ import { useSearchHistory } from "components/hooks/db/useSearchHistory";
 import SearchHistory from "./components/SearchHistory";
 import { SearchArea, SearchQuery } from "components/hooks/algolia";
 import { useOmniSearch } from "components/hooks/db/useOmniSearch";
-import { useQuery } from "components/hooks/useQuery";
 import SearchLayout from "components/ui/layout/SearchLayout";
 import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
@@ -40,7 +39,7 @@ interface SearchViewProps {
 }
 
 const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
-  const [query, setQuery] = useQuery("query");
+  const [query, setQuery] = useState<string>("");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
 
