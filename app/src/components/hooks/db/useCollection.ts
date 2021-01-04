@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useDB } from "components/hooks/useDB";
 import { converter as article } from "types/Article";
 import { converter as checkIn } from "types/CheckIn";
+import { converter as image } from "types/Image";
 import { converter as user } from "types/User";
 import { converter as userArticle } from "types/UserArticle";
 
@@ -12,6 +13,7 @@ export function useCollection() {
     return {
       article: db.collection("articles").withConverter(article),
       checkIn: db.collection("check-ins").withConverter(checkIn),
+      image: db.collection("images").withConverter(image),
       user: db.collection("users").withConverter(user),
     };
   }, [db]);
