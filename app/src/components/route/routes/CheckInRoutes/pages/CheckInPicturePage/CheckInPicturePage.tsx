@@ -22,13 +22,13 @@ const CheckInPicturePage: React.FC<CheckInPicturePageProps> = ({
     return <BusyView />;
   }
 
-  if (!checkIn.photoURL) {
+  if (!checkIn.imageId) {
     return <ArticlePicturePage routes={routes} articleId={checkIn.articleId} />;
   }
 
   return (
     <AreaButton onClick={routes.back}>
-      <PictureView photoURL={checkIn.photoURL} />
+      <PictureView imageId={checkIn.imageId} />
     </AreaButton>
   );
 };
