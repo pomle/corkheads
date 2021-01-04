@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
   FileSelect: {
+    display: "block",
     "& > input": {
       display: "none",
     },
