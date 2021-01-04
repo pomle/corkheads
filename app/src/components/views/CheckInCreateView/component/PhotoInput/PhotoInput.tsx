@@ -12,6 +12,7 @@ type StyleProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   PhotoInput: {
     "& > button": {
+      display: "block",
       width: "100%",
     },
   },
