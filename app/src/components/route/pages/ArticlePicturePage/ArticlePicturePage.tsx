@@ -28,13 +28,13 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
     return <BusyView />;
   }
 
-  if (!article.photoURL) {
+  if (!article.imageId) {
     return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
   return (
     <AreaButton onClick={routes.back}>
-      <PictureView photoURL={article.photoURL} />
+      <PictureView imageId={article.imageId} />
     </AreaButton>
   );
 };
