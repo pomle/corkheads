@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
+import UserRoutes from "components/route/routes/UserRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import FindPage from "./pages/FindPage";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
@@ -88,6 +89,15 @@ const SearchRoutes: React.FC<SearchRoutesProps> = ({
             origin={path}
             path={match.path}
             articleId={match.params.articleId}
+          />
+        )}
+      </Screen>
+      <Screen path={paths.user} transition={SlideRight}>
+        {(match) => (
+          <UserRoutes
+            origin={path}
+            path={match.path}
+            userId={match.params.userId}
           />
         )}
       </Screen>
