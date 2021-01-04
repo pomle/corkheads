@@ -23,12 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .preview": {
       position: "relative",
       zIndex: 2,
+      "& .Image": {
+        paddingTop: "100%",
+      },
     },
     "& button": {
       width: "100%",
-    },
-    "& .square": {
-      paddingTop: "100%",
     },
     "& .icon": {
       alignItems: "center",
