@@ -80,8 +80,13 @@ export async function processSource(sourceId: string, imageId: string) {
     const formatId = `${bounds.x}x${bounds.y}.webp`;
     const file = createOutput(imageId, formatId);
 
+    const size = fitRect(sourceMeta.resolution, bounds);
+
     return {
-      size: fitRect(sourceMeta.resolution, bounds),
+      size: {
+        x: Math.round(size.x),
+        y: Math.round(size.y),
+      },
       formatId,
       file,
     };
