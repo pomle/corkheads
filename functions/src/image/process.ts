@@ -74,7 +74,7 @@ export async function processSource(sourceId: string, imageId: string) {
 
   const derivatives = SIZES.filter((size) => {
     return (
-      size.x <= sourceMeta.resolution.x && size.y <= sourceMeta.resolution.y
+      sourceMeta.resolution.x >= size.x || sourceMeta.resolution.y >= size.y
     );
   }).map((bounds) => {
     const formatId = `${bounds.x}x${bounds.y}.webp`;
