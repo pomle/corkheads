@@ -31,7 +31,7 @@ const SearchHistory: React.FC<SearchHistoryProps> = ({ entries, onSelect }) => {
       <ItemList>
         {entries.map((entry) => {
           return (
-            <dl>
+            <dl key={entry.id}>
               <dd>
                 <button
                   type="button"
