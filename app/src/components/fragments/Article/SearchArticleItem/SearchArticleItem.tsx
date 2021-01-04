@@ -35,12 +35,12 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
-  const { displayName, photoURL, ratingAggregate } = article;
+  const { displayName, imageId, ratingAggregate } = article;
 
   const classes = useStyles();
 
   return (
-    <ImageItem imageURL={photoURL}>
+    <ImageItem imageId={imageId}>
       <div className={classes.SearchArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">

@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "../Photo";
+import Image from "components/ui/layout/Image";
 import { Theme } from "components/ui/theme/themes";
+import { useImage } from "components/hooks/db/useImages";
 
 const useStyles = makeStyles((theme: Theme) => ({
   CollectionItem: {
@@ -23,19 +24,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface CollectionItemProps {
-  imageURL?: string;
+  imageId?: string;
 }
 
 const CollectionItem: React.FC<CollectionItemProps> = ({
-  imageURL,
+  imageId,
   children,
 }) => {
+  const image = useImage(imageId)?.data;
+
   const classes = useStyles();
 
   return (
     <div className={classes.CollectionItem}>
       <div className={classes.photo}>
-        <Photo url={imageURL} />
+        <Image image={image} size="50vw" />
       </div>
       {children}
     </div>

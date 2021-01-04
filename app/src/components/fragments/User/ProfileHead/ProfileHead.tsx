@@ -3,9 +3,9 @@ import { firestore } from "firebase/app";
 import { makeStyles } from "@material-ui/styles";
 import { useUserProfile } from "components/hooks/db/useUserProfile";
 import ImageSelect from "components/ui/trigger/ImageSelect";
-import Photo from "components/ui/layout/Photo";
+import Image from "components/ui/layout/Image";
 import { User } from "types/User";
-import { usePhotoUpload } from "components/hooks/usePhotoUpload";
+import { useImageUpload } from "components/hooks/useImageUpload";
 import { useSwitch } from "components/hooks/useSwitch";
 import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
@@ -14,6 +14,7 @@ import Username from "components/fragments/User/Username";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
+import { useImage } from "components/hooks/db/useImages";
 
 type StyleProps = {
   canClear: boolean;
@@ -96,6 +97,8 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const me = useMe();
   const { user, updateProfile } = useUserProfile(userId);
 
+  const image = useImage(user.profile?.imageId)?.data;
+
   const clearControl = useSwitch(false);
 
   useEffect(() => {
@@ -105,12 +108,12 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     }
   }, [clearControl]);
 
-  const uploadFile = usePhotoUpload();
+  const uploadFile = useImageUpload();
 
   const handleImageSelect = useCallback(
     async (file: File) => {
-      const photoURL = await uploadFile(file);
-      updateProfile({ photoURL });
+      const imageId = (await uploadFile(file)).id;
+      updateProfile({ imageId });
     },
     [updateProfile, uploadFile]
   );
@@ -122,12 +125,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     clearControl.off();
   }, [clearControl, updateProfile]);
 
-  let photoURL;
-  if (user.profile) {
-    photoURL = user.profile.photoURL;
-  }
-
-  const hasPhoto = !!photoURL;
+  const hasPhoto = !!image && image.formats.length > 0;
   const canClear = clearControl.active && hasPhoto;
 
   const classes = useStyles({ canClear, hasPhoto });
@@ -139,7 +137,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
           <CameraIcon />
         </div>
         <div className="image">
-          <Photo url={photoURL} />
+          <Image image={image} size="30vw" />
         </div>
       </ViewStack>
     </div>

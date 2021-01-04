@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import merge from "deepmerge";
 import { Article } from "types/Article";
 import { useDB } from "components/hooks/useDB";
-import { usePhotoUpload } from "components/hooks/usePhotoUpload";
+import { useImageUpload } from "components/hooks/useImageUpload";
 import { Bottling, createBottling } from "types/Bottling";
 
 type Payload = {
@@ -11,22 +11,17 @@ type Payload = {
 };
 
 export function useCommitArticle() {
-  const uploadFile = usePhotoUpload();
+  const uploadFile = useImageUpload();
   const db = useDB();
 
   return useCallback(
     async ({ article, file }: Payload) => {
-      let photoURL;
-      if (file) {
-        photoURL = await uploadFile(file);
-      }
-
       const data = {
         ...article,
       };
 
-      if (photoURL) {
-        data.photoURL = photoURL;
+      if (file) {
+        data.imageId = (await uploadFile(file)).id;
       }
 
       return db.collection("articles").add(data);

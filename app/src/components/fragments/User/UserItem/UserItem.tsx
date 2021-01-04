@@ -31,12 +31,11 @@ interface UserItemProps {
 const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
   const user = useUser(userId)?.data;
   const profile = user?.profile;
-  const photoURL = profile?.photoURL;
 
   const classes = useStyles();
 
   return (
-    <RoundedImageItem photoURL={photoURL}>
+    <RoundedImageItem imageId={profile?.imageId}>
       <div className={classes.UserItem}>
         <div className="displayName">
           <UserHandle user={user} />

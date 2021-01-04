@@ -30,12 +30,12 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
-  const { displayName, photoURL, ratingAggregate } = article;
+  const { displayName, ratingAggregate } = article;
 
   const classes = useStyles();
 
   return (
-    <CutoutImageItem photoURL={photoURL}>
+    <CutoutImageItem imageId={article.imageId}>
       <div className={classes.ArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">

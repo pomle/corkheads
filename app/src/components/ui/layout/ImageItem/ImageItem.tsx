@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "components/ui/layout/Photo";
+import Image from "components/ui/layout/Image";
 import { Theme } from "components/ui/theme/themes";
+import { useImage } from "components/hooks/db/useImages";
 
 const useStyles = makeStyles((theme: Theme) => ({
   ImageItem: {
@@ -22,15 +23,22 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ImageItemProps {
+  imageId?: string;
   imageURL?: string;
 }
 
-const ImageItem: React.FC<ImageItemProps> = ({ imageURL, children }) => {
+const ImageItem: React.FC<ImageItemProps> = ({
+  imageId,
+  imageURL,
+  children,
+}) => {
+  const image = useImage(imageId)?.data || imageURL;
+
   const classes = useStyles();
   return (
     <div className={classes.ImageItem}>
       <div className={classes.photo}>
-        <Photo url={imageURL} />
+        <Image image={image} size="20vw" />
       </div>
       {children}
     </div>
