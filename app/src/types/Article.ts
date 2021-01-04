@@ -8,6 +8,7 @@ export type Article = {
   displayName?: string;
   bottling?: Partial<Bottling>;
   photoURL?: string;
+  imageId?: string;
   ratingAggregate?: RatingAggregate;
 };
 
