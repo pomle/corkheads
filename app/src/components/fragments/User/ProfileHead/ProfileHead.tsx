@@ -23,8 +23,10 @@ type StyleProps = {
 const useStyles = makeStyles((theme: Theme) => ({
   ProfileHead: {
     alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
+    display: "grid",
+    gridAutoFlow: "column",
+    gridTemplateColumns: "auto 1fr",
+    gridGap: "16px",
   },
   photoControl: {
     position: "relative",
@@ -68,8 +70,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   identity: {
     color: Colors.X1,
+    display: "grid",
+    gridGap: "4px",
     fontSize: "14px",
-    margin: "16px",
+    lineHeight: 1,
     "& .username": {
       color: Colors.MarbleBlue,
       fontSize: "12px",
