@@ -1,5 +1,6 @@
 import * as sharp from "sharp";
 import { admin } from "../admin";
+import { fitRect } from "./math";
 
 const userBucket = admin.storage().bucket("corkheads-user-public-media");
 const genBucket = admin.storage().bucket("corkheads-generated-media");
@@ -19,6 +20,29 @@ const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   y: n,
 }));
 
+function readMeta(file: ReturnType<typeof userBucket.file>) {
+  return new Promise<Metadata>((resolve, reject) => {
+    const stream = file.createReadStream();
+    stream
+      .pipe(
+        sharp().metadata((error, metadata) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve({
+            size: metadata.size || 0,
+            resolution: {
+              x: metadata.width || 0,
+              y: metadata.height || 0,
+            },
+          });
+        })
+      )
+      .on("error", reject);
+  });
+}
+
 function createURL(bucket: string, path: string) {
   return `https://storage.googleapis.com/${bucket}/${path}`;
 }
@@ -26,8 +50,7 @@ function createURL(bucket: string, path: string) {
 function createStreamProcessor(resolution: Size) {
   return sharp()
     .resize(resolution.x, resolution.y, {
-      fit: "inside",
-      withoutEnlargement: true,
+      fit: "cover",
     })
     .webp({
       quality: 80,
@@ -39,20 +62,26 @@ function createSource(sourceId: string) {
 }
 
 function createOutput(imageId: string, formatId: string) {
-  const loc = ["images", imageId, formatId].join("/");
-  return genBucket.file(loc);
+  const path = ["images", imageId, formatId].join("/");
+  return genBucket.file(path);
 }
 
-export function processSource(sourceId: string, imageId: string) {
+export async function processSource(sourceId: string, imageId: string) {
   console.log("Processing %s for %s", sourceId, imageId);
   const source = createSource(sourceId);
 
-  const derivatives = SIZES.map((size) => {
-    const formatId = `${size.x}x${size.y}.webp`;
+  const sourceMeta = await readMeta(source);
+
+  const derivatives = SIZES.filter((size) => {
+    return (
+      size.x <= sourceMeta.resolution.x && size.y <= sourceMeta.resolution.y
+    );
+  }).map((bounds) => {
+    const formatId = `${bounds.x}x${bounds.y}.webp`;
     const file = createOutput(imageId, formatId);
 
     return {
-      size,
+      size: fitRect(sourceMeta.resolution, bounds),
       formatId,
       file,
     };
@@ -76,27 +105,6 @@ export function processSource(sourceId: string, imageId: string) {
       inputStream.pipe(processStream).pipe(outputStream);
     });
 
-    const meta = await new Promise<Metadata>((resolve, reject) => {
-      const generatedStream = derivate.file.createReadStream();
-      generatedStream
-        .pipe(
-          sharp().metadata((error, metadata) => {
-            if (error) {
-              return reject(error);
-            }
-
-            resolve({
-              size: metadata.size || 0,
-              resolution: {
-                x: metadata.width || 0,
-                y: metadata.height || 0,
-              },
-            });
-          })
-        )
-        .on("error", reject);
-    });
-
     await derivate.file.setMetadata({
       contentType: "image/webp",
     });
@@ -104,7 +112,6 @@ export function processSource(sourceId: string, imageId: string) {
     return {
       url: createURL(derivate.file.bucket.name, derivate.file.name),
       derivate,
-      meta,
     };
   });
 

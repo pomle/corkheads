@@ -20,8 +20,10 @@ export const createImageDerivatives = functions.firestore
     const formats = outputs.map((output) => {
       return {
         url: output.url,
-        resolution: output.meta.resolution,
-        size: output.meta.size,
+        resolution: {
+          x: output.derivate.size.x,
+          y: output.derivate.size.y,
+        },
       };
     });
 
