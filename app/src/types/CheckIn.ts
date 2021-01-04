@@ -9,6 +9,7 @@ export type CheckIn = {
   id: string;
   userId: string;
   articleId: string;
+  imageId?: string;
   timestamp?: Moment;
   rating: Rating;
   placeId?: string;
