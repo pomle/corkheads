@@ -3,14 +3,15 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "components/ui/layout/Photo";
 import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
 import ViewHead from "components/ui/layout/ViewHead";
+import Image from "components/ui/layout/Image";
 import AreaButton from "components/ui/trigger/AreaButton";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import { useImage } from "components/hooks/db/useImages";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -56,8 +57,9 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   articleId,
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
+  const image = useImage(article.imageId)?.data;
 
-  const { displayName, photoURL } = article;
+  const { displayName } = article;
 
   const classes = useStyles();
 
@@ -74,7 +76,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         </ViewCap>
         <ViewBody>
           <AreaButton onClick={routes.picture} className={classes.photo}>
-            <Photo url={photoURL} />
+            <Image image={image} size="100vw" />
           </AreaButton>
 
           <div className={classes.actionBox}>

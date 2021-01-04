@@ -50,13 +50,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function resolvePhotoURL(checkIn: CheckIn, article: Article) {
-  if (checkIn.photoURL) {
-    return checkIn.photoURL;
+function resolveImageId(checkIn: CheckIn, article: Article) {
+  if (checkIn.imageId) {
+    return checkIn.imageId;
   }
 
-  if (article.photoURL) {
-    return article.photoURL;
+  if (article.imageId) {
+    return article.imageId;
   }
 
   return;
@@ -78,12 +78,12 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
 
   const checkInCount = article?.checkIns;
 
-  const photoURL = resolvePhotoURL(checkIn, article);
+  const imageId = resolveImageId(checkIn, article);
 
   const classes = useStyles();
 
   return (
-    <ImageItem imageURL={photoURL}>
+    <ImageItem imageId={imageId}>
       <div className={classes.CheckInItem}>
         <div className="displayName">{articleDisplayName}</div>
         {checkIn.comment && (

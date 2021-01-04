@@ -4,7 +4,7 @@ import { useDB } from "components/hooks/useDB";
 import { User } from "types/User";
 import { CheckIn } from "types/CheckIn";
 import { useCollection } from "components/hooks/db/useCollection";
-import { usePhotoUpload } from "components/hooks/usePhotoUpload";
+import { useImageUpload } from "components/hooks/useImageUpload";
 import { UserArticle } from "types/UserArticle";
 import { DocumentType } from "types/DocumentType";
 
@@ -19,7 +19,7 @@ type UserArticleObject = DocumentType<UserArticle>;
 
 export function useCommitCheckIn() {
   const db = useDB();
-  const uploadFile = usePhotoUpload();
+  const uploadFile = useImageUpload();
 
   const checkInsCollection = useCollection().checkIn;
 
@@ -32,7 +32,7 @@ export function useCommitCheckIn() {
       const checkIn: CheckInObject = { ...checkInSource };
 
       if (file) {
-        checkIn.photoURL = await uploadFile(file);
+        checkIn.imageId = (await uploadFile(file)).id;
       }
 
       const userArticle: Partial<UserArticleObject> = {

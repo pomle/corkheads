@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import Photo from "components/ui/layout/Photo";
+import Image from "components/ui/layout/Image";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import { Theme } from "components/ui/theme/themes";
@@ -60,9 +60,7 @@ const PhotoInput: React.FC<PhotoInputProps> = ({ photoURL, onFile }) => {
       <ImageSelect onFile={onFile}>
         <div className={classes.canvas}>
           <div className="preview">
-            <Photo url={photoURL} size="contain">
-              <div className="square" />
-            </Photo>
+            <Image image={photoURL} fit="contain" />
           </div>
           <div className="icon">
             <CameraIcon />

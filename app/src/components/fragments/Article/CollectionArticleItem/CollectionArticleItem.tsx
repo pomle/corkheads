@@ -38,14 +38,14 @@ const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
-  const { displayName, photoURL } = article;
+  const { displayName, imageId } = article;
 
   const addedDate = article.collection?.addedTimestamp;
 
   const classes = useStyles();
 
   return (
-    <CollectionItem imageURL={photoURL}>
+    <CollectionItem imageId={imageId}>
       <div className={classes.CollectionArticleItem}>
         <div className="displayName">{displayName}</div>
         {article.bottling && (

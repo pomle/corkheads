@@ -38,13 +38,13 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
-  const { displayName, photoURL } = article;
+  const { displayName } = article;
   const addedDate = article.wishlist?.addedTimestamp;
 
   const classes = useStyles();
 
   return (
-    <CutoutImageItem photoURL={photoURL}>
+    <CutoutImageItem imageId={article.imageId}>
       <div className={classes.WishlistArticleItem}>
         <div className="displayName">{displayName}</div>
         {article.bottling && (

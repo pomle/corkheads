@@ -4,10 +4,9 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
-import { Article } from "types/Article";
-import { CheckIn, createCheckIn } from "types/CheckIn";
+import { createCheckIn } from "types/CheckIn";
 import { createUser } from "types/User";
-import Photo from "components/ui/layout/Photo";
+import Image from "components/ui/layout/Image";
 import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
 import UserItem from "components/fragments/User/UserItem";
@@ -17,6 +16,7 @@ import ArticleItem from "components/fragments/Article/ArticleItem";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useUser } from "components/hooks/db/useUsers";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import { useImage } from "components/hooks/db/useImages";
 
 const useStyles = makeStyles({
   photo: {
@@ -69,18 +69,6 @@ const useStyles = makeStyles({
   },
 });
 
-function resolvePhotoURL(checkIn: CheckIn, article: Article) {
-  if (checkIn.photoURL) {
-    return checkIn.photoURL;
-  }
-
-  if (article.photoURL) {
-    return article.photoURL;
-  }
-
-  return;
-}
-
 interface CheckInDetailsViewProps {
   nav: React.ReactNode;
   routes: {
@@ -102,8 +90,9 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   const article = useUserVirtualArticle(userId, articleId);
   const user = useUser(userId)?.data || createUser(userId);
 
+  const image = useImage(checkIn.imageId || article.imageId)?.data;
+
   const score = checkIn.rating.score;
-  const photoURL = resolvePhotoURL(checkIn, article);
 
   const classes = useStyles();
 
@@ -118,7 +107,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
       <ViewBody>
         <div className={classes.summary}>
           <AreaButton onClick={routes.picture} className={classes.photo}>
-            <Photo url={photoURL} size="cover" />
+            <Image image={image} fit="cover" size="100vw" />
           </AreaButton>
 
           <div className={classes.score}>
