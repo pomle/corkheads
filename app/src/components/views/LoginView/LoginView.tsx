@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import logo from "assets/graphics/corkheads-logo.png";
+import { ReactComponent as Logo } from "assets/graphics/corkheads-logo.svg";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ViewStack from "components/ui/layout/ViewStack";
@@ -88,7 +88,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
           <div className={classes.loginView}>
             <form className={classes.content}>
               <div className={classes.logo}>
-                <img src={logo} alt="Corkheads logo" width="200" height="200" />
+                <Logo width="200" height="200" />
               </div>
 
               <div className={classes.fields}>
