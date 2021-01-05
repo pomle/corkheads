@@ -20,21 +20,22 @@ import * as Text from "./locales";
 const version = config.version;
 
 const useStyles = makeStyles({
-  loginView: {
+  LoginView: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
     height: "100%",
     justifyContent: "center",
+    padding: "24px",
   },
-  content: {
+  form: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
-    width: 280,
+    width: "100%",
   },
   logo: {
-    margin: 16,
+    margin: "auto",
   },
   fields: {
     display: "grid",
@@ -43,14 +44,13 @@ const useStyles = makeStyles({
     width: "100%",
   },
   forgotPassword: {
-    fontSize: 16,
-    marginTop: 20,
+    fontSize: "16px",
+    margin: "16px",
   },
   version: {
     color: "#3d435199",
     fontSize: "9px",
     fontWeight: 500,
-    margin: "16px",
   },
 });
 
@@ -85,12 +85,12 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
     <ViewStack>
       <FullScreenLayout>
         <ViewBody>
-          <div className={classes.loginView}>
-            <form className={classes.content}>
-              <div className={classes.logo}>
-                <Logo width="200" height="200" />
-              </div>
+          <div className={classes.LoginView}>
+            <div className={classes.logo}>
+              <Logo width="140" height="140" />
+            </div>
 
+            <form className={classes.form}>
               <div className={classes.fields}>
                 <Input
                   symbol={<EmailIcon />}
@@ -131,6 +131,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
                 <Text.ForgotPassword />
               </button>
             </form>
+
             <div className={classes.version}>Version: {version}</div>
           </div>
         </ViewBody>
