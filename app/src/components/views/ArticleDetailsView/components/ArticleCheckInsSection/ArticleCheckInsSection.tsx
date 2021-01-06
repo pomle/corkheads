@@ -3,11 +3,10 @@ import {
   CheckInQuery,
   useCheckInQuery,
 } from "components/hooks/db/useCheckInQuery";
-import ItemList from "components/ui/layout/ItemList";
 import SectionList from "components/ui/layout/SectionList/SectionList";
 import Section from "components/ui/layout/Section";
 import SectionTitle from "components/ui/layout/SectionTitle";
-import CheckInItemButton from "components/fragments/CheckIn/CheckInItem/Button";
+import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 interface ArticleCheckInsSectionProps {
   routes: {
@@ -40,13 +39,7 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
   return (
     <SectionList>
       <Section header={<SectionTitle main="Recent Check ins" />}>
-        <ItemList>
-          {request.results.map((pointer) => {
-            return (
-              <CheckInItemButton pointer={pointer} route={routes.checkIn} />
-            );
-          })}
-        </ItemList>
+        <CheckInList pointers={request.results} routes={routes} />
       </Section>
     </SectionList>
   );
