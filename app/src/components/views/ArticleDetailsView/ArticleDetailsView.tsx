@@ -12,6 +12,8 @@ import Image from "components/ui/layout/Image";
 import AreaButton from "components/ui/trigger/AreaButton";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 import { useImage } from "components/hooks/db/useImages";
+import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
+import LazyRender from "components/ui/trigger/LazyRender/LazyRender";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -86,6 +88,12 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           <div className={classes.userSection}>
             <UserSections userId={userId} articleId={articleId} />
           </div>
+
+          <LazyRender>
+            {() => (
+              <ArticleCheckInsSection articleId={article.id} routes={routes} />
+            )}
+          </LazyRender>
         </ViewBody>
       </HeaderLayout>
     </ThemeProvider>
