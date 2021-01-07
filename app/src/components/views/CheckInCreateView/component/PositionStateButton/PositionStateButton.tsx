@@ -20,9 +20,9 @@ const Coords: React.FC<{ position: Position }> = ({ position }) => {
 
   return (
     <>
-      <Coord coord={coords.longitude} />
-      ,&nbsp;
       <Coord coord={coords.latitude} />
+      ,&nbsp;
+      <Coord coord={coords.longitude} />
     </>
   );
 };
