@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import Image from "components/ui/layout/Image";
-import { Colors } from "components/ui/theme/colors";
 import { useImage } from "components/hooks/db/useImages";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   RoundedImageItem: {
     alignItems: "center",
     display: "grid",
@@ -12,14 +12,14 @@ const useStyles = makeStyles({
     gridTemplateColumns: "64px auto",
   },
   photo: {
-    background: Colors.BlueSmoke,
+    background: theme.color.panel,
     borderRadius: "50%",
     overflow: "hidden",
     height: "64px",
     width: "64px",
   },
   content: {},
-});
+}));
 
 interface RoundedImageItemProps {
   imageId?: string;
