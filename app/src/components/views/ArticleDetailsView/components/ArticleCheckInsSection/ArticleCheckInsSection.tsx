@@ -39,7 +39,11 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
   return (
     <SectionList>
       <Section header={<SectionTitle main="Recent Check ins" />}>
-        <CheckInList pointers={request.results} routes={routes} />
+        <CheckInList
+          pointers={request.results}
+          routes={routes}
+          context="article"
+        />
       </Section>
     </SectionList>
   );
