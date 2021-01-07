@@ -21,7 +21,7 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId, routes }) => {
           dir: "desc",
         },
       ],
-      limit: 10,
+      limit: 5,
     };
   }, []);
 

@@ -15,6 +15,7 @@ import { stringCodec } from "components/route/codecs";
 import CollectionRoute from "components/route/routes/CollectionRoute";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
+import FriendsRoute from "components/route/routes/FriendsRoute";
 import WishlistRoute from "components/route/routes/WishlistRoute";
 import SearchRoutes from "components/route/routes/SearchRoutes";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
@@ -37,6 +38,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
       communityCheckIns: path.append("/community/check-ins", {}),
+      friends: path.append("/friends", {}),
       search: rootPaths.search,
       settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
@@ -80,6 +82,9 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       communityCheckIns() {
         return paths.communityCheckIns.url({});
       },
+      friends() {
+        return paths.friends.url({});
+      },
       search: routes.search,
       settings: () => {
         const url = paths.settings.url({});
@@ -87,6 +92,10 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       },
       toplist() {
         return paths.toplist.url({});
+      },
+      user(userId: string) {
+        const url = paths.user.url({ userId });
+        history.push(url);
       },
       wishlist() {
         return paths.wishlist.url({});
@@ -142,6 +151,15 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               <CheckInsRoute userId={user.id} origin={path} path={match.path} />
             );
           }}
+        </Screen>
+        <Screen path={paths.friends} transition={SlideRight}>
+          {(match) => (
+            <FriendsRoute
+              origin={paths.here}
+              path={match.path}
+              userId={user.id}
+            />
+          )}
         </Screen>
         <Screen path={paths.wishlist} transition={SlideRight}>
           {(match) => (
