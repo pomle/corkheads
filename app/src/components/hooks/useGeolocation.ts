@@ -8,16 +8,19 @@ const DEFAULT_OPTIONS = {
 
 const geo = navigator.geolocation;
 
-export const useGeolocation = (
+export function useGeolocation(
+  enabled: boolean,
   options: Partial<PositionOptions> = DEFAULT_OPTIONS
-) => {
+) {
   const [position, setPosition] = useState<Position | null>(null);
   const [error, setError] = useState<PositionError | null>(null);
 
   useEffect(() => {
-    const handleId = geo.watchPosition(setPosition, setError, options);
-    return () => geo.clearWatch(handleId);
-  }, [options, setError, setPosition]);
+    if (enabled) {
+      const handleId = geo.watchPosition(setPosition, setError, options);
+      return () => geo.clearWatch(handleId);
+    }
+  }, [enabled, options, setError, setPosition]);
 
   return { position, error };
-};
+}
