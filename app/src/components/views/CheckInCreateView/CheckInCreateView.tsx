@@ -17,6 +17,7 @@ import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { Theme, themes } from "components/ui/theme/themes";
+import PositionStateButton from "./component/PositionStateButton";
 
 type StyleProps = {
   busy: boolean;
@@ -46,7 +47,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: themes.dusk.color.panel,
   },
   meta: {
+    display: "grid",
+    gridGap: "16px",
     padding: "16px",
+  },
+  switches: {
+    display: "grid",
+    gridAutoFlow: "column",
+    gridGap: "8px",
+    justifyContent: "flex-start",
   },
 }));
 
@@ -102,6 +111,21 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const setRating = useCallback(
     (rating: Rating) => {
       updateCheckIn({ rating });
+    },
+    [updateCheckIn]
+  );
+
+  const setPosition = useCallback(
+    (position?: Position) => {
+      if (position) {
+        updateCheckIn({ position });
+      } else {
+        setCheckIn((checkIn) => {
+          const next = { ...checkIn };
+          delete next.position;
+          return next;
+        });
+      }
     },
     [updateCheckIn]
   );
@@ -164,6 +188,10 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
                   value={checkIn.comment || ""}
                   onChange={setComment}
                 />
+
+                <div className={classes.switches}>
+                  <PositionStateButton onChange={setPosition} />
+                </div>
               </div>
             </div>
           </ThemeProvider>
