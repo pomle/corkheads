@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridGap: "4px",
     padding: "8px",
     "& .displayName": {
-      color: theme.color.accent,
+      color: theme.color.title,
       fontSize: "14px",
       gridArea: "1 / 1 / 2 / 2",
     },
