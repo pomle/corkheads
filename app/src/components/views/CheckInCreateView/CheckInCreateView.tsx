@@ -3,7 +3,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/User";
 import { Article } from "types/Article";
-import { CheckIn } from "types/CheckIn";
+import { CheckIn, createCheckIn } from "types/CheckIn";
 import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
 import { useCommitCheckIn } from "./hooks";
@@ -63,15 +63,11 @@ function isCheckInValid(checkIn: CheckIn) {
   return checkIn.rating.score !== undefined;
 }
 
-function createCheckIn(article: Article, user: User): CheckIn {
+function initialCheckIn(article: Article, user: User): CheckIn {
   return {
-    id: "",
+    ...createCheckIn(""),
     userId: user.id,
     articleId: article.id,
-    rating: {
-      score: undefined,
-      love: false,
-    },
   };
 }
 
@@ -90,7 +86,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   user,
   routes,
 }) => {
-  const initial = useMemo(() => createCheckIn(article, user), [article, user]);
+  const initial = useMemo(() => initialCheckIn(article, user), [article, user]);
 
   const [photoURL, setPhotoURL] = useState<string>();
   const [file, setFile] = useState<File>();

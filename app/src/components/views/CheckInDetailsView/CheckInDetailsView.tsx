@@ -129,11 +129,10 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
             </div>
           )}
 
-          {me && (
-            <div className={classes.reactions}>
-              <Reactions checkInId={checkInId} userId={me.id} />
-            </div>
-          )}
+          <div className={classes.reactions}>
+            {me && <Reactions checkInId={checkInId} userId={me.id} />}
+            <div>{checkIn.reactionCount} reactions</div>
+          </div>
         </div>
 
         <ThemeProvider theme="dusk">
