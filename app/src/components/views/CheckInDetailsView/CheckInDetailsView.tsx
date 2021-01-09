@@ -17,6 +17,8 @@ import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useUser } from "components/hooks/db/useUsers";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 import { useImage } from "components/hooks/db/useImages";
+import Reactions from "./components/Reactions/Reactions";
+import { useMe } from "components/hooks/useMe";
 
 const useStyles = makeStyles({
   photo: {
@@ -67,6 +69,9 @@ const useStyles = makeStyles({
     fontSize: "14px",
     fontWeight: 700,
   },
+  reactions: {
+    margin: "16px",
+  },
 });
 
 interface CheckInDetailsViewProps {
@@ -84,6 +89,8 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   routes,
   checkInId,
 }) => {
+  const me = useMe()?.data;
+
   const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
   const { articleId, userId } = checkIn;
 
@@ -119,6 +126,12 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
               <blockquote className={classes.comment}>
                 {checkIn.comment}
               </blockquote>
+            </div>
+          )}
+
+          {me && (
+            <div className={classes.reactions}>
+              <Reactions checkInId={checkInId} userId={me.id} />
             </div>
           )}
         </div>
