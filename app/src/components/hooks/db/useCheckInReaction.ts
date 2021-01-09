@@ -28,7 +28,7 @@ export function useCheckInReaction(checkInId: string, userId: string) {
   const putReaction = useCallback(
     (reaction: Reaction) => {
       return userReactionRef.set({
-        ...reaction,
+        tags: firestore.FieldValue.arrayUnion(...reaction.tags),
         timestamp: firestore.FieldValue.serverTimestamp(),
       });
     },
