@@ -4,6 +4,7 @@ import {
   calculateCollectionSizeDiff,
   calculateWishlistSizeDiff,
   calculateCheckInCountDiff,
+  calculateContributionSizeDiff,
 } from "./diff";
 
 const db = admin.firestore();
@@ -37,6 +38,21 @@ export const checkInCountAggregate = functions.firestore
     await db.runTransaction(async (transaction) => {
       transaction.update(userRef, {
         checkInCount: increment(diff),
+      });
+    });
+  });
+
+export const articleContibutionSizeAggregate = functions.firestore
+  .document("articles/{articleId}")
+  .onWrite(async (change, context) => {
+    const userId = change.after.data()?.userId || change.before.data()?.userId;
+    const userRef = db.collection("users").doc(userId);
+
+    const sizeDiff = calculateContributionSizeDiff(change);
+
+    await db.runTransaction(async (transaction) => {
+      transaction.update(userRef, {
+        articleContributionsSize: increment(sizeDiff),
       });
     });
   });
