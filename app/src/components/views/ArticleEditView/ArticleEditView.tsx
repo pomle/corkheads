@@ -15,6 +15,7 @@ import MainButton from "components/ui/trigger/MainButton/MainButton";
 import Input from "components/ui/input/Input/Input";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { debounce } from "lib/debounce";
+import { getEffectiveBottling } from "lib/patch";
 import PreviewArticleItem from "./components/PreviewArticleItem/PreviewArticleItem";
 import { getPreviewScore } from "./score";
 
@@ -51,6 +52,14 @@ const useStyles = makeStyles({
   },
 });
 
+function createDefaultArticle(userId: string): Article {
+  return {
+    id: "",
+    displayName: "",
+    userId,
+  };
+}
+
 function isArticleValid(article: Article) {
   if (!article.displayName) {
     return false;
@@ -60,7 +69,7 @@ function isArticleValid(article: Article) {
 
 interface ArticleEditViewProps {
   nav: React.ReactNode;
-  article: Article;
+  userId: string;
   routes: {
     article: (articleId: string) => void;
   };
@@ -68,11 +77,13 @@ interface ArticleEditViewProps {
 
 const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   nav,
-  article: initial,
+  userId,
   routes,
 }) => {
   const [photoURL, setPhotoURL] = useState<string>();
   const [file, setFile] = useState<File>();
+
+  const initial = useMemo(() => createDefaultArticle(userId), [userId]);
   const [article, setArticle] = useState<Article>(initial);
 
   const updateArticle = useCallback(
@@ -94,7 +105,8 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
 
   const setBottling = useCallback(
     (bottling: Bottling) => {
-      updateArticle({ bottling });
+      const effectiveBottling = getEffectiveBottling(bottling);
+      updateArticle({ bottling: effectiveBottling });
     },
     [updateArticle]
   );

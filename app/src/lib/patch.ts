@@ -34,3 +34,10 @@ export function getEffectiveBottlingChanges(
   const sourceBottling = createSourceBottling(article);
   return findDiff(sourceBottling, bottling);
 }
+
+export function getEffectiveBottling(
+  bottling: Partial<Bottling>
+): Partial<Bottling> {
+  const sourceBottling = createBottling();
+  return findDiff(sourceBottling, bottling);
+}
