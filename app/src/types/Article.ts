@@ -10,6 +10,7 @@ export type Article = {
   photoURL?: string;
   imageId?: string;
   ratingAggregate?: RatingAggregate;
+  userId?: string;
 };
 
 export function createArticle(id: string): Article {
