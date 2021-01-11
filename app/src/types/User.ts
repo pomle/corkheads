@@ -10,6 +10,7 @@ export type Profile = {
 export type User = {
   id: string;
   profile?: Profile;
+  readonly articleContributionsSize?: number;
   readonly collectionSize?: number;
   readonly wishlistSize?: number;
   readonly checkInCount?: number;

@@ -12,6 +12,7 @@ import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import WishlistRoute from "components/route/routes/WishlistRoute";
 import { stringCodec } from "components/route/codecs";
 import UserPage from "./pages/UserPage";
+import ContributionsRoute from "../ContributionsRoute";
 
 interface UserRoutesProps {
   origin: Path<{}>;
@@ -34,6 +35,7 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
       }),
       checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
+      contributions: path.append("/contributions", {}),
       toplist: path.append("/toplist", {}),
       wishlist: path.append("/wishlist", {}),
     }),
@@ -56,6 +58,9 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
       },
       collection() {
         return paths.collection.url({});
+      },
+      contributions() {
+        return paths.contributions.url({});
       },
       checkIns() {
         return paths.checkIns.url({});
@@ -94,6 +99,11 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
             />
           );
         }}
+      </Screen>
+      <Screen path={paths.contributions} transition={SlideRight}>
+        {(match) => (
+          <ContributionsRoute origin={path} path={match.path} userId={userId} />
+        )}
       </Screen>
       <Screen path={paths.wishlist} transition={SlideRight}>
         {(match) => (
