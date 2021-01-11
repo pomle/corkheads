@@ -20,6 +20,7 @@ import WishlistRoute from "components/route/routes/WishlistRoute";
 import SearchRoutes from "components/route/routes/SearchRoutes";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
+import ContributionsRoute from "../ContributionsRoute";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -38,6 +39,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
       communityCheckIns: path.append("/community/check-ins", {}),
+      contributions: path.append("/contributions", {}),
       friends: path.append("/friends", {}),
       search: rootPaths.search,
       settings: path.append("/settings", {}),
@@ -81,6 +83,9 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       },
       communityCheckIns() {
         return paths.communityCheckIns.url({});
+      },
+      contributions() {
+        return paths.contributions.url({});
       },
       friends() {
         return paths.friends.url({});
@@ -151,6 +156,15 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               <CheckInsRoute userId={user.id} origin={path} path={match.path} />
             );
           }}
+        </Screen>
+        <Screen path={paths.contributions} transition={SlideRight}>
+          {(match) => (
+            <ContributionsRoute
+              origin={path}
+              path={match.path}
+              userId={user.id}
+            />
+          )}
         </Screen>
         <Screen path={paths.friends} transition={SlideRight}>
           {(match) => (

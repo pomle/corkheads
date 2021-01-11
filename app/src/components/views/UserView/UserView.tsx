@@ -13,6 +13,7 @@ interface UserViewProps {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
     collection: () => string;
+    contributions: () => string;
     checkIns: () => string;
     toplist: () => string;
     wishlist: () => string;

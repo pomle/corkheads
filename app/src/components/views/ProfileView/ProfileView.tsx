@@ -42,6 +42,7 @@ interface ProfileViewProps {
     checkIn: (checkInId: string) => void;
     collection: () => string;
     communityCheckIns: () => string;
+    contributions: () => string;
     checkIns: () => string;
     friends: () => string;
     toplist: () => string;

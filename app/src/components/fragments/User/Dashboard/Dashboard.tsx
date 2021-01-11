@@ -5,6 +5,7 @@ import SectionList from "components/ui/layout/SectionList";
 import SectionTitle from "components/ui/layout/SectionTitle";
 import CollectionSection from "./components/CollectionSection";
 import WishlistSection from "./components/WishlistSection";
+import ContributionSection from "./components/ContributionSection";
 import CheckInsSection from "./components/CheckInsSection";
 import ToplistSection from "./components/ToplistSection";
 import Badge from "components/ui/icons/Badge";
@@ -18,6 +19,7 @@ interface UserViewProps {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
     collection: () => string;
+    contributions: () => string;
     checkIns: () => string;
     toplist: () => string;
     wishlist: () => string;
@@ -27,7 +29,12 @@ interface UserViewProps {
 const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
   const user = useUser(userId)?.data || createUser(userId);
 
-  const { collectionSize, checkInCount, wishlistSize } = user;
+  const {
+    articleContributionsSize,
+    collectionSize,
+    checkInCount,
+    wishlistSize,
+  } = user;
 
   return (
     <SectionList>
@@ -86,6 +93,23 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
       >
         <WishlistSection userId={userId} routes={routes} />
       </Section>
+
+      {articleContributionsSize && (
+        <Section
+          header={
+            <SectionTitle
+              main={
+                <Badged>
+                  Contributions <Badge>{articleContributionsSize}</Badge>
+                </Badged>
+              }
+              context={<Link to={routes.contributions}>See all ›</Link>}
+            />
+          }
+        >
+          <ContributionSection userId={userId} routes={routes} />
+        </Section>
+      )}
     </SectionList>
   );
 };

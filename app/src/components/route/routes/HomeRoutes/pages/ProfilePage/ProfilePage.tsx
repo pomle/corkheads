@@ -15,6 +15,7 @@ interface ProfilePageProps {
     checkIns: () => string;
     collection: () => string;
     communityCheckIns: () => string;
+    contributions: () => string;
     friends: () => string;
     search: () => void;
     settings: () => void;
