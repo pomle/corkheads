@@ -21,3 +21,7 @@ export function calculateWishlistSizeDiff(change: Change<Snap>) {
 export function calculateCheckInCountDiff(change: Change<Snap>) {
   return calculateActiveDiff(change, (snap) => snap.data()?.active);
 }
+
+export function calculateContributionSizeDiff(change: Change<Snap>) {
+  return calculateActiveDiff(change, (snap) => snap.exists);
+}
