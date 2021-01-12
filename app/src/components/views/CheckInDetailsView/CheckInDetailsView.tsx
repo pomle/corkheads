@@ -19,6 +19,7 @@ import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle
 import { useImage } from "components/hooks/db/useImages";
 import Reactions from "./components/Reactions/Reactions";
 import { useMe } from "components/hooks/useMe";
+import Comments from "./components/Comments";
 
 const useStyles = makeStyles({
   photo: {
@@ -155,6 +156,10 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
           <button type="button" onClick={() => routes.user(checkIn.userId)}>
             <UserItem pointer={{ userId: checkIn.userId }} />
           </button>
+        </div>
+
+        <div className={classes.user}>
+          <Comments checkInId={checkInId} />
         </div>
       </ViewBody>
     </HeaderLayout>
