@@ -52,6 +52,7 @@ function createStreamProcessor(resolution: Size) {
     .resize(resolution.x, resolution.y, {
       fit: "cover",
     })
+    .rotate()
     .webp({
       quality: 80,
     });
