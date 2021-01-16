@@ -1,15 +1,8 @@
 import { firestore } from "firebase/app";
-import { Moment } from "moment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toMoment } from "types/convert";
+import { Reaction } from "types/Reaction";
 import { useDB } from "../useDB";
-
-type ReactionTag = "like" | "love" | "cheers";
-
-type Reaction = {
-  timestamp?: Moment;
-  tags: ReactionTag[];
-};
 
 export function useCheckInReaction(checkInId: string, userId: string) {
   const db = useDB();
@@ -28,7 +21,7 @@ export function useCheckInReaction(checkInId: string, userId: string) {
   const putReaction = useCallback(
     (reaction: Reaction) => {
       return userReactionRef.set({
-        tags: firestore.FieldValue.arrayUnion(...reaction.tags),
+        ...reaction,
         timestamp: firestore.FieldValue.serverTimestamp(),
       });
     },
