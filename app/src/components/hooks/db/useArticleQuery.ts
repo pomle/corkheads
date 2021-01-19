@@ -34,7 +34,6 @@ export function useArticleQuery(
     if (query.filters) {
       const filters = query.filters;
       if (filters.creatorUserIds !== undefined) {
-        console.log(filters);
         q = q.where("userId", "in", filters.creatorUserIds);
       }
     }
