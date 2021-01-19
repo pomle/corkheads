@@ -4,8 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toMoment } from "types/convert";
 import { useDB } from "../useDB";
 
-type Comment = {
+export type Comment = {
   id: string;
+  userId: string;
   timestamp?: Moment;
   body: string;
 };
