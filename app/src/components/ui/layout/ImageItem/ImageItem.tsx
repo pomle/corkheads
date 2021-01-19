@@ -4,6 +4,12 @@ import Image from "components/ui/layout/Image";
 import { Theme } from "components/ui/theme/themes";
 import { useImage } from "components/hooks/db/useImages";
 
+type StyleProps = {
+  imageSize: number;
+};
+
+const size = (props: StyleProps) => `${props.imageSize}px`;
+
 const useStyles = makeStyles((theme: Theme) => ({
   ImageItem: {
     alignItems: "center",
@@ -17,24 +23,27 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.panel,
     borderRadius: "20px",
     overflow: "hidden",
-    height: "64px",
-    width: "64px",
+    height: size,
+    width: size,
   },
 }));
 
 interface ImageItemProps {
   imageId?: string;
   imageURL?: string;
+  size?: number;
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({
   imageId,
   imageURL,
+  size = 64,
   children,
 }) => {
   const image = useImage(imageId)?.data || imageURL;
 
-  const classes = useStyles();
+  const classes = useStyles({ imageSize: size });
+
   return (
     <div className={classes.ImageItem}>
       <div className={classes.photo}>
