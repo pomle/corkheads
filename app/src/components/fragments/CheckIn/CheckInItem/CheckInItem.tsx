@@ -19,7 +19,7 @@ import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 const useStyles = makeStyles((theme: Theme) => ({
   CheckInItem: {
     display: "grid",
-    gridGap: "2px",
+    gridGap: "4px",
     "& .displayName": {
       color: theme.color.title,
       fontSize: "14px",
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& .comment": {
       color: theme.color.text,
-      fontSize: "12px",
-      fontWeight: 500,
+      fontSize: "14px",
+      fontWeight: 400,
     },
     "& .meta": {
       alignItems: "center",
@@ -47,6 +47,26 @@ const useStyles = makeStyles((theme: Theme) => ({
       gridArea: "1 / 2 / 4 / 3",
       justifySelf: "end",
       paddingLeft: "8px",
+    },
+    "& .interactions": {
+      border: `1px solid ${Colors.Sky}`,
+      borderRadius: "16px",
+      color: () => {
+        if (theme.color.surface === Colors.White) {
+          return Colors.Sot;
+        }
+        return theme.color.text;
+      },
+      display: "grid",
+      fontSize: "10px",
+      gridAutoFlow: "column",
+      "& .comments": {
+        borderRight: `1px solid ${Colors.Sky}`,
+        padding: "4px 8px",
+      },
+      "& .reactions": {
+        padding: "4px 8px",
+      },
     },
   },
 }));
@@ -103,6 +123,11 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
         {checkIn.comment && (
           <blockquote className="comment">{checkIn.comment}</blockquote>
         )}
+
+        <div className="interactions">
+          <div className="comments">{checkIn.commentCount} comments</div>
+          <div className="reactions">{checkIn.reactionCount} reactions</div>
+        </div>
 
         <div className="badge">
           <CheckInCountBadge count={checkInCount} />
