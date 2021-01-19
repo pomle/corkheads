@@ -74,11 +74,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: Colors.X1,
     display: "grid",
     gridGap: "4px",
-    fontSize: "14px",
+    fontSize: "15px",
     lineHeight: 1,
     "& .username": {
       color: Colors.MarbleBlue,
-      fontSize: "12px",
+      fontSize: "14px",
     },
   },
 }));
@@ -173,8 +173,10 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
       </div>
 
       <div className={classes.identity}>
-        <h2>{resolveDisplayName(user)}</h2>
-        {user && <Username user={user} />}
+        <div className="displayName">
+          <h2>{resolveDisplayName(user)}</h2>
+        </div>
+        <div className="username">{user && <Username user={user} />}</div>
       </div>
     </div>
   );
