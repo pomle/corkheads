@@ -14,7 +14,7 @@ const transform = ({ active, direction }: SlideProps) => {
       ${x * 100}%,
       ${y * 100}%
     )
-    scale(0.5)
+    scale(1.5)
   `;
 };
 
