@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: theme.color.title,
       fontSize: "14px",
       fontWeight: 700,
-      gridArea: "1 / 1 / 2 / 2",
+      gridArea: "2 / 1 / 3 / 2",
     },
     "& .comment": {
       color: theme.color.text,
@@ -84,25 +84,26 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
+    <ImageItem imageId={imageId} imageURL={ArticleImagePlaceholder} size={96}>
       <div className={classes.CheckInItem}>
-        <div className="displayName">{articleDisplayName}</div>
-        {checkIn.comment && (
-          <blockquote className="comment">{checkIn.comment}</blockquote>
-        )}
         <div className="meta">
-          <div className="rating">
-            <ItemRating rating={rating} />
+          <div className="user">
+            <UserHandle user={user} />
           </div>
           &ensp;•&ensp;
           <div className="timestamp">
             {timestamp && <PassedTime date={timestamp} />}
           </div>
           &ensp;•&ensp;
-          <div className="user">
-            <UserHandle user={user} />
+          <div className="rating">
+            <ItemRating rating={rating} />
           </div>
         </div>
+        <div className="displayName">{articleDisplayName}</div>
+        {checkIn.comment && (
+          <blockquote className="comment">{checkIn.comment}</blockquote>
+        )}
+
         <div className="badge">
           <CheckInCountBadge count={checkInCount} />
         </div>
