@@ -1,7 +1,6 @@
 import React from "react";
 import { Moment } from "moment";
 import { useLiveTime } from "components/hooks/useLiveTime";
-import DayTime from "components/ui/format//DayTime";
 import * as Trans from "./locales";
 
 interface PassedTimeProps {
@@ -11,10 +10,18 @@ interface PassedTimeProps {
 const PassedTime: React.FC<PassedTimeProps> = ({ date }) => {
   const now = useLiveTime("minute");
 
+  const years = now.diff(date, "years");
+  if (years > 0) {
+    return <Trans.YearsAgo years={years} />;
+  }
+
+  const months = now.diff(date, "months");
+  if (months > 0) {
+    return <Trans.MonthsAgo months={months} />;
+  }
+
   const days = now.diff(date, "days");
-  if (days > 30) {
-    return <DayTime date={date} />;
-  } else if (days > 0) {
+  if (days > 0) {
     return <Trans.DaysAgo days={days} />;
   }
 

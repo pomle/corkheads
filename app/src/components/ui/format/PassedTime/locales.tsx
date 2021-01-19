@@ -5,6 +5,33 @@ export const JustNow = localize({
   [LC.svSE]: "Nyss",
 });
 
+export const YearsAgo = localize<{ years: number }>({
+  [LC.enGB]: ({ years }) => {
+    if (years === 1) {
+      return "1 year ago";
+    }
+    return `${years} years ago`;
+  },
+  [LC.svSE]: ({ years }) => {
+    return `${years} år sedan`;
+  },
+});
+
+export const MonthsAgo = localize<{ months: number }>({
+  [LC.enGB]: ({ months }) => {
+    if (months === 1) {
+      return "1 month ago";
+    }
+    return `${months} months ago`;
+  },
+  [LC.svSE]: ({ months }) => {
+    if (months === 1) {
+      return "1 månad sedan";
+    }
+    return `${months} månader sedan`;
+  },
+});
+
 export const DaysAgo = localize<{ days: number }>({
   [LC.enGB]: ({ days }) => {
     if (days === 1) {
