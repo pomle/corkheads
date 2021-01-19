@@ -91,6 +91,7 @@ const Reactions: React.FC<ReactionsProps> = ({ checkInId, userId }) => {
             const iconMap = active ? activeIconMap : inactiveIconMap;
             return (
               <button
+                key={tag}
                 className={`tag ${active ? "active" : "inactive"}`}
                 onClick={() => toggleTag(tag)}
               >
