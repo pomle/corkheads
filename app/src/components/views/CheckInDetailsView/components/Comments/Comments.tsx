@@ -36,7 +36,7 @@ const Comments: React.FC<CommentsProps> = ({ checkInId }) => {
       <ul>
         {comments &&
           comments.map((comment) => {
-            return <li>{comment.body}</li>;
+            return <li key={comment.id}>{comment.body}</li>;
           })}
       </ul>
 

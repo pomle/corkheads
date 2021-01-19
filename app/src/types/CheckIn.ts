@@ -16,6 +16,7 @@ export type CheckIn = {
   comment?: string;
   position?: Position;
   photoURL?: string;
+  commentCount: number;
   reactionCount: number;
 };
 
@@ -27,6 +28,7 @@ export function createCheckIn(id: string): CheckIn {
     rating: {
       love: false,
     },
+    commentCount: 0,
     reactionCount: 0,
   };
 }

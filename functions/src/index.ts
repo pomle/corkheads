@@ -1,6 +1,9 @@
 import * as search from "./search/algolia";
 import { aggregateArticle } from "./rating/aggregateArticle";
-import { checkInReactionCountAggregate } from "./checkIn/aggregateReactions";
+import {
+  checkInReactionCountAggregate,
+  checkInCommentCountAggregate,
+} from "./checkIn/aggregateReactions";
 import {
   checkInCountAggregate,
   articleSizeAggregate,
@@ -26,5 +29,7 @@ exports.createImageDerivatives = createImageDerivatives;
 
 exports.checkInCountAggregate = checkInCountAggregate;
 exports.checkInReactionCountAggregate = checkInReactionCountAggregate;
+exports.checkInCommentCountAggregate = checkInCommentCountAggregate;
+
 exports.articleSizeAggregate = articleSizeAggregate;
 exports.articleContibutionSizeAggregate = articleContibutionSizeAggregate;

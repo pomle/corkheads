@@ -13,3 +13,7 @@ export function calculateActiveDiff<T extends Snap>(
 export function calculateReactionSizeDiff(change: Change<Snap>) {
   return calculateActiveDiff(change, (snap) => snap.exists);
 }
+
+export function calculateCommentCountDiff(change: Change<Snap>) {
+  return calculateActiveDiff(change, (snap) => snap.exists);
+}
