@@ -4,6 +4,7 @@ import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import CutoutImageItem from "components/ui/layout/CutoutImageItem";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -35,7 +36,10 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <CutoutImageItem imageId={article.imageId}>
+    <CutoutImageItem
+      imageId={article.imageId}
+      photoURL={ArticleImagePlaceholder}
+    >
       <div className={classes.ArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">

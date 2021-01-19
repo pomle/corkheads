@@ -14,6 +14,7 @@ import { CheckInPointer } from "components/hooks/db/useCheckInQuery";
 import UserHandle from "components/fragments/User/UserHandle";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   CheckInItem: {
@@ -83,7 +84,7 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageId={imageId}>
+    <ImageItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
       <div className={classes.CheckInItem}>
         <div className="displayName">{articleDisplayName}</div>
         {checkIn.comment && (

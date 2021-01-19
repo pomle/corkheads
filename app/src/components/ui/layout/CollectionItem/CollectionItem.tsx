@@ -25,13 +25,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface CollectionItemProps {
   imageId?: string;
+  imageURL?: string;
 }
 
 const CollectionItem: React.FC<CollectionItemProps> = ({
   imageId,
+  imageURL,
   children,
 }) => {
-  const image = useImage(imageId)?.data;
+  const image = useImage(imageId)?.data || imageURL;
 
   const classes = useStyles();
 
