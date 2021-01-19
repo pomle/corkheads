@@ -16,6 +16,7 @@ import ArticleItem from "components/fragments/Article/ArticleItem";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useUser } from "components/hooks/db/useUsers";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import { useImage } from "components/hooks/db/useImages";
 import Reactions from "./components/Reactions/Reactions";
 import { useMe } from "components/hooks/useMe";
@@ -98,7 +99,9 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
   const article = useUserVirtualArticle(userId, articleId);
   const user = useUser(userId)?.data || createUser(userId);
 
-  const image = useImage(checkIn.imageId || article.imageId)?.data;
+  const image =
+    useImage(checkIn.imageId || article.imageId)?.data ||
+    ArticleImagePlaceholder;
 
   const score = checkIn.rating.score;
 

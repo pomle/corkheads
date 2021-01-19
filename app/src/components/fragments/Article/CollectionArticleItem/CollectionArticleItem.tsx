@@ -5,6 +5,7 @@ import { Theme } from "components/ui/theme/themes";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import PassedTime from "components/ui/format/PassedTime";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   CollectionArticleItem: {
@@ -45,7 +46,7 @@ const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <CollectionItem imageId={imageId}>
+    <CollectionItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
       <div className={classes.CollectionArticleItem}>
         <div className="displayName">{displayName}</div>
         {article.bottling && (

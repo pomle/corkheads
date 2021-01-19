@@ -14,6 +14,7 @@ import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle
 import { useImage } from "components/hooks/db/useImages";
 import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 import LazyRender from "components/ui/trigger/LazyRender/LazyRender";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -59,7 +60,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   articleId,
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
-  const image = useImage(article.imageId)?.data;
+  const image = useImage(article.imageId)?.data || ArticleImagePlaceholder;
 
   const { displayName } = article;
 
