@@ -11,6 +11,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import Username from "components/fragments/User/Username";
+import AvatarPlaceholder from "assets/graphics/avatar-placeholder.svg";
 import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
@@ -99,6 +100,9 @@ interface ProfileHeadProps {
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const me = useMe();
+
+  const isMe = me?.id === userId;
+
   const { user, updateProfile } = useUserProfile(userId);
 
   const image = useImage(user.profile?.imageId)?.data;
@@ -132,6 +136,13 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const hasPhoto = !!image && image.formats.length > 0;
   const canClear = clearControl.active && hasPhoto;
 
+  let displayImage = undefined;
+  if (hasPhoto) {
+    displayImage = image;
+  } else if (!isMe) {
+    displayImage = AvatarPlaceholder;
+  }
+
   const classes = useStyles({ canClear, hasPhoto });
 
   let photo = (
@@ -141,13 +152,13 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
           <CameraIcon />
         </div>
         <div className="image">
-          <Image image={image} size="30vw" />
+          <Image image={displayImage} size="30vw" />
         </div>
       </ViewStack>
     </div>
   );
 
-  if (me && me.id === userId) {
+  if (isMe) {
     photo = <ImageSelect onFile={handleImageSelect}>{photo}</ImageSelect>;
   }
 
