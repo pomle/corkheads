@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Theme } from "components/ui/theme/themes";
 import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
+import AvatarPlaceholder from "assets/graphics/avatar-placeholder.svg";
 import Username from "../Username";
 import UserHandle from "../UserHandle";
 
@@ -35,7 +36,7 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
   const classes = useStyles();
 
   return (
-    <RoundedImageItem imageId={profile?.imageId}>
+    <RoundedImageItem imageId={profile?.imageId} photoURL={AvatarPlaceholder}>
       <div className={classes.UserItem}>
         <div className="displayName">
           <UserHandle user={user} />
