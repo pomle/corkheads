@@ -43,15 +43,19 @@ const useStyles = makeStyles({
   Reactions: {
     "& .tags": {
       display: "grid",
-      gridTemplateColumns: "repeat(5, 48px)",
+      gridTemplateColumns: "repeat(5, 1fr)",
       gridGap: "16px",
       justifyContent: "center",
       padding: "24px",
       "& .tag": {
         "& svg": {
-          height: "48px",
+          height: "32px",
           margin: "auto",
-          width: "48px",
+          width: "32px",
+          "@media (min-width: 360px)": {
+            height: "48px",
+            width: "48px",
+          },
         },
       },
     },

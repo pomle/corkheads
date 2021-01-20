@@ -44,9 +44,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& .badge": {
       alignSelf: "center",
+      display: "none",
       gridArea: "1 / 2 / 4 / 3",
       justifySelf: "end",
       paddingLeft: "8px",
+      "@media (min-width: 360px)": {
+        display: "initial",
+      },
     },
     "& .interactions": {
       border: `1px solid ${Colors.Sky}`,
