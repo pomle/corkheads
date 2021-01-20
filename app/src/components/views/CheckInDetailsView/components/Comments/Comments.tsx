@@ -16,9 +16,12 @@ const useStyles = makeStyles({
       gridTemplateColumns: "1fr 48px",
       gridGap: "16px",
       "& button": {
-        background: Colors.Sky,
+        background: Colors.Gold,
         borderRadius: "8px",
         height: "48px",
+        "&:disabled": {
+          background: Colors.Sky,
+        },
         "& svg": {
           height: "24px",
           margin: "auto",
@@ -30,6 +33,11 @@ const useStyles = makeStyles({
         borderRadius: "8px",
         height: "48px",
         padding: "4px 16px",
+        transition: "background 0.3s, boxShadow 0.3s",
+        "&:focus": {
+          background: Colors.White,
+          boxShadow: "0 2px 8px -5px #000",
+        },
       },
     },
     "& .messages": {
@@ -78,7 +86,11 @@ const Comments: React.FC<CommentsProps> = ({ checkInId, routes }) => {
           value={comment}
           onChange={(event) => setComment(event.target.value)}
         />
-        <button type="button" onClick={handleAdd}>
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={comment.length === 0}
+        >
           <SendIcon />
         </button>
       </div>
