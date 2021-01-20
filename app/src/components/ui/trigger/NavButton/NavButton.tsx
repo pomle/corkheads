@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     marginRight: 4,
     "& > svg": {
       display: "block",
-      height: "8px",
-      width: "8px",
+      height: "16px",
+      width: "16px",
       "& > path": {
         fill: theme.color.action,
         stroke: theme.color.action,
