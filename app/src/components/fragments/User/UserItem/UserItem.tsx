@@ -5,7 +5,7 @@ import RoundedImageItem from "components/ui/layout/RoundedImageItem";
 import { useUser } from "components/hooks/db/useUsers";
 import AvatarPlaceholder from "assets/graphics/avatar-placeholder.svg";
 import Username from "../Username";
-import UserHandle from "../UserHandle";
+import UserDisplayName from "../DisplayName";
 
 const useStyles = makeStyles((theme: Theme) => ({
   UserItem: {
@@ -38,7 +38,7 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
     <RoundedImageItem imageId={profile?.imageId} photoURL={AvatarPlaceholder}>
       <div className={classes.UserItem}>
         <div className="displayName">
-          <UserHandle user={user} />
+          <UserDisplayName user={user} />
         </div>
         <div className="username">{user && <Username user={user} />}</div>
       </div>
