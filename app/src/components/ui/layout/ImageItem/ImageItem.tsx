@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   photo: {
     background: theme.color.panel,
-    borderRadius: "20px",
+    borderRadius: "8px",
     overflow: "hidden",
     height: size,
     width: size,
