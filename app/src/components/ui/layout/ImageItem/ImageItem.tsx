@@ -23,8 +23,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.panel,
     borderRadius: "8px",
     overflow: "hidden",
-    height: size,
-    width: size,
+    height: "64px",
+    width: "64px",
+    "@media (min-width: 360px)": {
+      height: size,
+      width: size,
+    },
   },
 }));
 

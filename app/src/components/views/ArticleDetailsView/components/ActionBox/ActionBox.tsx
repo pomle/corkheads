@@ -20,11 +20,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   control: {
     display: "grid",
     gridGap: "8px",
-    gridTemplateColumns: "1fr 1fr",
-    "& > *:first-child": {
-      gridColumn: "1 / 3",
-    },
+    gridTemplateColumns: "1fr",
     padding: "16px",
+    "@media (min-width: 360px)": {
+      gridTemplateColumns: "1fr 1fr",
+      "& > *:first-child": {
+        gridColumn: "1 / 3",
+      },
+    },
   },
 }));
 
