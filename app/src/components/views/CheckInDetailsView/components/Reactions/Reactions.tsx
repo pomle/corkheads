@@ -14,7 +14,7 @@ import { ReactComponent as DrunkIconOff } from "assets/graphics/icons/reaction-i
 import { ReactComponent as RichIconOff } from "assets/graphics/icons/reaction-inactive-rich.svg";
 import { ReactionTag } from "types/Reaction";
 
-const tags: ReactionTag[] = ["like", "love", "cheers", "drunk", "rich"];
+const tags: ReactionTag[] = ["cheers", "like", "love", "drunk", "rich"];
 
 const activeIconMap: Record<ReactionTag, ReactElement> = {
   cheers: <CheersIconOn />,
@@ -43,11 +43,15 @@ const useStyles = makeStyles({
   Reactions: {
     "& .tags": {
       display: "grid",
-      gridTemplateColumns: "repeat(5, 1fr)",
+      gridTemplateColumns: "repeat(5, 48px)",
+      gridGap: "16px",
+      justifyContent: "center",
+      padding: "24px",
       "& .tag": {
         "& svg": {
+          height: "48px",
           margin: "auto",
-          width: "50%",
+          width: "48px",
         },
       },
     },
