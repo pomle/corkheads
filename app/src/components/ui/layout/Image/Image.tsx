@@ -46,7 +46,7 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     }
   }, [image]);
 
-  const set = useMemo(() => {
+  const srcSet = useMemo(() => {
     if (!formats) {
       return;
     }
@@ -59,7 +59,7 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
   }, [formats]);
 
   const src = useMemo(() => {
-    if (set) {
+    if (srcSet) {
       return;
     }
 
@@ -68,13 +68,13 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     }
 
     return FALLBACK_URL;
-  }, [image, set]);
+  }, [image, srcSet]);
 
   const classes = useStyles({ fit });
 
   return (
     <div className={`Image ${classes.Image}`}>
-      {(src || set) && <img srcSet={set} src={src} sizes={size} alt="" />}
+      {(src || srcSet) && <img srcSet={srcSet} src={src} sizes={size} alt="" />}
     </div>
   );
 };
