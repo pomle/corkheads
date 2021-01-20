@@ -6,11 +6,7 @@ const BackButton: React.FC<React.ButtonHTMLAttributes<unknown>> = ({
   children,
   ...props
 }) => {
-  return (
-    <NavButton {...props} icon={<ArrowBack />}>
-      {children}
-    </NavButton>
-  );
+  return <NavButton {...props} icon={<ArrowBack />} />;
 };
 
 export default BackButton;
