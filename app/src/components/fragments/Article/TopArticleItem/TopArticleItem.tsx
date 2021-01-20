@@ -50,7 +50,7 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageURL={photoURL}>
+    <ImageItem imageURL={photoURL} size={80}>
       <div className={classes.TopArticleItem}>
         <div className="displayName">{displayName || "• • •"}</div>
         {article.bottling && (

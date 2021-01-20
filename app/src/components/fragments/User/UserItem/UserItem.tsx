@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "grid",
     gridTemplateColumns: "1fr auto",
     gridGap: "4px",
-    padding: "8px",
     "& .displayName": {
       color: theme.color.title,
       fontSize: "14px",
