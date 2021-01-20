@@ -5,6 +5,8 @@ import { fitRect } from "./math";
 const userBucket = admin.storage().bucket("corkheads-user-public-media");
 const genBucket = admin.storage().bucket("corkheads-generated-media");
 
+type Format = "jpeg" | "webp";
+
 type Size = {
   x: number;
   y: number;
@@ -14,6 +16,16 @@ type Metadata = {
   resolution: Size;
   size: number;
 };
+
+type Derivative = {
+  size: Size;
+  format: Format;
+  mime: string;
+  formatId: string;
+  file: ReturnType<typeof createOutput>;
+};
+
+const FORMATS: Format[] = ["webp"];
 
 const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   x: n,
@@ -47,15 +59,13 @@ function createURL(bucket: string, path: string) {
   return `https://storage.googleapis.com/${bucket}/${path}`;
 }
 
-function createStreamProcessor(resolution: Size) {
+function createStreamProcessor({ size, format }: Derivative) {
   return sharp()
-    .resize(resolution.x, resolution.y, {
+    .resize(size.x, size.y, {
       fit: "cover",
     })
     .rotate()
-    .webp({
-      quality: 80,
-    });
+    .toFormat(format, { quality: 80 });
 }
 
 function createSource(sourceId: string) {
@@ -73,25 +83,33 @@ export async function processSource(sourceId: string, imageId: string) {
 
   const sourceMeta = await readMeta(source);
 
-  const derivatives = SIZES.filter((size) => {
+  const activeSizes = SIZES.filter((size) => {
     return (
       sourceMeta.resolution.x >= size.x || sourceMeta.resolution.y >= size.y
     );
-  }).map((bounds) => {
-    const formatId = `${bounds.x}x${bounds.y}.webp`;
-    const file = createOutput(imageId, formatId);
-
-    const size = fitRect(sourceMeta.resolution, bounds);
-
-    return {
-      size: {
-        x: Math.round(size.x),
-        y: Math.round(size.y),
-      },
-      formatId,
-      file,
-    };
   });
+
+  const derivatives: Derivative[] = [];
+
+  for (const bounds of activeSizes) {
+    for (const format of FORMATS) {
+      const formatId = `${bounds.x}x${bounds.y}.${format}`;
+      const file = createOutput(imageId, formatId);
+
+      const size = fitRect(sourceMeta.resolution, bounds);
+
+      derivatives.push({
+        size: {
+          x: Math.round(size.x),
+          y: Math.round(size.y),
+        },
+        format,
+        mime: `image/${format}`,
+        formatId,
+        file,
+      });
+    }
+  }
 
   const inputStream = source.createReadStream();
   inputStream.setMaxListeners(20);
@@ -99,7 +117,7 @@ export async function processSource(sourceId: string, imageId: string) {
   const tasks = derivatives.map(async (derivate) => {
     await new Promise<typeof derivate>((resolve, reject) => {
       const outputStream = derivate.file.createWriteStream();
-      const processStream = createStreamProcessor(derivate.size);
+      const processStream = createStreamProcessor(derivate);
 
       inputStream.on("error", reject);
       processStream.on("error", reject);
@@ -112,14 +130,15 @@ export async function processSource(sourceId: string, imageId: string) {
     });
 
     await derivate.file.setMetadata({
-      contentType: "image/webp",
+      contentType: derivate.mime,
     });
 
     return {
       url: createURL(derivate.file.bucket.name, derivate.file.name),
+      mime: derivate.mime,
       derivate,
     };
   });
 
-  return Promise.all(tasks);
+  return tasks;
 }

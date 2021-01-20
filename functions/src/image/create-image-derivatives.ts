@@ -1,5 +1,8 @@
 import * as functions from "firebase-functions";
+import { admin } from "../admin";
 import { processSource } from "./process";
+
+const arrayUnion = admin.firestore.FieldValue.arrayUnion;
 
 export const createImageDerivatives = functions.firestore
   .document("images/{imageId}")
@@ -11,21 +14,22 @@ export const createImageDerivatives = functions.firestore
       return;
     }
 
-    const outputs = await processSource(source, imageId);
+    const tasks = await processSource(source, imageId);
 
-    await Promise.all(
-      outputs.map((output) => output.derivate.file.makePublic())
-    );
+    for (const task of tasks) {
+      task.then(async (output) => {
+        await output.derivate.file.makePublic();
 
-    const formats = outputs.map((output) => {
-      return {
-        url: output.url,
-        resolution: {
-          x: output.derivate.size.x,
-          y: output.derivate.size.y,
-        },
-      };
-    });
+        const format = {
+          mime: output.mime,
+          url: output.url,
+          resolution: {
+            x: output.derivate.size.x,
+            y: output.derivate.size.y,
+          },
+        };
 
-    await snap.ref.update({ formats });
+        await snap.ref.update({ formats: arrayUnion(format) });
+      });
+    }
   });
