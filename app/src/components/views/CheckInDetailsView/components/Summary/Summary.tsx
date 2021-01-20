@@ -14,11 +14,29 @@ import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle
 import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import { useImage } from "components/hooks/db/useImages";
 import { Theme } from "components/ui/theme/themes";
+import PassedTime from "components/ui/format/PassedTime";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Summary: {
     background: theme.color.surface,
     borderRadius: "8px",
+    "& .star.filled path": {
+      fill: Colors.Gold,
+    },
+    "& > .meta": {
+      display: "grid",
+      gridGap: "8px",
+      padding: "20px",
+      "& .data": {
+        alignItems: "flex-end",
+        color: Colors.Sot,
+        display: "flex",
+        fontSize: "12px",
+        "& .score": {
+          fontSize: "24px",
+        },
+      },
+    },
   },
   photo: {
     background: Colors.Sky,
@@ -26,18 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxHeight: "400px",
     width: "calc(100vw - 32px)",
   },
-  score: {
-    display: "flex",
-    fontSize: "24px",
-    justifyContent: "center",
-    padding: "16px",
-    "& .star.filled path": {
-      fill: Colors.Gold,
-    },
-  },
-  meta: {
-    padding: "24px",
-  },
+
   article: {
     display: "flex",
     justifyContent: "center",
@@ -115,15 +122,25 @@ const Summary: React.FC<SummaryProps> = ({ checkInId, routes }) => {
         </button>
       </div>
 
-      <div className={classes.score}>
-        <Score score={score || 0} />
-      </div>
-
-      {checkIn.comment && (
-        <div className={classes.meta}>
-          <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
+      <div className="meta">
+        <div className="data">
+          <div className="score">
+            <Score score={score || 0} />
+          </div>
+          {checkIn.timestamp && (
+            <>
+              &ensp;•&ensp;
+              <div className="timestamp">
+                <PassedTime date={checkIn.timestamp} />
+              </div>
+            </>
+          )}
         </div>
-      )}
+
+        {checkIn.comment && (
+          <blockquote className={classes.comment}>{checkIn.comment}</blockquote>
+        )}
+      </div>
     </div>
   );
 };
