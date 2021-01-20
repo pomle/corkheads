@@ -44,13 +44,13 @@ const TopArticleItem: React.FC<TopArticleItemProps> = ({
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
 
-  const { displayName, photoURL } = article;
+  const { displayName } = article;
   const { checkIns, rating } = article;
 
   const classes = useStyles();
 
   return (
-    <ImageItem imageURL={photoURL} size={80}>
+    <ImageItem imageId={article.imageId} size={80}>
       <div className={classes.TopArticleItem}>
         <div className="displayName">{displayName || "• • •"}</div>
         {article.bottling && (
