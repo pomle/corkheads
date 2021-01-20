@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.color.text,
     display: "grid",
     gridAutoFlow: "column",
-    gridTemplateColumns: "64px auto",
-    minHeight: "64px",
+    gridTemplateColumns: "80px auto",
+    minHeight: "80px",
     overflow: "hidden",
   },
   photo: {

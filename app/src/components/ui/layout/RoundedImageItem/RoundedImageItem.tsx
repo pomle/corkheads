@@ -9,14 +9,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "grid",
     gridAutoFlow: "column",
-    gridTemplateColumns: "64px auto",
+    gridGap: "16px",
+    gridTemplateColumns: "80px auto",
   },
   photo: {
     background: theme.color.panel,
     borderRadius: "50%",
     overflow: "hidden",
-    height: "64px",
-    width: "64px",
+    height: "80px",
+    width: "80px",
   },
   content: {},
 }));
