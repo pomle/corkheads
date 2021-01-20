@@ -43,7 +43,7 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
           <SectionTitle
             main={
               <Badged>
-                Check ins <Badge type="rect">{checkInCount}</Badge>
+                Check ins <Badge type="rect">{checkInCount || 0}</Badge>
               </Badged>
             }
             context={<Link to={routes.checkIns()}>See all ›</Link>}
@@ -69,7 +69,7 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
           <SectionTitle
             main={
               <Badged>
-                Collection <Badge type="rect">{collectionSize}</Badge>
+                Collection <Badge type="rect">{collectionSize || 0}</Badge>
               </Badged>
             }
             context={<Link to={routes.collection}>See all ›</Link>}
@@ -84,7 +84,7 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
           <SectionTitle
             main={
               <Badged>
-                Wish list <Badge type="rect">{wishlistSize}</Badge>
+                Wish list <Badge type="rect">{wishlistSize || 0}</Badge>
               </Badged>
             }
             context={<Link to={routes.wishlist}>See all ›</Link>}
@@ -101,7 +101,7 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
               main={
                 <Badged>
                   Contributions{" "}
-                  <Badge type="rect">{articleContributionsSize}</Badge>
+                  <Badge type="rect">{articleContributionsSize || 0}</Badge>
                 </Badged>
               }
               context={<Link to={routes.contributions}>See all ›</Link>}
