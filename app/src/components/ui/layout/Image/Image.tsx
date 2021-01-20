@@ -59,8 +59,9 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
   }, [formats]);
 
   const src = useMemo(() => {
-    if (srcSet) {
-      return;
+    if (formats) {
+      return Array.from(formats).find((format) => format.resolution.x < 900)
+        ?.url;
     }
 
     if (typeof image === "string") {
@@ -68,7 +69,7 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     }
 
     return FALLBACK_URL;
-  }, [image, srcSet]);
+  }, [image, formats]);
 
   const classes = useStyles({ fit });
 
