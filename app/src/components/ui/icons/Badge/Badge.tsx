@@ -3,20 +3,23 @@ import { makeStyles } from "@material-ui/styles";
 import BadgeIcon from "assets/graphics/icons/badge.svg";
 import DiamondIcon from "assets/graphics/icons/diamond.svg";
 import HeartIcon from "assets/graphics/icons/heart.svg";
+import RectIcon from "assets/graphics/icons/check-in-rectangle.svg";
 import { Colors } from "components/ui/theme/colors";
 
-type Type = "badge" | "diamond" | "heart";
+type Type = "badge" | "diamond" | "heart" | "rect";
 
 const ICONS: Record<Type, React.ReactNode> = {
   badge: BadgeIcon,
   diamond: DiamondIcon,
   heart: HeartIcon,
+  rect: RectIcon,
 };
 
 const COLORS: Record<Type, string> = {
   badge: Colors.X1,
   diamond: Colors.ShinyGold,
   heart: Colors.Hearty,
+  rect: Colors.White,
 };
 
 type StyleProps = {
