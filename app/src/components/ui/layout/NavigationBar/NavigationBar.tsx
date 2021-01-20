@@ -7,10 +7,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "space-between",
     minHeight: "24px",
-    padding: "16px 16px 6px 16px",
+    padding: "16px 16px 0 16px",
     "& button": {
-      margin: "-12px -12px",
-      padding: "12px 12px",
+      margin: "-12px",
+      padding: "12px",
     },
   },
 });
