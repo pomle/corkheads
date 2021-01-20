@@ -4,17 +4,11 @@ import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Section: {
+    padding: "16px",
     background: theme.color.surface,
-    padding: "8px",
-    "@media (min-width: 360px)": {
-      padding: "16px",
-    },
     "& > header": {
       color: theme.color.text,
-      marginBottom: "8px",
-      "@media (min-width: 360px)": {
-        marginBottom: "16px",
-      },
+      marginBottom: "16px",
     },
   },
   content: {},
