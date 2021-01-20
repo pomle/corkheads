@@ -15,6 +15,7 @@ import UserHandle from "components/fragments/User/UserHandle";
 import CheckInCountBadge from "components/fragments/CheckIn/CheckInCountBadge";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
 import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
+import { ReactComponent as LikeIcon } from "assets/graphics/icons/reaction-active-like.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   CheckInItem: {
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       },
     },
     "& .interactions": {
+      alignItems: "center",
       border: `1px solid ${Colors.Sky}`,
       borderRadius: "16px",
       color: () => {
@@ -61,15 +63,22 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
         return theme.color.text;
       },
-      display: "grid",
+      display: "flex",
       fontSize: "10px",
-      gridAutoFlow: "column",
+      width: "fit-content",
       "& .comments": {
         borderRight: `1px solid ${Colors.Sky}`,
         padding: "4px 8px",
       },
       "& .reactions": {
+        alignItems: "center",
+        display: "flex",
         padding: "4px 8px",
+        "& svg": {
+          display: "block",
+          height: "18px",
+          width: "18px",
+        },
       },
     },
   },
@@ -130,7 +139,9 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
 
         <div className="interactions">
           <div className="comments">{checkIn.commentCount} comments</div>
-          <div className="reactions">{checkIn.reactionCount} reactions</div>
+          <div className="reactions">
+            {checkIn.reactionCount} &nbsp; <LikeIcon />
+          </div>
         </div>
 
         <div className="badge">
