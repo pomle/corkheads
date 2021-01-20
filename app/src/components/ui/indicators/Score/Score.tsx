@@ -21,11 +21,12 @@ const useStyles = makeStyles((theme: Theme) => {
 
   return {
     Score: {
-      display: "inline-flex",
-      justifyContent: "space-around",
+      alignItems: "center",
+      display: "grid",
+      gridAutoFlow: "column",
       "& .star": {
         "& svg": {
-          margin: "0.1em",
+          display: "block",
           height: "1em",
           width: "1em",
         },
