@@ -6,11 +6,7 @@ const CancelButton: React.FC<React.ButtonHTMLAttributes<unknown>> = ({
   children,
   ...props
 }) => {
-  return (
-    <NavButton {...props} icon={<CancelIcon />}>
-      {children}
-    </NavButton>
-  );
+  return <NavButton {...props} icon={<CancelIcon />} />;
 };
 
 export default CancelButton;
