@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Comment as CommentType } from "components/hooks/db/useCheckInComments";
+import { Comment as CommentType } from "types/Comment";
 import { useUser } from "components/hooks/db/useUsers";
 import Username from "components/fragments/User/Username";
 import Image from "components/ui/layout/Image";

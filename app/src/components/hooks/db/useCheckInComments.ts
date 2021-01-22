@@ -1,15 +1,8 @@
 import { firestore } from "firebase/app";
-import { Moment } from "moment";
+import { Comment } from "types/Comment";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { toMoment } from "types/convert";
 import { useDB } from "../useDB";
-
-export type Comment = {
-  id: string;
-  userId: string;
-  timestamp?: Moment;
-  body: string;
-};
 
 export function useCheckInComments(checkInId: string) {
   const db = useDB();
