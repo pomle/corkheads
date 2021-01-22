@@ -10,6 +10,8 @@ import {
   articleContibutionSizeAggregate,
 } from "./user/counts";
 import { createImageDerivatives } from "./image/create-image-derivatives";
+import { createCheckInCommentNotification } from "./notifications/checkInComment";
+import { createCheckInReactionNotification } from "./notifications/checkInReaction";
 
 exports.onUserCreated = search.onUserCreated;
 exports.onUserUpdated = search.onUserUpdated;
@@ -33,3 +35,6 @@ exports.checkInCommentCountAggregate = checkInCommentCountAggregate;
 
 exports.articleSizeAggregate = articleSizeAggregate;
 exports.articleContibutionSizeAggregate = articleContibutionSizeAggregate;
+
+exports.createCheckInCommentNotification = createCheckInCommentNotification;
+exports.createCheckInReactionNotification = createCheckInReactionNotification;

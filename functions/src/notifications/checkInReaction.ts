@@ -3,12 +3,12 @@ import { admin } from "../admin";
 
 const db = admin.firestore();
 
-export const createCheckInCommentNotification = functions.firestore
-  .document("check-ins/{checkInId}/comments/{commentId}")
+export const createCheckInReactionNotification = functions.firestore
+  .document("check-ins/{checkInId}/reactions/{authorUserId}")
   .onCreate(async (snap, context) => {
-    const { checkInId } = context.params;
+    const { authorUserId, checkInId } = context.params;
 
-    const { userId: authorUserId, body, timestamp } = snap.data();
+    const { tags, timestamp } = snap.data();
 
     const checkIn = await db.collection("check-ins").doc(checkInId).get();
 
@@ -37,9 +37,9 @@ export const createCheckInCommentNotification = functions.firestore
       seen: false,
       timestamp,
       type: {
-        name: "comment",
+        name: "reaction",
         authorUserId,
-        body,
+        tags,
       },
     });
   });
