@@ -1,6 +1,7 @@
-import React, { ReactElement, useCallback } from "react";
+import React, { ReactElement, useCallback, useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useCheckInReaction } from "components/hooks/db/useCheckInReaction";
+import { useCheckInReactions } from "components/hooks/db/useCheckInReactions";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { ReactComponent as CheersIconOn } from "assets/graphics/icons/reaction-active-cheers.svg";
 import { ReactComponent as LikeIconOn } from "assets/graphics/icons/reaction-active-like.svg";
@@ -48,7 +49,8 @@ const useStyles = makeStyles({
       justifyContent: "center",
       padding: "24px",
       "& .tag": {
-        "& svg": {
+        position: "relative",
+        "& .icon": {
           height: "32px",
           margin: "auto",
           width: "32px",
@@ -56,6 +58,16 @@ const useStyles = makeStyles({
             height: "48px",
             width: "48px",
           },
+          "& svg": {
+            height: "100%",
+            width: "100%",
+          },
+        },
+        "& .count": {
+          bottom: 0,
+          fontSize: "10px",
+          position: "absolute",
+          right: 0,
         },
       },
     },
@@ -73,6 +85,8 @@ const Reactions: React.FC<ReactionsProps> = ({ checkInId, userId }) => {
     userId
   );
 
+  const { reactions } = useCheckInReactions(checkInId);
+
   const toggleTag = useCallback(
     (tag: ReactionTag) => {
       const tags = toggleArrayValue(reaction?.tags || [], tag);
@@ -87,6 +101,28 @@ const Reactions: React.FC<ReactionsProps> = ({ checkInId, userId }) => {
     },
     [reaction, putReaction, dropReaction]
   );
+
+  const counts = useMemo(() => {
+    const counts: Record<ReactionTag, number> = {
+      cheers: 0,
+      love: 0,
+      like: 0,
+      rich: 0,
+      drunk: 0,
+    };
+
+    if (!reactions) {
+      return counts;
+    }
+
+    for (const reaction of reactions) {
+      for (const tag of reaction.tags) {
+        counts[tag]++;
+      }
+    }
+
+    return counts;
+  }, [reactions]);
 
   const classes = useStyles();
 
@@ -103,7 +139,8 @@ const Reactions: React.FC<ReactionsProps> = ({ checkInId, userId }) => {
                 className={`tag ${active ? "active" : "inactive"}`}
                 onClick={() => toggleTag(tag)}
               >
-                {iconMap[tag]}
+                <div className="icon">{iconMap[tag]}</div>
+                <div className="count">{counts[tag] > 0 && counts[tag]}</div>
               </button>
             );
           })}
