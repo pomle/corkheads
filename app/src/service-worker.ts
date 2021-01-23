@@ -8,7 +8,12 @@
 // You can also remove this file if you'd prefer not to use a
 // service worker, and the Workbox build step will be skipped.
 
-import { imageCache, publicImages, userImages } from "lib/serviceWorker/routes";
+import {
+  imageCache,
+  userImages,
+  fontCache,
+  fonts,
+} from "lib/serviceWorker/routes";
 import { clientsClaim } from "workbox-core";
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
@@ -52,8 +57,8 @@ registerRoute(
   createHandlerBoundToURL(process.env.PUBLIC_URL + "/index.html")
 );
 
-registerRoute(publicImages, imageCache);
 registerRoute(userImages, imageCache);
+registerRoute(fonts, fontCache);
 
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
