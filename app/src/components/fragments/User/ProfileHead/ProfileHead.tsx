@@ -111,7 +111,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     [updateProfile, uploadFile]
   );
 
-  const hasPhoto = !!image && image.formats.length > 0;
+  const hasPhoto = !!user.profile?.imageId;
 
   let displayImage = undefined;
   if (hasPhoto) {
@@ -125,9 +125,11 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   let photo = (
     <div className={classes.photo}>
       <ViewStack>
-        <div className="placeholder">
-          <CameraIcon />
-        </div>
+        {isMe && !hasPhoto && (
+          <div className="placeholder">
+            <CameraIcon />
+          </div>
+        )}
         <div className="image">
           <Image image={displayImage} size="30vw" />
         </div>
