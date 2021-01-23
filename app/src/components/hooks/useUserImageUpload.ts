@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { useStorage } from "components/hooks/useStorage";
 import { User } from "types/User";
 import { useDB } from "./useDB";
@@ -10,10 +9,10 @@ export function useUserImageUpload() {
 
   const uploadImage = useCallback(
     async (user: User, file: File) => {
-      const uploadId = uuidv4();
 
       const sourceRef = storage.ref(user.id).child("source").child(uploadId);
       const imageRef = db.collection("images").doc();
+      const uploadId = imageRef.id;
 
       await sourceRef.put(file);
       await imageRef.set({
