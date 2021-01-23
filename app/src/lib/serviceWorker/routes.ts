@@ -12,13 +12,21 @@ export const imageCache = new StaleWhileRevalidate({
   ],
 });
 
-export const publicImages: RouteMatchCallback = (match) => {
-  const { url } = match;
-  return url.origin === self.location.origin && url.pathname.endsWith(".png");
-};
-
 export const userImages: RouteMatchCallback = (match) => {
   return match.url.pathname.startsWith(
     "https://storage.googleapis.com/corkheads-generated-media/"
   );
 };
+
+export const fonts: RouteMatchCallback = (match) => {
+  return match.url.pathname.startsWith("https://fonts.googleapis.com/");
+};
+
+export const fontCache = new StaleWhileRevalidate({
+  cacheName: "fonts",
+  plugins: [
+    // Ensure that once this runtime cache reaches a maximum size the
+    // least-recently used images are removed.
+    new ExpirationPlugin({ maxEntries: 2 }),
+  ],
+});
