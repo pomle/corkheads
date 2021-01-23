@@ -17,11 +17,15 @@ export type Image = {
   formats: Format[];
 };
 
-const DEFAULTS = {
-  id: "",
-  userId: "",
-  formats: [],
-};
+export function createImage(id: string): Image {
+  return {
+    id: "",
+    userId: "",
+    formats: [],
+  };
+}
+
+const DEFAULTS = createImage("default-image");
 
 export const converter = createConverter<Image>({
   to(image) {
