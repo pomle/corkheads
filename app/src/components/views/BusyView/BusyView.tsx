@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import LineThrobber from "components/ui/throbbers/LineThrobber";
+import CircleSpinner from "components/ui/throbbers/CircleSpinner";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 
 const useStyles = makeStyles({
@@ -11,8 +11,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
   throbber: {
-    margin: 20,
-    width: "80%",
+    margin: "auto",
   },
   message: {
     margin: 20,
@@ -26,7 +25,7 @@ const BusyView: React.FC = ({ children }) => {
     <FullScreenLayout>
       <div className={classes.BusyView}>
         <div className={classes.throbber}>
-          <LineThrobber />
+          <CircleSpinner />
         </div>
 
         <div className={classes.message}>{children}</div>
