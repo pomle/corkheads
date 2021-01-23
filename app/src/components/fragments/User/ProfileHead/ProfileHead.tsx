@@ -1,24 +1,20 @@
-import React, { useCallback, useEffect } from "react";
-import { firestore } from "firebase/app";
+import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useUserProfile } from "components/hooks/db/useUserProfile";
 import ImageSelect from "components/ui/trigger/ImageSelect";
 import Image from "components/ui/layout/Image";
 import { User } from "types/User";
 import { useImageUpload } from "components/hooks/useImageUpload";
-import { useSwitch } from "components/hooks/useSwitch";
 import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import Username from "components/fragments/User/Username";
 import AvatarPlaceholder from "assets/graphics/avatar-placeholder.svg";
-import { ReactComponent as CancelIcon } from "assets/graphics/icons/cancel.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
 import { useImage } from "components/hooks/db/useImages";
 
 type StyleProps = {
-  canClear: boolean;
   hasPhoto: boolean;
 };
 
@@ -33,10 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   photoControl: {
     position: "relative",
     "& button.clear": {
-      opacity: (props: StyleProps) => (props.canClear ? 1 : 0),
       padding: "8px",
       position: "absolute",
-      pointerEvents: (props: StyleProps) => (props.canClear ? "all" : "none"),
       right: 0,
       top: 0,
       transition: "opacity 0.3s ease",
@@ -107,15 +101,6 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   const image = useImage(user.profile?.imageId)?.data;
 
-  const clearControl = useSwitch(false);
-
-  useEffect(() => {
-    if (clearControl.active) {
-      const timer = setTimeout(clearControl.off, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [clearControl]);
-
   const uploadFile = useImageUpload();
 
   const handleImageSelect = useCallback(
@@ -126,15 +111,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     [updateProfile, uploadFile]
   );
 
-  const handleRemove = useCallback(() => {
-    updateProfile({
-      photoURL: firestore.FieldValue.delete(),
-    });
-    clearControl.off();
-  }, [clearControl, updateProfile]);
-
   const hasPhoto = !!image && image.formats.length > 0;
-  const canClear = clearControl.active && hasPhoto;
 
   let displayImage = undefined;
   if (hasPhoto) {
@@ -143,7 +120,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     displayImage = AvatarPlaceholder;
   }
 
-  const classes = useStyles({ canClear, hasPhoto });
+  const classes = useStyles({ hasPhoto });
 
   let photo = (
     <div className={classes.photo}>
@@ -164,13 +141,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   return (
     <div className={classes.ProfileHead}>
-      <div className={classes.photoControl}>
-        <button type="button" className="clear" onClick={handleRemove}>
-          <CancelIcon />
-        </button>
-
-        {photo}
-      </div>
+      <div className={classes.photoControl}>{photo}</div>
 
       <div className={classes.identity}>
         <div className="displayName">
