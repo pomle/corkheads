@@ -13,6 +13,7 @@ type Format = {
 export type Image = {
   id: string;
   userId: string;
+  source?: string;
   formats: Format[];
 };
 
