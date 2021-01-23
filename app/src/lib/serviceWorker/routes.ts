@@ -19,6 +19,6 @@ export const publicImages: RouteMatchCallback = (match) => {
 
 export const userImages: RouteMatchCallback = (match) => {
   return match.url.pathname.startsWith(
-    "https://firebasestorage.googleapis.com/v0/b/corkheads-user-public-media/o/"
+    "https://storage.googleapis.com/corkheads-generated-media/"
   );
 };
