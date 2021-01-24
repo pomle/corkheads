@@ -52,13 +52,13 @@ export const HoursAgo = localize<{ hours: number }>({
     if (hours === 1) {
       return "1 hour";
     }
-    return `${hours} hours`;
+    return `${hours} h`;
   },
   [LC.svSE]: ({ hours }) => {
     if (hours === 1) {
       return "1 timme";
     }
-    return `${hours} timmar`;
+    return `${hours} tim`;
   },
 });
 
@@ -67,12 +67,12 @@ export const MinutesAgo = localize<{ minutes: number }>({
     if (minutes === 1) {
       return "1 minute";
     }
-    return `${minutes} minutes`;
+    return `${minutes} m`;
   },
   [LC.svSE]: ({ minutes }) => {
     if (minutes === 1) {
       return "1 minut";
     }
-    return `${minutes} minuter`;
+    return `${minutes} m`;
   },
 });
