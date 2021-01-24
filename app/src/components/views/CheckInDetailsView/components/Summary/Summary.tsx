@@ -6,7 +6,6 @@ import Image from "components/ui/layout/Image";
 import { Colors } from "components/ui/theme/colors";
 import AreaButton from "components/ui/trigger/AreaButton";
 import UserItem from "components/fragments/User/UserItem";
-import Score from "components/ui/indicators/Score";
 import ArticleItem from "components/fragments/Article/ArticleItem";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import { useUser } from "components/hooks/db/useUsers";
@@ -15,6 +14,7 @@ import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import { useImage } from "components/hooks/db/useImages";
 import { Theme } from "components/ui/theme/themes";
 import PassedTime from "components/ui/format/PassedTime";
+import ItemRating from "components/fragments/Rating/ItemRating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Summary: {
@@ -95,8 +95,6 @@ const Summary: React.FC<SummaryProps> = ({ checkInId, routes }) => {
     useImage(checkIn.imageId || article.imageId)?.data ||
     ArticleImagePlaceholder;
 
-  const score = checkIn.rating.score;
-
   const classes = useStyles();
 
   return (
@@ -125,7 +123,7 @@ const Summary: React.FC<SummaryProps> = ({ checkInId, routes }) => {
       <div className="meta">
         <div className="data">
           <div className="score">
-            <Score score={score || 0} />
+            <ItemRating rating={checkIn.rating} />
           </div>
           {checkIn.timestamp && (
             <>
