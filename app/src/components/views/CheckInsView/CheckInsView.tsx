@@ -5,7 +5,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import {
   CheckInQuery,
   useCheckInQuery,
@@ -78,9 +78,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>{title}</h1>
-          </ViewHead>
+          <ViewTitle title={title} />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>

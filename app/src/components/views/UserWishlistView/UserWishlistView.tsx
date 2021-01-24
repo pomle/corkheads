@@ -5,7 +5,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
@@ -75,9 +75,7 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>Wishlist</h1>
-          </ViewHead>
+          <ViewTitle title="Wishlist" />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>

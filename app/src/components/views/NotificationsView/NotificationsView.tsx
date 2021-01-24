@@ -5,7 +5,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import ItemList from "components/ui/layout/ItemList";
 import { useNotifications } from "components/hooks/db/useNotifications";
 import NotificationItemButton from "components/fragments/Notification/NotificationItem/Button";
@@ -48,9 +48,7 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>Notifications</h1>
-          </ViewHead>
+          <ViewTitle title="Notifications" />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>

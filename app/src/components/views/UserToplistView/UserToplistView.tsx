@@ -5,7 +5,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 import RankedTopArticleItem from "components/fragments/Article/RankedTopArticleItem";
@@ -38,9 +38,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>Top drinks</h1>
-          </ViewHead>
+          <ViewTitle title="Top drinks" />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>
