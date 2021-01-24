@@ -17,6 +17,7 @@ interface ProfilePageProps {
     communityCheckIns: () => string;
     contributions: () => string;
     friends: () => string;
+    notifications: () => void;
     search: () => void;
     settings: () => void;
     toplist: () => string;
@@ -40,7 +41,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ routes, userId }) => {
     <ErrorBoundary nav={nav}>
       {() => (
         <ViewStack>
-          <ProfileView nav={nav} routes={routes} userId={userId} />
+          <ProfileView routes={routes} userId={userId} />
           <FindDrinkOverlayView routes={routes} />
         </ViewStack>
       )}

@@ -39,6 +39,7 @@ export const createCheckInReactionNotification = functions.firestore
       type: {
         name: "reaction",
         authorUserId,
+        checkInId,
         tags,
       },
     });

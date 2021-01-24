@@ -39,6 +39,7 @@ export const createCheckInCommentNotification = functions.firestore
       type: {
         name: "comment",
         authorUserId,
+        checkInId,
         body,
       },
     });

@@ -21,6 +21,7 @@ import SearchRoutes from "components/route/routes/SearchRoutes";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
 import ContributionsRoute from "../ContributionsRoute";
+import NotificationsPage from "./pages/NotificationsPage";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -42,6 +43,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       contributions: path.append("/contributions", {}),
       friends: path.append("/friends", {}),
       search: rootPaths.search,
+      notifications: path.append("/notifications", {}),
       settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
       user: rootPaths.user,
@@ -90,6 +92,10 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       friends() {
         return paths.friends.url({});
       },
+      notifications: () => {
+        const url = paths.notifications.url({});
+        history.push(url);
+      },
       search: routes.search,
       settings: () => {
         const url = paths.settings.url({});
@@ -117,6 +123,17 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
     [signOut, routes]
   );
 
+  const notificationsPageRoutes = useMemo(
+    () => ({
+      checkIn(checkInId: string) {
+        const url = paths.checkIn.url({ checkInId });
+        history.push(url);
+      },
+      back: routes.here,
+    }),
+    [paths.checkIn, routes, history]
+  );
+
   const element = useRef<React.ReactElement>();
 
   const user = useMe();
@@ -127,6 +144,14 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         <ProfilePage userId={user.id} routes={profilePageRoutes} />
         <Screen path={paths.settings} transition={SlideRight}>
           {() => <SettingsPage userId={user.id} routes={settingsPageRoutes} />}
+        </Screen>
+        <Screen path={paths.notifications} transition={SlideRight}>
+          {() => (
+            <NotificationsPage
+              userId={user.id}
+              routes={notificationsPageRoutes}
+            />
+          )}
         </Screen>
         <Screen path={paths.toplist} transition={SlideRight}>
           {(match) => (
