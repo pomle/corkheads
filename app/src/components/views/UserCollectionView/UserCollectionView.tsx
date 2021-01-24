@@ -5,7 +5,7 @@ import ViewBody from "components/ui/layout/ViewBody";
 import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
@@ -77,9 +77,7 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>Collection</h1>
-          </ViewHead>
+          <ViewTitle title="Collection" />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>

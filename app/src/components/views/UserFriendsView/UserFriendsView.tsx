@@ -9,7 +9,7 @@ import {
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewBody from "components/ui/layout/ViewBody";
 import ViewCap from "components/ui/layout/ViewCap";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 
 const useStyles = makeStyles({
@@ -53,9 +53,7 @@ const UserFriendsView: React.FC<UserFriendsViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <h1>Friends</h1>
-          </ViewHead>
+          <ViewTitle title="Friends" />
         </ViewCap>
         <ViewBody>
           <div className={classes.body}>

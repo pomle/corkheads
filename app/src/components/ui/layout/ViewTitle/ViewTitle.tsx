@@ -3,28 +3,22 @@ import { makeStyles } from "@material-ui/styles";
 import ViewHead from "components/ui/layout/ViewHead";
 
 const useStyles = makeStyles({
-  content: {
-    alignItems: "center",
-    display: "flex",
-    justifyContent: "space-between",
+  ViewTitle: {
+    marginTop: "-24px",
+    textAlign: "center",
   },
 });
 
 interface ViewTitleProps {
   title: React.ReactNode;
-  next?: React.ReactNode;
 }
 
-const ViewTitle: React.FC<ViewTitleProps> = ({ title, next }) => {
+const ViewTitle: React.FC<ViewTitleProps> = ({ title }) => {
   const classes = useStyles();
 
   return (
     <ViewHead>
-      <div className={classes.content}>
-        <h1>{title}</h1>
-
-        {next}
-      </div>
+      <h1 className={classes.ViewTitle}>{title}</h1>
     </ViewHead>
   );
 };

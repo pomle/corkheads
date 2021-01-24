@@ -7,7 +7,7 @@ import ActionBox from "./components/ActionBox";
 import UserSections from "./components/UserSections";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import { Theme } from "components/ui/theme/themes";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import Image from "components/ui/layout/Image";
 import AreaButton from "components/ui/trigger/AreaButton";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
@@ -71,11 +71,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
       <HeaderLayout>
         <ViewCap>
           {nav}
-          <ViewHead>
-            <div className={classes.head}>
-              <h1>{displayName}</h1>
-            </div>
-          </ViewHead>
+          <ViewTitle title={displayName} />
         </ViewCap>
         <ViewBody>
           <AreaButton onClick={routes.picture} className={classes.photo}>
