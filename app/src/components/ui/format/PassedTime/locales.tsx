@@ -1,78 +1,78 @@
 import { localize, Locale as LC } from "lib/i18n/localization";
 
 export const JustNow = localize({
-  [LC.enGB]: "A moment ago",
+  [LC.enGB]: "Right now",
   [LC.svSE]: "Nyss",
 });
 
 export const YearsAgo = localize<{ years: number }>({
   [LC.enGB]: ({ years }) => {
     if (years === 1) {
-      return "1 year ago";
+      return "1 year";
     }
-    return `${years} years ago`;
+    return `${years} years`;
   },
   [LC.svSE]: ({ years }) => {
-    return `${years} år sedan`;
+    return `${years} år`;
   },
 });
 
 export const MonthsAgo = localize<{ months: number }>({
   [LC.enGB]: ({ months }) => {
     if (months === 1) {
-      return "1 month ago";
+      return "1 month";
     }
-    return `${months} months ago`;
+    return `${months} months`;
   },
   [LC.svSE]: ({ months }) => {
     if (months === 1) {
-      return "1 månad sedan";
+      return "1 månad";
     }
-    return `${months} månader sedan`;
+    return `${months} månader`;
   },
 });
 
 export const DaysAgo = localize<{ days: number }>({
   [LC.enGB]: ({ days }) => {
     if (days === 1) {
-      return "1 day ago";
+      return "1 day";
     }
-    return `${days} days ago`;
+    return `${days} days`;
   },
   [LC.svSE]: ({ days }) => {
     if (days === 1) {
-      return "1 dag sedan";
+      return "1 dag";
     }
-    return `${days} dagar sedan`;
+    return `${days} dagar`;
   },
 });
 
 export const HoursAgo = localize<{ hours: number }>({
   [LC.enGB]: ({ hours }) => {
     if (hours === 1) {
-      return "1 hour ago";
+      return "1 hour";
     }
-    return `${hours} hours ago`;
+    return `${hours} hours`;
   },
   [LC.svSE]: ({ hours }) => {
     if (hours === 1) {
-      return "1 timme sedan";
+      return "1 timme";
     }
-    return `${hours} timmar sedan`;
+    return `${hours} timmar`;
   },
 });
 
 export const MinutesAgo = localize<{ minutes: number }>({
   [LC.enGB]: ({ minutes }) => {
     if (minutes === 1) {
-      return "1 minute ago";
+      return "1 minute";
     }
-    return `${minutes} minutes ago`;
+    return `${minutes} minutes`;
   },
   [LC.svSE]: ({ minutes }) => {
     if (minutes === 1) {
-      return "1 minut sedan";
+      return "1 minut";
     }
-    return `${minutes} minuter sedan`;
+    return `${minutes} minuter`;
   },
 });
