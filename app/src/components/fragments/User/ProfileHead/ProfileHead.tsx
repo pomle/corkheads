@@ -26,23 +26,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateColumns: "auto 1fr",
     gridGap: "16px",
   },
-  photoControl: {
-    position: "relative",
-    "& button.clear": {
-      padding: "8px",
-      position: "absolute",
-      right: 0,
-      top: 0,
-      transition: "opacity 0.3s ease",
-      "& svg": {
-        height: "12px",
-        width: "12px",
-        "& path": {
-          fill: theme.color.accent,
-        },
-      },
-    },
-  },
   photo: {
     border: "dashed 1px",
     borderColor: (props: StyleProps) =>
@@ -143,7 +126,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   return (
     <div className={classes.ProfileHead}>
-      <div className={classes.photoControl}>{photo}</div>
+      {photo}
 
       <div className={classes.identity}>
         <div className="displayName">
