@@ -5,15 +5,18 @@ import { Theme } from "components/ui/theme/themes";
 import { Rating } from "types/Rating";
 import { RatingAggregate as Aggregate } from "types/RatingAggregate";
 import RatingAggregate from "components/ui/indicators/RatingAggregate";
+import { ReactComponent as HeartIcon } from "assets/graphics/icons/heart-filled.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Rating: {
     alignItems: "center",
-    display: "flex",
-    fontSize: "10px",
-    margin: "-4px",
-    "& > *": {
-      margin: "4px",
+    display: "grid",
+    gridAutoFlow: "column",
+    gridGap: "4px",
+    justifyContent: "flex-start",
+    "& .love": {
+      height: "1em",
+      width: "1em",
     },
   },
 }));
@@ -37,7 +40,7 @@ const ItemRating: React.FC<ItemRatingProps> = ({ rating, aggregate }) => {
   if (rating) {
     return (
       <div className={classes.Rating}>
-        {rating?.love && <span>💖</span>}
+        {rating?.love && <HeartIcon className="love" />}
         {rating?.score && <Score score={rating.score} />}
       </div>
     );
