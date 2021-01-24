@@ -3,12 +3,14 @@ import { Moment } from "moment";
 type CommentNotification = {
   name: "comment";
   authorUserId: string;
+  checkInId: string;
   body: string;
 };
 
 type ReactionNotification = {
   name: "reaction";
   authorUserId: string;
+  checkInId: string;
   tags: string[];
 };
 

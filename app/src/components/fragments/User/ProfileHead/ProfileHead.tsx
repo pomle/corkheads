@@ -22,9 +22,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   ProfileHead: {
     alignItems: "center",
     display: "grid",
-    gridAutoFlow: "column",
-    gridTemplateColumns: "auto 1fr",
-    gridGap: "16px",
+    gridAutoFlow: "row",
+    gridGap: "8px",
+    justifyContent: "center",
+    "& > .avatar": {
+      margin: "auto",
+    },
   },
   photo: {
     border: "dashed 1px",
@@ -53,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridGap: "4px",
     fontSize: "15px",
     lineHeight: 1,
+    textAlign: "center",
     "& .username": {
       color: Colors.MarbleBlue,
       fontSize: "14px",
@@ -126,7 +130,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   return (
     <div className={classes.ProfileHead}>
-      {photo}
+      <div className="avatar">{photo}</div>
 
       <div className={classes.identity}>
         <div className="displayName">

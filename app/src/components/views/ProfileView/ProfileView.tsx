@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import Section from "components/ui/layout/Section";
@@ -16,6 +16,11 @@ import Dashboard from "components/fragments/User/Dashboard/Dashboard";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
 import FriendsSection from "./components/FriendsSection";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import NavIcon from "components/ui/trigger/NavIcon";
+import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";
+import { useNotifications } from "components/hooks/db/useNotifications";
+import NotificationIcon from "./components/NotificationIcon";
 
 const useStyles = makeStyles({
   head: {
@@ -36,7 +41,6 @@ enum ProfileSection {
 }
 
 interface ProfileViewProps {
-  nav: React.ReactNode;
   routes: {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
@@ -45,6 +49,8 @@ interface ProfileViewProps {
     contributions: () => string;
     checkIns: () => string;
     friends: () => string;
+    notifications: () => void;
+    settings: () => void;
     toplist: () => string;
     user: (userId: string) => void;
     wishlist: () => string;
@@ -52,10 +58,22 @@ interface ProfileViewProps {
   userId: string;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
   const [section, setSection] = useState<ProfileSection>(
     ProfileSection.Community
   );
+
+  const { notifications } = useNotifications(userId);
+
+  const unseenNotificationCount = useMemo(() => {
+    if (!notifications) {
+      return;
+    }
+
+    return notifications.reduce((sum, n) => {
+      return sum + (n.seen ? 0 : 1);
+    }, 0);
+  }, [notifications]);
 
   const classes = useStyles();
 
@@ -63,7 +81,18 @@ const ProfileView: React.FC<ProfileViewProps> = ({ nav, routes, userId }) => {
     <ThemeProvider theme="dusk">
       <HeaderLayout>
         <ViewCap>
-          {nav}
+          <NavigationBar
+            back={
+              <NavIcon onClick={routes.notifications}>
+                <NotificationIcon count={unseenNotificationCount || 0} />
+              </NavIcon>
+            }
+            forward={
+              <NavIcon onClick={routes.settings}>
+                <CogIcon />
+              </NavIcon>
+            }
+          />
 
           <div className={classes.head}>
             <ViewHead>
