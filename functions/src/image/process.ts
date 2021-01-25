@@ -10,7 +10,7 @@ type Size = {
   y: number;
 };
 
-type Format = "webp";
+type Format = "webp" | "jpeg";
 
 type Metadata = {
   resolution: Size;
@@ -88,7 +88,7 @@ export async function processSource(sourceId: string, imageId: string) {
       sourceMeta.resolution.x >= size.x || sourceMeta.resolution.y >= size.y
     );
   }).map((bounds) => {
-    const formatId = `${bounds.x}x${bounds.y}.webp`;
+    const formatId = `${bounds.x}x${bounds.y}.jpeg`;
     const file = createOutput(imageId, formatId);
 
     const size = fitRect(sourceMeta.resolution, bounds);
@@ -98,8 +98,8 @@ export async function processSource(sourceId: string, imageId: string) {
         x: Math.round(size.x),
         y: Math.round(size.y),
       },
-      format: "webp" as Format,
-      contentType: "image/webp",
+      format: "jpeg" as Format,
+      contentType: "image/jpeg",
       formatId,
       file,
     };
