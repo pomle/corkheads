@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 import RatingInput from "./component/RatingInput";
 import { useCommitCheckIn } from "./hooks";
 import { Rating } from "types/Rating";
-import ViewHead from "components/ui/layout/ViewHead";
+import ViewTitle from "components/ui/layout/ViewTitle";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import Input from "components/ui/input/Input/Input";
 import FooterLayout from "components/ui/layout/FooterLayout/FooterLayout";
@@ -159,11 +159,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
         <ThemeProvider theme="dusk">
           <ViewCap>
             {nav}
-            <ViewHead>
-              <div className={classes.head}>
-                <h1>{article.displayName}</h1>
-              </div>
-            </ViewHead>
+            <ViewTitle title={article.displayName} />
           </ViewCap>
         </ThemeProvider>
         <div className={classes.body}>
