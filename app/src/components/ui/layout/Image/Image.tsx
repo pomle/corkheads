@@ -60,8 +60,11 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
 
   const src = useMemo(() => {
     if (formats) {
-      return Array.from(formats).find((format) => format.resolution.x < 900)
-        ?.url;
+      return Array.from(formats)
+        .filter((format) => {
+          return format.url.endsWith("jpeg");
+        })
+        .find((format) => format.resolution.x < 900)?.url;
     }
 
     if (typeof image === "string") {
