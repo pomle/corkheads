@@ -9,11 +9,11 @@ type VirtualArticle = Article & UserArticle;
 
 export function useUserVirtualArticle(
   userId: string,
-  articleId: string
+  articleId?: string
 ): VirtualArticle {
-  const article = useArticle(articleId)?.data || createArticle(articleId);
+  const article = useArticle(articleId)?.data || createArticle("404");
   const userArticle =
-    useUserArticle(userId, articleId)?.data || createUserArticle(articleId);
+    useUserArticle(userId, articleId)?.data || createUserArticle("404");
 
   return useMemo(() => {
     return {
