@@ -83,11 +83,13 @@ export async function processSource(sourceId: string, imageId: string) {
 
   const sourceMeta = await readMeta(source);
 
-  const derivatives: Derivate[] = SIZES.filter((size) => {
+  const effectiveSizes = SIZES.filter((size) => {
     return (
       sourceMeta.resolution.x >= size.x || sourceMeta.resolution.y >= size.y
     );
-  }).map((bounds) => {
+  });
+
+  const derivatives: Derivate[] = effectiveSizes.map((bounds) => {
     const formatId = `${bounds.x}x${bounds.y}.jpeg`;
     const file = createOutput(imageId, formatId);
 
