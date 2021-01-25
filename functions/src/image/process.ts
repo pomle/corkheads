@@ -89,13 +89,15 @@ export async function processSource(sourceId: string, imageId: string) {
     );
   });
 
-  const derivatives: Derivate[] = effectiveSizes.map((bounds) => {
+  const derivatives: Derivate[] = [];
+
+  for (const bounds of effectiveSizes) {
     const formatId = `${bounds.x}x${bounds.y}.jpeg`;
     const file = createOutput(imageId, formatId);
 
     const size = fitRect(sourceMeta.resolution, bounds);
 
-    return {
+    derivatives.push({
       size: {
         x: Math.round(size.x),
         y: Math.round(size.y),
@@ -104,8 +106,8 @@ export async function processSource(sourceId: string, imageId: string) {
       contentType: "image/jpeg",
       formatId,
       file,
-    };
-  });
+    });
+  }
 
   const inputStream = source.createReadStream();
   inputStream.setMaxListeners(20);
