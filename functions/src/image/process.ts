@@ -22,6 +22,14 @@ const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   y: n,
 }));
 
+type Derivate = {
+  size: Size;
+  format: Format;
+  contentType: string;
+  formatId: string;
+  file: ReturnType<typeof createOutput>;
+};
+
 function readMeta(file: ReturnType<typeof userBucket.file>) {
   return new Promise<Metadata>((resolve, reject) => {
     const stream = file.createReadStream();
@@ -75,7 +83,7 @@ export async function processSource(sourceId: string, imageId: string) {
 
   const sourceMeta = await readMeta(source);
 
-  const derivatives = SIZES.filter((size) => {
+  const derivatives: Derivate[] = SIZES.filter((size) => {
     return (
       sourceMeta.resolution.x >= size.x || sourceMeta.resolution.y >= size.y
     );
