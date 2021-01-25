@@ -90,6 +90,8 @@ export async function processSource(sourceId: string, imageId: string) {
         x: Math.round(size.x),
         y: Math.round(size.y),
       },
+      format: "webp" as Format,
+      contentType: "image/webp",
       formatId,
       file,
     };
@@ -99,9 +101,12 @@ export async function processSource(sourceId: string, imageId: string) {
   inputStream.setMaxListeners(20);
 
   const tasks = derivatives.map(async (derivate) => {
-    await new Promise<typeof derivate>((resolve, reject) => {
+    await new Promise((resolve, reject) => {
       const outputStream = derivate.file.createWriteStream();
-      const processStream = createStreamProcessor(derivate.size, "webp");
+      const processStream = createStreamProcessor(
+        derivate.size,
+        derivate.format
+      );
 
       inputStream.on("error", reject);
       processStream.on("error", reject);
@@ -114,7 +119,7 @@ export async function processSource(sourceId: string, imageId: string) {
     });
 
     await derivate.file.setMetadata({
-      contentType: "image/webp",
+      contentType: derivate.contentType,
     });
 
     return {
