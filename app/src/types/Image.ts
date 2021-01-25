@@ -7,6 +7,7 @@ type Size = {
 
 type Format = {
   url: string;
+  mime: string;
   resolution: Size;
 };
 

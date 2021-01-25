@@ -46,6 +46,7 @@ export function useUserImageUpload() {
         formats: [
           {
             resolution: TEMP_SIZE,
+            mime: "image/jpeg",
             url: await tempRef.getDownloadURL(),
           },
         ],

@@ -62,7 +62,7 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     if (formats) {
       return Array.from(formats)
         .filter((format) => {
-          return format.url.endsWith("jpeg");
+          return !format.mime?.endsWith("webp");
         })
         .find((format) => format.resolution.x < 900)?.url;
     }
