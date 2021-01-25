@@ -27,7 +27,7 @@ interface UserHandleProps {
 const UserHandle: React.FC<UserHandleProps> = ({ user }) => {
   const classes = useStyles();
 
-  return <div className={classes.UserHandle}>{resolveUserHandle(user)}</div>;
+  return <span className={classes.UserHandle}>{resolveUserHandle(user)}</span>;
 };
 
 export default UserHandle;
