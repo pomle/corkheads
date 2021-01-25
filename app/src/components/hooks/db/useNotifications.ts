@@ -24,17 +24,20 @@ export function useNotifications(userId: string) {
   );
 
   useEffect(() => {
-    return notificationsRef.limit(100).onSnapshot((snap) => {
-      const notifications = snap.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          ...data,
-          id: doc.id,
-          timestamp: data.timestamp ? toMoment(data.timestamp) : undefined,
-        } as Notification;
+    return notificationsRef
+      .orderBy("timestamp", "desc")
+      .limit(100)
+      .onSnapshot((snap) => {
+        const notifications = snap.docs.map((doc) => {
+          const data = doc.data();
+          return {
+            ...data,
+            id: doc.id,
+            timestamp: data.timestamp ? toMoment(data.timestamp) : undefined,
+          } as Notification;
+        });
+        setNotifications(notifications);
       });
-      setNotifications(notifications);
-    });
   }, [notificationsRef]);
 
   return {
