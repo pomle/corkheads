@@ -10,6 +10,8 @@ type Size = {
   y: number;
 };
 
+type Format = "webp";
+
 type Metadata = {
   resolution: Size;
   size: number;
@@ -47,13 +49,13 @@ function createURL(bucket: string, path: string) {
   return `https://storage.googleapis.com/${bucket}/${path}`;
 }
 
-function createStreamProcessor(resolution: Size) {
+function createStreamProcessor(resolution: Size, format: Format) {
   return sharp()
     .resize(resolution.x, resolution.y, {
       fit: "cover",
     })
     .rotate()
-    .toFormat("webp", {
+    .toFormat(format, {
       quality: 80,
     });
 }
@@ -99,7 +101,7 @@ export async function processSource(sourceId: string, imageId: string) {
   const tasks = derivatives.map(async (derivate) => {
     await new Promise<typeof derivate>((resolve, reject) => {
       const outputStream = derivate.file.createWriteStream();
-      const processStream = createStreamProcessor(derivate.size);
+      const processStream = createStreamProcessor(derivate.size, "webp");
 
       inputStream.on("error", reject);
       processStream.on("error", reject);
