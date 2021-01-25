@@ -17,6 +17,8 @@ type Metadata = {
   size: number;
 };
 
+const FORMATS: Format[] = ["webp", "jpeg"];
+
 const SIZES: Size[] = [80, 160, 320, 640, 1280, 1920].map((n) => ({
   x: n,
   y: n,
@@ -92,21 +94,23 @@ export async function processSource(sourceId: string, imageId: string) {
   const derivatives: Derivate[] = [];
 
   for (const bounds of effectiveSizes) {
-    const formatId = `${bounds.x}x${bounds.y}.jpeg`;
-    const file = createOutput(imageId, formatId);
+    for (const format of FORMATS) {
+      const formatId = `${bounds.x}x${bounds.y}.${format}`;
+      const file = createOutput(imageId, formatId);
 
-    const size = fitRect(sourceMeta.resolution, bounds);
+      const size = fitRect(sourceMeta.resolution, bounds);
 
-    derivatives.push({
-      size: {
-        x: Math.round(size.x),
-        y: Math.round(size.y),
-      },
-      format: "jpeg" as Format,
-      contentType: "image/jpeg",
-      formatId,
-      file,
-    });
+      derivatives.push({
+        size: {
+          x: Math.round(size.x),
+          y: Math.round(size.y),
+        },
+        format,
+        contentType: `image/${format}`,
+        formatId,
+        file,
+      });
+    }
   }
 
   const inputStream = source.createReadStream();
