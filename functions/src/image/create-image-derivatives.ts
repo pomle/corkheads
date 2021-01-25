@@ -20,6 +20,7 @@ export const createImageDerivatives = functions.firestore
     const formats = outputs.map((output) => {
       return {
         url: output.url,
+        mime: output.derivate.contentType,
         resolution: {
           x: output.derivate.size.x,
           y: output.derivate.size.y,
