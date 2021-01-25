@@ -12,12 +12,12 @@ function resolveBadgeType(count?: number) {
   return "badge";
 }
 
-interface CheckInItemProps {
+interface CheckInCountBadgeProps {
   count: number;
 }
 
-const CheckInItem: React.FC<CheckInItemProps> = ({ count }) => {
+const CheckInCountBadge: React.FC<CheckInCountBadgeProps> = ({ count }) => {
   return <Badge type={resolveBadgeType(count)}>{count}</Badge>;
 };
 
-export default CheckInItem;
+export default CheckInCountBadge;
