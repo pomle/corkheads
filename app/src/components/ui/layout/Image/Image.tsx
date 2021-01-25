@@ -46,23 +46,25 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     }
   }, [image]);
 
-  const srcSet = useMemo(() => {
+  const mimeTypes = useMemo(() => {
     if (!formats) {
-      return;
+      return [];
     }
 
-    return formats
-      .map((format) => {
-        return `${format.url} ${format.resolution.x}w`;
-      })
-      .join(",");
+    const mimes = new Set<string>();
+    for (const format of formats) {
+      if (format.mime) {
+        mimes.add(format.mime);
+      }
+    }
+    return Array.from(mimes);
   }, [formats]);
 
   const src = useMemo(() => {
     if (formats) {
       return Array.from(formats)
         .filter((format) => {
-          return !format.mime?.endsWith("webp");
+          return format.mime?.endsWith("jpeg") || format.url?.endsWith("jpeg");
         })
         .find((format) => format.resolution.x < 900)?.url;
     }
@@ -78,7 +80,20 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
 
   return (
     <div className={`Image ${classes.Image}`}>
-      {(src || srcSet) && <img srcSet={srcSet} src={src} sizes={size} alt="" />}
+      <picture>
+        {formats &&
+          mimeTypes.map((mime) => {
+            const srcSet = formats
+              .filter((f) => f.mime === mime)
+              .map((format) => {
+                return `${format.url} ${format.resolution.x}w`;
+              })
+              .join(",");
+
+            return <source key={mime} type={mime} srcSet={srcSet} />;
+          })}
+        {src && <img src={src} sizes={size} alt="" />}
+      </picture>
     </div>
   );
 };

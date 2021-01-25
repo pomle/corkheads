@@ -7,8 +7,8 @@ type Size = {
 
 type Format = {
   url: string;
-  mime: string;
   resolution: Size;
+  mime?: string;
 };
 
 export type Image = {
