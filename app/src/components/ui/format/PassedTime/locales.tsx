@@ -25,10 +25,7 @@ export const MonthsAgo = localize<{ months: number }>({
     return `${months} months`;
   },
   [LC.svSE]: ({ months }) => {
-    if (months === 1) {
-      return "1 månad";
-    }
-    return `${months} månader`;
+    return `${months} mån`;
   },
 });
 
@@ -49,30 +46,18 @@ export const DaysAgo = localize<{ days: number }>({
 
 export const HoursAgo = localize<{ hours: number }>({
   [LC.enGB]: ({ hours }) => {
-    if (hours === 1) {
-      return "1 hour";
-    }
-    return `${hours} h`;
+    return `${hours}h`;
   },
   [LC.svSE]: ({ hours }) => {
-    if (hours === 1) {
-      return "1 timme";
-    }
-    return `${hours} tim`;
+    return `${hours}t`;
   },
 });
 
 export const MinutesAgo = localize<{ minutes: number }>({
   [LC.enGB]: ({ minutes }) => {
-    if (minutes === 1) {
-      return "1 minute";
-    }
-    return `${minutes} m`;
+    return `${minutes}m`;
   },
   [LC.svSE]: ({ minutes }) => {
-    if (minutes === 1) {
-      return "1 minut";
-    }
-    return `${minutes} m`;
+    return `${minutes}m`;
   },
 });
