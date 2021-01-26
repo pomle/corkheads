@@ -17,7 +17,7 @@ const NotificationPreview: React.FC<NotificationPreviewProps> = ({
   const article = useUserVirtualArticle(userId, checkIn?.articleId);
 
   return (
-    <ImageItem size={48} imageId={checkIn?.imageId}>
+    <ImageItem size={48} imageId={checkIn?.imageId || article?.imageId}>
       <div className="display">{article.displayName}</div>
     </ImageItem>
   );
