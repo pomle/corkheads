@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     alignItems: "center",
     display: "grid",
     gridAutoFlow: "row",
-    gridGap: "8px",
+    gridGap: "16px",
     justifyContent: "center",
     "& > .avatar": {
       margin: "auto",
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       props.hasPhoto ? "transparent" : Colors.MarbleBlue,
     borderRadius: "50%",
     overflow: "hidden",
-    height: "96px",
+    height: "112px",
     transition: "all 1s ease",
-    width: "96px",
+    width: "112px",
     "& .placeholder": {
       alignItems: "center",
       display: "flex",
