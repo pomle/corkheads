@@ -62,11 +62,19 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
 
   const src = useMemo(() => {
     if (formats) {
-      return Array.from(formats)
-        .filter((format) => {
-          return format.mime?.endsWith("jpeg") || format.url?.endsWith("jpeg");
-        })
-        .find((format) => format.resolution.x < 900)?.url;
+      if (formats.length === 1) {
+        return formats[0].url;
+      }
+
+      const knownJPEGs = formats.filter((format) => {
+        return format.mime?.endsWith("jpeg") || format.url?.endsWith("jpeg");
+      });
+
+      if (knownJPEGs.length > 0) {
+        return knownJPEGs.find((format) => format.resolution.x < 900)?.url;
+      }
+
+      return formats.find((format) => format.resolution.x < 900)?.url;
     }
 
     if (typeof image === "string") {
