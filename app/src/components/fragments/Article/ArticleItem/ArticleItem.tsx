@@ -10,7 +10,7 @@ import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle
 const useStyles = makeStyles((theme: Theme) => ({
   ArticleItem: {
     display: "grid",
-    gridGap: "2px",
+    gridGap: "4px",
     padding: "8px",
     "& .displayName": {
       color: theme.color.title,
