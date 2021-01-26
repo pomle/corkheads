@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     "& > .meta": {
       display: "grid",
-      gridGap: "8px",
+      gridGap: "16px",
       padding: "20px",
       "& .data": {
         alignItems: "flex-end",
@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     maxHeight: "400px",
     width: "calc(100vw - 32px)",
   },
-
   article: {
     display: "flex",
     justifyContent: "center",
