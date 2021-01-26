@@ -11,11 +11,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   SearchArticleItem: {
     display: "grid",
     gridAutoFlow: "rows",
-    gridGap: "2px",
+    gridGap: "4px",
     "& .displayName": {
       color: theme.color.accent,
       fontSize: "14px",
-      lineHeight: 1.25,
     },
     "& .meta": {
       color: theme.color.text,
