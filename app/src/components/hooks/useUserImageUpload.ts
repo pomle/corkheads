@@ -34,8 +34,6 @@ export function useUserImageUpload() {
       const tempRef = sourceRef.child(uploadId);
       await createTemporaryImage(tempRef, file);
 
-      originalRef.put(file);
-
       const image: Image = {
         id: imageRef.id,
         userId: user.id,
@@ -52,7 +50,9 @@ export function useUserImageUpload() {
         ],
       };
 
-      imageRef.set(image);
+      await imageRef.set(image);
+
+      originalRef.put(file);
 
       return imageRef;
     },
