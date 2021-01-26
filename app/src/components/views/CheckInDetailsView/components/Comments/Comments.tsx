@@ -34,6 +34,7 @@ const useStyles = makeStyles({
         height: "48px",
         padding: "4px 16px",
         transition: "background 0.3s, boxShadow 0.3s",
+        width: "100%",
         "&:focus": {
           background: Colors.White,
           boxShadow: "0 2px 8px -5px #000",
