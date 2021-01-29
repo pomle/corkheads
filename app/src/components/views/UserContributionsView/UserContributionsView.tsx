@@ -9,7 +9,7 @@ import ViewTitle from "components/ui/layout/ViewTitle";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import ItemList from "components/ui/layout/ItemList";
-import ArticleItem from "components/fragments/Article/ArticleItem";
+import ContributionArticleItem from "components/fragments/Article/ContributionArticleItem";
 import {
   ArticleQuery,
   useArticleQuery,
@@ -78,7 +78,7 @@ const UserContributionsView: React.FC<UserContributionsViewProps> = ({
                     key={pointer.articleId}
                     onClick={() => routes.article(pointer.articleId)}
                   >
-                    <ArticleItem pointer={pointer} />
+                    <ContributionArticleItem pointer={pointer} />
                   </button>
                 );
               })}

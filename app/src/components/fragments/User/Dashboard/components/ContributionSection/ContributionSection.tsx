@@ -4,7 +4,7 @@ import {
   ArticleQuery,
 } from "components/hooks/db/useArticleQuery";
 import ItemList from "components/ui/layout/ItemList";
-import ArticleItem from "components/fragments/Article/ArticleItem";
+import ContributionArticleItem from "components/fragments/Article/ContributionArticleItem";
 
 interface ContributionSectionProps {
   userId: string;
@@ -45,7 +45,7 @@ const ContributionSection: React.FC<ContributionSectionProps> = ({
             key={pointer.articleId}
             onClick={() => routes.article(pointer.articleId)}
           >
-            <ArticleItem pointer={pointer} />
+            <ContributionArticleItem pointer={pointer} />
           </button>
         );
       })}
