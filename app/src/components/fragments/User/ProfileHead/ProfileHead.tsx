@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderWidth: (props: StyleProps) => (props.hasPhoto ? 0 : "1px"),
     borderRadius: "50%",
     overflow: "hidden",
-    height: "112px",
+    height: "120px",
     transition: "all 1s ease",
-    width: "112px",
+    width: "120px",
     "& .placeholder": {
       alignItems: "center",
       background: theme.color.surface,
