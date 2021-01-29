@@ -117,22 +117,23 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
             </ItemList>
           </Section>
 
-          {request.results.user.length > 0 && (
-            <Section header={<h3>People</h3>}>
-              <ItemList divided>
-                {request.results.user.map((result) => {
-                  return (
-                    <SearchUserItem
-                      key={result.userId}
-                      pointer={result}
-                      routes={routes}
-                      following={following}
-                    />
-                  );
-                })}
-              </ItemList>
-            </Section>
-          )}
+          <Section header={<h3>People</h3>}>
+            <ItemList divided>
+              {request.results.user.map((result) => {
+                return (
+                  <SearchUserItem
+                    key={result.userId}
+                    pointer={result}
+                    routes={routes}
+                    following={following}
+                  />
+                );
+              })}
+              {request.results.user.length === 0 && (
+                <TextItem>No friends found for query.</TextItem>
+              )}
+            </ItemList>
+          </Section>
         </SectionList>
       ) : (
         <div className={classes.searchResults}>
