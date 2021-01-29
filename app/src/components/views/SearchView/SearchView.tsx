@@ -33,6 +33,7 @@ interface SearchViewProps {
   nav: React.ReactNode;
   userId: string;
   routes: {
+    createArticle: () => void;
     article: (articleId: string) => void;
     user: (userId: string) => void;
   };
@@ -93,21 +94,28 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
       </ThemeProvider>
       {executedQuery.length ? (
         <SectionList>
-          {request.results.article.length > 0 && (
-            <Section header={<h3>Articles</h3>}>
-              <ItemList divided>
-                {request.results.article.map((result) => {
-                  return (
-                    <SearchArticleItemButtom
-                      userId={userId}
-                      result={result}
-                      route={handleSelect}
-                    />
-                  );
-                })}
-              </ItemList>
-            </Section>
-          )}
+          <Section header={<h3>Articles</h3>}>
+            <ItemList divided>
+              {request.results.article.map((result) => {
+                return (
+                  <SearchArticleItemButtom
+                    key={result.articleId}
+                    userId={userId}
+                    result={result}
+                    route={handleSelect}
+                  />
+                );
+              })}
+              {request.results.article.length < 3 && (
+                <TextItem>
+                  Can't find the drink you're looking for?{" "}
+                  <button type="button" onClick={routes.createArticle}>
+                    Add it!
+                  </button>
+                </TextItem>
+              )}
+            </ItemList>
+          </Section>
 
           {request.results.user.length > 0 && (
             <Section header={<h3>People</h3>}>
