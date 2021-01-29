@@ -51,10 +51,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: "relative",
     zIndex: 2,
     "& button": {
+      borderRadius: "8px",
+      boxShadow: "0 2px 6px -4px #000",
       width: "calc(100% - 32px)",
-      "& > div": {
-        boxShadow: "0 2px 6px -4px #000",
-      },
     },
   },
   checkIn: {
