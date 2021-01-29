@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& button": {
       width: "calc(100% - 32px)",
       "& > div": {
-        boxShadow: "0 2px 6px -4px black",
+        boxShadow: "0 2px 6px -4px #000",
       },
     },
   },
