@@ -54,7 +54,7 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
         )}
         {addedDate && (
           <div className="date">
-            Added <PassedTime date={addedDate} />
+            On wishlist since <PassedTime date={addedDate} />
           </div>
         )}
       </div>
