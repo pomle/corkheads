@@ -2,14 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 
 const useStyles = makeStyles({
-  SectionList: {
-    "& > *": {
-      marginBottom: "16px",
-      "&:last-child": {
-        marginBottom: 0,
-      },
-    },
-  },
+  SectionList: {},
 });
 
 interface SectionListProps {}
