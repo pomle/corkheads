@@ -52,10 +52,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .image": {
       backgroundImage: `url(${AvatarPlaceholder})`,
       backgroundSize: "contain",
-      position: "relative",
-      top: "-2px",
-      height: "calc(100% + 4px)",
-      width: "calc(100% + 4px)",
+      height: "100%",
+      width: "100%",
     },
   },
   identity: {
