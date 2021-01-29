@@ -26,11 +26,13 @@ interface ItemListProps {
 const ItemList: React.FC<ItemListProps> = ({ children, divided = false }) => {
   const classes = useStyles({ padding: divided ? 12 : 8 });
 
+  const items = Children.toArray(children).filter((x) => x);
+
   if (divided) {
     return (
       <div className={classes.ItemList}>
         <DividedList>
-          {Children.map(children, (child) => {
+          {items.map((child) => {
             return <div className={classes.Item}>{child}</div>;
           })}
         </DividedList>
@@ -40,7 +42,7 @@ const ItemList: React.FC<ItemListProps> = ({ children, divided = false }) => {
 
   return (
     <div className={classes.ItemList}>
-      {Children.map(children, (child) => {
+      {items.map((child) => {
         return <div className={classes.Item}>{child}</div>;
       })}
     </div>
