@@ -5,7 +5,6 @@ import ImageSelect from "components/ui/trigger/ImageSelect";
 import Image from "components/ui/layout/Image";
 import { User } from "types/User";
 import { useImageUpload } from "components/hooks/useImageUpload";
-import ViewStack from "components/ui/layout/ViewStack";
 import { Theme } from "components/ui/theme/themes";
 import { Colors } from "components/ui/theme/colors";
 import Username from "components/fragments/User/Username";
@@ -30,9 +29,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   photo: {
-    border: "dashed 1px",
-    borderColor: (props: StyleProps) =>
-      props.hasPhoto ? "transparent" : Colors.MarbleBlue,
+    border: `1px dashed ${Colors.MarbleBlue}`,
+    borderWidth: (props: StyleProps) => (props.hasPhoto ? 0 : "1px"),
     borderRadius: "50%",
     overflow: "hidden",
     height: "112px",
@@ -40,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     width: "112px",
     "& .placeholder": {
       alignItems: "center",
+      background: theme.color.surface,
       display: "flex",
       justifyContent: "center",
       "& svg": {
@@ -48,6 +47,14 @@ const useStyles = makeStyles((theme: Theme) => ({
           stroke: Colors.MarbleBlue,
         },
       },
+    },
+    "& .image": {
+      backgroundImage: `url(${AvatarPlaceholder})`,
+      backgroundSize: "contain",
+      position: "relative",
+      top: "-2px",
+      height: "calc(100% + 4px)",
+      width: "calc(100% + 4px)",
     },
   },
   identity: {
@@ -103,24 +110,21 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   let displayImage = undefined;
   if (hasPhoto) {
     displayImage = image;
-  } else if (!isMe) {
-    displayImage = AvatarPlaceholder;
   }
 
   const classes = useStyles({ hasPhoto });
 
   let photo = (
     <div className={classes.photo}>
-      <ViewStack>
-        {isMe && !hasPhoto && (
-          <div className="placeholder">
-            <CameraIcon />
-          </div>
-        )}
-        <div className="image">
-          <Image image={displayImage} size="30vw" />
+      <div className="image">
+        <Image image={displayImage} size="30vw" />
+      </div>
+
+      {isMe && !hasPhoto && (
+        <div className="placeholder">
+          <CameraIcon />
         </div>
-      </ViewStack>
+      )}
     </div>
   );
 

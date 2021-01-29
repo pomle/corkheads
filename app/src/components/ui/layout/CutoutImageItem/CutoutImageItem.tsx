@@ -4,6 +4,10 @@ import { Theme } from "components/ui/theme/themes";
 import Image from "components/ui/layout/Image";
 import { useImage } from "components/hooks/db/useImages";
 
+type StyleProps = {
+  placeholderURL?: string;
+};
+
 const useStyles = makeStyles((theme: Theme) => ({
   CutoutImageItem: {
     alignItems: "center",
@@ -17,7 +21,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
   },
   photo: {
-    background: theme.color.panel,
+    backgroundColor: theme.color.panel,
+    backgroundImage: (props: StyleProps) =>
+      props.placeholderURL ? `url(${props.placeholderURL})` : "none",
+    backgroundSize: "cover",
     height: "100%",
     width: "100%",
   },
@@ -26,16 +33,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface CutoutImageItemProps {
   imageId?: string;
   photoURL?: string;
+  placeholderURL?: string;
 }
 
 const CutoutImageItem: React.FC<CutoutImageItemProps> = ({
   imageId,
   photoURL,
+  placeholderURL,
   children,
 }) => {
   const image = useImage(imageId)?.data || photoURL;
 
-  const classes = useStyles();
+  const classes = useStyles({ placeholderURL });
 
   return (
     <div className={classes.CutoutImageItem}>

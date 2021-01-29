@@ -5,6 +5,7 @@ import { Theme } from "components/ui/theme/themes";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import PassedTime from "components/ui/format/PassedTime";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -46,7 +47,10 @@ const ContributionArticleItem: React.FC<ContributionArticleItemProps> = ({
 
   return (
     <ThemeProvider theme="sky">
-      <CutoutImageItem imageId={article.imageId}>
+      <CutoutImageItem
+        imageId={article.imageId}
+        photoURL={ArticleImagePlaceholder}
+      >
         <div className={classes.ContributionArticleItem}>
           <div className="displayName">{displayName}</div>
           {article.bottling && (
