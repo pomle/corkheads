@@ -4,7 +4,7 @@ import ViewHead from "components/ui/layout/ViewHead";
 
 const useStyles = makeStyles({
   ViewTitle: {
-    marginTop: "-24px",
+    marginTop: "-32px",
     padding: "0 24px",
     textAlign: "center",
   },

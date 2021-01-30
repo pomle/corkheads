@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: theme.color.surface,
     border: getBorder(theme),
     borderWidth: "0 0 1px 0",
-    minHeight: 54,
+    minHeight: "48px",
   },
 }));
 
