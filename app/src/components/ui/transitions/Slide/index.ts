@@ -16,4 +16,5 @@ const bindDirection = (direction: Direction): React.FC<{ active: boolean }> => {
 };
 
 export const SlideDown = bindDirection(SlideDirection.Down);
+export const SlideLeft = bindDirection(SlideDirection.Left);
 export const SlideRight = bindDirection(SlideDirection.Right);
