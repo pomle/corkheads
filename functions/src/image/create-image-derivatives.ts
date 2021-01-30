@@ -3,14 +3,19 @@ import { processSource } from "./process";
 
 export const createImageDerivatives = functions.firestore
   .document("images/{imageId}")
-  .onCreate(async (snap, context) => {
-    const { source } = snap.data();
-    const { imageId } = context.params;
+  .onWrite(async (snap, context) => {
+    const source = snap.after.data()?.source;
     if (!source) {
       console.log("No source field, ignoring write");
       return;
     }
 
+    if (source === snap.before.data()?.source) {
+      console.log("Source field not updated, ignoring write");
+      return;
+    }
+
+    const { imageId } = context.params;
     const outputs = await processSource(source, imageId);
 
     await Promise.all(
@@ -28,5 +33,5 @@ export const createImageDerivatives = functions.firestore
       };
     });
 
-    await snap.ref.update({ formats });
+    await snap.after.ref.update({ formats });
   });
