@@ -17,6 +17,8 @@ import { ReactionTag } from "types/Reaction";
 
 const tags: ReactionTag[] = ["cheers", "like", "love", "drunk", "rich"];
 
+type ReactionCountAggregates = Record<ReactionTag, number>;
+
 const activeIconMap: Record<ReactionTag, ReactElement> = {
   cheers: <CheersIconOn />,
   drunk: <DrunkIconOn />,
@@ -103,7 +105,7 @@ const Reactions: React.FC<ReactionsProps> = ({ checkInId, userId }) => {
   );
 
   const counts = useMemo(() => {
-    const counts: Record<ReactionTag, number> = {
+    const counts: ReactionCountAggregates = {
       cheers: 0,
       love: 0,
       like: 0,
