@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridAutoFlow: "row",
     gridGap: "16px",
     justifyContent: "center",
+    marginTop: "-28px",
     "& > .avatar": {
       margin: "auto",
     },

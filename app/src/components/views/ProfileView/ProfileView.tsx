@@ -23,9 +23,6 @@ import { useNotifications } from "components/hooks/db/useNotifications";
 import NotificationIcon from "./components/NotificationIcon";
 
 const useStyles = makeStyles({
-  head: {
-    marginTop: "-32px",
-  },
   findFriendsButton: {
     padding: "16px",
   },
@@ -94,11 +91,9 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
             }
           />
 
-          <div className={classes.head}>
-            <ViewHead>
-              <ProfileHead userId={userId} />
-            </ViewHead>
-          </div>
+          <ViewHead>
+            <ProfileHead userId={userId} />
+          </ViewHead>
         </ViewCap>
 
         <ThemeProvider theme="pure">
