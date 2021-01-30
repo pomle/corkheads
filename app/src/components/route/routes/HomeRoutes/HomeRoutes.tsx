@@ -2,7 +2,11 @@ import React, { useMemo, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
-import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
+import {
+  SlideDown,
+  SlideLeft,
+  SlideRight,
+} from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import { useExplicitLogout } from "components/hooks/useExplicitLogout";
@@ -145,7 +149,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         <Screen path={paths.settings} transition={SlideRight}>
           {() => <SettingsPage userId={user.id} routes={settingsPageRoutes} />}
         </Screen>
-        <Screen path={paths.notifications} transition={SlideRight}>
+        <Screen path={paths.notifications} transition={SlideLeft}>
           {() => (
             <NotificationsPage
               userId={user.id}
