@@ -37,8 +37,6 @@ export function useUserImageUpload() {
       const image: Image = {
         id: imageRef.id,
         userId: user.id,
-        source: originalRef.fullPath,
-
         // This temporary format is to speed up the uploading from the uploaders
         // point of view and will be promptly overwritten by generated formats.
         formats: [
@@ -52,7 +50,11 @@ export function useUserImageUpload() {
 
       await imageRef.set(image);
 
-      originalRef.put(file);
+      originalRef.put(file).then((upload) => {
+        imageRef.update({
+          source: upload.ref.fullPath,
+        });
+      });
 
       return imageRef;
     },
