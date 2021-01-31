@@ -65,7 +65,8 @@ export const onUserArticleUpdated = functions.firestore
 export const onUserArticleDeleted = functions.firestore
   .document("users/{userId}/articles/{articleId}")
   .onDelete((snap, context) => {
-    const objectID = context.params.articleId;
+    const { articleId, userId } = context.params;
+    const objectID = [articleId, userId].join("/");
     console.log("Deleting %s", objectID);
     return userArticlesIndex.deleteObject(objectID);
   });
