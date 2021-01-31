@@ -6,6 +6,7 @@ import ItemRating from "components/fragments/Rating/ItemRating";
 import { ArticleHit } from "components/hooks/db/useOmniSearch";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { useUserVirtualArticle } from "components/hooks/db/useUserVirtualArticle";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   SearchArticleItem: {
@@ -39,7 +40,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageId={imageId}>
+    <ImageItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
       <div className={classes.SearchArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">
