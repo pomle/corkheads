@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Logo } from "assets/graphics/corkheads-logo.svg";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
+import { useSession } from "components/context/SessionContext";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ViewStack from "components/ui/layout/ViewStack";
@@ -54,32 +56,34 @@ const useStyles = makeStyles({
   },
 });
 
-interface Credentials {
-  username: string;
-  password: string;
-}
+interface LoginViewProps {}
 
-interface LoginViewProps {
-  onSubmit: (credentials: Credentials) => void;
-}
-
-const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
-  const classes = useStyles();
+const LoginView: React.FC<LoginViewProps> = () => {
+  const session = useSession();
 
   const [showPasswordReset, setShowPasswordReset] = useState<boolean>(false);
 
   const [email, setEmail] = useSharedInput("user-login-email", "");
   const [password, setPassword] = useState<string>("");
 
-  const handleSubmit = useCallback(() => {
-    onSubmit({ username: email, password: password });
-  }, [email, onSubmit, password]);
+  const handleLogin = useAsyncCallback(
+    useCallback(() => {
+      return session.auth
+        .signInWithEmailAndPassword(email, password)
+        .catch((error: Error) => {
+          console.error(error);
+        });
+    }, [session, email, password])
+  );
 
   const handleReset = useCallback(async () => {
     setShowPasswordReset(true);
   }, [setShowPasswordReset]);
 
-  const canAttemptLogin = email.length > 0 && password.length > 0;
+  const classes = useStyles();
+
+  const canAttemptLogin =
+    !handleLogin.busy && email.length > 0 && password.length > 0;
 
   return (
     <ViewStack>
@@ -115,7 +119,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onSubmit }) => {
                 <ButtonSet>
                   <ActionButton
                     variant="action"
-                    onClick={handleSubmit}
+                    onClick={handleLogin.callback}
                     disabled={!canAttemptLogin}
                   >
                     <Text.DoLogin />
