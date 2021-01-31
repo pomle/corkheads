@@ -10,10 +10,14 @@ const AuthenticationView: React.FC = () => {
   const submitHandle = useAsyncCallback(
     useCallback(
       (credentials: { username: string; password: string }) => {
-        return session.auth.signInWithEmailAndPassword(
-          credentials.username,
-          credentials.password
-        );
+        return session.auth
+          .signInWithEmailAndPassword(
+            credentials.username,
+            credentials.password
+          )
+          .catch((error) => {
+            console.error(error);
+          });
       },
       [session]
     )
