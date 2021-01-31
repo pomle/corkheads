@@ -9,7 +9,6 @@ import {
 } from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
-import { useExplicitLogout } from "components/hooks/useExplicitLogout";
 import { useMe } from "components/hooks/useMe";
 import BusyView from "components/views/BusyView";
 import ToplistRoute from "components/route/routes/ToplistRoute";
@@ -33,8 +32,6 @@ interface HomeRoutesProps {
 
 const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
   const history = useHistory();
-
-  const signOut = useExplicitLogout();
 
   const paths = useMemo(
     () => ({
@@ -121,10 +118,9 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
 
   const settingsPageRoutes = useMemo(
     () => ({
-      signOut,
       back: routes.here,
     }),
-    [signOut, routes]
+    [routes]
   );
 
   const notificationsPageRoutes = useMemo(
