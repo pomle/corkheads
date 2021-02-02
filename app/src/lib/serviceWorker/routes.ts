@@ -14,7 +14,7 @@ export const imageCache = new StaleWhileRevalidate({
 
 export const userImages: RouteMatchCallback = (match) => {
   return match.url.pathname.startsWith(
-    "https://storage.googleapis.com/corkheads-generated-media/"
+    "https://generated-media.corkheads.com/"
   );
 };
 
