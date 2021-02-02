@@ -3,7 +3,7 @@ import { admin } from "../admin";
 import { fitRect } from "./math";
 
 const userBucket = admin.storage().bucket("corkheads-user-public-media");
-const genBucket = admin.storage().bucket("corkheads-generated-media");
+const genBucket = admin.storage().bucket("generated-media.corkheads.com");
 
 type Size = {
   x: number;
@@ -55,8 +55,8 @@ function readMeta(file: ReturnType<typeof userBucket.file>) {
   });
 }
 
-function createURL(bucket: string, path: string) {
-  return `https://storage.googleapis.com/${bucket}/${path}`;
+function createURL(path: string) {
+  return `https://generated-media.corkheads.com/${path}`;
 }
 
 function createStreamProcessor(resolution: Size, format: Format) {
@@ -139,7 +139,7 @@ export async function processSource(sourceId: string, imageId: string) {
     });
 
     return {
-      url: createURL(derivate.file.bucket.name, derivate.file.name),
+      url: createURL(derivate.file.name),
       derivate,
     };
   });
