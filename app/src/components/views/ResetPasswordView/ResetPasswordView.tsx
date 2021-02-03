@@ -2,38 +2,34 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
+import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import ViewBody from "components/ui/layout/ViewBody";
 import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
+import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
 import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
 import { isEmailValid } from "lib/email";
-import NavigationBar from "components/ui/layout/NavigationBar";
-import BackButton from "components/ui/trigger/BackButton";
 
 const useStyles = makeStyles({
-  resetPasswordView: {
+  ResetPasswordView: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
     height: "100%",
     justifyContent: "center",
+    padding: "24px",
   },
-  content: {
+  form: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
-    width: 280,
-  },
-  logo: {
-    margin: 20,
+    width: "100%",
   },
   fields: {
     display: "grid",
-    gridGap: 20,
-    margin: "40px 0",
+    gridGap: 16,
+    margin: "24px 0",
     width: "100%",
   },
   completeMessage: {
@@ -66,15 +62,13 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   const canAttemptReset = isEmailValid(email);
 
   return (
-    <HeaderLayout>
-      <ViewCap>
-        <NavigationBar back={<BackButton onClick={routes.login} />} />
-      </ViewCap>
+    <FullScreenLayout>
       <ViewBody>
-        <div className={classes.resetPasswordView}>
-          <div className={classes.content}>
+        <div className={classes.ResetPasswordView}>
+          <form className={classes.form}>
             <div className={classes.fields}>
               <Input
+                symbol={<EmailIcon />}
                 type="email"
                 name="reset-password-email"
                 placeholder="Email"
@@ -98,10 +92,10 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
                 An email with instructions have been sent to <b>{email}</b>.
               </p>
             )}
-          </div>
+          </form>
         </div>
       </ViewBody>
-    </HeaderLayout>
+    </FullScreenLayout>
   );
 };
 

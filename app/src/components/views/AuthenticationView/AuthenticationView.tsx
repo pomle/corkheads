@@ -3,8 +3,16 @@ import LoginView from "components/views//LoginView";
 import OnboardView from "components/views/OnboardView";
 import { useSession } from "components/context/SessionContext";
 import Lock from "components/ui/transitions/Lock";
-import ViewStack from "components/ui/layout/ViewStack";
-import { SlideRight } from "components/ui/transitions/Slide";
+import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
+import PillSwitch, { PillSwitchItem } from "components/ui/trigger/PillSwitch";
+import HeaderLayout from "components/ui/layout/HeaderLayout";
+import SlidingWindow from "components/ui/transitions/SlidingWindow";
+import ViewHead from "components/ui/layout/ViewHead";
+import {
+  AccountState,
+  useDevicePreference,
+} from "components/hooks/store/useDevicePreferences";
+import ViewCap from "components/ui/layout/ViewCap";
 
 enum Section {
   Onboard,
@@ -14,8 +22,16 @@ enum Section {
 
 const AuthenticationView: React.FC = () => {
   const session = useSession();
+  const [accountState] = useDevicePreference("accountState");
 
-  const [section, setSection] = useState<Section>(Section.Onboard);
+  const initialSection = useMemo(() => {
+    if (accountState === AccountState.None) {
+      return Section.Onboard;
+    }
+    return Section.Login;
+  }, [accountState]);
+
+  const [section, setSection] = useState<Section>(initialSection);
 
   const routes = useMemo(() => {
     return {
@@ -29,19 +45,25 @@ const AuthenticationView: React.FC = () => {
 
   return (
     <Lock active={shouldPromptUser}>
-      <ViewStack>
-        <OnboardView routes={routes} />
-        <SlideRight active={section === Section.Login}>
-          <ViewStack>
-            <LoginView routes={routes} />
-            <SlideRight active={section === Section.Login}>
-              <ViewStack>
-                <LoginView routes={routes} />
-              </ViewStack>
-            </SlideRight>
-          </ViewStack>
-        </SlideRight>
-      </ViewStack>
+      <HeaderLayout>
+        <ViewCap>
+          <ViewHead>
+            <PillSwitch selected={section} onChange={setSection}>
+              <PillSwitchItem value={Section.Onboard}>Sign up</PillSwitchItem>
+              <PillSwitchItem value={Section.Login}>Log in</PillSwitchItem>
+              <PillSwitchItem value={Section.PasswordReset}>
+                Reset
+              </PillSwitchItem>
+            </PillSwitch>
+          </ViewHead>
+        </ViewCap>
+
+        <SlidingWindow activeIndex={section}>
+          <OnboardView routes={routes} />
+          <LoginView routes={routes} />
+          <ResetPasswordView routes={routes} />
+        </SlidingWindow>
+      </HeaderLayout>
     </Lock>
   );
 };
