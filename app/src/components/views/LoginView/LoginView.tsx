@@ -3,13 +3,9 @@ import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Logo } from "assets/graphics/corkheads-logo.svg";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { useSession } from "components/context/SessionContext";
-import ViewCap from "components/ui/layout/ViewCap";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
 import ViewBody from "components/ui/layout/ViewBody";
-import NavigationBar from "components/ui/layout/NavigationBar";
-import BackButton from "components/ui/trigger/BackButton";
 import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
@@ -17,6 +13,11 @@ import { ReactComponent as PasswordIcon } from "assets/graphics/icons/padlock.sv
 import * as Text from "./locales";
 import { isEmailValid } from "lib/email";
 import { Theme } from "components/ui/theme/themes";
+import FullScreenLayout from "components/ui/layout/FullScreenLayout";
+import {
+  AccountState,
+  useDevicePreference,
+} from "components/hooks/store/useDevicePreferences";
 
 const useStyles = makeStyles((theme: Theme) => ({
   LoginView: {
@@ -61,6 +62,7 @@ interface LoginViewProps {
 const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
   const session = useSession();
 
+  const [, setAccountState] = useDevicePreference("accountState");
   const [email, setEmail] = useSharedInput("user-login-email", "");
   const [password, setPassword] = useState<string>("");
 
@@ -68,10 +70,13 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
     useCallback(() => {
       return session.auth
         .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          setAccountState(AccountState.Created);
+        })
         .catch((error: Error) => {
           console.error(error);
         });
-    }, [session, email, password])
+    }, [session, email, password, setAccountState])
   );
 
   const classes = useStyles();
@@ -80,10 +85,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
     !handleLogin.busy && isEmailValid(email) && password.length > 0;
 
   return (
-    <HeaderLayout>
-      <ViewCap>
-        <NavigationBar back={<BackButton onClick={routes.signUp} />} />
-      </ViewCap>
+    <FullScreenLayout>
       <ViewBody>
         <div className={classes.LoginView}>
           <div className={classes.logo}>
@@ -125,13 +127,13 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
             <div className={classes.resetCallToAction}>
               Forgot your password?&nbsp;
               <button type="button" onClick={routes.reset}>
-                Reset it!
+                Reset it &raquo;
               </button>
             </div>
           </form>
         </div>
       </ViewBody>
-    </HeaderLayout>
+    </FullScreenLayout>
   );
 };
 

@@ -13,6 +13,10 @@ import { useSession } from "components/context/SessionContext";
 import { createRandomPassword } from "lib/random";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
 import { Theme } from "components/ui/theme/themes";
+import {
+  AccountState,
+  useDevicePreference,
+} from "components/hooks/store/useDevicePreferences";
 
 const useStyles = makeStyles((theme: Theme) => ({
   OnboardView: {
@@ -56,6 +60,7 @@ interface OnboardViewProps {
 const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
   const session = useSession();
 
+  const [, setAccountState] = useDevicePreference("accountState");
   const [email, setEmail] = useSharedInput("user-login-email", "");
 
   const handleSignUp = useAsyncCallback(
@@ -63,10 +68,13 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
       const password = createRandomPassword(32);
       return session.auth
         .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          setAccountState(AccountState.Created);
+        })
         .catch((error: Error) => {
           console.error(error);
         });
-    }, [session, email])
+    }, [session, email, setAccountState])
   );
 
   const canAttemptCreate = isEmailValid(email);
@@ -107,7 +115,7 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
             <div className={classes.loginCallToAction}>
               Already have an account?&nbsp;
               <button type="button" onClick={routes.login}>
-                Sign in!
+                Log in &raquo;
               </button>
             </div>
           </form>

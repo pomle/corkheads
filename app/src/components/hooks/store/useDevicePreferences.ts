@@ -3,15 +3,20 @@ import { Locale } from "lib/i18n/localization";
 import { Namespaces } from "lib/storage/namespaces";
 import { useStorage, unnest } from "./useStorage";
 
+export enum AccountState {
+  None,
+  Created,
+}
+
 type DevicePrefs = {
   locale: Locale;
-  email: string;
+  accountState: AccountState;
 };
 
 function createDefaults(): DevicePrefs {
   return {
     locale: Locale.enGB,
-    email: "",
+    accountState: AccountState.None,
   };
 }
 
