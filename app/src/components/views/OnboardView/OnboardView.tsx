@@ -1,25 +1,21 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Logo } from "assets/graphics/corkheads-logo.svg";
-import { useAsyncCallback } from "components/hooks/useAsyncCallback";
-import { useSession } from "components/context/SessionContext";
-import ViewCap from "components/ui/layout/ViewCap";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
+import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
 import ViewBody from "components/ui/layout/ViewBody";
-import NavigationBar from "components/ui/layout/NavigationBar";
-import BackButton from "components/ui/trigger/BackButton";
 import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
-import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
-import { ReactComponent as PasswordIcon } from "assets/graphics/icons/padlock.svg";
-import * as Text from "./locales";
 import { isEmailValid } from "lib/email";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
+import { useSession } from "components/context/SessionContext";
+import { createRandomPassword } from "lib/random";
+import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
 import { Theme } from "components/ui/theme/themes";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  LoginView: {
+  OnboardView: {
     alignItems: "center",
     display: "flex",
     flexFlow: "column",
@@ -42,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     margin: "24px 0",
     width: "100%",
   },
-  resetCallToAction: {
+  loginCallToAction: {
     fontSize: "16px",
     padding: "32px",
     "& button": {
@@ -51,41 +47,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-interface LoginViewProps {
+interface OnboardViewProps {
   routes: {
-    signUp: () => void;
-    reset: () => void;
+    login: () => void;
   };
 }
 
-const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
+const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
   const session = useSession();
 
   const [email, setEmail] = useSharedInput("user-login-email", "");
-  const [password, setPassword] = useState<string>("");
 
-  const handleLogin = useAsyncCallback(
+  const handleSignUp = useAsyncCallback(
     useCallback(() => {
+      const password = createRandomPassword(32);
       return session.auth
-        .signInWithEmailAndPassword(email, password)
+        .createUserWithEmailAndPassword(email, password)
         .catch((error: Error) => {
           console.error(error);
         });
-    }, [session, email, password])
+    }, [session, email])
   );
+
+  const canAttemptCreate = isEmailValid(email);
 
   const classes = useStyles();
 
-  const canAttemptLogin =
-    !handleLogin.busy && isEmailValid(email) && password.length > 0;
-
   return (
-    <HeaderLayout>
-      <ViewCap>
-        <NavigationBar back={<BackButton onClick={routes.signUp} />} />
-      </ViewCap>
+    <FullScreenLayout>
       <ViewBody>
-        <div className={classes.LoginView}>
+        <div className={classes.OnboardView}>
           <div className={classes.logo}>
             <Logo width="140" height="140" />
           </div>
@@ -102,37 +93,28 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
                 onChange={setEmail}
               />
 
-              <Input
-                symbol={<PasswordIcon />}
-                type="password"
-                name="login-password"
-                placeholder="Password"
-                autoComplete="login-password"
-                value={password}
-                onChange={setPassword}
-              />
-
               <ButtonSet>
                 <ActionButton
                   variant="action"
-                  onClick={handleLogin.callback}
-                  disabled={!canAttemptLogin}
+                  onClick={handleSignUp.callback}
+                  disabled={!canAttemptCreate}
                 >
-                  <Text.DoLogin />
+                  Create account
                 </ActionButton>
               </ButtonSet>
             </div>
-            <div className={classes.resetCallToAction}>
-              Forgot your password?&nbsp;
-              <button type="button" onClick={routes.reset}>
-                Reset it!
+
+            <div className={classes.loginCallToAction}>
+              Already have an account?&nbsp;
+              <button type="button" onClick={routes.login}>
+                Sign in!
               </button>
             </div>
           </form>
         </div>
       </ViewBody>
-    </HeaderLayout>
+    </FullScreenLayout>
   );
 };
 
-export default LoginView;
+export default OnboardView;

@@ -9,6 +9,9 @@ import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
 import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
+import { isEmailValid } from "lib/email";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import BackButton from "components/ui/trigger/BackButton";
 
 const useStyles = makeStyles({
   resetPasswordView: {
@@ -40,10 +43,12 @@ const useStyles = makeStyles({
 });
 
 interface ResetPasswordViewProps {
-  nav: React.ReactNode;
+  routes: {
+    login: () => void;
+  };
 }
 
-const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
+const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   const classes = useStyles();
 
   const auth = useAuth();
@@ -58,11 +63,13 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ nav }) => {
     });
   }, [email, auth, setWasSent]);
 
-  const canAttemptReset = email.length > 0;
+  const canAttemptReset = isEmailValid(email);
 
   return (
     <HeaderLayout>
-      <ViewCap>{nav}</ViewCap>
+      <ViewCap>
+        <NavigationBar back={<BackButton onClick={routes.login} />} />
+      </ViewCap>
       <ViewBody>
         <div className={classes.resetPasswordView}>
           <div className={classes.content}>
