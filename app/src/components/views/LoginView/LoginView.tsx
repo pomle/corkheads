@@ -18,6 +18,7 @@ import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg"
 import { ReactComponent as PasswordIcon } from "assets/graphics/icons/padlock.svg";
 import config from "config/app.config.js";
 import * as Text from "./locales";
+import { isEmailValid } from "lib/email";
 
 const version = config.version;
 
@@ -83,7 +84,7 @@ const LoginView: React.FC<LoginViewProps> = () => {
   const classes = useStyles();
 
   const canAttemptLogin =
-    !handleLogin.busy && email.length > 0 && password.length > 0;
+    !handleLogin.busy && isEmailValid(email) && password.length > 0;
 
   return (
     <ViewStack>
