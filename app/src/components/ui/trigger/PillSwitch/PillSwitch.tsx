@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { Colors } from "components/ui/theme/colors";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   PillSwitch: {
-    background: Colors.X2,
+    background: theme.color.panel,
     borderRadius: "8px",
     display: "flex",
     justifyContent: "space-around",
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   item: {
     alignItems: "center",
     display: "flex",
-    color: Colors.X1,
+    color: theme.color.text,
     flex: "1",
     fontSize: "14px",
     justifyContent: "center",
@@ -22,11 +22,11 @@ const useStyles = makeStyles({
     position: "relative",
     transition: "color 0.3s",
     "&.active": {
-      color: Colors.White,
+      color: theme.color.surface,
     },
   },
   indicator: {
-    background: Colors.Navy,
+    background: theme.color.action,
     boxSizing: "border-box",
     left: (props: StyleProps) =>
       `${(100 / props.itemCount) * props.selectedIndex}%`,
@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     transition: "left 0.3s",
     width: (props: StyleProps) => `${100 / props.itemCount}%`,
   },
-});
+}));
 
 interface StyleProps {
   selectedIndex: number;
