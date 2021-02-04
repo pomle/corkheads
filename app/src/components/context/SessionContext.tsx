@@ -16,9 +16,8 @@ type SessionContextValue = {
 const Context = createContext<SessionContextValue | null>(null);
 
 export const SessionContext: React.FC = ({ children }) => {
-  const firebase = useFirebase();
+  const { auth } = useFirebase();
 
-  const auth = useMemo(() => firebase.auth(), [firebase]);
   const [ready, setReady] = useState<boolean>(false);
   const [user, setUser] = useState<firebase.User>();
 
