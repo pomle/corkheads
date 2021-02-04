@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo } from "react";
 import * as firebase from "firebase/app";
+import "firebase/analytics";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
@@ -17,6 +18,7 @@ const app = createApp();
 
 function createFirebaseContext(app: firebase.app.App) {
   return {
+    analytics: app.analytics(),
     auth: app.auth(),
     firestore: app.firestore(),
     storage: app.storage(),
