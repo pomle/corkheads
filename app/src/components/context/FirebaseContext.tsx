@@ -1,11 +1,13 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import config from "config/firebase.config.json";
 
-export const Context = createContext<firebase.app.App | null>(null);
+export const Context = createContext<ReturnType<
+  typeof createFirebaseContext
+> | null>(null);
 
 function createApp() {
   return firebase.initializeApp(config);
@@ -13,8 +15,18 @@ function createApp() {
 
 const app = createApp();
 
+function createFirebaseContext(app: firebase.app.App) {
+  return {
+    auth: app.auth(),
+    firestore: app.firestore(),
+    storage: app.storage(),
+  };
+}
+
 export const FirebaseContext: React.FC = ({ children }) => {
-  return <Context.Provider value={app}>{children}</Context.Provider>;
+  const value = useMemo(() => createFirebaseContext(app), []);
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 export function useFirebase() {
