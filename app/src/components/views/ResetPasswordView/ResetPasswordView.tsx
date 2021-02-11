@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
-import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import ViewBody from "components/ui/layout/ViewBody";
 import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
@@ -10,6 +9,10 @@ import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg"
 import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
 import { isEmailValid } from "lib/email";
+import HeaderLayout from "components/ui/layout/HeaderLayout";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import BackButton from "components/ui/trigger/BackButton";
+import ViewCap from "components/ui/layout/ViewCap";
 
 const useStyles = makeStyles({
   ResetPasswordView: {
@@ -62,7 +65,10 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   const canAttemptReset = isEmailValid(email);
 
   return (
-    <FullScreenLayout>
+    <HeaderLayout>
+      <ViewCap>
+        <NavigationBar back={<BackButton onClick={routes.login} />} />
+      </ViewCap>
       <ViewBody>
         <div className={classes.ResetPasswordView}>
           <form className={classes.form}>
@@ -95,7 +101,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
           </form>
         </div>
       </ViewBody>
-    </FullScreenLayout>
+    </HeaderLayout>
   );
 };
 
