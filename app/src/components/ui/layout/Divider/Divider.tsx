@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) => {
           ${dividerColor}00
         )`,
       height: "1px",
+      width: "100%",
     },
   };
 });
