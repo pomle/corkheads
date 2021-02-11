@@ -13,11 +13,15 @@ import { ReactComponent as PasswordIcon } from "assets/graphics/icons/padlock.sv
 import * as Text from "./locales";
 import { isEmailValid } from "lib/email";
 import { Theme } from "components/ui/theme/themes";
-import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import {
   AccountState,
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
+import HeaderLayout from "components/ui/layout/HeaderLayout";
+import ViewCap from "components/ui/layout/ViewCap";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import BackButton from "components/ui/trigger/BackButton";
+import Divider from "components/ui/layout/Divider";
 
 const useStyles = makeStyles((theme: Theme) => ({
   LoginView: {
@@ -46,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   resetCallToAction: {
     fontSize: "16px",
     padding: "32px",
-    "& button": {
+    "& em": {
       color: theme.color.action,
     },
   },
@@ -85,7 +89,10 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
     !handleLogin.busy && isEmailValid(email) && password.length > 0;
 
   return (
-    <FullScreenLayout>
+    <HeaderLayout>
+      <ViewCap>
+        <NavigationBar back={<BackButton onClick={routes.signUp} />} />
+      </ViewCap>
       <ViewBody>
         <div className={classes.LoginView}>
           <div className={classes.logo}>
@@ -124,16 +131,16 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
                 </ActionButton>
               </ButtonSet>
             </div>
+            <Divider />
             <div className={classes.resetCallToAction}>
-              Forgot your password?&nbsp;
               <button type="button" onClick={routes.reset}>
-                Reset it &raquo;
+                Forgot password
               </button>
             </div>
           </form>
         </div>
       </ViewBody>
-    </FullScreenLayout>
+    </HeaderLayout>
   );
 };
 

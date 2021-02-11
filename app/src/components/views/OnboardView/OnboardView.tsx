@@ -17,6 +17,7 @@ import {
   AccountState,
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
+import Divider from "components/ui/layout/Divider";
 
 const useStyles = makeStyles((theme: Theme) => ({
   OnboardView: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   loginCallToAction: {
     fontSize: "16px",
     padding: "32px",
-    "& button": {
+    "& em": {
       color: theme.color.action,
     },
   },
@@ -112,10 +113,12 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
               </ButtonSet>
             </div>
 
+            <Divider />
+
             <div className={classes.loginCallToAction}>
               Already have an account?&nbsp;
               <button type="button" onClick={routes.login}>
-                Log in &raquo;
+                <em>Sign in</em>
               </button>
             </div>
           </form>
