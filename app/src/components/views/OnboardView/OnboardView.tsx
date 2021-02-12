@@ -18,6 +18,8 @@ import {
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
 import Divider from "components/ui/layout/Divider";
+import { usePopupDialog } from "components/context/PopupDialogContext";
+import ConfirmCreateAccountDialog from "./components/ConfirmCreateAccountDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
   OnboardView: {
@@ -60,6 +62,7 @@ interface OnboardViewProps {
 
 const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
   const session = useSession();
+  const popupDialog = usePopupDialog();
 
   const [, setAccountState] = useDevicePreference("accountState");
   const [email, setEmail] = useSharedInput("user-login-email", "");
@@ -77,6 +80,21 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
         });
     }, [session, email, setAccountState])
   );
+
+  const handleCreate = useCallback(() => {
+    const handleConfirm = () => {
+      popupDialog.clear();
+      handleSignUp.callback();
+    };
+
+    popupDialog.publish(
+      <ConfirmCreateAccountDialog
+        email={email}
+        onConfirm={handleConfirm}
+        onCancel={popupDialog.clear}
+      />
+    );
+  }, [email, handleSignUp, popupDialog]);
 
   const canAttemptCreate = isEmailValid(email);
 
@@ -104,7 +122,7 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
 
               <ButtonSet>
                 <ActionButton
-                  onClick={handleSignUp.callback}
+                  onClick={handleCreate}
                   disabled={!canAttemptCreate}
                 >
                   Create account

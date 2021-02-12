@@ -8,16 +8,20 @@ const useStyles = makeStyles({
   ConfirmCreateAccountDialog: {
     fontSize: "16px",
     fontWeight: 500,
+    lineHeight: 1.6,
     padding: "24px",
+    textAlign: "center",
   },
 });
 
 interface ConfirmCreateAccountDialogProps {
+  email: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
 const ConfirmCreateAccountDialog: React.FC<ConfirmCreateAccountDialogProps> = ({
+  email,
   onConfirm,
   onCancel,
 }) => {
@@ -26,7 +30,10 @@ const ConfirmCreateAccountDialog: React.FC<ConfirmCreateAccountDialogProps> = ({
   return (
     <PopupDialog>
       <div className={classes.ConfirmCreateAccountDialog}>
-        You will now create an account with email bla@hej.com
+        You will now create an account with email <br />
+        <b>{email}</b>
+        <br />
+        Is this correct?
       </div>
       <PopupDialogButtonSet>
         <ActionButton variant="primary" onClick={onConfirm}>
