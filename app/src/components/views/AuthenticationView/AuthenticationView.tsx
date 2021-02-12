@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import LoginView from "components/views//LoginView";
 import OnboardView from "components/views/OnboardView";
 import { useSession } from "components/context/SessionContext";
@@ -17,18 +17,28 @@ enum Section {
   PasswordReset,
 }
 
+const SECTION_MAP: Record<AccountState, Section> = {
+  [AccountState.None]: Section.Onboard,
+  [AccountState.Created]: Section.Login,
+};
+
+function resolveSection(state: AccountState): Section {
+  return SECTION_MAP[state] || Section.Login;
+}
+
 const AuthenticationView: React.FC = () => {
   const session = useSession();
   const [accountState] = useDevicePreference("accountState");
 
-  const initialSection = useMemo(() => {
-    if (accountState === AccountState.None) {
-      return Section.Onboard;
-    }
-    return Section.Login;
-  }, [accountState]);
+  const initialSection = useMemo(() => resolveSection(accountState), [
+    accountState,
+  ]);
 
   const [section, setSection] = useState<Section>(initialSection);
+
+  useEffect(() => {
+    setSection(resolveSection(accountState));
+  }, [accountState]);
 
   const routes = useMemo(() => {
     return {
