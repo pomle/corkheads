@@ -106,7 +106,6 @@ const Image: React.FC<ImageProps> = ({
 
   const handleImage = useCallback(
     (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      console.log(event.currentTarget.src, event.currentTarget.complete);
       setReady(event.currentTarget.complete);
     },
     [setReady]
