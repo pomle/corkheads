@@ -49,7 +49,7 @@ const ContributionArticleItem: React.FC<ContributionArticleItemProps> = ({
     <ThemeProvider theme="sky">
       <CutoutImageItem
         imageId={article.imageId}
-        photoURL={ArticleImagePlaceholder}
+        placeholderURL={ArticleImagePlaceholder}
       >
         <div className={classes.ContributionArticleItem}>
           <div className="displayName">{displayName}</div>

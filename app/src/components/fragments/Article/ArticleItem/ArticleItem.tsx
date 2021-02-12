@@ -38,7 +38,7 @@ const ArticleItem: React.FC<ArticleItemProps> = ({
   return (
     <CutoutImageItem
       imageId={article.imageId}
-      photoURL={ArticleImagePlaceholder}
+      placeholderURL={ArticleImagePlaceholder}
     >
       <div className={classes.ArticleItem}>
         <div className="displayName">{displayName}</div>

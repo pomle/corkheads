@@ -35,12 +35,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface ImageItemProps {
   imageId?: string;
   imageURL?: string;
+  placeholderURL?: string;
   size?: number;
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({
   imageId,
   imageURL,
+  placeholderURL,
   size = 64,
   children,
 }) => {
@@ -51,7 +53,7 @@ const ImageItem: React.FC<ImageItemProps> = ({
   return (
     <div className={classes.ImageItem}>
       <div className={classes.photo}>
-        <Image image={image} size="20vw" />
+        <Image image={image} placeholder={placeholderURL} size="20vw" />
       </div>
       {children}
     </div>

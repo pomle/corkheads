@@ -40,7 +40,7 @@ const SearchArticleItem: React.FC<SearchArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
+    <ImageItem imageId={imageId} placeholderURL={ArticleImagePlaceholder}>
       <div className={classes.SearchArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">

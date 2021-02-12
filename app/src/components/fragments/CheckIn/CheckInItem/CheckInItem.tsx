@@ -117,7 +117,11 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
   const classes = useStyles();
 
   return (
-    <ImageItem imageId={imageId} size={96}>
+    <ImageItem
+      imageId={imageId}
+      placeholderURL={ArticleImagePlaceholder}
+      size={96}
+    >
       <div className={classes.CheckInItem}>
         <div className="meta">
           <div className="user">

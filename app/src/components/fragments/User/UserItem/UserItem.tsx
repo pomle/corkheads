@@ -35,7 +35,10 @@ const UserItem: React.FC<UserItemProps> = ({ pointer: { userId } }) => {
   const classes = useStyles();
 
   return (
-    <RoundedImageItem imageId={profile?.imageId} photoURL={AvatarPlaceholder}>
+    <RoundedImageItem
+      imageId={profile?.imageId}
+      placeholderURL={AvatarPlaceholder}
+    >
       <div className={classes.UserItem}>
         <div className="displayName">
           <UserDisplayName user={user} />
