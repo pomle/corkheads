@@ -20,18 +20,18 @@ const useStyles = makeStyles({
     opacity,
     height: "100%",
     pointerEvents: (props) => (props.active ? "all" : "none"),
-    transition: "opacity 0.3s ease",
+    transition: "opacity 0.15s ease",
   },
   parentContent: {
     filter: (props) => (props.active ? "blur(8px)" : "none"),
     height: "100%",
-    transition: "filter 0.5s",
+    transition: "filter 0.3s ease",
   },
   content: {
     margin: "auto",
     transform: (props) =>
-      props.active ? "translate(0, 0)" : "translate(0, 100%)",
-    transition: "transform 0.5s ease",
+      props.active ? "none" : "scale(0.8) translate(0, 100%)",
+    transition: "transform 0.3s ease",
     width: "calc(100% - 48px)",
   },
 });
