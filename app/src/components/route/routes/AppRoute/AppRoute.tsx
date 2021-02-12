@@ -4,6 +4,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import Slide, { SlideDirection } from "components/ui/transitions/Slide";
 import AuthenticationView from "components/views/AuthenticationView";
 import ContextMenuView from "components/views/ContextMenuView/ContextMenuView";
+import PopupDialogView from "components/views/PopupDialogView";
 import RootRoutes from "components/route/routes/RootRoutes";
 import { useFirebase } from "components/context/FirebaseContext";
 import { useMe } from "components/hooks/useMe";
@@ -32,11 +33,16 @@ const AppRoute: React.FC = () => {
 
   return (
     <ViewStack>
-      <RootRoutes />
-      <Slide direction={SlideDirection.Down} active={!user}>
-        <AuthenticationView />
-      </Slide>
-      <ContextMenuView />
+      <PopupDialogView>
+        <ViewStack>
+          <RootRoutes />
+
+          <Slide direction={SlideDirection.Down} active={!user}>
+            <AuthenticationView />
+          </Slide>
+        </ViewStack>
+        <ContextMenuView />
+      </PopupDialogView>
     </ViewStack>
   );
 };
