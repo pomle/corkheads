@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     height: "100%",
     width: "100%",
+    "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
   },
   photo: {
     background: theme.color.panel,
