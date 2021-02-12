@@ -30,6 +30,13 @@ const useStyles = makeStyles({
     borderBottom: "dashed 1px #dde4ef",
     padding: "8px",
   },
+  icons: {
+    alignItems: "center",
+    display: "grid",
+    gridGap: "16px",
+    gridTemplateColumns: "repeat(2, 24px)",
+    justifyContent: "center",
+  },
 });
 
 enum ProfileSection {
@@ -79,15 +86,15 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
       <HeaderLayout>
         <ViewCap>
           <NavigationBar
-            back={
-              <NavIcon onClick={routes.notifications}>
-                <NotificationIcon count={unseenNotificationCount || 0} />
-              </NavIcon>
-            }
             forward={
-              <NavIcon onClick={routes.settings}>
-                <CogIcon />
-              </NavIcon>
+              <div className={classes.icons}>
+                <NavIcon onClick={routes.notifications}>
+                  <NotificationIcon count={unseenNotificationCount || 0} />
+                </NavIcon>
+                <NavIcon onClick={routes.settings}>
+                  <CogIcon />
+                </NavIcon>
+              </div>
             }
           />
 

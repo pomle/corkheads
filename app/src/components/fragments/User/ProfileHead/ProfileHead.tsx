@@ -22,10 +22,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   ProfileHead: {
     alignItems: "center",
     display: "grid",
-    gridAutoFlow: "row",
+    gridTemplateColumns: "auto 1fr",
     gridGap: "16px",
-    justifyContent: "center",
-    marginTop: "-28px",
+    marginTop: "-16px",
+    padding: "8px",
     "& > .avatar": {
       margin: "auto",
     },
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderWidth: (props: StyleProps) => (props.hasPhoto ? 0 : "1px"),
     borderRadius: "50%",
     overflow: "hidden",
-    height: "120px",
+    height: "104px",
     transition: "all 1s ease",
-    width: "120px",
+    width: "104px",
     "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
     "& .placeholder": {
       alignItems: "center",
@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridGap: "4px",
     fontSize: "15px",
     lineHeight: 1,
-    textAlign: "center",
     "& .username": {
       color: Colors.MarbleBlue,
       fontSize: "14px",
