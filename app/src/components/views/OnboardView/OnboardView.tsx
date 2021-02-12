@@ -12,6 +12,7 @@ import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { useSession } from "components/context/SessionContext";
 import { createRandomPassword } from "lib/random";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
+import OKDialog from "components/ui/layout/OKDialog";
 import { Theme } from "components/ui/theme/themes";
 import {
   AccountState,
@@ -54,6 +55,21 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+function useMessageDialog() {
+  const { publish, clear } = usePopupDialog();
+
+  const publishMessage = useCallback(
+    (content: React.ReactNode) => {
+      publish(<OKDialog onConfirm={clear}>{content}</OKDialog>);
+    },
+    [publish, clear]
+  );
+
+  return {
+    publishMessage,
+  };
+}
+
 interface OnboardViewProps {
   routes: {
     login: () => void;
@@ -63,6 +79,8 @@ interface OnboardViewProps {
 const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
   const session = useSession();
   const popupDialog = usePopupDialog();
+
+  const { publishMessage } = useMessageDialog();
 
   const [, setAccountState] = useDevicePreference("accountState");
   const [email, setEmail] = useSharedInput("user-login-email", "");
@@ -74,9 +92,16 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
           setAccountState(AccountState.Created);
+          publishMessage(
+            <>
+              Your account was successfully created!
+              <br />
+              Welcome <b>{email}</b>!
+            </>
+          );
         })
         .catch((error: Error) => {
-          console.error(error);
+          publishMessage(error.message);
         });
     }, [session, email, setAccountState])
   );
