@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Image as ImageType } from "types/Image";
 
@@ -16,6 +16,7 @@ type Fit = "cover" | "contain";
 
 type StyleProps = {
   fit: Fit;
+  ready: boolean;
 };
 
 const useStyles = makeStyles({
@@ -26,8 +27,10 @@ const useStyles = makeStyles({
     "& img": {
       height: "100%",
       objectFit: (props: StyleProps) => props.fit,
+      opacity: (props: StyleProps) => (props.ready ? 1 : 0),
       position: "absolute",
       top: 0,
+      transition: "opacity 0.6s ease",
       width: "100%",
     },
   },
@@ -84,10 +87,20 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     return FALLBACK_URL;
   }, [image, formats]);
 
-  const classes = useStyles({ fit });
+  const [ready, setReady] = useState<boolean>(false);
+
+  const handleImage = useCallback(
+    (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      console.log(event.currentTarget.src, event.currentTarget.complete);
+      setReady(event.currentTarget.complete);
+    },
+    [setReady]
+  );
+
+  const classes = useStyles({ fit, ready });
 
   return (
-    <div className={`Image ${classes.Image}`}>
+    <div key={src} className={`Image ${classes.Image}`}>
       <picture>
         {formats &&
           mimeTypes.map((mime) => {
@@ -100,7 +113,16 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
 
             return <source key={mime} type={mime} srcSet={srcSet} />;
           })}
-        {src && <img src={src} sizes={size} alt="" />}
+        {src && (
+          <img
+            src={src}
+            sizes={size}
+            alt=""
+            loading="lazy"
+            onLoad={handleImage}
+            onLoadStart={handleImage}
+          />
+        )}
       </picture>
     </div>
   );
