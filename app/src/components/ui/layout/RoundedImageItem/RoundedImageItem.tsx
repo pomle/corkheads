@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     overflow: "hidden",
     height: "80px",
     width: "80px",
+    "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
   },
   content: {},
 }));

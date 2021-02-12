@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: "120px",
     transition: "all 1s ease",
     width: "120px",
+    "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
     "& .placeholder": {
       alignItems: "center",
       background: theme.color.surface,

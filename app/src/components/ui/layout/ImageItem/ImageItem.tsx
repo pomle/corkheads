@@ -24,7 +24,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: "8px",
     overflow: "hidden",
     height: "64px",
+    transform: "scale(1)",
     width: "64px",
+    "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
     "@media (min-width: 360px)": {
       height: size,
       width: size,

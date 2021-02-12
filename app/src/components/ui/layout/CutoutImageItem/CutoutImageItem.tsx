@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateColumns: "80px auto",
     minHeight: "80px",
     overflow: "hidden",
+    "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
   },
   photo: {
     backgroundColor: theme.color.panel,
