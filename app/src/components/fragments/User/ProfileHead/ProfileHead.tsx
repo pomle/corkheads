@@ -80,7 +80,7 @@ function resolveDisplayName(user: User, sessionUser?: firebase.User) {
     }
   }
 
-  if (sessionUser) {
+  if (user.id === sessionUser?.uid) {
     return sessionUser.email;
   }
 
