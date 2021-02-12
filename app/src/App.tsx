@@ -6,6 +6,7 @@ import { InternationalizationContext } from "components/context/Internationaliza
 import { FirebaseContext } from "components/context/FirebaseContext";
 import { FirebaseStoreContext } from "components/context/FirebaseStore";
 import { ObjectStoreContext } from "components/context/ObjectStoreContext";
+import { PopupDialogContext } from "components/context/PopupDialogContext";
 import { SessionContext } from "components/context/SessionContext";
 import * as Sentry from "@sentry/react";
 
@@ -17,6 +18,7 @@ const contexts = [
   ContextMenuContext,
   SharedStateContext,
   InternationalizationContext,
+  PopupDialogContext,
   Router,
 ].reverse();
 
