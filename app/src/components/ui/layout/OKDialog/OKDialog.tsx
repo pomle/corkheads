@@ -6,8 +6,10 @@ import ActionButton from "components/ui/trigger/ActionButton";
 
 const useStyles = makeStyles({
   OKDialog: {
+    display: "grid",
     fontSize: "16px",
     fontWeight: 500,
+    gridGap: "1em",
     padding: "24px",
     textAlign: "center",
   },

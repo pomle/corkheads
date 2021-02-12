@@ -79,9 +79,10 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
           setAccountState(AccountState.Created);
           publishMessage(
             <>
-              Your account was successfully created!
-              <br />
-              Welcome <b>{email}</b>!
+              <p>Your account was successfully created!</p>
+              <p>
+                Welcome <b>{email}</b>!
+              </p>
             </>
           );
         })
