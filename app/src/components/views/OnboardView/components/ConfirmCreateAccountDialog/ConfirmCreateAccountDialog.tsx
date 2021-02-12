@@ -8,9 +8,11 @@ const useStyles = makeStyles({
   ConfirmCreateAccountDialog: {
     fontSize: "16px",
     fontWeight: 500,
-    lineHeight: 1.6,
     padding: "24px",
     textAlign: "center",
+    "& > .email": {
+      margin: "0.8em 0",
+    },
   },
 });
 
@@ -30,14 +32,15 @@ const ConfirmCreateAccountDialog: React.FC<ConfirmCreateAccountDialogProps> = ({
   return (
     <PopupDialog>
       <div className={classes.ConfirmCreateAccountDialog}>
-        You will now create an account with email <br />
-        <b>{email}</b>
-        <br />
+        You will now create an account with email
+        <div className="email">
+          <b>{email}</b>
+        </div>
         Is this correct?
       </div>
       <PopupDialogButtonSet>
         <ActionButton variant="primary" onClick={onConfirm}>
-          Yes, create
+          Yes, create!
         </ActionButton>
         <ActionButton variant="secondary" onClick={onCancel}>
           Cancel
