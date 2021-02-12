@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/styles";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
 import ViewBody from "components/ui/layout/ViewBody";
-import { useAutoClearState } from "components/hooks/useAutoClearState";
 import { useAuth } from "components/hooks/useAuth";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
 import ActionButton from "components/ui/trigger/ActionButton";
@@ -13,6 +12,8 @@ import HeaderLayout from "components/ui/layout/HeaderLayout";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import ViewCap from "components/ui/layout/ViewCap";
+import { useMessageDialog } from "components/hooks/useMessageDialog";
+import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 
 const useStyles = makeStyles({
   ResetPasswordView: {
@@ -50,17 +51,28 @@ interface ResetPasswordViewProps {
 const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   const auth = useAuth();
 
-  const [wasSent, setWasSent] = useAutoClearState<boolean>(5000, false);
+  const { publishMessage } = useMessageDialog();
 
   const [email, setEmail] = useSharedInput("user-login-email", "");
 
-  const handleReset = useCallback(() => {
-    auth.sendPasswordResetEmail(email).finally(() => {
-      setWasSent(true);
-    });
-  }, [email, auth, setWasSent]);
+  const handleReset = useAsyncCallback(
+    useCallback(() => {
+      return auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          publishMessage(
+            <>
+              An email with instructions have been sent to <b>{email}</b>.
+            </>
+          );
+        })
+        .catch((error) => {
+          publishMessage(error.message);
+        });
+    }, [email, auth, useMessageDialog])
+  );
 
-  const canAttemptReset = isEmailValid(email);
+  const canAttemptReset = isEmailValid(email) && !handleReset.busy;
 
   const classes = useStyles();
 
@@ -83,17 +95,14 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
               />
 
               <ButtonSet>
-                <ActionButton onClick={handleReset} disabled={!canAttemptReset}>
+                <ActionButton
+                  onClick={handleReset.callback}
+                  disabled={!canAttemptReset}
+                >
                   Send Instructions
                 </ActionButton>
               </ButtonSet>
             </div>
-
-            {wasSent && (
-              <p className={classes.completeMessage}>
-                An email with instructions have been sent to <b>{email}</b>.
-              </p>
-            )}
           </form>
         </div>
       </ViewBody>
