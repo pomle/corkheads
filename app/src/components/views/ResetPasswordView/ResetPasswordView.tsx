@@ -48,8 +48,6 @@ interface ResetPasswordViewProps {
 }
 
 const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
-  const classes = useStyles();
-
   const auth = useAuth();
 
   const [wasSent, setWasSent] = useAutoClearState<boolean>(5000, false);
@@ -63,6 +61,8 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   }, [email, auth, setWasSent]);
 
   const canAttemptReset = isEmailValid(email);
+
+  const classes = useStyles();
 
   return (
     <HeaderLayout>
