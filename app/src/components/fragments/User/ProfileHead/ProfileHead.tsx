@@ -84,7 +84,7 @@ function resolveDisplayName(user: User, sessionUser?: firebase.User) {
     return sessionUser.email;
   }
 
-  return "Anonymous";
+  return "• • •";
 }
 
 interface ProfileHeadProps {
