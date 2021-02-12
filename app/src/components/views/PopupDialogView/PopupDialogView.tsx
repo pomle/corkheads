@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     pointerEvents: (props) => (props.active ? "all" : "none"),
     transition: "opacity 0.15s ease",
   },
-  parentContent: {
+  context: {
     filter: (props) => (props.active ? "brightness(0.8) blur(8px)" : "none"),
     height: "100%",
     transition: "filter 0.3s ease",
@@ -48,7 +48,7 @@ const PopupDialogView: React.FC = ({ children }) => {
 
   return (
     <>
-      <div className={classes.parentContent}>{children}</div>
+      <div className={classes.context}>{children}</div>
       <div className={classes.PopupDialogView}>
         <ThemeProvider theme="pure">
           <div className={classes.content}>{contentMemo.current}</div>
