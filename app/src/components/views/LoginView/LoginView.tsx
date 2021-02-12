@@ -83,7 +83,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
         .catch((error: Error) => {
           publishMessage(error.message);
         });
-    }, [session, email, password, setAccountState])
+    }, [session, email, password, setAccountState, publishMessage])
   );
 
   const classes = useStyles();

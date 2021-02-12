@@ -69,7 +69,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
         .catch((error) => {
           publishMessage(error.message);
         });
-    }, [email, auth, useMessageDialog])
+    }, [email, auth, publishMessage])
   );
 
   const canAttemptReset = isEmailValid(email) && !handleReset.busy;

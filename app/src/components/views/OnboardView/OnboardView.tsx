@@ -88,7 +88,7 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
         .catch((error: Error) => {
           publishMessage(error.message);
         });
-    }, [session, email, setAccountState])
+    }, [session, email, setAccountState, publishMessage])
   );
 
   const handleCreate = useCallback(() => {
