@@ -60,7 +60,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   articleId,
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
-  const image = useImage(article.imageId)?.data || ArticleImagePlaceholder;
+  const image = useImage(article.imageId)?.data;
 
   const { displayName } = article;
 
@@ -75,7 +75,11 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
         </ViewCap>
         <ViewBody>
           <AreaButton onClick={routes.picture} className={classes.photo}>
-            <Image image={image} size="100vw" />
+            <Image
+              image={image}
+              placeholder={ArticleImagePlaceholder}
+              size="100vw"
+            />
           </AreaButton>
 
           <div className={classes.actionBox}>

@@ -25,12 +25,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface RoundedImageItemProps {
   imageId?: string;
   photoURL?: string;
+  placeholderURL?: string;
 }
 
 const RoundedImageItem: React.FC<RoundedImageItemProps> = ({
   children,
   imageId,
   photoURL,
+  placeholderURL,
 }) => {
   const image = useImage(imageId)?.data || photoURL;
 
@@ -39,7 +41,7 @@ const RoundedImageItem: React.FC<RoundedImageItemProps> = ({
   return (
     <div className={classes.RoundedImageItem}>
       <div className={classes.photo}>
-        <Image image={image} size="20vw" />
+        <Image image={image} placeholder={placeholderURL} size="20vw" />
       </div>
       <div className={classes.content}>{children}</div>
     </div>

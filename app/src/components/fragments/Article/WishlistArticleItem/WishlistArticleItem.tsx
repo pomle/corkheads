@@ -47,7 +47,7 @@ const WishlistArticleItem: React.FC<WishlistArticleItemProps> = ({
   return (
     <CutoutImageItem
       imageId={article.imageId}
-      photoURL={ArticleImagePlaceholder}
+      placeholderURL={ArticleImagePlaceholder}
     >
       <div className={classes.WishlistArticleItem}>
         <div className="displayName">{displayName}</div>

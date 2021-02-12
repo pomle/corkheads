@@ -46,7 +46,7 @@ const CollectionArticleItem: React.FC<CollectionArticleItemProps> = ({
   const classes = useStyles();
 
   return (
-    <CollectionItem imageId={imageId} imageURL={ArticleImagePlaceholder}>
+    <CollectionItem imageId={imageId} placeholderURL={ArticleImagePlaceholder}>
       <div className={classes.CollectionArticleItem}>
         <div className="displayName">{displayName}</div>
         {article.bottling && (

@@ -26,11 +26,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface CollectionItemProps {
   imageId?: string;
   imageURL?: string;
+  placeholderURL?: string;
 }
 
 const CollectionItem: React.FC<CollectionItemProps> = ({
   imageId,
   imageURL,
+  placeholderURL,
   children,
 }) => {
   const image = useImage(imageId)?.data || imageURL;
@@ -40,7 +42,7 @@ const CollectionItem: React.FC<CollectionItemProps> = ({
   return (
     <div className={classes.CollectionItem}>
       <div className={classes.photo}>
-        <Image image={image} size="50vw" />
+        <Image image={image} placeholder={placeholderURL} size="50vw" />
       </div>
       {children}
     </div>

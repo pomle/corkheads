@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { Image as ImageType } from "types/Image";
 
@@ -15,19 +15,31 @@ const sort = {
 type Fit = "cover" | "contain";
 
 type StyleProps = {
+  placeholder?: string;
   fit: Fit;
+  ready: boolean;
 };
 
 const useStyles = makeStyles({
   Image: {
+    backgroundImage: (props: StyleProps) => {
+      if (props.placeholder) {
+        return `url(${props.placeholder})`;
+      }
+      return "none";
+    },
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     height: "100%",
     position: "relative",
     width: "100%",
     "& img": {
       height: "100%",
       objectFit: (props: StyleProps) => props.fit,
+      opacity: (props: StyleProps) => (props.ready ? 1 : 0),
       position: "absolute",
       top: 0,
+      transition: "opacity 0.3s ease",
       width: "100%",
     },
   },
@@ -35,11 +47,17 @@ const useStyles = makeStyles({
 
 interface ImageProps {
   image?: ImageType | string;
+  placeholder?: string;
   fit?: Fit;
   size?: string;
 }
 
-const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
+const Image: React.FC<ImageProps> = ({
+  image,
+  placeholder,
+  fit = "cover",
+  size,
+}) => {
   const formats = useMemo(() => {
     if (typeof image === "object") {
       return Array.from(image.formats).sort(sort.byResolution);
@@ -84,7 +102,16 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
     return FALLBACK_URL;
   }, [image, formats]);
 
-  const classes = useStyles({ fit });
+  const [ready, setReady] = useState<boolean>(false);
+
+  const handleImage = useCallback(
+    (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      setReady(event.currentTarget.complete);
+    },
+    [setReady]
+  );
+
+  const classes = useStyles({ fit, ready, placeholder });
 
   return (
     <div className={`Image ${classes.Image}`}>
@@ -100,7 +127,17 @@ const Image: React.FC<ImageProps> = ({ image, fit = "cover", size }) => {
 
             return <source key={mime} type={mime} srcSet={srcSet} />;
           })}
-        {src && <img src={src} sizes={size} alt="" />}
+        {src && (
+          <img
+            key={src}
+            src={src}
+            sizes={size}
+            alt=""
+            loading="lazy"
+            onLoad={handleImage}
+            onLoadStart={handleImage}
+          />
+        )}
       </picture>
     </div>
   );

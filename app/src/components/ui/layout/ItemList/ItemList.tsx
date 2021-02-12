@@ -32,8 +32,12 @@ const ItemList: React.FC<ItemListProps> = ({ children, divided = false }) => {
     return (
       <div className={classes.ItemList}>
         <DividedList>
-          {items.map((child) => {
-            return <div className={classes.Item}>{child}</div>;
+          {items.map((child, index) => {
+            return (
+              <div key={index} className={classes.Item}>
+                {child}
+              </div>
+            );
           })}
         </DividedList>
       </div>
@@ -42,8 +46,12 @@ const ItemList: React.FC<ItemListProps> = ({ children, divided = false }) => {
 
   return (
     <div className={classes.ItemList}>
-      {items.map((child) => {
-        return <div className={classes.Item}>{child}</div>;
+      {items.map((child, index) => {
+        return (
+          <div key={index} className={classes.Item}>
+            {child}
+          </div>
+        );
       })}
     </div>
   );
