@@ -9,7 +9,7 @@ const transform = ({ activeIndex, size }: SlidingWindowStyleProps) => {
 };
 
 const useStyles = makeStyles({
-  slidingWindow: {
+  SlidingWindow: {
     height: "100%",
     overflow: "hidden",
   },
@@ -41,7 +41,7 @@ const SlidingWindow: React.FC<SlidingWindowProps> = ({
 }) => {
   const classes = useStyles({ activeIndex, size: children.length });
   return (
-    <div className={classes.slidingWindow}>
+    <div className={classes.SlidingWindow}>
       <div className={classes.container}>{children}</div>
     </div>
   );
