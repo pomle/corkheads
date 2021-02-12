@@ -12,7 +12,7 @@ import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { useSession } from "components/context/SessionContext";
 import { createRandomPassword } from "lib/random";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
-import OKDialog from "components/ui/layout/OKDialog";
+import { useMessageDialog } from "components/hooks/useMessageDialog";
 import { Theme } from "components/ui/theme/themes";
 import {
   AccountState,
@@ -54,21 +54,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
-
-function useMessageDialog() {
-  const { publish, clear } = usePopupDialog();
-
-  const publishMessage = useCallback(
-    (content: React.ReactNode) => {
-      publish(<OKDialog onConfirm={clear}>{content}</OKDialog>);
-    },
-    [publish, clear]
-  );
-
-  return {
-    publishMessage,
-  };
-}
 
 interface OnboardViewProps {
   routes: {
