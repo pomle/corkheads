@@ -104,7 +104,6 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
 
               <ButtonSet>
                 <ActionButton
-                  variant="action"
                   onClick={handleSignUp.callback}
                   disabled={!canAttemptCreate}
                 >
