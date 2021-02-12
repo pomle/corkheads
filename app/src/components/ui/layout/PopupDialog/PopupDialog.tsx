@@ -5,6 +5,7 @@ const useStyles = makeStyles({
   PopupDialog: {
     background: "#fff",
     borderRadius: "8px",
+    boxShadow: "0 8px 16px #000a",
   },
 });
 
