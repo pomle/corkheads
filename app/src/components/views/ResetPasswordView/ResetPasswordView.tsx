@@ -83,11 +83,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
               />
 
               <ButtonSet>
-                <ActionButton
-                  variant="action"
-                  onClick={handleReset}
-                  disabled={!canAttemptReset}
-                >
+                <ActionButton onClick={handleReset} disabled={!canAttemptReset}>
                   Send Instructions
                 </ActionButton>
               </ButtonSet>

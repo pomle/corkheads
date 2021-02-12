@@ -123,7 +123,6 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
 
               <ButtonSet>
                 <ActionButton
-                  variant="action"
                   onClick={handleLogin.callback}
                   disabled={!canAttemptLogin}
                 >
