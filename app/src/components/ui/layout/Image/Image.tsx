@@ -39,7 +39,7 @@ const useStyles = makeStyles({
       opacity: (props: StyleProps) => (props.ready ? 1 : 0),
       position: "absolute",
       top: 0,
-      transition: "opacity 0.6s ease",
+      transition: "opacity 0.3s ease",
       width: "100%",
     },
   },
