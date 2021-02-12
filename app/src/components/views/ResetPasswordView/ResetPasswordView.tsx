@@ -61,9 +61,9 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
         .sendPasswordResetEmail(email)
         .then(() => {
           publishMessage(
-            <>
+            <p>
               An email with instructions have been sent to <b>{email}</b>.
-            </>
+            </p>
           );
         })
         .catch((error) => {
