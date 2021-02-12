@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     fontWeight: 500,
     padding: "24px",
     textAlign: "center",
+    wordBreak: "break-word",
     "& > .email": {
       margin: "0.8em 0",
     },
