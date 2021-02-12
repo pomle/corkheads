@@ -75,16 +75,16 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
       const password = createRandomPassword(32);
       return session.auth
         .createUserWithEmailAndPassword(email, password)
-        .then(() => {
+        .then((userCred) => {
           setAccountState(AccountState.Created);
           publishMessage(
             <>
               <p>Your account was successfully created!</p>
-              <p>
-                Welcome <b>{email}</b>!
-              </p>
+              <p>We will send you a welcome email.</p>
             </>
           );
+
+          return userCred.user?.sendEmailVerification();
         })
         .catch((error: Error) => {
           publishMessage(error.message);
