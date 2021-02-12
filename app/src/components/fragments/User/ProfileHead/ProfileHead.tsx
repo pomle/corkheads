@@ -12,6 +12,7 @@ import AvatarPlaceholder from "assets/graphics/avatar-placeholder.svg";
 import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
 import { useImage } from "components/hooks/db/useImages";
+import { useSession } from "components/context/SessionContext";
 
 type StyleProps = {
   hasPhoto: boolean;
@@ -70,12 +71,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-function resolveDisplayName(user: User) {
+function resolveDisplayName(user: User, sessionUser?: firebase.User) {
   if (user.profile) {
     const profile = user.profile;
     if (profile.displayName) {
       return profile.displayName;
     }
+  }
+
+  if (sessionUser) {
+    return sessionUser.email;
   }
 
   return "Anonymous";
@@ -87,6 +92,7 @@ interface ProfileHeadProps {
 
 const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
   const me = useMe();
+  const session = useSession();
 
   const isMe = me?.id === userId;
 
@@ -137,7 +143,7 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
       <div className={classes.identity}>
         <div className="displayName">
-          <h2>{resolveDisplayName(user)}</h2>
+          <h2>{resolveDisplayName(user, session.user)}</h2>
         </div>
         <div className="username">{user && <Username user={user} />}</div>
       </div>
