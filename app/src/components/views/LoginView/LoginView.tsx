@@ -136,7 +136,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
             <Divider />
             <div className={classes.resetCallToAction}>
               <button type="button" onClick={routes.reset}>
-                Forgot password
+                Reset password
               </button>
             </div>
           </form>
