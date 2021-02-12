@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     transition: "opacity 0.15s ease",
   },
   context: {
-    filter: (props) => (props.active ? "brightness(0.8) blur(8px)" : "none"),
+    filter: (props) => (props.active ? "brightness(0.5) blur(4px)" : "none"),
     height: "100%",
     transition: "filter 0.3s ease",
   },
