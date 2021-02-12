@@ -22,6 +22,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import Divider from "components/ui/layout/Divider";
+import { useMessageDialog } from "components/hooks/useMessageDialog";
 
 const useStyles = makeStyles((theme: Theme) => ({
   LoginView: {
@@ -66,6 +67,8 @@ interface LoginViewProps {
 const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
   const session = useSession();
 
+  const { publishMessage } = useMessageDialog();
+
   const [, setAccountState] = useDevicePreference("accountState");
   const [email, setEmail] = useSharedInput("user-login-email", "");
   const [password, setPassword] = useState<string>("");
@@ -78,7 +81,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
           setAccountState(AccountState.Created);
         })
         .catch((error: Error) => {
-          console.error(error);
+          publishMessage(error.message);
         });
     }, [session, email, password, setAccountState])
   );
