@@ -46,11 +46,43 @@ jobs:
         env:
           NODE_ENV: production
           REACT_APP_ENVIRONMENT: preview
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: FirebaseExtended/action-hosting-deploy@0e16177
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CORKHEADS }}"
           projectId: corkheads
+          target: corkheads-app
+          expires: 12h
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
+
+  test-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install
+        working-directory: ./web
+        run: yarn install
+
+      - name: Test
+        working-directory: ./web
+        run: yarn run test
+
+  build-web-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd web && make build
+        env:
+          NODE_ENV: production
+          REACT_APP_ENVIRONMENT: preview
+      - uses: FirebaseExtended/action-hosting-deploy@0e16177
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CORKHEADS }}"
+          projectId: corkheads
+          target: corkheads-web
           expires: 12h
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
