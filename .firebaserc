@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "corkheads"
+  },
+  "targets": {
+    "corkheads": {
+      "hosting": {
+        "corkheads-web": [
+          "corkheads-website"
+        ],
+        "corkheads-app": [
+          "corkheads"
+        ]
+      }
+    }
   }
 }
