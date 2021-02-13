@@ -38,7 +38,7 @@ jobs:
         working-directory: ./app
         run: npm run test
 
-  build-preview:
+  build-app-preview:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
