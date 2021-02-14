@@ -12,10 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd app && make build
+
+      - run: make build
+        working-directory: ./app
         env:
           NODE_ENV: production
           REACT_APP_ENVIRONMENT: production
+
       - uses: FirebaseExtended/action-hosting-deploy@0e16177d01e10c4560245404f959e75a9c633533
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
@@ -30,10 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd web && yarn build
+
+      - run: make build
+        working-directory: ./web
         env:
           NODE_ENV: production
           REACT_APP_ENVIRONMENT: production
+
       - uses: FirebaseExtended/action-hosting-deploy@0e16177d01e10c4560245404f959e75a9c633533
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
