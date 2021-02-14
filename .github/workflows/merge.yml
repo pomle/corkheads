@@ -16,7 +16,7 @@ jobs:
         env:
           NODE_ENV: production
           REACT_APP_ENVIRONMENT: production
-      - uses: FirebaseExtended/action-hosting-deploy@0e16177
+      - uses: FirebaseExtended/action-hosting-deploy@0e16177d01e10c4560245404f959e75a9c633533
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CORKHEADS }}"
@@ -34,7 +34,7 @@ jobs:
         env:
           NODE_ENV: production
           REACT_APP_ENVIRONMENT: production
-      - uses: FirebaseExtended/action-hosting-deploy@0e16177
+      - uses: FirebaseExtended/action-hosting-deploy@0e16177d01e10c4560245404f959e75a9c633533
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_CORKHEADS }}"
