@@ -26,7 +26,6 @@ jobs:
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
 
-jobs:
   deploy-web:
     runs-on: ubuntu-latest
     steps:
