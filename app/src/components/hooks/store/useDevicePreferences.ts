@@ -1,7 +1,7 @@
 import { useMemo } from "react";
+import { useLocalStorage, unnest } from "@pomle/use-local-storage";
 import { Locale } from "lib/i18n/localization";
 import { Namespaces } from "lib/storage/namespaces";
-import { useStorage, unnest } from "./useStorage";
 
 export enum AccountState {
   None,
@@ -22,7 +22,7 @@ function createDefaults(): DevicePrefs {
 
 export function useDevicePreferences() {
   const defaultPrefs = useMemo(createDefaults, []);
-  return useStorage<DevicePrefs>(Namespaces.DevicePrefs, defaultPrefs);
+  return useLocalStorage<DevicePrefs>(Namespaces.DevicePrefs, defaultPrefs);
 }
 
 export const useDevicePreference = unnest(useDevicePreferences);

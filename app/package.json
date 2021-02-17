@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
+    "@pomle/use-local-storage": "^0.1.0",
     "@sentry/react": "^5.27.6",
     "@sentry/tracing": "^5.27.6",
     "@testing-library/jest-dom": "^5.11.4",
