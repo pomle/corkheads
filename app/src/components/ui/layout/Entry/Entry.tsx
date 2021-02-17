@@ -26,11 +26,16 @@ const useStyles = makeStyles((theme: Theme) => ({
         border: "none",
         color: theme.color.action,
         textAlign: "right",
-        width: "100%",
         "&::placeholder": {
           color: theme.color.text + "60",
           fontWeight: 400,
         },
+      },
+      "& input": {
+        width: "100%",
+      },
+      "& select": {
+        direction: "rtl",
       },
     },
   },
