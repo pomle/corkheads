@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Namespaces } from "lib/storage/namespaces";
-import { useStorage, unnest } from "./useStorage";
+import { useLocalStorage, unnest } from "@pomle/use-local-storage";
 
 type UserPrefs = {};
 
@@ -19,7 +19,7 @@ export function useUserPreferences() {
     return [Namespaces.UserPrefs, "unknown"].join("/");
   }, []);
 
-  return useStorage<UserPrefs>(namespace, defaultPrefs);
+  return useLocalStorage<UserPrefs>(namespace, defaultPrefs);
 }
 
 export const useUserPreference = unnest(useUserPreferences);

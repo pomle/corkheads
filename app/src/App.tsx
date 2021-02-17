@@ -1,6 +1,6 @@
 import React from "react";
+import { SharedStateContext } from "@pomle/use-local-storage";
 import Router from "components/route/Router";
-import { SharedStateContext } from "components/context/SharedState";
 import { ContextMenuContext } from "components/context/ContextMenuContext";
 import { InternationalizationContext } from "components/context/InternationalizationContext";
 import { FirebaseContext } from "components/context/FirebaseContext";

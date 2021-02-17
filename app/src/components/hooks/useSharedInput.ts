@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSharedState } from "components/context/SharedState";
+import { useSharedState } from "@pomle/use-local-storage";
 
 export function useSharedInput(namespace: string, initial: string) {
   const key = useMemo(() => {
