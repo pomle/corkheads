@@ -110,7 +110,7 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
                 <TextItem>
                   Can't find the drink you're looking for?{" "}
                   <button type="button" onClick={routes.createArticle}>
-                    Add it!
+                    Create it!
                   </button>
                 </TextItem>
               )}

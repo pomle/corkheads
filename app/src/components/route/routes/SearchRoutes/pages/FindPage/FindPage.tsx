@@ -25,7 +25,7 @@ const FindPage: React.FC<FindPageProps> = ({ routes }) => {
       back={<CancelButton onClick={routes.cancel}>Close</CancelButton>}
       forward={
         <NavButton icon={<PlusIcon />} onClick={routes.createArticle}>
-          Add
+          Create
         </NavButton>
       }
     />
