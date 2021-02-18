@@ -27,6 +27,7 @@ const useStyles = makeStyles({
     transition: "filter 0.3s ease",
   },
   content: {
+    maxHeight: "calc(100% - 128px)",
     margin: "auto",
     transform: (props) =>
       props.active ? "none" : "scale(0.8) translate(0, 100%)",
