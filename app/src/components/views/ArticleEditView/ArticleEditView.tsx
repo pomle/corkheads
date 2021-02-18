@@ -170,7 +170,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
         <ThemeProvider theme="dusk">
           <ViewCap>
             {nav}
-            <ViewTitle title="Add drink" />
+            <ViewTitle title="Create Whisky" />
           </ViewCap>
         </ThemeProvider>
         <form className={classes.form}>
