@@ -23,6 +23,10 @@ import { useNotifications } from "components/hooks/db/useNotifications";
 import NotificationIcon from "./components/NotificationIcon";
 
 const useStyles = makeStyles({
+  nav: {
+    position: "absolute",
+    width: "100%",
+  },
   findFriendsButton: {
     padding: "16px",
   },
@@ -85,18 +89,20 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
     <ThemeProvider theme="dusk">
       <HeaderLayout>
         <ViewCap>
-          <NavigationBar
-            forward={
-              <div className={classes.icons}>
-                <NavIcon onClick={routes.notifications}>
-                  <NotificationIcon count={unseenNotificationCount || 0} />
-                </NavIcon>
-                <NavIcon onClick={routes.settings}>
-                  <CogIcon />
-                </NavIcon>
-              </div>
-            }
-          />
+          <div className={classes.nav}>
+            <NavigationBar
+              forward={
+                <div className={classes.icons}>
+                  <NavIcon onClick={routes.notifications}>
+                    <NotificationIcon count={unseenNotificationCount || 0} />
+                  </NavIcon>
+                  <NavIcon onClick={routes.settings}>
+                    <CogIcon />
+                  </NavIcon>
+                </div>
+              }
+            />
+          </div>
 
           <ViewHead>
             <ProfileHead userId={userId} />
