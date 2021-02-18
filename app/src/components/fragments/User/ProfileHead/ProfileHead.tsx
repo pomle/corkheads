@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "grid",
     gridTemplateColumns: "auto 1fr",
     gridGap: "16px",
-    marginTop: "-16px",
-    padding: "8px",
     "& > .avatar": {
       margin: "auto",
     },
@@ -35,9 +33,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderWidth: (props: StyleProps) => (props.hasPhoto ? 0 : "1px"),
     borderRadius: "50%",
     overflow: "hidden",
-    height: "104px",
+    height: "96px",
     transition: "all 1s ease",
-    width: "104px",
+    width: "96px",
     "-webkit-mask-image": "-webkit-radial-gradient(white, black)",
     "& .placeholder": {
       alignItems: "center",
