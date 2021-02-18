@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRadius: "8px",
     boxShadow: "0 8px 24px -4px #0006",
     color: theme.color.text,
+    display: "flex",
+    flexFlow: "column",
+    maxHeight: "100%",
   },
 }));
 
