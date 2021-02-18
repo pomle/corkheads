@@ -16,8 +16,9 @@ import Input from "components/ui/input/Input/Input";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { debounce } from "lib/debounce";
 import { getEffectiveBottling } from "lib/patch";
-import PreviewArticleItem from "./components/PreviewArticleItem/PreviewArticleItem";
 import { getPreviewScore } from "./score";
+import { usePopupDialog } from "components/context/PopupDialogContext";
+import ConfirmCreateArticleDialog from "./components/ConfirmCreateArticleDialog";
 
 type StyleProps = {
   busy: boolean;
@@ -46,9 +47,6 @@ const useStyles = makeStyles({
       borderRadius: "4px",
       overflow: "hidden",
     },
-  },
-  preview: {
-    padding: "16px",
   },
 });
 
@@ -80,6 +78,8 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
   userId,
   routes,
 }) => {
+  const popupDialog = usePopupDialog();
+
   const [photoURL, setPhotoURL] = useState<string>();
   const [file, setFile] = useState<File>();
 
@@ -160,6 +160,21 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     };
   }, [article, photoURL]);
 
+  const handleConfirm = useCallback(() => {
+    const handleConfirm = () => {
+      popupDialog.clear();
+      handleSave.callback();
+    };
+
+    popupDialog.publish(
+      <ConfirmCreateArticleDialog
+        article={previewArticle}
+        onConfirm={handleConfirm}
+        onCancel={popupDialog.clear}
+      />
+    );
+  }, [popupDialog, handleSave, previewArticle]);
+
   const canSave = isArticleValid(article) && !handleSave.busy;
 
   const classes = useStyles({ busy: handleSave.busy });
@@ -196,16 +211,13 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
         </form>
       </ViewBody>
       <ViewCap>
-        <div className={classes.preview}>
-          <PreviewArticleItem article={previewArticle} />
-        </div>
         <ButtonField>
           <MainButton
             disabled={!canSave}
             busy={handleSave.busy}
-            onClick={handleSave.callback}
+            onClick={handleConfirm}
           >
-            Add now
+            Create now
           </MainButton>
         </ButtonField>
       </ViewCap>
