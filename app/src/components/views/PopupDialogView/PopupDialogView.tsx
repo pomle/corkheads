@@ -38,7 +38,8 @@ const useStyles = makeStyles({
     filter: (props) => (props.active ? "brightness(0.5) blur(4px)" : "none"),
     height: "100%",
     position: "absolute",
-    transition: "filter 0.3s ease",
+    transform: (props) => (props.active ? "scale(1.05)" : "none"),
+    transition: "filter 0.25s ease, transform 0.25s ease",
   },
   content: {
     maxHeight: "calc(100% - 128px)",
