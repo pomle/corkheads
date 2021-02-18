@@ -84,7 +84,7 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
               <Input
                 symbol={<SearchIcon />}
                 type="search"
-                placeholder="ex. article or user"
+                placeholder="ex. whisky or people"
                 value={query}
                 onChange={setQuery}
               />
