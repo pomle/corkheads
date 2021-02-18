@@ -1,6 +1,7 @@
 import React from "react";
 import makeStyles from "@material-ui/styles/makeStyles";
 import PopupDialog from "components/ui/layout/PopupDialog";
+import PopupDialogBody from "components/ui/layout/PopupDialog/components/PopupDialogBody";
 import PopupDialogButtonSet from "components/ui/layout/PopupDialog/components/PopupDialogButtonSet";
 import ActionButton from "components/ui/trigger/ActionButton";
 
@@ -10,7 +11,6 @@ const useStyles = makeStyles({
     fontSize: "16px",
     fontWeight: 500,
     gridGap: "1em",
-    padding: "24px",
     textAlign: "center",
   },
 });
@@ -24,7 +24,9 @@ const OKDialog: React.FC<OKDialogProps> = ({ onConfirm, children }) => {
 
   return (
     <PopupDialog>
-      <div className={classes.OKDialog}>{children}</div>
+      <PopupDialogBody>
+        <div className={classes.OKDialog}>{children}</div>
+      </PopupDialogBody>
       <PopupDialogButtonSet>
         <ActionButton variant="primary" onClick={onConfirm}>
           OK
