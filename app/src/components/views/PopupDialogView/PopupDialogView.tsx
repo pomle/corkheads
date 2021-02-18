@@ -13,17 +13,31 @@ const opacity = ({ active }: StyleProps) => {
 
 const useStyles = makeStyles({
   PopupDialogView: {
+    height: "100%",
+    overflow: "hidden",
+    position: "relative",
+    "& > *": {
+      height: "100%",
+      width: "100%",
+      position: "absolute",
+      top: 0,
+      zIndex: 0,
+    },
+  },
+  overlay: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     opacity,
     height: "100%",
     pointerEvents: (props) => (props.active ? "all" : "none"),
+    position: "absolute",
     transition: "opacity 0.15s ease",
   },
   context: {
     filter: (props) => (props.active ? "brightness(0.5) blur(4px)" : "none"),
     height: "100%",
+    position: "absolute",
     transition: "filter 0.3s ease",
   },
   content: {
@@ -48,14 +62,14 @@ const PopupDialogView: React.FC = ({ children }) => {
   const classes = useStyles({ active: !!content });
 
   return (
-    <>
+    <div className={classes.PopupDialogView}>
       <div className={classes.context}>{children}</div>
-      <div className={classes.PopupDialogView}>
+      <div className={classes.overlay}>
         <ThemeProvider theme="pure">
           <div className={classes.content}>{contentMemo.current}</div>
         </ThemeProvider>
       </div>
-    </>
+    </div>
   );
 };
 
