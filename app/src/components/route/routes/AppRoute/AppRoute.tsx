@@ -32,18 +32,16 @@ const AppRoute: React.FC = () => {
   }, [analytics, history]);
 
   return (
-    <ViewStack>
-      <PopupDialogView>
-        <ViewStack>
-          <RootRoutes />
+    <PopupDialogView>
+      <ViewStack>
+        <RootRoutes />
 
-          <Slide direction={SlideDirection.Down} active={!user}>
-            <AuthenticationView />
-          </Slide>
-        </ViewStack>
-        <ContextMenuView />
-      </PopupDialogView>
-    </ViewStack>
+        <Slide direction={SlideDirection.Down} active={!user}>
+          <AuthenticationView />
+        </Slide>
+      </ViewStack>
+      <ContextMenuView />
+    </PopupDialogView>
   );
 };
 
