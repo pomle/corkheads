@@ -94,7 +94,7 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
       </ThemeProvider>
       {executedQuery.length ? (
         <SectionList>
-          <Section header={<h3>Articles</h3>}>
+          <Section header={<h3>Whiskys</h3>}>
             <ItemList divided>
               {request.results.article.map((result) => {
                 return (
