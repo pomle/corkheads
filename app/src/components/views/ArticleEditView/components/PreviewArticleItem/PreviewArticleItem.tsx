@@ -5,6 +5,7 @@ import { Theme } from "components/ui/theme/themes";
 import ItemRating from "components/fragments/Rating/ItemRating";
 import BottlingMeta from "components/fragments/Bottling/BottlingMeta";
 import { Article } from "types/Article";
+import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 
 const useStyles = makeStyles((theme: Theme) => ({
   PreviewArticleItem: {
@@ -33,7 +34,7 @@ const PreviewArticleItem: React.FC<PreviewArticleItemProps> = ({ article }) => {
   const classes = useStyles();
 
   return (
-    <ImageItem imageURL={photoURL}>
+    <ImageItem imageURL={photoURL || ArticleImagePlaceholder}>
       <div className={classes.PreviewArticleItem}>
         <div className="displayName">{displayName}</div>
         <div className="meta">
