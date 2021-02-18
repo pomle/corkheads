@@ -16,7 +16,12 @@ export function useUserProfile(userId: string) {
 
   useEffect(() => {
     return userRef.onSnapshot((snapshot) => {
-      setUser((snapshot.data() as User) || initial);
+      setUser(
+        ({
+          ...snapshot.data(),
+          id: snapshot.id,
+        } as User) || initial
+      );
     });
   }, [initial, userRef]);
 
@@ -27,11 +32,13 @@ export function useUserProfile(userId: string) {
     [userRef]
   );
 
+  console.log(user, userId);
+
   return useMemo(
     () => ({
-      user,
+      user: userId === user.id ? user : initial,
       updateProfile,
     }),
-    [user, updateProfile]
+    [userId, initial, user, updateProfile]
   );
 }

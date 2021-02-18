@@ -123,7 +123,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                     <Section
                       header={
                         <SectionTitle
-                          main="Recent check ins"
+                          main="Feed"
                           context={
                             <Link to={routes.communityCheckIns}>See all ›</Link>
                           }
