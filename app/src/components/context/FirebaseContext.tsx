@@ -7,6 +7,8 @@ import "firebase/storage";
 import config from "config/firebase.config.json";
 
 firebase.initializeApp(config);
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 firebase.firestore().enablePersistence();
 
 export const Context = createContext<ReturnType<
