@@ -6,12 +6,15 @@ import "firebase/firestore";
 import "firebase/storage";
 import config from "config/firebase.config.json";
 
+firebase.initializeApp(config);
+firebase.firestore().enablePersistence();
+
 export const Context = createContext<ReturnType<
   typeof createFirebaseContext
 > | null>(null);
 
 function createApp() {
-  return firebase.initializeApp(config);
+  return firebase.app();
 }
 
 const app = createApp();
