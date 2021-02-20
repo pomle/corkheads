@@ -12,7 +12,7 @@ const size = (props: StyleProps) => `${props.imageSize}px`;
 
 const useStyles = makeStyles((theme: Theme) => ({
   ImageItem: {
-    alignItems: "center",
+    alignItems: "start",
     background: theme.color.surface,
     color: theme.color.text,
     display: "grid",
