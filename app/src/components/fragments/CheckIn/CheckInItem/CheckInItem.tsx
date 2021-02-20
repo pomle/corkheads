@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   CheckInItem: {
     display: "grid",
     gridGap: "4px",
+    gridTemplateRows: "repeat(4, auto)",
+    minHeight: "100%",
     "& .displayName": {
       color: theme.color.title,
       fontSize: "14px",
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .badge": {
       alignSelf: "center",
       display: "none",
-      gridArea: "1 / 2 / 4 / 3",
+      gridArea: "1 / 2 / 5 / 3",
       justifySelf: "end",
       paddingLeft: "8px",
       "@media (min-width: 360px)": {
@@ -68,15 +70,16 @@ const useStyles = makeStyles((theme: Theme) => ({
       width: "fit-content",
       "& .comments": {
         borderRight: `1px solid ${Colors.Sky}`,
-        padding: "4px 8px",
+        padding: "2px 8px",
       },
       "& .reactions": {
         alignItems: "center",
         display: "flex",
-        padding: "4px 8px",
+        padding: "2px 8px",
         "& svg": {
           display: "block",
           height: "18px",
+          margin: "-2px 0",
           width: "18px",
         },
       },
@@ -137,9 +140,8 @@ const CheckInItem: React.FC<CheckInItemProps> = ({
           </div>
         </div>
         <div className="displayName">{articleDisplayName}</div>
-        {checkIn.comment && (
-          <blockquote className="comment">{checkIn.comment}</blockquote>
-        )}
+
+        <blockquote className="comment">{checkIn.comment}</blockquote>
 
         <div className="interactions">
           <div className="comments">{checkIn.commentCount} comments</div>
