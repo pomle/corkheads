@@ -1,11 +1,5 @@
 import React, { useMemo } from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import { makeStyles } from "@material-ui/styles";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Theme } from "components/ui/theme/themes";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
@@ -15,19 +9,15 @@ import {
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
 import WishlistList from "components/fragments/Article/WishlistList";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  body: {
-    margin: "24px",
-  },
-}));
+import { Nav } from "components/ui/layout/NavigationBar";
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 const MIN_ITEMS = 20;
 const MAX_ITEMS = 100;
 const INC_SIZE = 10;
 
 interface UserWishlistViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
   };
@@ -68,22 +58,12 @@ const UserWishlistView: React.FC<UserWishlistViewProps> = ({
       }));
   }, [articles, userId, request]);
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Wishlist" />
-        </ViewCap>
-        <ViewBody>
-          <div className={classes.body}>
-            <WishlistList pointers={pointers.slice(0, size)} routes={routes} />
-            <ViewportDetector onEnter={bump} />
-          </div>
-        </ViewBody>
-      </HeaderLayout>
+      <HeaderPageLayout nav={nav} title="Wishlist">
+        <WishlistList pointers={pointers.slice(0, size)} routes={routes} />
+        <ViewportDetector onEnter={bump} />
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };

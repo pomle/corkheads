@@ -1,4 +1,5 @@
 import React from "react";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ProfileHead from "components/fragments/User/ProfileHead";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
@@ -8,7 +9,7 @@ import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
 
 interface UserViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
@@ -26,8 +27,7 @@ const UserView: React.FC<UserViewProps> = ({ nav, routes, userId }) => {
     <ThemeProvider theme="dusk">
       <HeaderLayout>
         <ViewCap>
-          {nav}
-
+          <NavigationBar nav={nav} />
           <ViewHead>
             <ProfileHead userId={userId} />
           </ViewHead>

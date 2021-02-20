@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import ViewCap from "components/ui/layout/ViewCap";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
@@ -20,17 +21,19 @@ import { useFollowing } from "components/hooks/db/useFollowing";
 
 const useStyles = makeStyles({
   searchBar: {
-    marginTop: "12px",
+    marginTop: "-8px",
   },
   searchResults: {
-    margin: "24px",
+    display: "grid",
+    gridGap: "16px",
+    padding: "16px",
   },
 });
 
 const MIN_QUERY_LENGTH = 3;
 
 interface SearchViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   userId: string;
   routes: {
     createArticle: () => void;
@@ -78,7 +81,7 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
     <SearchLayout busy={request.busy}>
       <ThemeProvider theme="dusk">
         <ViewCap>
-          {nav}
+          <NavigationBar nav={nav} />
           <ViewHead>
             <div className={classes.searchBar}>
               <Input

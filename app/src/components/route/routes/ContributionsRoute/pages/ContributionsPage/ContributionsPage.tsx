@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import BackButton from "components/ui/trigger/BackButton";
 import UserContributionsView from "components/views/UserContributionsView";
@@ -16,9 +15,7 @@ const ContributionsPage: React.FC<ContributionsPageProps> = ({
   userId,
   routes,
 }) => {
-  const nav = (
-    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
-  );
+  const nav = { back: <BackButton onClick={routes.back} /> };
 
   return (
     <ErrorBoundary nav={nav}>

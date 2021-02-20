@@ -18,9 +18,7 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
 }) => {
   const article = useArticle(articleId)?.data;
 
-  const nav = {
-    back: <BackButton onClick={routes.back}>Back</BackButton>,
-  };
+  const nav = { back: <BackButton onClick={routes.back} /> };
 
   if (!article) {
     return <LoadingView nav={nav} />;

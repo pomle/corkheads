@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import { makeStyles } from "@material-ui/styles";
+import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Theme } from "components/ui/theme/themes";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { byDisplayName } from "lib/sort/article";
@@ -15,19 +10,14 @@ import {
   UserArticleQuery,
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  body: {
-    margin: "16px",
-  },
-}));
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 const MIN_ITEMS = 10;
 const MAX_ITEMS = 100;
 const INC_SIZE = 10;
 
 interface UserCollectionViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
   };
@@ -70,25 +60,15 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
       }));
   }, [articles, userId, request]);
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Collection" />
-        </ViewCap>
-        <ViewBody>
-          <div className={classes.body}>
-            <CollectionArticleList
-              pointers={pointers.slice(0, size)}
-              routes={routes}
-            />
-            <ViewportDetector onEnter={bump} />
-          </div>
-        </ViewBody>
-      </HeaderLayout>
+      <HeaderPageLayout nav={nav} title="Collection">
+        <CollectionArticleList
+          pointers={pointers.slice(0, size)}
+          routes={routes}
+        />
+        <ViewportDetector onEnter={bump} />
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };

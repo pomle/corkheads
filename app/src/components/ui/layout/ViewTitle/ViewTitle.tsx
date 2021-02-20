@@ -1,14 +1,16 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import ViewHead from "components/ui/layout/ViewHead";
+import { Theme } from "components/ui/theme/themes";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   ViewTitle: {
-    marginTop: "-32px",
-    padding: "0 24px",
-    textAlign: "center",
+    color: theme.color.title,
+    fontSize: "20px",
+    lineHeight: 1,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
-});
+}));
 
 interface ViewTitleProps {
   title: React.ReactNode;
@@ -17,11 +19,7 @@ interface ViewTitleProps {
 const ViewTitle: React.FC<ViewTitleProps> = ({ title }) => {
   const classes = useStyles();
 
-  return (
-    <ViewHead>
-      <h1 className={classes.ViewTitle}>{title}</h1>
-    </ViewHead>
-  );
+  return <h1 className={classes.ViewTitle}>{title}</h1>;
 };
 
 export default ViewTitle;

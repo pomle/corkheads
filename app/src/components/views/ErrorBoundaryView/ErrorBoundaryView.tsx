@@ -1,6 +1,7 @@
 import React from "react";
 import ErrorView from "components/views/ErrorView";
 import { env } from "process";
+import { Nav } from "components/ui/layout/NavigationBar";
 
 function printError(error: Error) {
   if (env.NODE_ENV === "production") {
@@ -10,7 +11,7 @@ function printError(error: Error) {
 }
 
 interface ErrorBoundaryProps {
-  nav: React.ReactNode;
+  nav: Nav;
   children: React.FC;
 }
 

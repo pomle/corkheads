@@ -1,23 +1,13 @@
 import React from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import { makeStyles } from "@material-ui/styles";
+import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Theme } from "components/ui/theme/themes";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 import RankedTopArticleItem from "components/fragments/Article/RankedTopArticleItem";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  body: {
-    margin: "16px",
-  },
-}));
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 interface UserToplistViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
   };
@@ -31,32 +21,22 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
 }) => {
   const request = useUserArticleToplistQuery(userId, 10);
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Top drinks" />
-        </ViewCap>
-        <ViewBody>
-          <div className={classes.body}>
-            <ItemList divided>
-              {request.results.map((pointer, index) => {
-                return (
-                  <RankedTopArticleItem
-                    key={pointer.articleId}
-                    rank={index + 1}
-                    pointer={pointer}
-                    routes={routes}
-                  />
-                );
-              })}
-            </ItemList>
-          </div>
-        </ViewBody>
-      </HeaderLayout>
+      <HeaderPageLayout nav={nav} title="Top drinks">
+        <ItemList divided>
+          {request.results.map((pointer, index) => {
+            return (
+              <RankedTopArticleItem
+                key={pointer.articleId}
+                rank={index + 1}
+                pointer={pointer}
+                routes={routes}
+              />
+            );
+          })}
+        </ItemList>
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };

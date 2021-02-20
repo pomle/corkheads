@@ -8,7 +8,7 @@ import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 
 const useStyles = makeStyles({
   body: {
-    margin: "24px",
+    padding: "16px",
   },
 });
 

@@ -15,6 +15,7 @@ import FooterLayout from "components/ui/layout/FooterLayout/FooterLayout";
 import ButtonField from "components/ui/layout/ButtonField";
 import PhotoInput from "./component/PhotoInput";
 import MainButton from "components/ui/trigger/MainButton/MainButton";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { Theme, themes } from "components/ui/theme/themes";
 import PositionStateButton from "./component/PositionStateButton";
@@ -72,7 +73,7 @@ function initialCheckIn(article: Article, user: User): CheckIn {
 }
 
 interface CheckInCreateViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   article: Article;
   user: User;
   routes: {
@@ -158,8 +159,9 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
       <ViewBody>
         <ThemeProvider theme="dusk">
           <ViewCap>
-            {nav}
-            <ViewTitle title={article.displayName} />
+            <NavigationBar nav={nav}>
+              <ViewTitle title={article.displayName} />
+            </NavigationBar>
           </ViewCap>
         </ThemeProvider>
         <div className={classes.body}>

@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import { makeStyles } from "@material-ui/styles";
+import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Theme } from "components/ui/theme/themes";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import {
   CheckInQuery,
   useCheckInQuery,
@@ -14,17 +9,12 @@ import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import { useMe } from "components/hooks/useMe";
 import CheckInList from "components/fragments/CheckIn/CheckInList";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  body: {
-    margin: "16px",
-  },
-}));
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 const MAX_ITEMS = 100;
 
 interface CheckInsViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     checkIn: (checkInId: string) => void;
   };
@@ -71,22 +61,12 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
     return request.results.slice(0, size);
   }, [request.results, size]);
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title={title} />
-        </ViewCap>
-        <ViewBody>
-          <div className={classes.body}>
-            <CheckInList pointers={pointers} routes={routes} />
-          </div>
-          <ViewportDetector onEnter={bump} />
-        </ViewBody>
-      </HeaderLayout>
+      <HeaderPageLayout nav={nav} title={title}>
+        <CheckInList pointers={pointers} routes={routes} />
+        <ViewportDetector onEnter={bump} />
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };

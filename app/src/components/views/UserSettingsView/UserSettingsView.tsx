@@ -1,9 +1,5 @@
 import React, { useMemo } from "react";
 import { makeStyles } from "@material-ui/styles";
-import ViewTitle from "components/ui/layout/ViewTitle";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import EntryList from "components/ui/layout/EntryList";
 import Entry from "components/ui/layout/Entry";
@@ -15,17 +11,18 @@ import ButtonSet from "components/ui/layout/ButtonSet";
 import NavButton from "components/ui/trigger/NavButton";
 import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
 import { useExplicitLogout } from "components/hooks/useExplicitLogout";
+import { Nav } from "components/ui/layout/NavigationBar";
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 const useStyles = makeStyles({
   form: {
     display: "grid",
     gridGap: "32px",
-    padding: "8px 24px",
   },
 });
 
 interface UserSettingsViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   userId: string;
 }
 
@@ -46,43 +43,32 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Settings" />
-        </ViewCap>
+      <HeaderPageLayout nav={nav} title="Settings">
+        <form className={classes.form}>
+          <EntryList>
+            <Entry name="Name">
+              <input type="text" placeholder="Your name" {...userInput.name} />
+            </Entry>
+            <Entry name="Username">
+              <input
+                type="text"
+                pattern="[^A-Za-z0-9\-\.]"
+                placeholder="@"
+                {...userInput.username}
+              />
+            </Entry>
+            <Entry name="Version">
+              <code>{config.version}</code>
+            </Entry>
+          </EntryList>
 
-        <ViewBody>
-          <form className={classes.form}>
-            <EntryList>
-              <Entry name="Name">
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  {...userInput.name}
-                />
-              </Entry>
-              <Entry name="Username">
-                <input
-                  type="text"
-                  pattern="[^A-Za-z0-9\-\.]"
-                  placeholder="@"
-                  {...userInput.username}
-                />
-              </Entry>
-              <Entry name="Version">
-                <code>{config.version}</code>
-              </Entry>
-            </EntryList>
-
-            <ButtonSet>
-              <NavButton icon={<SignOutIcon />} onClick={signOut}>
-                Sign out
-              </NavButton>
-            </ButtonSet>
-          </form>
-        </ViewBody>
-      </HeaderLayout>
+          <ButtonSet>
+            <NavButton icon={<SignOutIcon />} onClick={signOut}>
+              Sign out
+            </NavButton>
+          </ButtonSet>
+        </form>
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };
