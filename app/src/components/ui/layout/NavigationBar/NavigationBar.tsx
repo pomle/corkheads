@@ -30,8 +30,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({ back, forward }) => {
 
   return (
     <div className={classes.NavigationBar}>
-      <div>{back}</div>
-      <div>{forward}</div>
+      <div className="back">{back}</div>
+      <div className="forward">{forward}</div>
     </div>
   );
 };
