@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext } from "react";
 import * as firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/auth";
@@ -6,20 +6,14 @@ import "firebase/firestore";
 import "firebase/storage";
 import config from "config/firebase.config.json";
 
-firebase.initializeApp(config);
-
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-firebase.firestore().enablePersistence();
-
 export const Context = createContext<ReturnType<
   typeof createFirebaseContext
 > | null>(null);
 
-function createApp() {
-  return firebase.app();
-}
+firebase.initializeApp(config);
+firebase.firestore().enablePersistence();
 
-const app = createApp();
+const app = firebase.app();
 
 function createFirebaseContext(app: firebase.app.App) {
   return {
@@ -30,10 +24,10 @@ function createFirebaseContext(app: firebase.app.App) {
   };
 }
 
-export const FirebaseContext: React.FC = ({ children }) => {
-  const value = useMemo(() => createFirebaseContext(app), []);
+const context = createFirebaseContext(app);
 
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+export const FirebaseContext: React.FC = ({ children }) => {
+  return <Context.Provider value={context}>{children}</Context.Provider>;
 };
 
 export function useFirebase() {
