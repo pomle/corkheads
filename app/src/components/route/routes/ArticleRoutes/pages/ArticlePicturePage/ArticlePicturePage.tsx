@@ -1,11 +1,9 @@
 import React from "react";
 import { useArticle } from "components/hooks/db/useArticles";
-import PictureView from "components/views/PictureView";
-import BusyView from "components/views/BusyView";
+import LoadingView from "components/views/LoadingView";
 import ErrorView from "components/views/ErrorView";
-import AreaButton from "components/ui/trigger/AreaButton";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
+import PicturePage from "components/route/pages/PicturePage";
 
 interface ArticlePicturePageProps {
   articleId: string;
@@ -18,25 +16,23 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
   articleId,
   routes,
 }) => {
-  const nav = (
-    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
-  );
-
   const article = useArticle(articleId)?.data;
 
+  const nav = {
+    back: <BackButton onClick={routes.back}>Back</BackButton>,
+  };
+
   if (!article) {
-    return <BusyView />;
+    return <LoadingView nav={nav} />;
   }
 
-  if (!article.imageId) {
+  const imageId = article?.imageId;
+
+  if (!imageId) {
     return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
-  return (
-    <AreaButton onClick={routes.back}>
-      <PictureView imageId={article.imageId} />
-    </AreaButton>
-  );
+  return <PicturePage routes={routes} imageId={imageId} />;
 };
 
 export default ArticlePicturePage;
