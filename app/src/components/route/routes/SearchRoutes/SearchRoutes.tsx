@@ -5,10 +5,10 @@ import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import UserRoutes from "components/route/routes/UserRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import FindPage from "./pages/FindPage";
+import ArticleCreatePage from "./pages/ArticleCreatePage";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import { Path } from "lib/path";
 import { stringCodec } from "components/route/codecs";
-import ArticleCreatePage from "components/route/pages/ArticleCreatePage";
 
 interface SearchRoutesProps {
   origin: Path<{}>;

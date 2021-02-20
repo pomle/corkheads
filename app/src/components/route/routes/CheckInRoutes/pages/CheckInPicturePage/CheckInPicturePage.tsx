@@ -1,9 +1,10 @@
 import React from "react";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
-import PictureView from "components/views/PictureView";
-import BusyView from "components/views/BusyView";
-import AreaButton from "components/ui/trigger/AreaButton";
-import ArticlePicturePage from "components/route/pages/ArticlePicturePage";
+import { useArticle } from "components/hooks/db/useArticles";
+import LoadingView from "components/views/LoadingView";
+import ErrorView from "components/views/ErrorView";
+import BackButton from "components/ui/trigger/BackButton";
+import PicturePage from "components/route/pages/PicturePage";
 
 interface CheckInPicturePageProps {
   checkInId: string;
@@ -17,20 +18,27 @@ const CheckInPicturePage: React.FC<CheckInPicturePageProps> = ({
   routes,
 }) => {
   const checkIn = useCheckIn(checkInId)?.data;
+  const article = useArticle(checkIn?.articleId)?.data;
+
+  const nav = {
+    back: <BackButton onClick={routes.back}>Back</BackButton>,
+  };
 
   if (!checkIn) {
-    return <BusyView />;
+    return <LoadingView nav={nav} />;
   }
 
-  if (!checkIn.imageId) {
-    return <ArticlePicturePage routes={routes} articleId={checkIn.articleId} />;
+  if (!checkIn?.imageId && !article) {
+    return <LoadingView nav={nav} />;
   }
 
-  return (
-    <AreaButton onClick={routes.back}>
-      <PictureView imageId={checkIn.imageId} />
-    </AreaButton>
-  );
+  const imageId = checkIn?.imageId || article?.imageId;
+
+  if (!imageId) {
+    return <ErrorView nav={nav}>No photo</ErrorView>;
+  }
+
+  return <PicturePage routes={routes} imageId={imageId} />;
 };
 
 export default CheckInPicturePage;
