@@ -2,7 +2,6 @@ import React from "react";
 import { useArticle } from "components/hooks/db/useArticles";
 import LoadingView from "components/views/LoadingView";
 import CheckInCreateView from "components/views/CheckInCreateView";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import { useHistory } from "react-router-dom";
 import { useMe } from "components/hooks/useMe";
@@ -24,9 +23,7 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({
 
   const articleEntry = useArticle(articleId);
 
-  const nav = (
-    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
-  );
+  const nav = { back: <BackButton onClick={routes.back} /> };
 
   const user = useMe();
 

@@ -19,6 +19,7 @@ import { getEffectiveBottling } from "lib/patch";
 import { getPreviewScore } from "./score";
 import { usePopupDialog } from "components/context/PopupDialogContext";
 import ConfirmCreateArticleDialog from "./components/ConfirmCreateArticleDialog";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 
 type StyleProps = {
   busy: boolean;
@@ -66,7 +67,7 @@ function isArticleValid(article: Article) {
 }
 
 interface ArticleEditViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   userId: string;
   routes: {
     article: (articleId: string) => void;
@@ -184,8 +185,9 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
       <ViewBody>
         <ThemeProvider theme="dusk">
           <ViewCap>
-            {nav}
-            <ViewTitle title="Create Whisky" />
+            <NavigationBar nav={nav}>
+              <ViewTitle title="Create Whisky" />
+            </NavigationBar>
           </ViewCap>
         </ThemeProvider>
         <form className={classes.form}>

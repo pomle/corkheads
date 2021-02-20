@@ -1,7 +1,6 @@
 import React from "react";
 import CheckInDetailsView from "components/views/CheckInDetailsView";
 import LoadingView from "components/views/LoadingView";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import { useCheckIn } from "components/hooks/db/useCheckIns";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
@@ -17,9 +16,7 @@ interface CheckInPageProps {
 }
 
 const CheckInPage: React.FC<CheckInPageProps> = ({ checkInId, routes }) => {
-  const nav = (
-    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
-  );
+  const nav = { back: <BackButton onClick={routes.back} /> };
 
   const checkInEntry = useCheckIn(checkInId);
 

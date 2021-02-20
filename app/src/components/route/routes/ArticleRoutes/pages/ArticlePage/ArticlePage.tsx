@@ -1,6 +1,5 @@
 import React from "react";
 import ArticleDetailsView from "components/views/ArticleDetailsView";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import { useMe } from "components/hooks/useMe";
@@ -19,9 +18,7 @@ interface ArticlePageProps {
 const ArticlePage: React.FC<ArticlePageProps> = ({ articleId, routes }) => {
   const user = useMe();
 
-  const nav = (
-    <NavigationBar back={<BackButton onClick={routes.back}>Back</BackButton>} />
-  );
+  const nav = { back: <BackButton onClick={routes.back}>Back</BackButton> };
 
   if (!user) {
     return <LoadingView nav={nav} />;

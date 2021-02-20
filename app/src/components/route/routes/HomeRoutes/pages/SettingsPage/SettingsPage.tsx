@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import UserSettingsView from "components/views/UserSettingsView";
 import BackButton from "components/ui/trigger/BackButton";
@@ -12,11 +11,7 @@ interface SettingsPageProps {
 }
 
 const SettingsPage: React.FC<SettingsPageProps> = ({ userId, routes }) => {
-  const nav = (
-    <NavigationBar
-      back={<BackButton onClick={routes.back}>Profile</BackButton>}
-    />
-  );
+  const nav = { back: <BackButton onClick={routes.back} /> };
 
   return (
     <ErrorBoundary nav={nav}>

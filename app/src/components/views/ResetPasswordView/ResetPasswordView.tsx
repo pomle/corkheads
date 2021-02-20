@@ -79,7 +79,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ routes }) => {
   return (
     <HeaderLayout>
       <ViewCap>
-        <NavigationBar back={<BackButton onClick={routes.login} />} />
+        <NavigationBar nav={{ back: <BackButton onClick={routes.login} /> }} />
       </ViewCap>
       <ViewBody>
         <div className={classes.ResetPasswordView}>

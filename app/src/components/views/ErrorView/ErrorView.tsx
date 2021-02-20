@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 interface ErrorViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
 }
 
 const ErrorView: React.FC<ErrorViewProps> = ({ nav, children }) => {
@@ -30,7 +31,9 @@ const ErrorView: React.FC<ErrorViewProps> = ({ nav, children }) => {
 
   return (
     <HeaderLayout>
-      <ViewCap>{nav}</ViewCap>
+      <ViewCap>
+        <NavigationBar nav={nav} />
+      </ViewCap>
       <ViewBody>
         <div className={classes.body}>
           <h3>

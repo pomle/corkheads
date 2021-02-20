@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
-import HeaderLayout from "components/ui/layout/HeaderLayout";
-import ViewCap from "components/ui/layout/ViewCap";
-import ViewBody from "components/ui/layout/ViewBody";
-import { makeStyles } from "@material-ui/styles";
+import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
-import { Theme } from "components/ui/theme/themes";
-import ViewTitle from "components/ui/layout/ViewTitle";
 import { useScrollSize } from "components/hooks/useScrollSize";
 import ViewportDetector from "components/ui/trigger/ViewportDetector";
 import ItemList from "components/ui/layout/ItemList";
@@ -14,19 +9,14 @@ import {
   ArticleQuery,
   useArticleQuery,
 } from "components/hooks/db/useArticleQuery";
-
-const useStyles = makeStyles((theme: Theme) => ({
-  body: {
-    margin: "24px",
-  },
-}));
+import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
 
 const MIN_ITEMS = 20;
 const MAX_ITEMS = 100;
 const INC_SIZE = 10;
 
 interface UserContributionsViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
   };
@@ -60,33 +50,23 @@ const UserContributionsView: React.FC<UserContributionsViewProps> = ({
     });
   }, [request, userId]);
 
-  const classes = useStyles();
-
   return (
     <ThemeProvider theme="pure">
-      <HeaderLayout>
-        <ViewCap>
-          {nav}
-          <ViewTitle title="Contributions" />
-        </ViewCap>
-        <ViewBody>
-          <div className={classes.body}>
-            <ItemList>
-              {pointers.slice(0, size).map((pointer) => {
-                return (
-                  <button
-                    key={pointer.articleId}
-                    onClick={() => routes.article(pointer.articleId)}
-                  >
-                    <ContributionArticleItem pointer={pointer} />
-                  </button>
-                );
-              })}
-            </ItemList>
-            <ViewportDetector onEnter={bump} />
-          </div>
-        </ViewBody>
-      </HeaderLayout>
+      <HeaderPageLayout nav={nav} title="Contributions">
+        <ItemList>
+          {pointers.slice(0, size).map((pointer) => {
+            return (
+              <button
+                key={pointer.articleId}
+                onClick={() => routes.article(pointer.articleId)}
+              >
+                <ContributionArticleItem pointer={pointer} />
+              </button>
+            );
+          })}
+        </ItemList>
+        <ViewportDetector onEnter={bump} />
+      </HeaderPageLayout>
     </ThemeProvider>
   );
 };

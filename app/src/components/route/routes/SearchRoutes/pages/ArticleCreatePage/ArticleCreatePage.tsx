@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import CancelButton from "components/ui/trigger/CancelButton";
 import ArticleEditView from "components/views/ArticleEditView";
 
@@ -18,11 +17,9 @@ const ArticleCreatePage: React.FC<ArticleCreatePageProps> = ({
 }) => {
   const history = useHistory();
 
-  const nav = (
-    <NavigationBar
-      back={<CancelButton onClick={routes.cancel}>Cancel</CancelButton>}
-    />
-  );
+  const nav = {
+    back: <CancelButton onClick={routes.cancel}>Cancel</CancelButton>,
+  };
 
   return (
     <ArticleEditView

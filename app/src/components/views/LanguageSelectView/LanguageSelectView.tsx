@@ -1,4 +1,5 @@
 import React from "react";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -8,7 +9,7 @@ import LocaleSelect from "components/fragments/Locale/LocaleSelect";
 import * as Text from "./locales";
 
 interface LanguageSelectViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   onSelect: (locale: Locale) => void;
 }
 
@@ -19,8 +20,9 @@ const LanguageSelectView: React.FC<LanguageSelectViewProps> = ({
   return (
     <HeaderLayout>
       <ViewCap>
-        {nav}
-        <ViewTitle title={<Text.SelectLanguage />} />
+        <NavigationBar nav={nav}>
+          <ViewTitle title={<Text.SelectLanguage />} />
+        </NavigationBar>
       </ViewCap>
       <ViewBody>
         <LocaleSelect onSelect={onSelect} />

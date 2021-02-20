@@ -1,5 +1,4 @@
 import React from "react";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import SearchView from "components/views/SearchView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import CancelButton from "components/ui/trigger/CancelButton/CancelButton";
@@ -20,16 +19,14 @@ interface FindPageProps {
 const FindPage: React.FC<FindPageProps> = ({ routes }) => {
   const user = useMe();
 
-  const nav = (
-    <NavigationBar
-      back={<CancelButton onClick={routes.cancel}>Close</CancelButton>}
-      forward={
-        <NavButton icon={<PlusIcon />} onClick={routes.createArticle}>
-          Create
-        </NavButton>
-      }
-    />
-  );
+  const nav = {
+    back: <CancelButton onClick={routes.cancel}>Close</CancelButton>,
+    forward: (
+      <NavButton icon={<PlusIcon />} onClick={routes.createArticle}>
+        Create
+      </NavButton>
+    ),
+  };
 
   if (!user) {
     return <LoadingView nav={nav} />;

@@ -94,7 +94,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
   return (
     <HeaderLayout>
       <ViewCap>
-        <NavigationBar back={<BackButton onClick={routes.signUp} />} />
+        <NavigationBar nav={{ back: <BackButton onClick={routes.signUp} /> }} />
       </ViewCap>
       <ViewBody>
         <div className={classes.LoginView}>

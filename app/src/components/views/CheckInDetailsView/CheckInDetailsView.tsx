@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
+import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import ViewTitle from "components/ui/layout/ViewTitle";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface CheckInDetailsViewProps {
-  nav: React.ReactNode;
+  nav: Nav;
   routes: {
     article: (articleId: string) => void;
     user: (userId: string) => void;
@@ -68,8 +69,9 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
     <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
-          {nav}
-          <ViewTitle title="Check in" />
+          <NavigationBar nav={nav}>
+            <ViewTitle title="Check in" />
+          </NavigationBar>
         </ViewCap>
         <ThemeProvider theme="sky">
           <ViewBody>
