@@ -11,12 +11,12 @@ import { SessionContext } from "components/context/SessionContext";
 import * as Sentry from "@sentry/react";
 
 const contexts = [
+  SharedStateContext,
   FirebaseContext,
   FirebaseStoreContext,
   SessionContext,
   ObjectStoreContext,
   ContextMenuContext,
-  SharedStateContext,
   InternationalizationContext,
   PopupDialogContext,
   Router,
