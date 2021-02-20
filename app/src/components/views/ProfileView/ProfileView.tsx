@@ -16,7 +16,6 @@ import Dashboard from "components/fragments/User/Dashboard/Dashboard";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewHead from "components/ui/layout/ViewHead";
 import FriendsSection from "./components/FriendsSection";
-import NavigationBar from "components/ui/layout/NavigationBar";
 import NavIcon from "components/ui/trigger/NavIcon";
 import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";
 import { useNotifications } from "components/hooks/db/useNotifications";
@@ -24,15 +23,7 @@ import NotificationIcon from "./components/NotificationIcon";
 
 const useStyles = makeStyles({
   nav: {
-    position: "absolute",
-    width: "100%",
-  },
-  findFriendsButton: {
-    padding: "16px",
-  },
-  sectionControl: {
-    borderBottom: "dashed 1px #dde4ef",
-    padding: "8px",
+    position: "relative",
   },
   icons: {
     alignItems: "center",
@@ -40,6 +31,12 @@ const useStyles = makeStyles({
     gridGap: "16px",
     gridTemplateColumns: "repeat(2, 24px)",
     justifyContent: "center",
+    position: "absolute",
+    right: 0,
+  },
+  sectionControl: {
+    borderBottom: "dashed 1px #dde4ef",
+    padding: "8px",
   },
 });
 
@@ -89,22 +86,17 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
     <ThemeProvider theme="dusk">
       <HeaderLayout>
         <ViewCap>
-          <div className={classes.nav}>
-            <NavigationBar
-              forward={
-                <div className={classes.icons}>
-                  <NavIcon onClick={routes.notifications}>
-                    <NotificationIcon count={unseenNotificationCount || 0} />
-                  </NavIcon>
-                  <NavIcon onClick={routes.settings}>
-                    <CogIcon />
-                  </NavIcon>
-                </div>
-              }
-            />
-          </div>
-
           <ViewHead>
+            <div className={classes.nav}>
+              <div className={classes.icons}>
+                <NavIcon onClick={routes.notifications}>
+                  <NotificationIcon count={unseenNotificationCount || 0} />
+                </NavIcon>
+                <NavIcon onClick={routes.settings}>
+                  <CogIcon />
+                </NavIcon>
+              </div>
+            </div>
             <ProfileHead userId={userId} />
           </ViewHead>
         </ViewCap>
