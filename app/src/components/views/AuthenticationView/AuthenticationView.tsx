@@ -25,7 +25,7 @@ const SECTION_MAP: Record<AccountState, Section> = {
 };
 
 function resolveSection(state: AccountState): Section {
-  return SECTION_MAP[state] || Section.Login;
+  return SECTION_MAP[state] ?? Section.Login;
 }
 
 const AuthenticationView: React.FC = () => {
