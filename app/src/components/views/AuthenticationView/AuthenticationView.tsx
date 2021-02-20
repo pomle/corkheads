@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
-import LoginView from "components/views//LoginView";
+import BusyView from "components/views/BusyView";
+import LoginView from "components/views/LoginView";
 import OnboardView from "components/views/OnboardView";
 import { useSession } from "components/context/SessionContext";
-import Lock from "components/ui/transitions/Lock";
 import ResetPasswordView from "../ResetPasswordView/ResetPasswordView";
 import SlidingWindow from "components/ui/transitions/SlidingWindow";
 import {
@@ -10,6 +10,8 @@ import {
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
 import FullScreenLayout from "components/ui/layout/FullScreenLayout";
+import ViewStack from "components/ui/layout/ViewStack";
+import Fade from "components/ui/transitions/Fade";
 
 enum Section {
   Onboard,
@@ -51,7 +53,7 @@ const AuthenticationView: React.FC = () => {
   const shouldPromptUser = session.ready && !session.user;
 
   return (
-    <Lock active={shouldPromptUser}>
+    <ViewStack>
       <FullScreenLayout>
         <SlidingWindow activeIndex={section}>
           <OnboardView routes={routes} />
@@ -59,7 +61,10 @@ const AuthenticationView: React.FC = () => {
           <ResetPasswordView routes={routes} />
         </SlidingWindow>
       </FullScreenLayout>
-    </Lock>
+      <Fade active={!shouldPromptUser}>
+        <BusyView />
+      </Fade>
+    </ViewStack>
   );
 };
 
