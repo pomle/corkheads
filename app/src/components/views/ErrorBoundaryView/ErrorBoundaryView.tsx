@@ -1,6 +1,6 @@
-import { env } from "process";
 import React from "react";
-import ErrorView from "../ErrorView";
+import ErrorView from "components/views/ErrorView";
+import { env } from "process";
 
 function printError(error: Error) {
   if (env.NODE_ENV === "production") {
