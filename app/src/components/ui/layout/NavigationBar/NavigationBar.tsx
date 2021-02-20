@@ -15,6 +15,11 @@ const useStyles = makeStyles({
   },
 });
 
+export type Nav = {
+  back?: React.ReactNode;
+  forward?: React.ReactNode;
+};
+
 interface NavigationBarProps {
   back?: React.ReactNode;
   forward?: React.ReactNode;
