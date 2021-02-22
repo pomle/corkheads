@@ -9,7 +9,6 @@ import {
   AccountState,
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
-import FullScreenLayout from "components/ui/layout/FullScreenLayout";
 import ViewStack from "components/ui/layout/ViewStack";
 import Fade from "components/ui/transitions/Fade";
 
@@ -54,13 +53,11 @@ const AuthenticationView: React.FC = () => {
 
   return (
     <ViewStack>
-      <FullScreenLayout>
-        <SlidingWindow activeIndex={section}>
-          <OnboardView routes={routes} />
-          <LoginView routes={routes} />
-          <ResetPasswordView routes={routes} />
-        </SlidingWindow>
-      </FullScreenLayout>
+      <SlidingWindow activeIndex={section}>
+        <OnboardView routes={routes} />
+        <LoginView routes={routes} />
+        <ResetPasswordView routes={routes} />
+      </SlidingWindow>
       <Fade active={!shouldPromptUser}>
         <BusyView />
       </Fade>
