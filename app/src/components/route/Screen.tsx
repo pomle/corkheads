@@ -1,6 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
 import { PathCodec, Path, createPath } from "lib/path";
+
+const rootPath = createPath("/", {});
+
+type ContextValue = {
+  path: Path<PathCodec>;
+};
+
+const Context = React.createContext<ContextValue>({
+  path: rootPath,
+});
+
+export function useScreenMatch() {
+  return useContext(Context);
+}
 
 const Screen = <PathCodecType extends PathCodec>({
   path,
@@ -32,7 +46,11 @@ const Screen = <PathCodecType extends PathCodec>({
     if (element.current === null || active) {
       const params = path.decode(match.params);
       const matchedPath = createPath(match.url, {});
-      element.current = Component({ path: matchedPath, params });
+      element.current = (
+        <Context.Provider value={{ path: matchedPath }}>
+          {Component({ path: matchedPath, params })}
+        </Context.Provider>
+      );
     }
   }
 
