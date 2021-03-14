@@ -1,18 +1,26 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { PathCodec, Path, createPath } from "lib/path";
 
 const rootPath = createPath("/", {});
 
-type ContextValue = {
+type Route = {
+  back: () => void;
   path: Path<PathCodec>;
 };
 
-const Context = React.createContext<ContextValue>({
+const Context = React.createContext<Route>({
+  back: () => undefined,
   path: rootPath,
 });
 
-export function useScreenMatch() {
+export function useRoute() {
   return useContext(Context);
 }
 
@@ -35,6 +43,14 @@ const Screen = <PathCodecType extends PathCodec>({
     path: Path<{}>;
   }) => React.ReactElement;
 }) => {
+  const history = useHistory();
+  const route = useRoute();
+
+  const back = useCallback(() => {
+    const url = route.path.url({});
+    history.push(url);
+  }, [route.path, history]);
+
   const [mount, setMount] = useState<boolean>(true);
 
   const element = useRef<React.ReactElement | null>(null);
@@ -47,7 +63,7 @@ const Screen = <PathCodecType extends PathCodec>({
       const params = path.decode(match.params);
       const matchedPath = createPath(match.url, {});
       element.current = (
-        <Context.Provider value={{ path: matchedPath }}>
+        <Context.Provider value={{ back, path: matchedPath }}>
           {Component({ path: matchedPath, params })}
         </Context.Provider>
       );
