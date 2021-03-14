@@ -38,7 +38,7 @@ const CheckInPicturePage: React.FC<CheckInPicturePageProps> = ({
     return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
-  return <PicturePage routes={routes} imageId={imageId} />;
+  return <PicturePage imageId={imageId} />;
 };
 
 export default CheckInPicturePage;

@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+import { useMemo } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 type ParamCodec<SourceType> = {
   encode: (source: SourceType) => string;

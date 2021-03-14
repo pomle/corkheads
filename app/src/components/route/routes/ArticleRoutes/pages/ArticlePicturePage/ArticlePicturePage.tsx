@@ -4,21 +4,20 @@ import LoadingView from "components/views/LoadingView";
 import ErrorView from "components/views/ErrorView";
 import BackButton from "components/ui/trigger/BackButton";
 import PicturePage from "components/route/pages/PicturePage";
+import { useRoute } from "components/route/Screen";
 
 interface ArticlePicturePageProps {
   articleId: string;
-  routes: {
-    back: () => void;
-  };
 }
 
 const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
   articleId,
-  routes,
 }) => {
+  const route = useRoute();
+
   const article = useArticle(articleId)?.data;
 
-  const nav = { back: <BackButton onClick={routes.back} /> };
+  const nav = { back: <BackButton onClick={route.back} /> };
 
   if (!article) {
     return <LoadingView nav={nav} />;
@@ -30,7 +29,7 @@ const ArticlePicturePage: React.FC<ArticlePicturePageProps> = ({
     return <ErrorView nav={nav}>No photo</ErrorView>;
   }
 
-  return <PicturePage routes={routes} imageId={imageId} />;
+  return <PicturePage imageId={imageId} />;
 };
 
 export default ArticlePicturePage;

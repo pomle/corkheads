@@ -1,17 +1,16 @@
 import React from "react";
 import PictureView from "components/views/PictureView";
 import AreaButton from "components/ui/trigger/AreaButton";
+import { useRoute } from "components/route/Screen";
 
 interface PicturePageProps {
   imageId: string;
-  routes: {
-    back: () => void;
-  };
 }
 
-const PicturePage: React.FC<PicturePageProps> = ({ imageId, routes }) => {
+const PicturePage: React.FC<PicturePageProps> = ({ imageId }) => {
+  const route = useRoute();
   return (
-    <AreaButton onClick={routes.back}>
+    <AreaButton onClick={route.back}>
       <PictureView imageId={imageId} />
     </AreaButton>
   );

@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import Screen from "components/route/Screen";
+import Screen, { useRoute } from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
@@ -16,12 +16,10 @@ interface ArticleRoutesProps {
   articleId: string;
 }
 
-const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
-  articleId,
-  path,
-  origin,
-}) => {
+const ArticleRoutes: React.FC<ArticleRoutesProps> = ({ articleId }) => {
   const history = useHistory();
+
+  const { path, back } = useRoute();
 
   const paths = useMemo(
     () => ({
@@ -35,10 +33,7 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
 
   const routes = useMemo(
     () => ({
-      prev: () => {
-        const url = origin.url({});
-        history.push(url);
-      },
+      prev: back,
       here: () => {
         const url = path.url({});
         history.push(url);
@@ -67,13 +62,6 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
     [routes, paths, history]
   );
 
-  const picturePageRoutes = useMemo(
-    () => ({
-      back: routes.here,
-    }),
-    [routes]
-  );
-
   const createCheckInPageRoutes = useMemo(
     () => ({
       back: routes.here,
@@ -86,12 +74,7 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
     <ViewStack>
       <ArticlePage routes={articlePageRoutes} articleId={articleId} />
       <Screen path={paths.picture} transition={ZoomCenter}>
-        {() => (
-          <ArticlePicturePage
-            routes={picturePageRoutes}
-            articleId={articleId}
-          />
-        )}
+        {() => <ArticlePicturePage articleId={articleId} />}
       </Screen>
       <Screen path={paths.createCheckIn} transition={SlideRight}>
         {() => (
