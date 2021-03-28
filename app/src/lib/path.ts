@@ -97,3 +97,28 @@ export function usePath<PathCodecType extends PathCodec>(
     },
   };
 }
+
+type PathSet = Record<string, Path<PathCodec>>;
+
+type PathNavigator<T extends Path<PathCodec>> = (
+  params: Parameters<T["url"]>[0]
+) => void;
+
+type PathNavigatorSet<T extends PathSet> = {
+  [K in keyof T]: PathNavigator<T[K]>;
+};
+
+export function useNavigator<T extends PathSet>(paths: T): PathNavigatorSet<T> {
+  const history = useHistory();
+
+  return useMemo(() => {
+    return Object.entries(paths).reduce((routes, [key, path]) => {
+      routes[key] = (params: any) => {
+        const url = path.url(params);
+        history.push(url);
+      };
+
+      return routes;
+    }, {} as Record<string, any>) as PathNavigatorSet<T>;
+  }, [history, paths]);
+}
