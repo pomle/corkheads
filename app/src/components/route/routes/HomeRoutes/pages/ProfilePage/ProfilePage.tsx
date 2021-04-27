@@ -2,9 +2,6 @@ import React from "react";
 import ProfileView from "components/views/ProfileView";
 import ViewStack from "components/ui/layout/ViewStack";
 import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
-import ErrorBoundary from "components/views/ErrorBoundaryView";
-import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";
-import NavIcon from "components/ui/trigger/NavIcon";
 
 interface ProfilePageProps {
   userId: string;
@@ -25,23 +22,11 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ routes, userId }) => {
-  const nav = {
-    forward: (
-      <NavIcon onClick={routes.settings}>
-        <CogIcon />
-      </NavIcon>
-    ),
-  };
-
   return (
-    <ErrorBoundary nav={nav}>
-      {() => (
-        <ViewStack>
-          <ProfileView routes={routes} userId={userId} />
-          <FindDrinkOverlayView routes={routes} />
-        </ViewStack>
-      )}
-    </ErrorBoundary>
+    <ViewStack>
+      <ProfileView routes={routes} userId={userId} />
+      <FindDrinkOverlayView routes={routes} />
+    </ViewStack>
   );
 };
 
