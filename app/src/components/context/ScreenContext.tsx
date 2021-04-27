@@ -11,17 +11,18 @@ import ViewStack from "components/ui/layout/ViewStack";
 import Screen from "components/route/Screen";
 import { Path, PathCodec } from "lib/path";
 
-type Mount<P extends Path<PathCodec> = Path<PathCodec>> = {
+type Mount<P extends Path<PathCodec>> = {
   mountPath: P;
   render: (params: ReturnType<P["decode"]>[0]) => React.ReactElement;
   transition?: React.FC<{ active: boolean }>;
 };
 
 function useScreenState() {
-  return useState<Mount[]>([]);
+  return useState<Mount<Path<PathCodec>>[]>([]);
 }
 
 type ScreenContextValue = {
+  originPath: Path<{}>;
   sourcePath: Path<{}>;
   state: ReturnType<typeof useScreenState>;
 };
@@ -29,10 +30,12 @@ type ScreenContextValue = {
 const Context = createContext<ScreenContextValue | null>(null);
 
 interface ScreenContextProps {
+  originPath: Path<{}>;
   mountPath: Path<{}>;
 }
 
 export const ScreenContext: React.FC<ScreenContextProps> = ({
+  originPath,
   mountPath,
   children,
 }) => {
@@ -40,10 +43,11 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
 
   const value = useMemo(
     () => ({
+      originPath,
       sourcePath: mountPath,
       state,
     }),
-    [mountPath, state]
+    [originPath, mountPath, state]
   );
 
   console.log(state[0]);
