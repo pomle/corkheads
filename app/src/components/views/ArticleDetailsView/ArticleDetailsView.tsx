@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface ArticleDetailsViewProps {
   nav: Nav;
   routes: {
-    createCheckIn: () => void;
     checkIn: (checkInId: string) => void;
   };
   userId: string;
@@ -67,9 +66,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
   const goToPicture = useScreen({
     path: (path) => path.append("/picture", {}),
-    render: useCallback(() => <ArticlePicturePage articleId={articleId} />, [
-      articleId,
-    ]),
+    render: () => <ArticlePicturePage articleId={articleId} />,
     transition: ZoomCenter,
   });
 
@@ -95,7 +92,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </AreaButton>
 
           <div className={classes.actionBox}>
-            <ActionBox routes={routes} userId={userId} articleId={articleId} />
+            <ActionBox userId={userId} articleId={articleId} />
           </div>
 
           <div className={classes.userSection}>

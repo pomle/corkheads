@@ -50,17 +50,25 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
     [originPath, mountPath, state]
   );
 
-  console.log(state[0]);
+  const [mounts] = state;
 
   return (
     <Context.Provider value={value}>
       <ViewStack>
         {children}
 
-        {state[0].map((mount) => {
+        {mounts.map((mount) => {
           return (
-            <Screen path={mount.mountPath} transition={mount.transition}>
-              {mount.render}
+            <Screen
+              key={mount.mountPath.path}
+              path={mount.mountPath}
+              transition={mount.transition}
+            >
+              {(screen) => (
+                <ScreenContext originPath={mountPath} mountPath={screen.path}>
+                  {mount.render(screen.params)}
+                </ScreenContext>
+              )}
             </Screen>
           );
         })}
@@ -110,7 +118,7 @@ export function useScreen<P extends Path<PathCodec>>({
   }, [sourcePath]);
 
   useEffect(() => {
-    const mount: Mount = {
+    const mount: Mount<Path<PathCodec>> = {
       mountPath,
       render,
       transition,
@@ -133,12 +141,12 @@ export function useScreen<P extends Path<PathCodec>>({
 }
 
 export function useBack() {
-  const { sourcePath } = useScreenContext();
+  const { originPath } = useScreenContext();
 
   const history = useHistory();
 
   return useCallback(() => {
-    const url = sourcePath.url({});
+    const url = originPath.url({});
     history.push(url);
-  }, [sourcePath, history]);
+  }, [originPath, history]);
 }

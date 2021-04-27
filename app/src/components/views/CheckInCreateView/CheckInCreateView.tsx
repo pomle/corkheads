@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
+import { useHistory } from "react-router-dom";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/User";
@@ -19,6 +20,7 @@ import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { Theme, themes } from "components/ui/theme/themes";
 import PositionStateButton from "./component/PositionStateButton";
+import { paths as rootPaths } from "components/route/paths";
 
 type StyleProps = {
   busy: boolean;
@@ -76,17 +78,15 @@ interface CheckInCreateViewProps {
   nav: Nav;
   article: Article;
   user: User;
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
 }
 
 const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   nav,
   article,
   user,
-  routes,
 }) => {
+  const history = useHistory();
+
   const initial = useMemo(() => initialCheckIn(article, user), [article, user]);
 
   const [photoURL, setPhotoURL] = useState<string>();
@@ -146,8 +146,10 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const handleCheckIn = useAsyncCallback(
     useCallback(async () => {
       const ref = await commitCheckIn({ user, checkIn, file });
-      routes.checkIn(ref.id);
-    }, [file, user, checkIn, routes, commitCheckIn])
+
+      const url = rootPaths.checkIn.url({ checkInId: ref.id });
+      history.push(url);
+    }, [file, user, checkIn, history, commitCheckIn])
   );
 
   const canCheckIn = isCheckInValid(checkIn) && !handleCheckIn.busy;

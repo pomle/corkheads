@@ -5,6 +5,9 @@ import { Theme } from "components/ui/theme/themes";
 import CollectionToggleButton from "./components/CollectionToggleButton";
 import WishlistToggleButton from "./components/WishlistToggleButton";
 import Ratings from "./components/Ratings";
+import { useScreen } from "components/context/ScreenContext";
+import { SlideRight } from "components/ui/transitions/Slide";
+import CheckInCreatePage from "components/route/routes/ArticleRoutes/pages/CheckInCreatePage";
 
 const useStyles = makeStyles((theme: Theme) => ({
   ActionBox: {
@@ -32,20 +35,25 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ActionBoxProps {
-  routes: {
-    createCheckIn: () => void;
-  };
   userId: string;
   articleId: string;
 }
 
-const ActionBox: React.FC<ActionBoxProps> = ({ routes, userId, articleId }) => {
+const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
+  const goToCreateCheckIn = useScreen({
+    path: (path) => path.append("/check-in", {}),
+    render: () => <CheckInCreatePage articleId={articleId} />,
+    transition: SlideRight,
+  });
+
   const classes = useStyles();
 
   return (
     <div className={classes.ActionBox}>
       <div className={classes.control}>
-        <ActionButton onClick={routes.createCheckIn}>Check in</ActionButton>
+        <ActionButton onClick={() => goToCreateCheckIn({})}>
+          Check in
+        </ActionButton>
         <CollectionToggleButton userId={userId} articleId={articleId} />
         <WishlistToggleButton userId={userId} articleId={articleId} />
       </div>

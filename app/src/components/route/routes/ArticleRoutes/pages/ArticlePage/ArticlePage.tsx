@@ -10,7 +10,6 @@ interface ArticlePageProps {
   routes: {
     back: () => void;
     checkIn: (checkInId: string) => void;
-    createCheckIn: () => void;
   };
 }
 

@@ -6,24 +6,20 @@ import BackButton from "components/ui/trigger/BackButton";
 import { useHistory } from "react-router-dom";
 import { useMe } from "components/hooks/useMe";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
+import { useBack } from "components/context/ScreenContext";
 
 interface CheckInCreatePageProps {
   articleId: string;
-  routes: {
-    back: () => void;
-    checkIn: (checkInId: string) => void;
-  };
 }
 
-const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({
-  articleId,
-  routes,
-}) => {
+const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({ articleId }) => {
   const history = useHistory();
+
+  const goBack = useBack();
 
   const articleEntry = useArticle(articleId);
 
-  const nav = { back: <BackButton onClick={routes.back} /> };
+  const nav = { back: <BackButton onClick={goBack} /> };
 
   const user = useMe();
 
@@ -45,7 +41,6 @@ const CheckInCreatePage: React.FC<CheckInCreatePageProps> = ({
             nav={nav}
             article={article}
             user={user}
-            routes={routes}
           />
         );
       }}
