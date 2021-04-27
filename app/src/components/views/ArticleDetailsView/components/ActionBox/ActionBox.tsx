@@ -41,7 +41,7 @@ interface ActionBoxProps {
 
 const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
   const goToCreateCheckIn = useScreen({
-    path: (path) => path.append("/check-in", {}),
+    path: (path) => path.append("/make-check-in", {}),
     render: () => <CheckInCreateView articleId={articleId} />,
     transition: SlideRight,
   });

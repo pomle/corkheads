@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -16,10 +16,17 @@ import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 import LazyRender from "components/ui/trigger/LazyRender/LazyRender";
 import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import NavigationBar from "components/ui/layout/NavigationBar";
-import { useBack, useScreen } from "components/context/ScreenContext";
+import {
+  createPath,
+  useBack,
+  useScreen,
+} from "components/context/ScreenContext";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
 import BackButton from "components/ui/trigger/BackButton";
-import PicturePage from "components/route/pages/PicturePage";
+import PictureView from "../PictureView";
+import { stringCodec } from "components/route/codecs";
+import CheckInDetailsView from "../CheckInDetailsView";
+import { SlideRight } from "components/ui/transitions/Slide";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -47,6 +54,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const checkInPath = createPath("/check-in/:checkInId", {
+  checkInId: stringCodec,
+});
+const picturePath = createPath("/picture");
+
 interface ArticleDetailsViewProps {
   userId: string;
   articleId: string;
@@ -61,9 +73,15 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
   const goBack = useBack();
 
+  const goToCheckIn = useScreen({
+    path: checkInPath,
+    render: ({ checkInId }) => <CheckInDetailsView checkInId={checkInId} />,
+    transition: SlideRight,
+  });
+
   const goToPicture = useScreen({
-    path: (path) => path.append("/picture", {}),
-    render: () => <PicturePage imageId={article.imageId} />,
+    path: picturePath,
+    render: () => <PictureView imageId={article.imageId} />,
     transition: ZoomCenter,
   });
 
@@ -97,7 +115,12 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </div>
 
           <LazyRender>
-            {() => <ArticleCheckInsSection articleId={article.id} />}
+            {() => (
+              <ArticleCheckInsSection
+                articleId={article.id}
+                toCheckIn={goToCheckIn}
+              />
+            )}
           </LazyRender>
         </ViewBody>
       </HeaderLayout>

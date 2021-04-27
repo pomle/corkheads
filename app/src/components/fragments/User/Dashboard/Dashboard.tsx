@@ -19,11 +19,16 @@ import UserCollectionView from "components/views/UserCollectionView";
 import UserWishlistView from "components/views/UserWishlistView";
 import UserContributionsView from "components/views/UserContributionsView";
 import { useArticleRoute } from "components/route/paths";
+import { stringCodec } from "components/route/codecs";
+import CheckInDetailsView from "components/views/CheckInDetailsView";
 
 interface DashboardProps {
   userId: string;
 }
 
+const checkInPath = createPath("/check-in/:checkInId", {
+  checkInId: stringCodec,
+});
 const checkInsPath = createPath("/check-ins");
 const collectionPath = createPath("/collection");
 const contributionsPath = createPath("/contributions");
@@ -35,9 +40,17 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
 
   const goToArticle = useArticleRoute();
 
+  const goToCheckIn = useScreen({
+    path: checkInPath,
+    render: ({ checkInId }) => <CheckInDetailsView checkInId={checkInId} />,
+    transition: SlideRight,
+  });
+
   const goToCheckIns = useScreen({
     path: checkInsPath,
-    render: () => <CheckInsView filterUserIds={[userId]} />,
+    render: () => (
+      <CheckInsView filterUserIds={[userId]} toCheckIn={goToCheckIn} />
+    ),
     transition: SlideRight,
   });
 
@@ -88,7 +101,7 @@ const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
           />
         }
       >
-        <CheckInsSection userId={userId} />
+        <CheckInsSection userId={userId} toCheckIn={goToCheckIn} />
       </Section>
 
       <Section

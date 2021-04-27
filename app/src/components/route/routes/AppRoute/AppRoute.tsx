@@ -12,7 +12,7 @@ import config from "config/app.config.js";
 import { ScreenContext } from "components/context/ScreenContext";
 import { createPath } from "lib/path";
 
-const rootPath = createPath("/", {});
+const rootPath = createPath("", {});
 
 const AppRoute: React.FC = () => {
   const user = useMe();

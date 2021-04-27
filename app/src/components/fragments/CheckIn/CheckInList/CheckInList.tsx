@@ -8,11 +8,13 @@ type CheckInContext = "general" | "article";
 interface CheckInListProps {
   pointers: { articleId: string; userId: string; checkInId: string }[];
   context?: CheckInContext;
+  toCheckIn: ({ checkInId }: { checkInId: string }) => void;
 }
 
 const CheckInList: React.FC<CheckInListProps> = ({
   pointers,
   context = "general",
+  toCheckIn,
 }) => {
   if (context === "article") {
     return (
@@ -22,6 +24,7 @@ const CheckInList: React.FC<CheckInListProps> = ({
             <ArticleContextCheckInItemButton
               key={pointer.checkInId}
               pointer={pointer}
+              toCheckIn={toCheckIn}
             />
           );
         })}
@@ -32,7 +35,11 @@ const CheckInList: React.FC<CheckInListProps> = ({
       <ItemList divided>
         {pointers.map((pointer) => {
           return (
-            <CheckInItemButton key={pointer.checkInId} pointer={pointer} />
+            <CheckInItemButton
+              key={pointer.checkInId}
+              pointer={pointer}
+              toCheckIn={toCheckIn}
+            />
           );
         })}
       </ItemList>

@@ -24,6 +24,7 @@ import { useScreen } from "components/context/ScreenContext";
 import { SlideRight } from "components/ui/transitions/Slide";
 import NotificationsView from "../NotificationsView";
 import UserSettingsView from "../UserSettingsView";
+import { useCheckInRoute } from "components/route/paths";
 
 const useStyles = makeStyles({
   nav: {
@@ -69,6 +70,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({ userId }) => {
       return sum + (n.seen ? 0 : 1);
     }, 0);
   }, [notifications]);
+
+  const goToCheckIn = useCheckInRoute();
 
   const goToNotifications = useScreen({
     path: (path) => path.append("/notifications", {}),
@@ -128,7 +131,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ userId }) => {
                         />
                       }
                     >
-                      <CheckInSection userId={userId} />
+                      <CheckInSection toCheckIn={goToCheckIn} />
                     </Section>
 
                     <Section

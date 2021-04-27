@@ -6,10 +6,10 @@ import {
 import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 interface CheckInSectionProps {
-  userId: string;
+  toCheckIn: ({ checkInId }: { checkInId: string }) => void;
 }
 
-const CheckInSection: React.FC<CheckInSectionProps> = ({ userId }) => {
+const CheckInSection: React.FC<CheckInSectionProps> = ({ toCheckIn }) => {
   const query = useMemo((): CheckInQuery => {
     return {
       order: [
@@ -24,7 +24,7 @@ const CheckInSection: React.FC<CheckInSectionProps> = ({ userId }) => {
 
   const request = useCheckInQuery(query);
 
-  return <CheckInList pointers={request.results} />;
+  return <CheckInList pointers={request.results} toCheckIn={toCheckIn} />;
 };
 
 export default CheckInSection;

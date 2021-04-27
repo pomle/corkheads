@@ -16,9 +16,13 @@ const MAX_ITEMS = 100;
 
 interface CheckInsViewProps {
   filterUserIds?: string[];
+  toCheckIn: ({ checkInId }: { checkInId: string }) => void;
 }
 
-const CheckInsView: React.FC<CheckInsViewProps> = ({ filterUserIds }) => {
+const CheckInsView: React.FC<CheckInsViewProps> = ({
+  filterUserIds,
+  toCheckIn,
+}) => {
   const me = useMe();
 
   const goBack = useBack();
@@ -61,7 +65,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ filterUserIds }) => {
         nav={{ back: <BackButton onClick={goBack} /> }}
         title={title}
       >
-        <CheckInList pointers={pointers} />
+        <CheckInList pointers={pointers} toCheckIn={toCheckIn} />
         <ViewportDetector onEnter={bump} />
       </HeaderPageLayout>
     </ThemeProvider>

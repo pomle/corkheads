@@ -10,10 +10,12 @@ import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 interface ArticleCheckInsSectionProps {
   articleId: string;
+  toCheckIn: ({ checkInId }: { checkInId: string }) => void;
 }
 
 const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
   articleId,
+  toCheckIn,
 }) => {
   const query = useMemo((): CheckInQuery => {
     return {
@@ -35,7 +37,11 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
   return (
     <SectionList>
       <Section header={<SectionTitle main="Recent Check ins" />}>
-        <CheckInList pointers={request.results} context="article" />
+        <CheckInList
+          pointers={request.results}
+          context="article"
+          toCheckIn={toCheckIn}
+        />
       </Section>
     </SectionList>
   );

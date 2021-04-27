@@ -13,6 +13,10 @@ import { ReactComponent as CameraIcon } from "assets/graphics/icons/camera.svg";
 import { useMe } from "components/hooks/useMe";
 import { useImage } from "components/hooks/db/useImages";
 import { useSession } from "components/context/SessionContext";
+import { createPath, useScreen } from "components/context/ScreenContext";
+import PictureView from "components/views/PictureView";
+import { ZoomCenter } from "components/ui/transitions/Zoom";
+import AreaButton from "components/ui/trigger/AreaButton";
 
 type StyleProps = {
   hasPhoto: boolean;
@@ -84,6 +88,8 @@ function resolveDisplayName(user: User, sessionUser?: firebase.User) {
   return "• • •";
 }
 
+const picturePath = createPath("/picture");
+
 interface ProfileHeadProps {
   userId: string;
 }
@@ -107,6 +113,12 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
     },
     [updateProfile, uploadFile]
   );
+
+  const goToPicture = useScreen({
+    path: picturePath,
+    render: () => <PictureView imageId={user.profile?.imageId} />,
+    transition: ZoomCenter,
+  });
 
   const hasPhoto = !!user.profile?.imageId;
 
@@ -133,6 +145,8 @@ const ProfileHead: React.FC<ProfileHeadProps> = ({ userId }) => {
 
   if (isMe) {
     photo = <ImageSelect onFile={handleImageSelect}>{photo}</ImageSelect>;
+  } else {
+    photo = <AreaButton onClick={() => goToPicture({})}>{photo}</AreaButton>;
   }
 
   return (

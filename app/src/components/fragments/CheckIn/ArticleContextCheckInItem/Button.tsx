@@ -5,14 +5,13 @@ import { useCheckInRoute } from "components/route/paths";
 
 interface ArticleContextCheckInItemButtonProps {
   pointer: CheckInPointer;
+  toCheckIn: ({ checkInId }: { checkInId: string }) => void;
 }
 
 const ArticleContextCheckInItemButton: React.FC<ArticleContextCheckInItemButtonProps> = React.memo(
-  ({ pointer }) => {
-    const goToCheckIn = useCheckInRoute();
-
+  ({ pointer, toCheckIn }) => {
     return (
-      <button onClick={() => goToCheckIn({ checkInId: pointer.checkInId })}>
+      <button onClick={() => toCheckIn({ checkInId: pointer.checkInId })}>
         <ArticleContextCheckInItem pointer={pointer} />
       </button>
     );
