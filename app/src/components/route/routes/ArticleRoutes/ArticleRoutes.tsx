@@ -1,8 +1,6 @@
-import React, { useMemo } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
 import ArticlePage from "./pages/ArticlePage";
 import { Path } from "lib/path";
-import { paths as rootPaths } from "components/route/paths";
 import { ScreenContext } from "components/context/ScreenContext";
 
 interface ArticleRoutesProps {
@@ -16,45 +14,9 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
   path,
   origin,
 }) => {
-  const history = useHistory();
-
-  const paths = useMemo(
-    () => ({
-      here: path,
-      checkIn: rootPaths.checkIn,
-    }),
-    [path]
-  );
-
-  const routes = useMemo(
-    () => ({
-      prev: () => {
-        const url = origin.url({});
-        history.push(url);
-      },
-      here: () => {
-        const url = path.url({});
-        history.push(url);
-      },
-      checkIn: (checkInId: string) => {
-        const url = paths.checkIn.url({ checkInId });
-        history.push(url);
-      },
-    }),
-    [origin, path, paths, history]
-  );
-
-  const articlePageRoutes = useMemo(
-    () => ({
-      back: routes.prev,
-      checkIn: routes.checkIn,
-    }),
-    [routes, paths]
-  );
-
   return (
     <ScreenContext originPath={origin} mountPath={path}>
-      <ArticlePage routes={articlePageRoutes} articleId={articleId} />
+      <ArticlePage articleId={articleId} />
     </ScreenContext>
   );
 };

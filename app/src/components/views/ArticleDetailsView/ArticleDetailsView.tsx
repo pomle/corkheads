@@ -15,10 +15,11 @@ import { useImage } from "components/hooks/db/useImages";
 import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 import LazyRender from "components/ui/trigger/LazyRender/LazyRender";
 import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
-import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
-import { useScreen } from "components/context/ScreenContext";
+import NavigationBar from "components/ui/layout/NavigationBar";
+import { useBack, useScreen } from "components/context/ScreenContext";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
 import ArticlePicturePage from "components/route/routes/ArticleRoutes/pages/ArticlePicturePage";
+import BackButton from "components/ui/trigger/BackButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -47,18 +48,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 interface ArticleDetailsViewProps {
-  nav: Nav;
   userId: string;
   articleId: string;
 }
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
-  nav,
   userId,
   articleId,
 }) => {
   const article = useUserVirtualArticle(userId, articleId);
   const image = useImage(article.imageId)?.data;
+
+  const goBack = useBack();
 
   const goToPicture = useScreen({
     path: (path) => path.append("/picture", {}),
@@ -74,7 +75,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
     <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
-          <NavigationBar nav={nav}>
+          <NavigationBar nav={{ back: <BackButton onClick={goBack} /> }}>
             <ViewTitle title={displayName} />
           </NavigationBar>
         </ViewCap>
