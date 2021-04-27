@@ -18,8 +18,8 @@ import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import NavigationBar from "components/ui/layout/NavigationBar";
 import { useBack, useScreen } from "components/context/ScreenContext";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
-import ArticlePicturePage from "components/route/routes/ArticleRoutes/pages/ArticlePicturePage";
 import BackButton from "components/ui/trigger/BackButton";
+import PicturePage from "components/route/pages/PicturePage";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -63,7 +63,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
 
   const goToPicture = useScreen({
     path: (path) => path.append("/picture", {}),
-    render: () => <ArticlePicturePage articleId={articleId} />,
+    render: () => <PicturePage imageId={article.imageId} />,
     transition: ZoomCenter,
   });
 

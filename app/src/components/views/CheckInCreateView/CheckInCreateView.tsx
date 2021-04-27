@@ -20,6 +20,11 @@ import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { Theme, themes } from "components/ui/theme/themes";
 import { useCheckInRoute } from "components/route/paths";
 import PositionStateButton from "./component/PositionStateButton";
+import { useBack } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
+import { useArticle } from "components/hooks/db/useArticles";
+import { useMe } from "components/hooks/useMe";
+import BusyView from "../BusyView";
 
 type StyleProps = {
   busy: boolean;
@@ -74,22 +79,20 @@ function initialCheckIn(article: Article, user: User): CheckIn {
 }
 
 interface CheckInCreateViewProps {
-  nav: Nav;
   article: Article;
   user: User;
 }
 
 const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
-  nav,
   article,
   user,
 }) => {
-  const initial = useMemo(() => initialCheckIn(article, user), [article, user]);
-
   const [photoURL, setPhotoURL] = useState<string>();
   const [file, setFile] = useState<File>();
 
-  const [checkIn, setCheckIn] = useState<CheckIn>(initial);
+  const [checkIn, setCheckIn] = useState<CheckIn>(() =>
+    initialCheckIn(article, user)
+  );
   const { rating } = checkIn;
 
   const updateCheckIn = useCallback(
@@ -148,6 +151,8 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
     }, [file, user, checkIn, goToCheckIn, commitCheckIn])
   );
 
+  const goBack = useBack();
+
   const canCheckIn = isCheckInValid(checkIn) && !handleCheckIn.busy;
 
   const classes = useStyles({ love: rating.love, busy: handleCheckIn.busy });
@@ -157,7 +162,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
       <ViewBody>
         <ThemeProvider theme="dusk">
           <ViewCap>
-            <NavigationBar nav={nav}>
+            <NavigationBar nav={{ back: <BackButton onClick={goBack} /> }}>
               <ViewTitle title={article.displayName} />
             </NavigationBar>
           </ViewCap>
@@ -203,4 +208,21 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   );
 };
 
-export default CheckInCreateView;
+interface CheckInCreatePreloadProps {
+  articleId: string;
+}
+
+const CheckInCreatePreload: React.FC<CheckInCreatePreloadProps> = ({
+  articleId,
+}) => {
+  const user = useMe()?.data;
+  const article = useArticle(articleId)?.data;
+
+  if (!user || !article) {
+    return <BusyView />;
+  }
+
+  return <CheckInCreateView article={article} user={user} />;
+};
+
+export default CheckInCreatePreload;

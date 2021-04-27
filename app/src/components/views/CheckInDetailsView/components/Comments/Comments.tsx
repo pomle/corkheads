@@ -56,12 +56,10 @@ const useStyles = makeStyles({
 
 interface CommentsProps {
   checkInId: string;
-  routes: {
-    user: (userId: string) => void;
-  };
+  toUser: ({ userId }: { userId: string }) => void;
 }
 
-const Comments: React.FC<CommentsProps> = ({ checkInId, routes }) => {
+const Comments: React.FC<CommentsProps> = ({ checkInId, toUser }) => {
   const user = useMe()?.data;
 
   const [comment, setComment] = useState<string>("");
@@ -101,7 +99,7 @@ const Comments: React.FC<CommentsProps> = ({ checkInId, routes }) => {
           comments.map((comment) => {
             return (
               <li key={comment.id}>
-                <button onClick={() => routes.user(comment.userId)}>
+                <button onClick={() => toUser({ userId: comment.userId })}>
                   <Comment comment={comment} />
                 </button>
               </li>

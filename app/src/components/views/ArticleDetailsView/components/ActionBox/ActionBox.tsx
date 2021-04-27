@@ -7,7 +7,7 @@ import WishlistToggleButton from "./components/WishlistToggleButton";
 import Ratings from "./components/Ratings";
 import { useScreen } from "components/context/ScreenContext";
 import { SlideRight } from "components/ui/transitions/Slide";
-import CheckInCreatePage from "components/route/routes/ArticleRoutes/pages/CheckInCreatePage";
+import CheckInCreateView from "components/views/CheckInCreateView";
 
 const useStyles = makeStyles((theme: Theme) => ({
   ActionBox: {
@@ -42,7 +42,7 @@ interface ActionBoxProps {
 const ActionBox: React.FC<ActionBoxProps> = ({ userId, articleId }) => {
   const goToCreateCheckIn = useScreen({
     path: (path) => path.append("/check-in", {}),
-    render: () => <CheckInCreatePage articleId={articleId} />,
+    render: () => <CheckInCreateView articleId={articleId} />,
     transition: SlideRight,
   });
 

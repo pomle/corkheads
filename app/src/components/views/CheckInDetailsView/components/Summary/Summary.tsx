@@ -15,6 +15,12 @@ import { useImage } from "components/hooks/db/useImages";
 import { Theme } from "components/ui/theme/themes";
 import PassedTime from "components/ui/format/PassedTime";
 import ItemRating from "components/fragments/Rating/ItemRating";
+import { createPath, useScreen } from "components/context/ScreenContext";
+import { ZoomCenter } from "components/ui/transitions/Zoom";
+import PictureView from "components/views/PictureView";
+import UserView from "components/views/UserView";
+import { SlideRight } from "components/ui/transitions/Slide";
+import ArticleDetailsView from "components/views/ArticleDetailsView";
 
 const useStyles = makeStyles((theme: Theme) => ({
   Summary: {
@@ -73,16 +79,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const articlePath = createPath("/article");
+const picturePath = createPath("/picture");
+
 interface SummaryProps {
   checkInId: string;
-  routes: {
-    article: (articleId: string) => void;
-    user: (userId: string) => void;
-    picture: () => void;
-  };
+  toUser: ({ userId }: { userId: string }) => void;
 }
 
-const Summary: React.FC<SummaryProps> = ({ checkInId, routes }) => {
+const Summary: React.FC<SummaryProps> = ({ checkInId, toUser }) => {
   const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
   const { articleId, userId } = checkIn;
 
@@ -93,22 +98,46 @@ const Summary: React.FC<SummaryProps> = ({ checkInId, routes }) => {
     useImage(checkIn.imageId || article.imageId)?.data ||
     ArticleImagePlaceholder;
 
+  const goToArticle = useScreen({
+    path: articlePath,
+    render: () => (
+      <>
+        {checkIn ? (
+          <ArticleDetailsView
+            userId={checkIn.userId}
+            articleId={checkIn.articleId}
+          />
+        ) : null}
+      </>
+    ),
+    transition: SlideRight,
+  });
+
+  const goToPicture = useScreen({
+    path: picturePath,
+    render: () => <PictureView imageId={checkIn.imageId ?? article.imageId} />,
+    transition: ZoomCenter,
+  });
+
   const classes = useStyles();
 
   return (
     <div className={classes.Summary}>
       <div className={classes.user}>
-        <button type="button" onClick={() => routes.user(checkIn.userId)}>
+        <button
+          type="button"
+          onClick={() => toUser({ userId: checkIn.userId })}
+        >
           <UserItem pointer={{ userId: checkIn.userId }} />
         </button>
       </div>
 
-      <AreaButton onClick={routes.picture} className={classes.photo}>
+      <AreaButton onClick={() => goToPicture({})} className={classes.photo}>
         <Image image={image} fit="cover" size="100vw" />
       </AreaButton>
 
       <div className={classes.article}>
-        <button type="button" onClick={() => routes.article(checkIn.articleId)}>
+        <button type="button" onClick={() => goToArticle({})}>
           <ArticleItem
             pointer={{
               userId: user.id,

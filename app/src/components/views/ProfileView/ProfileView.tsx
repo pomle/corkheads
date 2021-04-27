@@ -50,17 +50,10 @@ enum ProfileSection {
 }
 
 interface ProfileViewProps {
-  routes: {
-    article: (articleId: string) => void;
-    checkIn: (checkInId: string) => void;
-    communityCheckIns: () => string;
-    checkIns: () => string;
-    friends: () => string;
-  };
   userId: string;
 }
 
-const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
+const ProfileView: React.FC<ProfileViewProps> = ({ userId }) => {
   const [section, setSection] = useState<ProfileSection>(
     ProfileSection.Community
   );
@@ -131,9 +124,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                       header={
                         <SectionTitle
                           main="Recent check ins"
-                          context={
-                            <Link to={routes.communityCheckIns}>See all ›</Link>
-                          }
+                          context={<Link to="/">See all ›</Link>}
                         />
                       }
                     >
@@ -144,7 +135,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                       header={
                         <SectionTitle
                           main="Friends"
-                          context={<Link to={routes.friends}>See all ›</Link>}
+                          context={<Link to="/">See all ›</Link>}
                         />
                       }
                     >

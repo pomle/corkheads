@@ -5,19 +5,12 @@ import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
 
 interface ProfilePageProps {
   userId: string;
-  routes: {
-    article: (articleId: string) => void;
-    checkIn: (checkInId: string) => void;
-    checkIns: () => string;
-    communityCheckIns: () => string;
-    friends: () => string;
-  };
 }
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ routes, userId }) => {
+const ProfilePage: React.FC<ProfilePageProps> = ({ userId }) => {
   return (
     <ViewStack>
-      <ProfileView routes={routes} userId={userId} />
+      <ProfileView userId={userId} />
       <FindDrinkOverlayView userId={userId} />
     </ViewStack>
   );

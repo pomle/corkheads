@@ -4,7 +4,7 @@ import AreaButton from "components/ui/trigger/AreaButton";
 import { useBack } from "components/context/ScreenContext";
 
 interface PicturePageProps {
-  imageId: string;
+  imageId?: string;
   routes?: {
     back: () => void;
   };

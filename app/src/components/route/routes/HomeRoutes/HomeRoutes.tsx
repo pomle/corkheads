@@ -1,85 +1,36 @@
-import React, { useMemo, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import Screen from "components/route/Screen";
-import ViewStack from "components/ui/layout/ViewStack";
-import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
+import React, { useCallback, useRef } from "react";
+import { SlideRight } from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
 import { useMe } from "components/hooks/useMe";
 import BusyView from "components/views/BusyView";
-import { Path } from "lib/path";
-import ArticleRoutes from "../ArticleRoutes";
-import { stringCodec } from "components/route/codecs";
-import CheckInsRoute from "components/route/routes/CheckInsRoute";
-import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import { paths as rootPaths } from "components/route/paths";
 import { useScreen } from "components/context/ScreenContext";
 import UserView from "components/views/UserView";
+import ArticleDetailsView from "components/views/ArticleDetailsView";
+import CheckInDetailsView from "components/views/CheckInDetailsView";
 
-interface HomeRoutesProps {
-  path: Path<{}>;
-}
-
-const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
-  const history = useHistory();
-
-  const paths = useMemo(
-    () => ({
-      here: path,
-      article: path.append("/article/:articleId", { articleId: stringCodec }),
-      checkIn: path.append("/check-in/:checkInId", { checkInId: stringCodec }),
-      checkIns: path.append("/check-ins", {}),
-      collection: path.append("/collection", {}),
-      communityCheckIns: path.append("/community/check-ins", {}),
-      contributions: path.append("/contributions", {}),
-      friends: path.append("/friends", {}),
-      toplist: path.append("/toplist", {}),
-      user: rootPaths.user,
-      wishlist: path.append("/wishlist", {}),
-    }),
-    [path]
-  );
-
-  const routes = useMemo(
-    () => ({
-      here() {
-        const url = paths.here.url({});
-        history.push(url);
-      },
-      article(articleId: string) {
-        const url = paths.article.url({ articleId });
-        history.push(url);
-      },
-    }),
-    [paths, history]
-  );
-
-  const profilePageRoutes = useMemo(
-    () => ({
-      article: routes.article,
-      checkIn(checkInId: string) {
-        const url = paths.checkIn.url({ checkInId });
-        history.push(url);
-      },
-      checkIns() {
-        return paths.checkIns.url({});
-      },
-      communityCheckIns() {
-        return paths.communityCheckIns.url({});
-      },
-      friends() {
-        return paths.friends.url({});
-      },
-      user(userId: string) {
-        const url = paths.user.url({ userId });
-        history.push(url);
-      },
-    }),
-    [history, paths, routes]
-  );
-
+const HomeRoutes: React.FC = () => {
   const element = useRef<React.ReactElement>();
 
   const user = useMe();
+
+  useScreen({
+    path: () => rootPaths.article,
+    render: ({ articleId }) => {
+      if (!user) {
+        return <>{null}</>;
+      }
+
+      return <ArticleDetailsView userId={user.id} articleId={articleId} />;
+    },
+    transition: SlideRight,
+  });
+
+  useScreen({
+    path: () => rootPaths.checkIn,
+    render: ({ checkInId }) => <CheckInDetailsView checkInId={checkInId} />,
+    transition: SlideRight,
+  });
 
   useScreen({
     path: () => rootPaths.user,
@@ -88,37 +39,7 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
   });
 
   if (user) {
-    element.current = (
-      <ViewStack>
-        <ProfilePage userId={user.id} routes={profilePageRoutes} />
-        <Screen path={paths.communityCheckIns} transition={SlideRight}>
-          {(match) => {
-            return (
-              <CheckInsRoute userId={user.id} origin={path} path={match.path} />
-            );
-          }}
-        </Screen>
-        <Screen path={paths.article} transition={SlideRight}>
-          {(match) => (
-            <ArticleRoutes
-              origin={path}
-              path={match.path}
-              articleId={match.params.articleId}
-            />
-          )}
-        </Screen>
-        <Screen path={paths.checkIn} transition={SlideRight}>
-          {(match) => (
-            <CheckInRoutes
-              origin={path}
-              path={match.path}
-              userId={user.id}
-              checkInId={match.params.checkInId}
-            />
-          )}
-        </Screen>
-      </ViewStack>
-    );
+    element.current = <ProfilePage userId={user.id} />;
   }
 
   if (!element.current) {

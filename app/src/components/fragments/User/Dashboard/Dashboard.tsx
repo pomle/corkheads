@@ -15,36 +15,25 @@ import { createPath, useScreen } from "components/context/ScreenContext";
 import CheckInsView from "components/views/CheckInsView";
 import { SlideRight } from "components/ui/transitions/Slide";
 import UserToplistView from "components/views/UserToplistView";
-import { stringCodec } from "components/route/codecs";
-import ArticleDetailsView from "components/views/ArticleDetailsView";
 import UserCollectionView from "components/views/UserCollectionView";
 import UserWishlistView from "components/views/UserWishlistView";
 import UserContributionsView from "components/views/UserContributionsView";
-import { Path, PathCodec } from "lib/path";
+import { useArticleRoute } from "components/route/paths";
 
-interface UserViewProps {
+interface DashboardProps {
   userId: string;
 }
 
-const articlePath = createPath("/article/:articleId", {
-  articleId: stringCodec,
-});
 const checkInsPath = createPath("/check-ins");
 const collectionPath = createPath("/collection");
 const contributionsPath = createPath("/contributions");
 const toplistPath = createPath("/toplist");
 const wishlistPath = createPath("/wishlist");
 
-const UserView: React.FC<UserViewProps> = ({ userId }) => {
+const Dashboard: React.FC<DashboardProps> = ({ userId }) => {
   const user = useUser(userId)?.data || createUser(userId);
 
-  const goToArticle = useScreen({
-    path: articlePath,
-    render: ({ articleId }) => (
-      <ArticleDetailsView userId={userId} articleId={articleId} />
-    ),
-    transition: SlideRight,
-  });
+  const goToArticle = useArticleRoute();
 
   const goToCheckIns = useScreen({
     path: checkInsPath,
@@ -182,4 +171,4 @@ const UserView: React.FC<UserViewProps> = ({ userId }) => {
   );
 };
 
-export default UserView;
+export default Dashboard;

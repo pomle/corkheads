@@ -12,6 +12,16 @@ import { useMe } from "components/hooks/useMe";
 import Comments from "./components/Comments";
 import { Theme } from "components/ui/theme/themes";
 import Summary from "./components/Summary";
+import {
+  createPath,
+  useBack,
+  useScreen,
+} from "components/context/ScreenContext";
+import { useCheckIn } from "components/hooks/db/useCheckIns";
+import { createCheckIn } from "types/CheckIn";
+import UserView from "../UserView";
+import { SlideRight } from "components/ui/transitions/Slide";
+import BackButton from "components/ui/trigger/BackButton";
 
 const useStyles = makeStyles((theme: Theme) => ({
   summary: {
@@ -46,22 +56,26 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+const userPath = createPath("/user");
+
 interface CheckInDetailsViewProps {
-  nav: Nav;
-  routes: {
-    article: (articleId: string) => void;
-    user: (userId: string) => void;
-    picture: () => void;
-  };
   checkInId: string;
 }
 
 const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
-  nav,
-  routes,
   checkInId,
 }) => {
   const me = useMe()?.data;
+
+  const checkIn = useCheckIn(checkInId)?.data || createCheckIn(checkInId);
+
+  const goBack = useBack();
+
+  const goToUser = useScreen({
+    path: userPath,
+    render: () => <>{checkIn ? <UserView userId={checkIn.userId} /> : null}</>,
+    transition: SlideRight,
+  });
 
   const classes = useStyles();
 
@@ -69,7 +83,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
     <ThemeProvider theme="pure">
       <HeaderLayout>
         <ViewCap>
-          <NavigationBar nav={nav}>
+          <NavigationBar nav={{ back: <BackButton onClick={goBack} /> }}>
             <ViewTitle title="Check in" />
           </NavigationBar>
         </ViewCap>
@@ -77,7 +91,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
           <ViewBody>
             <ThemeProvider theme="pure">
               <div className={classes.summary}>
-                <Summary checkInId={checkInId} routes={routes} />
+                <Summary checkInId={checkInId} toUser={goToUser} />
               </div>
 
               <div className={classes.interactions}>
@@ -85,7 +99,7 @@ const CheckInDetailsView: React.FC<CheckInDetailsViewProps> = ({
                   {me && <Reactions checkInId={checkInId} userId={me.id} />}
                 </div>
                 <div className={classes.comments}>
-                  <Comments checkInId={checkInId} routes={routes} />
+                  <Comments checkInId={checkInId} toUser={goToUser} />
                 </div>
               </div>
             </ThemeProvider>

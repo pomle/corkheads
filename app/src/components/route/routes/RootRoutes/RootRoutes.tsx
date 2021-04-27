@@ -6,7 +6,7 @@ import { paths } from "components/route/paths";
 const RootRoutes: React.FC = () => {
   return (
     <ScreenContext originPath={paths.root} mountPath={paths.root}>
-      <HomeRoutes path={paths.root} />
+      <HomeRoutes />
     </ScreenContext>
   );
 };
