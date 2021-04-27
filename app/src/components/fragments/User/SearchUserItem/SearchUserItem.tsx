@@ -19,15 +19,13 @@ const useStyles = makeStyles({
 
 interface SearchUserItemProps {
   pointer: { userId: string };
-  routes: {
-    user: (userId: string) => void;
-  };
+  toUser: ({ userId }: { userId: string }) => void;
   following: ReturnType<typeof useFollowing>;
 }
 
 const SearchUserItem: React.FC<SearchUserItemProps> = ({
   pointer,
-  routes,
+  toUser,
   following: { add, remove, users },
 }) => {
   const classes = useStyles();
@@ -46,7 +44,7 @@ const SearchUserItem: React.FC<SearchUserItemProps> = ({
 
   return (
     <div className={classes.SearchUserItem}>
-      <button onClick={() => routes.user(pointer.userId)}>
+      <button onClick={() => toUser({ userId: pointer.userId })}>
         <UserItem pointer={pointer} />
       </button>
       <div className={classes.state}>

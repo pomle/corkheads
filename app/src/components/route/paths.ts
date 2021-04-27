@@ -13,7 +13,6 @@ export const paths = {
   checkIn: root.append("/check-in/:checkInId", {
     checkInId: stringCodec,
   }),
-  search: root.append("/search", {}),
   user: root.append("/user/:userId", {
     userId: stringCodec,
   }),
@@ -29,6 +28,10 @@ function usePath<T extends Path<PathCodec>>(path: T) {
     },
     [history, path]
   );
+}
+
+export function useArticleRoute() {
+  return usePath(paths.article);
 }
 
 export function useCheckInRoute() {

@@ -18,6 +18,19 @@ import SectionList from "components/ui/layout/SectionList";
 import Section from "components/ui/layout/Section";
 import SearchUserItem from "components/fragments/User/SearchUserItem";
 import { useFollowing } from "components/hooks/db/useFollowing";
+import CancelButton from "components/ui/trigger/CancelButton";
+import NavButton from "components/ui/trigger/NavButton";
+import {
+  createPath,
+  useBack,
+  useScreen,
+} from "components/context/ScreenContext";
+import { ReactComponent as PlusIcon } from "assets/graphics/icons/plus.svg";
+import { stringCodec } from "components/route/codecs";
+import UserView from "../UserView";
+import { SlideRight } from "components/ui/transitions/Slide";
+import ArticleDetailsView from "../ArticleDetailsView";
+import ArticleEditView from "../ArticleEditView";
 
 const useStyles = makeStyles({
   searchBar: {
@@ -32,17 +45,39 @@ const useStyles = makeStyles({
 
 const MIN_QUERY_LENGTH = 3;
 
+const articleCreatePath = createPath("/create-article", {});
+const articlePath = createPath("/article/:articleId", {
+  articleId: stringCodec,
+});
+const searchPath = createPath("/user/:userId", { userId: stringCodec });
+
 interface SearchViewProps {
-  nav: Nav;
   userId: string;
-  routes: {
-    createArticle: () => void;
-    article: (articleId: string) => void;
-    user: (userId: string) => void;
-  };
 }
 
-const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
+const SearchView: React.FC<SearchViewProps> = ({ userId }) => {
+  const goBack = useBack();
+
+  const goToArticle = useScreen({
+    path: articlePath,
+    render: ({ articleId }) => (
+      <ArticleDetailsView userId={userId} articleId={articleId} />
+    ),
+    transition: SlideRight,
+  });
+
+  const goToArticleCreate = useScreen({
+    path: articleCreatePath,
+    render: () => <ArticleEditView userId={userId} />,
+    transition: SlideRight,
+  });
+
+  const goToUser = useScreen({
+    path: searchPath,
+    render: ({ userId }) => <UserView userId={userId} />,
+    transition: SlideRight,
+  });
+
   const [query, setQuery] = useState<string>("");
 
   const executedQuery = query.length >= MIN_QUERY_LENGTH ? query : "";
@@ -70,9 +105,9 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
       searchHistory.add({
         text: searchQuery.search.text,
       });
-      routes.article(articleId);
+      goToArticle({ articleId });
     },
-    [searchQuery, searchHistory, routes]
+    [searchQuery, searchHistory, goToArticle]
   );
 
   const classes = useStyles();
@@ -81,7 +116,19 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
     <SearchLayout busy={request.busy}>
       <ThemeProvider theme="dusk">
         <ViewCap>
-          <NavigationBar nav={nav} />
+          <NavigationBar
+            nav={{
+              back: <CancelButton onClick={goBack}>Close</CancelButton>,
+              forward: (
+                <NavButton
+                  icon={<PlusIcon />}
+                  onClick={() => goToArticleCreate({})}
+                >
+                  Create
+                </NavButton>
+              ),
+            }}
+          />
           <ViewHead>
             <div className={classes.searchBar}>
               <Input
@@ -127,8 +174,8 @@ const SearchView: React.FC<SearchViewProps> = ({ nav, userId, routes }) => {
                   <SearchUserItem
                     key={result.userId}
                     pointer={result}
-                    routes={routes}
                     following={following}
+                    toUser={goToUser}
                   />
                 );
               })}

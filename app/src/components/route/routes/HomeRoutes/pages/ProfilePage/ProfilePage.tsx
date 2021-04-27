@@ -11,7 +11,6 @@ interface ProfilePageProps {
     checkIns: () => string;
     communityCheckIns: () => string;
     friends: () => string;
-    search: () => void;
   };
 }
 
@@ -19,7 +18,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ routes, userId }) => {
   return (
     <ViewStack>
       <ProfileView routes={routes} userId={userId} />
-      <FindDrinkOverlayView routes={routes} />
+      <FindDrinkOverlayView userId={userId} />
     </ViewStack>
   );
 };

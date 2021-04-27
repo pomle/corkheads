@@ -20,6 +20,9 @@ import { getPreviewScore } from "./score";
 import { usePopupDialog } from "components/context/PopupDialogContext";
 import ConfirmCreateArticleDialog from "./components/ConfirmCreateArticleDialog";
 import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
+import { useBack } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
+import { useArticleRoute } from "components/route/paths";
 
 type StyleProps = {
   busy: boolean;
@@ -67,18 +70,13 @@ function isArticleValid(article: Article) {
 }
 
 interface ArticleEditViewProps {
-  nav: Nav;
   userId: string;
-  routes: {
-    article: (articleId: string) => void;
-  };
 }
 
-const ArticleEditView: React.FC<ArticleEditViewProps> = ({
-  nav,
-  userId,
-  routes,
-}) => {
+const ArticleEditView: React.FC<ArticleEditViewProps> = ({ userId }) => {
+  const goBack = useBack();
+  const goToArticle = useArticleRoute();
+
   const popupDialog = usePopupDialog();
 
   const [photoURL, setPhotoURL] = useState<string>();
@@ -130,8 +128,8 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
     useCallback(async () => {
       const ref = await commitArticle({ article, file });
       const articleId = ref.id;
-      routes.article(articleId);
-    }, [file, article, commitArticle, routes])
+      goToArticle({ articleId });
+    }, [file, article, commitArticle, goToArticle])
   );
 
   const bottling = useBottling(article);
@@ -185,7 +183,7 @@ const ArticleEditView: React.FC<ArticleEditViewProps> = ({
       <ViewBody>
         <ThemeProvider theme="dusk">
           <ViewCap>
-            <NavigationBar nav={nav}>
+            <NavigationBar nav={{ back: <BackButton onClick={goBack} /> }}>
               <ViewTitle title="Create Whisky" />
             </NavigationBar>
           </ViewCap>

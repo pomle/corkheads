@@ -6,19 +6,14 @@ import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
 import { useMe } from "components/hooks/useMe";
 import BusyView from "components/views/BusyView";
-import ToplistRoute from "components/route/routes/ToplistRoute";
 import { Path } from "lib/path";
 import ArticleRoutes from "../ArticleRoutes";
 import { stringCodec } from "components/route/codecs";
-import CollectionRoute from "components/route/routes/CollectionRoute";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import FriendsRoute from "components/route/routes/FriendsRoute";
-import WishlistRoute from "components/route/routes/WishlistRoute";
 import SearchRoutes from "components/route/routes/SearchRoutes";
-import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
-import ContributionsRoute from "../ContributionsRoute";
 import { useScreen } from "components/context/ScreenContext";
 import UserView from "components/views/UserView";
 
@@ -39,7 +34,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       communityCheckIns: path.append("/community/check-ins", {}),
       contributions: path.append("/contributions", {}),
       friends: path.append("/friends", {}),
-      search: rootPaths.search,
       toplist: path.append("/toplist", {}),
       user: rootPaths.user,
       wishlist: path.append("/wishlist", {}),
@@ -55,10 +49,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       },
       article(articleId: string) {
         const url = paths.article.url({ articleId });
-        history.push(url);
-      },
-      search() {
-        const url = rootPaths.search.url({});
         history.push(url);
       },
     }),
@@ -81,7 +71,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       friends() {
         return paths.friends.url({});
       },
-      search: routes.search,
       user(userId: string) {
         const url = paths.user.url({ userId });
         history.push(url);
@@ -104,18 +93,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
     element.current = (
       <ViewStack>
         <ProfilePage userId={user.id} routes={profilePageRoutes} />
-        <Screen path={paths.checkIns} transition={SlideRight}>
-          {(match) => {
-            return (
-              <CheckInsRoute
-                userId={user.id}
-                filterUserIds={[user.id]}
-                origin={path}
-                path={match.path}
-              />
-            );
-          }}
-        </Screen>
         <Screen path={paths.communityCheckIns} transition={SlideRight}>
           {(match) => {
             return (

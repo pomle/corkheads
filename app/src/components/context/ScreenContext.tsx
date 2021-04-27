@@ -159,3 +159,9 @@ export function useBack() {
     history.push(url);
   }, [originPath, history]);
 }
+
+export function createPath(pathString: string, codec: PathCodec = {}) {
+  return function appendPath(path: Path<{}>) {
+    return path.append(pathString, codec);
+  };
+}

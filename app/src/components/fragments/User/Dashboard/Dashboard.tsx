@@ -11,7 +11,7 @@ import Badge from "components/ui/icons/Badge";
 import Badged from "components/ui/typography/Badged";
 import { useUser } from "components/hooks/db/useUsers";
 import { createUser } from "types/User";
-import { useScreen } from "components/context/ScreenContext";
+import { createPath, useScreen } from "components/context/ScreenContext";
 import CheckInsView from "components/views/CheckInsView";
 import { SlideRight } from "components/ui/transitions/Slide";
 import UserToplistView from "components/views/UserToplistView";
@@ -24,12 +24,6 @@ import { Path, PathCodec } from "lib/path";
 
 interface UserViewProps {
   userId: string;
-}
-
-function createPath(pathString: string, codec: PathCodec = {}) {
-  return function appendPath(path: Path<{}>) {
-    return path.append(pathString, codec);
-  };
 }
 
 const articlePath = createPath("/article/:articleId", {
