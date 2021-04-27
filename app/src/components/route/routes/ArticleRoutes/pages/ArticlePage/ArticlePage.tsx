@@ -11,7 +11,6 @@ interface ArticlePageProps {
     back: () => void;
     checkIn: (checkInId: string) => void;
     createCheckIn: () => void;
-    picture: () => void;
   };
 }
 

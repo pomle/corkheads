@@ -9,6 +9,7 @@ import ArticlePicturePage from "./pages/ArticlePicturePage";
 import CheckInCreatePage from "./pages/CheckInCreatePage";
 import { Path } from "lib/path";
 import { paths as rootPaths } from "components/route/paths";
+import { ScreenContext } from "components/context/ScreenContext";
 
 interface ArticleRoutesProps {
   origin: Path<{}>;
@@ -26,7 +27,6 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
   const paths = useMemo(
     () => ({
       here: path,
-      picture: path.append("/picture", {}),
       createCheckIn: path.append("/check-in/", {}),
       checkIn: rootPaths.checkIn,
     }),
@@ -54,10 +54,6 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
   const articlePageRoutes = useMemo(
     () => ({
       back: routes.prev,
-      picture: () => {
-        const url = paths.picture.url({});
-        history.push(url);
-      },
       createCheckIn: () => {
         const url = paths.createCheckIn.url({});
         history.push(url);
@@ -65,13 +61,6 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
       checkIn: routes.checkIn,
     }),
     [routes, paths, history]
-  );
-
-  const picturePageRoutes = useMemo(
-    () => ({
-      back: routes.here,
-    }),
-    [routes]
   );
 
   const createCheckInPageRoutes = useMemo(
@@ -83,25 +72,19 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
   );
 
   return (
-    <ViewStack>
-      <ArticlePage routes={articlePageRoutes} articleId={articleId} />
-      <Screen path={paths.picture} transition={ZoomCenter}>
-        {() => (
-          <ArticlePicturePage
-            routes={picturePageRoutes}
-            articleId={articleId}
-          />
-        )}
-      </Screen>
-      <Screen path={paths.createCheckIn} transition={SlideRight}>
-        {() => (
-          <CheckInCreatePage
-            routes={createCheckInPageRoutes}
-            articleId={articleId}
-          />
-        )}
-      </Screen>
-    </ViewStack>
+    <ScreenContext mountPath={path}>
+      <ViewStack>
+        <ArticlePage routes={articlePageRoutes} articleId={articleId} />
+        <Screen path={paths.createCheckIn} transition={SlideRight}>
+          {() => (
+            <CheckInCreatePage
+              routes={createCheckInPageRoutes}
+              articleId={articleId}
+            />
+          )}
+        </Screen>
+      </ViewStack>
+    </ScreenContext>
   );
 };
 

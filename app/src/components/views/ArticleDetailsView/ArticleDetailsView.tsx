@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import HeaderLayout from "components/ui/layout/HeaderLayout";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -16,6 +16,9 @@ import ArticleCheckInsSection from "./components/ArticleCheckInsSection";
 import LazyRender from "components/ui/trigger/LazyRender/LazyRender";
 import ArticleImagePlaceholder from "assets/graphics/drink-placeholder.svg";
 import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
+import { useScreen } from "components/context/ScreenContext";
+import { ZoomCenter } from "components/ui/transitions/Zoom";
+import ArticlePicturePage from "components/route/routes/ArticleRoutes/pages/ArticlePicturePage";
 
 const useStyles = makeStyles((theme: Theme) => ({
   head: {
@@ -46,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface ArticleDetailsViewProps {
   nav: Nav;
   routes: {
-    picture: () => void;
     createCheckIn: () => void;
     checkIn: (checkInId: string) => void;
   };
@@ -63,6 +65,14 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   const article = useUserVirtualArticle(userId, articleId);
   const image = useImage(article.imageId)?.data;
 
+  const goToPicture = useScreen({
+    path: (path) => path.append("/picture", {}),
+    render: useCallback(() => <ArticlePicturePage articleId={articleId} />, [
+      articleId,
+    ]),
+    transition: ZoomCenter,
+  });
+
   const { displayName } = article;
 
   const classes = useStyles();
@@ -76,7 +86,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </NavigationBar>
         </ViewCap>
         <ViewBody>
-          <AreaButton onClick={routes.picture} className={classes.photo}>
+          <AreaButton onClick={() => goToPicture({})} className={classes.photo}>
             <Image
               image={image}
               placeholder={ArticleImagePlaceholder}
