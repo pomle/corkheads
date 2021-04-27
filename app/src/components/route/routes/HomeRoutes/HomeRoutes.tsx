@@ -21,7 +21,6 @@ import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
 import ContributionsRoute from "../ContributionsRoute";
 import NotificationsPage from "./pages/NotificationsPage";
-import { ScreenContext } from "components/context/ScreenContext";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -137,121 +136,109 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
 
   if (user) {
     element.current = (
-      <ScreenContext originPath={path} mountPath={path}>
-        <ViewStack>
-          <ProfilePage userId={user.id} routes={profilePageRoutes} />
-          <Screen path={paths.settings} transition={SlideRight}>
-            {() => (
-              <SettingsPage userId={user.id} routes={settingsPageRoutes} />
-            )}
-          </Screen>
-          <Screen path={paths.notifications} transition={SlideRight}>
-            {() => (
-              <NotificationsPage
+      <ViewStack>
+        <ProfilePage userId={user.id} routes={profilePageRoutes} />
+        <Screen path={paths.settings} transition={SlideRight}>
+          {() => <SettingsPage userId={user.id} routes={settingsPageRoutes} />}
+        </Screen>
+        <Screen path={paths.notifications} transition={SlideRight}>
+          {() => (
+            <NotificationsPage
+              userId={user.id}
+              routes={notificationsPageRoutes}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.toplist} transition={SlideRight}>
+          {(match) => (
+            <ToplistRoute origin={path} path={match.path} userId={user.id} />
+          )}
+        </Screen>
+        <Screen path={paths.collection} transition={SlideRight}>
+          {(match) => (
+            <CollectionRoute origin={path} path={match.path} userId={user.id} />
+          )}
+        </Screen>
+        <Screen path={paths.checkIns} transition={SlideRight}>
+          {(match) => {
+            return (
+              <CheckInsRoute
                 userId={user.id}
-                routes={notificationsPageRoutes}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.toplist} transition={SlideRight}>
-            {(match) => (
-              <ToplistRoute origin={path} path={match.path} userId={user.id} />
-            )}
-          </Screen>
-          <Screen path={paths.collection} transition={SlideRight}>
-            {(match) => (
-              <CollectionRoute
+                filterUserIds={[user.id]}
                 origin={path}
                 path={match.path}
-                userId={user.id}
               />
-            )}
-          </Screen>
-          <Screen path={paths.checkIns} transition={SlideRight}>
-            {(match) => {
-              return (
-                <CheckInsRoute
-                  userId={user.id}
-                  filterUserIds={[user.id]}
-                  origin={path}
-                  path={match.path}
-                />
-              );
-            }}
-          </Screen>
-          <Screen path={paths.communityCheckIns} transition={SlideRight}>
-            {(match) => {
-              return (
-                <CheckInsRoute
-                  userId={user.id}
-                  origin={path}
-                  path={match.path}
-                />
-              );
-            }}
-          </Screen>
-          <Screen path={paths.contributions} transition={SlideRight}>
-            {(match) => (
-              <ContributionsRoute
-                origin={path}
-                path={match.path}
-                userId={user.id}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.friends} transition={SlideRight}>
-            {(match) => (
-              <FriendsRoute
-                origin={paths.here}
-                path={match.path}
-                userId={user.id}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.wishlist} transition={SlideRight}>
-            {(match) => (
-              <WishlistRoute origin={path} path={match.path} userId={user.id} />
-            )}
-          </Screen>
-          <Screen path={paths.article} transition={SlideRight}>
-            {(match) => (
-              <ArticleRoutes
-                origin={path}
-                path={match.path}
-                articleId={match.params.articleId}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.checkIn} transition={SlideRight}>
-            {(match) => (
-              <CheckInRoutes
-                origin={path}
-                path={match.path}
-                userId={user.id}
-                checkInId={match.params.checkInId}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.user} transition={SlideRight}>
-            {(match) => (
-              <UserRoutes
-                origin={paths.here}
-                path={match.path}
-                userId={match.params.userId}
-              />
-            )}
-          </Screen>
-          <Screen path={paths.search} transition={SlideDown}>
-            {(match) => (
-              <SearchRoutes
-                origin={paths.here}
-                path={match.path}
-                userId={user.id}
-              />
-            )}
-          </Screen>
-        </ViewStack>
-      </ScreenContext>
+            );
+          }}
+        </Screen>
+        <Screen path={paths.communityCheckIns} transition={SlideRight}>
+          {(match) => {
+            return (
+              <CheckInsRoute userId={user.id} origin={path} path={match.path} />
+            );
+          }}
+        </Screen>
+        <Screen path={paths.contributions} transition={SlideRight}>
+          {(match) => (
+            <ContributionsRoute
+              origin={path}
+              path={match.path}
+              userId={user.id}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.friends} transition={SlideRight}>
+          {(match) => (
+            <FriendsRoute
+              origin={paths.here}
+              path={match.path}
+              userId={user.id}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.wishlist} transition={SlideRight}>
+          {(match) => (
+            <WishlistRoute origin={path} path={match.path} userId={user.id} />
+          )}
+        </Screen>
+        <Screen path={paths.article} transition={SlideRight}>
+          {(match) => (
+            <ArticleRoutes
+              origin={path}
+              path={match.path}
+              articleId={match.params.articleId}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.checkIn} transition={SlideRight}>
+          {(match) => (
+            <CheckInRoutes
+              origin={path}
+              path={match.path}
+              userId={user.id}
+              checkInId={match.params.checkInId}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.user} transition={SlideRight}>
+          {(match) => (
+            <UserRoutes
+              origin={paths.here}
+              path={match.path}
+              userId={match.params.userId}
+            />
+          )}
+        </Screen>
+        <Screen path={paths.search} transition={SlideDown}>
+          {(match) => (
+            <SearchRoutes
+              origin={paths.here}
+              path={match.path}
+              userId={user.id}
+            />
+          )}
+        </Screen>
+      </ViewStack>
     );
   }
 
