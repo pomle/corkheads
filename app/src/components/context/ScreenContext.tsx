@@ -10,11 +10,19 @@ import { useHistory } from "react-router";
 import ViewStack from "components/ui/layout/ViewStack";
 import Screen from "components/route/Screen";
 import { Path, PathCodec } from "lib/path";
+import ErrorBoundary from "components/views/ErrorBoundaryView";
+import BackButton from "components/ui/trigger/BackButton";
 
 type Mount<P extends Path<PathCodec>> = {
   mountPath: P;
   render: (params: ReturnType<P["decode"]>[0]) => React.ReactElement;
   transition?: React.FC<{ active: boolean }>;
+};
+
+const ErrorHandler: React.FC = ({ children }) => {
+  const nav = { back: <BackButton onClick={useBack} /> };
+
+  return <ErrorBoundary nav={nav}>{() => <>{children}</>}</ErrorBoundary>;
 };
 
 function useScreenState() {
@@ -66,7 +74,7 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
             >
               {(screen) => (
                 <ScreenContext originPath={mountPath} mountPath={screen.path}>
-                  {mount.render(screen.params)}
+                  <ErrorHandler>{mount.render(screen.params)}</ErrorHandler>
                 </ScreenContext>
               )}
             </Screen>
