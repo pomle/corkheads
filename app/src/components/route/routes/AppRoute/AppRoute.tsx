@@ -5,10 +5,14 @@ import Slide, { SlideDirection } from "components/ui/transitions/Slide";
 import AuthenticationView from "components/views/AuthenticationView";
 import ContextMenuView from "components/views/ContextMenuView/ContextMenuView";
 import PopupDialogView from "components/views/PopupDialogView";
-import RootRoutes from "components/route/routes/RootRoutes";
+import RootRoutes from "components/route/routes/HomeRoutes";
 import { useFirebase } from "components/context/FirebaseContext";
 import { useMe } from "components/hooks/useMe";
 import config from "config/app.config.js";
+import { ScreenContext } from "components/context/ScreenContext";
+import { createPath } from "lib/path";
+
+const rootPath = createPath("/", {});
 
 const AppRoute: React.FC = () => {
   const user = useMe();
@@ -34,7 +38,9 @@ const AppRoute: React.FC = () => {
   return (
     <PopupDialogView>
       <ViewStack>
-        <RootRoutes />
+        <ScreenContext originPath={rootPath} mountPath={rootPath}>
+          <RootRoutes />
+        </ScreenContext>
 
         <Slide direction={SlideDirection.Down} active={!user}>
           <AuthenticationView />

@@ -62,7 +62,6 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
 
   return (
     <Context.Provider value={value}>
-      <div data-path={mountPath.path} />
       <ViewStack>
         {children}
 
@@ -75,6 +74,7 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
             >
               {(screen) => (
                 <ScreenContext originPath={mountPath} mountPath={screen.path}>
+                  <div data-path={screen.path} />
                   <ErrorHandler>{mount.render(screen.params)}</ErrorHandler>
                 </ScreenContext>
               )}
@@ -141,7 +141,7 @@ export function useScreen<P extends Path<PathCodec>>({
   const history = useHistory();
 
   return useCallback(
-    (params: Parameters<typeof mountPath["url"]>[0]) => {
+    (params: Parameters<P["url"]>[0]) => {
       const url = mountPath.url(params);
       history.push(url);
     },
