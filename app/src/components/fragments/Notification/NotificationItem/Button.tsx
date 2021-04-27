@@ -1,19 +1,19 @@
 import React from "react";
 import NotificationItem from "./NotificationItem";
 import { Notification } from "types/Notification";
+import { useCheckInRoute } from "components/route/paths";
 
 interface NotificationItemButtonProps {
   userId: string;
   notification: Notification;
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
 }
 
 const NotificationItemButton: React.FC<NotificationItemButtonProps> = React.memo(
-  ({ userId, notification, routes }) => {
+  ({ userId, notification }) => {
+    const goToCheckIn = useCheckInRoute();
+
     return (
-      <button onClick={() => routes.checkIn(notification.type.checkInId)}>
+      <button onClick={() => goToCheckIn(notification.type.checkInId)}>
         <NotificationItem userId={userId} notification={notification} />
       </button>
     );

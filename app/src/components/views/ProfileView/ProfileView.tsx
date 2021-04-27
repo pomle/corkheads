@@ -20,6 +20,9 @@ import NavIcon from "components/ui/trigger/NavIcon";
 import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";
 import { useNotifications } from "components/hooks/db/useNotifications";
 import NotificationIcon from "./components/NotificationIcon";
+import { useScreen } from "components/context/ScreenContext";
+import { SlideRight } from "components/ui/transitions/Slide";
+import NotificationsView from "../NotificationsView";
 
 const useStyles = makeStyles({
   nav: {
@@ -54,7 +57,6 @@ interface ProfileViewProps {
     contributions: () => string;
     checkIns: () => string;
     friends: () => string;
-    notifications: () => void;
     settings: () => void;
     toplist: () => string;
     user: (userId: string) => void;
@@ -80,6 +82,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
     }, 0);
   }, [notifications]);
 
+  const goToNotifications = useScreen({
+    path: (path) => path.append("/notifications", {}),
+    render: () => <NotificationsView userId={userId} />,
+    transition: SlideRight,
+  });
+
   const classes = useStyles();
 
   return (
@@ -89,7 +97,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
           <ViewHead>
             <div className={classes.nav}>
               <div className={classes.icons}>
-                <NavIcon onClick={routes.notifications}>
+                <NavIcon onClick={() => goToNotifications({})}>
                   <NotificationIcon count={unseenNotificationCount || 0} />
                 </NavIcon>
                 <NavIcon onClick={routes.settings}>

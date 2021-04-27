@@ -1,24 +1,17 @@
 import React, { useEffect } from "react";
-import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ItemList from "components/ui/layout/ItemList";
 import { useNotifications } from "components/hooks/db/useNotifications";
 import NotificationItemButton from "components/fragments/Notification/NotificationItem/Button";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import BackButton from "components/ui/trigger/BackButton";
+import { useBack } from "components/context/ScreenContext";
 
 interface NotificationsViewProps {
-  nav: Nav;
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
   userId: string;
 }
 
-const NotificationsView: React.FC<NotificationsViewProps> = ({
-  nav,
-  routes,
-  userId,
-}) => {
+const NotificationsView: React.FC<NotificationsViewProps> = ({ userId }) => {
   const { notifications, markSeen } = useNotifications(userId);
 
   useEffect(() => {
@@ -32,9 +25,14 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({
     }
   }, [notifications, markSeen]);
 
+  const goBack = useBack();
+
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title="Notifications">
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title="Notifications"
+      >
         <ItemList divided>
           {notifications &&
             notifications.map((notification) => {
@@ -42,7 +40,6 @@ const NotificationsView: React.FC<NotificationsViewProps> = ({
                 <NotificationItemButton
                   key={notification.id}
                   userId={userId}
-                  routes={routes}
                   notification={notification}
                 />
               );
