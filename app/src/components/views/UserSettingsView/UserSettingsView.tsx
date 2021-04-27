@@ -11,8 +11,9 @@ import ButtonSet from "components/ui/layout/ButtonSet";
 import NavButton from "components/ui/trigger/NavButton";
 import { ReactComponent as SignOutIcon } from "assets/graphics/icons/signout.svg";
 import { useExplicitLogout } from "components/hooks/useExplicitLogout";
-import { Nav } from "components/ui/layout/NavigationBar";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import { useBack } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
 
 const useStyles = makeStyles({
   form: {
@@ -22,12 +23,13 @@ const useStyles = makeStyles({
 });
 
 interface UserSettingsViewProps {
-  nav: Nav;
   userId: string;
 }
 
-const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
+const UserSettingsView: React.FC<UserSettingsViewProps> = ({ userId }) => {
   const signOut = useExplicitLogout();
+
+  const goBack = useBack();
 
   const { user, handleUserChange } = useProfile(userId);
 
@@ -43,7 +45,10 @@ const UserSettingsView: React.FC<UserSettingsViewProps> = ({ nav, userId }) => {
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title="Settings">
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title="Settings"
+      >
         <form className={classes.form}>
           <EntryList>
             <Entry name="Name">

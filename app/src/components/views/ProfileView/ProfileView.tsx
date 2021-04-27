@@ -23,6 +23,7 @@ import NotificationIcon from "./components/NotificationIcon";
 import { useScreen } from "components/context/ScreenContext";
 import { SlideRight } from "components/ui/transitions/Slide";
 import NotificationsView from "../NotificationsView";
+import UserSettingsView from "../UserSettingsView";
 
 const useStyles = makeStyles({
   nav: {
@@ -57,7 +58,6 @@ interface ProfileViewProps {
     contributions: () => string;
     checkIns: () => string;
     friends: () => string;
-    settings: () => void;
     toplist: () => string;
     user: (userId: string) => void;
     wishlist: () => string;
@@ -88,6 +88,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
     transition: SlideRight,
   });
 
+  const goToSettings = useScreen({
+    path: (path) => path.append("/settings", {}),
+    render: () => <UserSettingsView userId={userId} />,
+    transition: SlideRight,
+  });
+
   const classes = useStyles();
 
   return (
@@ -100,7 +106,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                 <NavIcon onClick={() => goToNotifications({})}>
                   <NotificationIcon count={unseenNotificationCount || 0} />
                 </NavIcon>
-                <NavIcon onClick={routes.settings}>
+                <NavIcon onClick={() => goToSettings({})}>
                   <CogIcon />
                 </NavIcon>
               </div>

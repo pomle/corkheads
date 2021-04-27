@@ -4,7 +4,6 @@ import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
-import SettingsPage from "./pages/SettingsPage";
 import { useMe } from "components/hooks/useMe";
 import BusyView from "components/views/BusyView";
 import ToplistRoute from "components/route/routes/ToplistRoute";
@@ -39,7 +38,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       contributions: path.append("/contributions", {}),
       friends: path.append("/friends", {}),
       search: rootPaths.search,
-      settings: path.append("/settings", {}),
       toplist: path.append("/toplist", {}),
       user: rootPaths.user,
       wishlist: path.append("/wishlist", {}),
@@ -88,10 +86,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
         return paths.friends.url({});
       },
       search: routes.search,
-      settings: () => {
-        const url = paths.settings.url({});
-        history.push(url);
-      },
       toplist() {
         return paths.toplist.url({});
       },
@@ -106,13 +100,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
     [history, paths, routes]
   );
 
-  const settingsPageRoutes = useMemo(
-    () => ({
-      back: routes.here,
-    }),
-    [routes]
-  );
-
   const element = useRef<React.ReactElement>();
 
   const user = useMe();
@@ -121,9 +108,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
     element.current = (
       <ViewStack>
         <ProfilePage userId={user.id} routes={profilePageRoutes} />
-        <Screen path={paths.settings} transition={SlideRight}>
-          {() => <SettingsPage userId={user.id} routes={settingsPageRoutes} />}
-        </Screen>
         <Screen path={paths.toplist} transition={SlideRight}>
           {(match) => (
             <ToplistRoute origin={path} path={match.path} userId={user.id} />
