@@ -11,8 +11,6 @@ import ArticleRoutes from "../ArticleRoutes";
 import { stringCodec } from "components/route/codecs";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
-import FriendsRoute from "components/route/routes/FriendsRoute";
-import SearchRoutes from "components/route/routes/SearchRoutes";
 import { paths as rootPaths } from "components/route/paths";
 import { useScreen } from "components/context/ScreenContext";
 import UserView from "components/views/UserView";
@@ -100,15 +98,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
             );
           }}
         </Screen>
-        <Screen path={paths.friends} transition={SlideRight}>
-          {(match) => (
-            <FriendsRoute
-              origin={paths.here}
-              path={match.path}
-              userId={user.id}
-            />
-          )}
-        </Screen>
         <Screen path={paths.article} transition={SlideRight}>
           {(match) => (
             <ArticleRoutes
@@ -125,15 +114,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               path={match.path}
               userId={user.id}
               checkInId={match.params.checkInId}
-            />
-          )}
-        </Screen>
-        <Screen path={paths.search} transition={SlideDown}>
-          {(match) => (
-            <SearchRoutes
-              origin={paths.here}
-              path={match.path}
-              userId={user.id}
             />
           )}
         </Screen>

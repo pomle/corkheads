@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
+import NavigationBar from "components/ui/layout/NavigationBar";
 import ViewCap from "components/ui/layout/ViewCap";
 import Input from "components/ui/input/Input/Input";
 import ViewHead from "components/ui/layout/ViewHead";
@@ -159,7 +159,7 @@ const SearchView: React.FC<SearchViewProps> = ({ userId }) => {
               {request.results.article.length < 3 && (
                 <TextItem>
                   Can't find the drink you're looking for?{" "}
-                  <button type="button" onClick={routes.createArticle}>
+                  <button type="button" onClick={() => goToArticleCreate({})}>
                     Create it!
                   </button>
                 </TextItem>
