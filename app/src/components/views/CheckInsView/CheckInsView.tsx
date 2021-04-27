@@ -15,18 +15,11 @@ const MAX_ITEMS = 100;
 
 interface CheckInsViewProps {
   nav: Nav;
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
   userId: string;
   filterUserIds?: string[];
 }
 
-const CheckInsView: React.FC<CheckInsViewProps> = ({
-  nav,
-  routes,
-  filterUserIds,
-}) => {
+const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, filterUserIds }) => {
   const me = useMe();
 
   const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
@@ -64,7 +57,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
   return (
     <ThemeProvider theme="pure">
       <HeaderPageLayout nav={nav} title={title}>
-        <CheckInList pointers={pointers} routes={routes} />
+        <CheckInList pointers={pointers} />
         <ViewportDetector onEnter={bump} />
       </HeaderPageLayout>
     </ThemeProvider>

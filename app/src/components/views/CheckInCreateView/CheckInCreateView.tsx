@@ -19,8 +19,8 @@ import MainButton from "components/ui/trigger/MainButton/MainButton";
 import NavigationBar, { Nav } from "components/ui/layout/NavigationBar";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
 import { Theme, themes } from "components/ui/theme/themes";
+import { useCheckInRoute } from "components/route/paths";
 import PositionStateButton from "./component/PositionStateButton";
-import { paths as rootPaths } from "components/route/paths";
 
 type StyleProps = {
   busy: boolean;
@@ -85,8 +85,6 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   article,
   user,
 }) => {
-  const history = useHistory();
-
   const initial = useMemo(() => initialCheckIn(article, user), [article, user]);
 
   const [photoURL, setPhotoURL] = useState<string>();
@@ -143,13 +141,12 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
 
   const commitCheckIn = useCommitCheckIn();
 
+  const goToCheckIn = useCheckInRoute();
   const handleCheckIn = useAsyncCallback(
     useCallback(async () => {
       const ref = await commitCheckIn({ user, checkIn, file });
-
-      const url = rootPaths.checkIn.url({ checkInId: ref.id });
-      history.push(url);
-    }, [file, user, checkIn, history, commitCheckIn])
+      goToCheckIn(ref.id);
+    }, [file, user, checkIn, goToCheckIn, commitCheckIn])
   );
 
   const canCheckIn = isCheckInValid(checkIn) && !handleCheckIn.busy;

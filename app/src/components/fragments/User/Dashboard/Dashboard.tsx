@@ -50,7 +50,7 @@ const UserView: React.FC<UserViewProps> = ({ routes, userId }) => {
           />
         }
       >
-        <CheckInsSection userId={userId} routes={routes} />
+        <CheckInsSection userId={userId} />
       </Section>
 
       <Section

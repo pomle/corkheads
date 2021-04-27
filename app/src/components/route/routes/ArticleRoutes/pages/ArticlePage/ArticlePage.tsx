@@ -9,7 +9,6 @@ interface ArticlePageProps {
   articleId: string;
   routes: {
     back: () => void;
-    checkIn: (checkInId: string) => void;
   };
 }
 
@@ -28,7 +27,6 @@ const ArticlePage: React.FC<ArticlePageProps> = ({ articleId, routes }) => {
         <ArticleDetailsView
           key={articleId}
           nav={nav}
-          routes={routes}
           userId={user.id}
           articleId={articleId}
         />

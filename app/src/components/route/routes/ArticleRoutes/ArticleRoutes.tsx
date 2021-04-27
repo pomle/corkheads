@@ -1,10 +1,6 @@
 import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
-import Screen from "components/route/Screen";
-import ViewStack from "components/ui/layout/ViewStack";
-import { SlideRight } from "components/ui/transitions/Slide";
 import ArticlePage from "./pages/ArticlePage";
-import CheckInCreatePage from "./pages/CheckInCreatePage";
 import { Path } from "lib/path";
 import { paths as rootPaths } from "components/route/paths";
 import { ScreenContext } from "components/context/ScreenContext";
@@ -53,7 +49,7 @@ const ArticleRoutes: React.FC<ArticleRoutesProps> = ({
       back: routes.prev,
       checkIn: routes.checkIn,
     }),
-    [routes, paths, history]
+    [routes, paths]
   );
 
   return (

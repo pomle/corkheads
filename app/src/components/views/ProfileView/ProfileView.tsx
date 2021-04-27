@@ -128,7 +128,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                         />
                       }
                     >
-                      <CheckInSection userId={userId} routes={routes} />
+                      <CheckInSection userId={userId} />
                     </Section>
 
                     <Section

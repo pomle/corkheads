@@ -8,7 +8,6 @@ interface UserCheckInsPageProps {
   filterUserIds?: string[];
   routes: {
     back: () => void;
-    checkIn: (checkInId: string) => void;
   };
 }
 
@@ -25,7 +24,6 @@ const UserCheckInsPage: React.FC<UserCheckInsPageProps> = ({
         return (
           <CheckInsView
             nav={nav}
-            routes={routes}
             userId={userId}
             filterUserIds={filterUserIds}
           />

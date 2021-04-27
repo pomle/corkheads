@@ -9,14 +9,10 @@ import SectionTitle from "components/ui/layout/SectionTitle";
 import CheckInList from "components/fragments/CheckIn/CheckInList";
 
 interface ArticleCheckInsSectionProps {
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
   articleId: string;
 }
 
 const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
-  routes,
   articleId,
 }) => {
   const query = useMemo((): CheckInQuery => {
@@ -39,11 +35,7 @@ const ArticleCheckInsSection: React.FC<ArticleCheckInsSectionProps> = ({
   return (
     <SectionList>
       <Section header={<SectionTitle main="Recent Check ins" />}>
-        <CheckInList
-          pointers={request.results}
-          routes={routes}
-          context="article"
-        />
+        <CheckInList pointers={request.results} context="article" />
       </Section>
     </SectionList>
   );

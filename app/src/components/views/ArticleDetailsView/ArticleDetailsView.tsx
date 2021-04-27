@@ -48,16 +48,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface ArticleDetailsViewProps {
   nav: Nav;
-  routes: {
-    checkIn: (checkInId: string) => void;
-  };
   userId: string;
   articleId: string;
 }
 
 const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
   nav,
-  routes,
   userId,
   articleId,
 }) => {
@@ -100,9 +96,7 @@ const ArticleDetailsView: React.FC<ArticleDetailsViewProps> = ({
           </div>
 
           <LazyRender>
-            {() => (
-              <ArticleCheckInsSection articleId={article.id} routes={routes} />
-            )}
+            {() => <ArticleCheckInsSection articleId={article.id} />}
           </LazyRender>
         </ViewBody>
       </HeaderLayout>
