@@ -12,7 +12,7 @@ const ArticleContextCheckInItemButton: React.FC<ArticleContextCheckInItemButtonP
     const goToCheckIn = useCheckInRoute();
 
     return (
-      <button onClick={() => goToCheckIn(pointer.checkInId)}>
+      <button onClick={() => goToCheckIn({ checkInId: pointer.checkInId })}>
         <ArticleContextCheckInItem pointer={pointer} />
       </button>
     );

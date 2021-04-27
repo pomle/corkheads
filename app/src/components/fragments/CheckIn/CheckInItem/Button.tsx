@@ -11,7 +11,7 @@ const CheckInItemButton: React.FC<CheckInItemButtonProps> = React.memo(
   ({ pointer }) => {
     const goToCheckIn = useCheckInRoute();
     return (
-      <button onClick={() => goToCheckIn(pointer.checkInId)}>
+      <button onClick={() => goToCheckIn({ checkInId: pointer.checkInId })}>
         <CheckInItem pointer={pointer} />
       </button>
     );

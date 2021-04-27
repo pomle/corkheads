@@ -1,4 +1,4 @@
-import { createPath } from "lib/path";
+import { createPath, Path, PathCodec } from "lib/path";
 import { useCallback } from "react";
 import { useHistory } from "react-router";
 import { stringCodec } from "./codecs";
@@ -19,14 +19,22 @@ export const paths = {
   }),
 };
 
-export function useCheckInRoute() {
+function usePath<T extends Path<PathCodec>>(path: T) {
   const history = useHistory();
 
   return useCallback(
-    (checkInId: string) => {
-      const url = paths.checkIn.url({ checkInId });
+    (params: Parameters<T["url"]>[0]) => {
+      const url = path.url(params);
       history.push(url);
     },
-    [history]
+    [history, path]
   );
+}
+
+export function useCheckInRoute() {
+  return usePath(paths.checkIn);
+}
+
+export function useUserRoute() {
+  return usePath(paths.user);
 }

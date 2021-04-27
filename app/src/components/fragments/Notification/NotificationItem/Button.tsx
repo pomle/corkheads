@@ -13,7 +13,9 @@ const NotificationItemButton: React.FC<NotificationItemButtonProps> = React.memo
     const goToCheckIn = useCheckInRoute();
 
     return (
-      <button onClick={() => goToCheckIn(notification.type.checkInId)}>
+      <button
+        onClick={() => goToCheckIn({ checkInId: notification.type.checkInId })}
+      >
         <NotificationItem userId={userId} notification={notification} />
       </button>
     );

@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { useHistory } from "react-router-dom";
 import ViewCap from "components/ui/layout/ViewCap";
 import ViewBody from "components/ui/layout/ViewBody";
 import { User } from "types/User";
@@ -145,7 +144,7 @@ const CheckInCreateView: React.FC<CheckInCreateViewProps> = ({
   const handleCheckIn = useAsyncCallback(
     useCallback(async () => {
       const ref = await commitCheckIn({ user, checkIn, file });
-      goToCheckIn(ref.id);
+      goToCheckIn({ checkInId: ref.id });
     }, [file, user, checkIn, goToCheckIn, commitCheckIn])
   );
 
