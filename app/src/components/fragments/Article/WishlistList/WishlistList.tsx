@@ -12,12 +12,10 @@ const useStyles = makeStyles({
 
 interface WishlistListProps {
   pointers: { articleId: string; userId: string }[];
-  routes: {
-    article: (article: string) => void;
-  };
+  toArticle: (articleId: string) => void;
 }
 
-const WishlistList: React.FC<WishlistListProps> = ({ pointers, routes }) => {
+const WishlistList: React.FC<WishlistListProps> = ({ pointers, toArticle }) => {
   const classes = useStyles();
 
   return (
@@ -27,7 +25,7 @@ const WishlistList: React.FC<WishlistListProps> = ({ pointers, routes }) => {
           <WishlistArticleItemButton
             key={pointer.articleId}
             pointer={pointer}
-            route={routes.article}
+            toArticle={toArticle}
           />
         ))}
       </div>

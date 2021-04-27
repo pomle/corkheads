@@ -17,16 +17,15 @@ const useStyles = makeStyles({
 
 interface CollectionArticleListProps {
   pointers: { articleId: string; userId: string }[];
-  routes: {
-    article: (articleId: string) => void;
-  };
+  toArticle: (articleId: string) => void;
 }
 
 const CollectionArticleList: React.FC<CollectionArticleListProps> = ({
   pointers,
-  routes,
+  toArticle,
 }) => {
   const classes = useStyles();
+
   return (
     <ThemeProvider theme="sky">
       <div className={classes.CollectionArticleList}>
@@ -35,7 +34,7 @@ const CollectionArticleList: React.FC<CollectionArticleListProps> = ({
             <CollectionArticleItemButton
               key={pointer.articleId}
               pointer={pointer}
-              route={routes.article}
+              toArticle={toArticle}
             />
           );
         })}

@@ -11,8 +11,8 @@ import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import WishlistRoute from "components/route/routes/WishlistRoute";
 import { stringCodec } from "components/route/codecs";
-import UserPage from "./pages/UserPage";
 import ContributionsRoute from "../ContributionsRoute";
+import UserView from "components/views/UserView";
 
 interface UserRoutesProps {
   origin: Path<{}>;
@@ -77,7 +77,7 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
 
   return (
     <ViewStack>
-      <UserPage userId={userId} routes={routes} />
+      <UserView userId={userId} />
       <Screen path={paths.toplist} transition={SlideRight}>
         {(match) => (
           <ToplistRoute origin={path} path={match.path} userId={userId} />

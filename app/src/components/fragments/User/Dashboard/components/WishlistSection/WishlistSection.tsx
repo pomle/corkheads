@@ -7,14 +7,12 @@ import WishlistList from "components/fragments/Article/WishlistList";
 
 interface WishlistSectionProps {
   userId: string;
-  routes: {
-    article: (article: string) => void;
-  };
+  toArticle: (article: string) => void;
 }
 
 const WishlistSection: React.FC<WishlistSectionProps> = ({
   userId,
-  routes,
+  toArticle,
 }) => {
   const query = useMemo((): UserArticleQuery => {
     return {
@@ -29,7 +27,7 @@ const WishlistSection: React.FC<WishlistSectionProps> = ({
 
   const request = useUserArticleQuery(query);
 
-  return <WishlistList pointers={request.results} routes={routes} />;
+  return <WishlistList pointers={request.results} toArticle={toArticle} />;
 };
 
 export default WishlistSection;

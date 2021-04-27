@@ -3,13 +3,13 @@ import WishlistArticleItem from ".";
 
 interface WishlistArticleItemButtonProps {
   pointer: { articleId: string; userId: string };
-  route: (articleId: string) => void;
+  toArticle: (articleId: string) => void;
 }
 
 const WishlistArticleItemButton: React.FC<WishlistArticleItemButtonProps> = React.memo(
-  ({ pointer, route }) => {
+  ({ pointer, toArticle }) => {
     return (
-      <button onClick={() => route(pointer.articleId)}>
+      <button onClick={() => toArticle(pointer.articleId)}>
         <WishlistArticleItem pointer={pointer} />
       </button>
     );

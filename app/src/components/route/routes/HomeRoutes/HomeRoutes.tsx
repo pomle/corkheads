@@ -19,6 +19,8 @@ import SearchRoutes from "components/route/routes/SearchRoutes";
 import UserRoutes from "components/route/routes/UserRoutes/UserRoutes";
 import { paths as rootPaths } from "components/route/paths";
 import ContributionsRoute from "../ContributionsRoute";
+import { useScreen } from "components/context/ScreenContext";
+import UserView from "components/views/UserView";
 
 interface HomeRoutesProps {
   path: Path<{}>;
@@ -66,9 +68,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
   const profilePageRoutes = useMemo(
     () => ({
       article: routes.article,
-      collection() {
-        return paths.collection.url({});
-      },
       checkIn(checkInId: string) {
         const url = paths.checkIn.url({ checkInId });
         history.push(url);
@@ -79,22 +78,13 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
       communityCheckIns() {
         return paths.communityCheckIns.url({});
       },
-      contributions() {
-        return paths.contributions.url({});
-      },
       friends() {
         return paths.friends.url({});
       },
       search: routes.search,
-      toplist() {
-        return paths.toplist.url({});
-      },
       user(userId: string) {
         const url = paths.user.url({ userId });
         history.push(url);
-      },
-      wishlist() {
-        return paths.wishlist.url({});
       },
     }),
     [history, paths, routes]
@@ -104,20 +94,16 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
 
   const user = useMe();
 
+  useScreen({
+    path: () => rootPaths.user,
+    render: ({ userId }) => <UserView userId={userId} />,
+    transition: SlideRight,
+  });
+
   if (user) {
     element.current = (
       <ViewStack>
         <ProfilePage userId={user.id} routes={profilePageRoutes} />
-        <Screen path={paths.toplist} transition={SlideRight}>
-          {(match) => (
-            <ToplistRoute origin={path} path={match.path} userId={user.id} />
-          )}
-        </Screen>
-        <Screen path={paths.collection} transition={SlideRight}>
-          {(match) => (
-            <CollectionRoute origin={path} path={match.path} userId={user.id} />
-          )}
-        </Screen>
         <Screen path={paths.checkIns} transition={SlideRight}>
           {(match) => {
             return (
@@ -137,15 +123,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
             );
           }}
         </Screen>
-        <Screen path={paths.contributions} transition={SlideRight}>
-          {(match) => (
-            <ContributionsRoute
-              origin={path}
-              path={match.path}
-              userId={user.id}
-            />
-          )}
-        </Screen>
         <Screen path={paths.friends} transition={SlideRight}>
           {(match) => (
             <FriendsRoute
@@ -153,11 +130,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               path={match.path}
               userId={user.id}
             />
-          )}
-        </Screen>
-        <Screen path={paths.wishlist} transition={SlideRight}>
-          {(match) => (
-            <WishlistRoute origin={path} path={match.path} userId={user.id} />
           )}
         </Screen>
         <Screen path={paths.article} transition={SlideRight}>
@@ -176,15 +148,6 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
               path={match.path}
               userId={user.id}
               checkInId={match.params.checkInId}
-            />
-          )}
-        </Screen>
-        <Screen path={paths.user} transition={SlideRight}>
-          {(match) => (
-            <UserRoutes
-              origin={paths.here}
-              path={match.path}
-              userId={match.params.userId}
             />
           )}
         </Screen>

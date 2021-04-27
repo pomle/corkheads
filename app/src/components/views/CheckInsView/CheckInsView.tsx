@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import {
   CheckInQuery,
@@ -10,17 +9,19 @@ import { useScrollSize } from "components/hooks/useScrollSize";
 import { useMe } from "components/hooks/useMe";
 import CheckInList from "components/fragments/CheckIn/CheckInList";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import { useBack } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
 
 const MAX_ITEMS = 100;
 
 interface CheckInsViewProps {
-  nav: Nav;
-  userId: string;
   filterUserIds?: string[];
 }
 
-const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, filterUserIds }) => {
+const CheckInsView: React.FC<CheckInsViewProps> = ({ filterUserIds }) => {
   const me = useMe();
+
+  const goBack = useBack();
 
   const [size, bump] = useScrollSize(10, MAX_ITEMS, 10);
 
@@ -56,7 +57,10 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({ nav, filterUserIds }) => {
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title={title}>
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title={title}
+      >
         <CheckInList pointers={pointers} />
         <ViewportDetector onEnter={bump} />
       </HeaderPageLayout>

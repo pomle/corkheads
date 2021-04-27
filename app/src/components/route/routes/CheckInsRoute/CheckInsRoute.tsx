@@ -3,10 +3,10 @@ import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
-import CheckInsPage from "./pages/CheckInsPage";
 import { Path } from "lib/path";
 import { stringCodec } from "components/route/codecs";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
+import CheckInsView from "components/views/CheckInsView";
 
 interface CheckInsRouteProps {
   origin: Path<{}>;
@@ -48,11 +48,7 @@ const CheckInsRoute: React.FC<CheckInsRouteProps> = ({
 
   return (
     <ViewStack>
-      <CheckInsPage
-        routes={routes}
-        userId={userId}
-        filterUserIds={filterUserIds}
-      />
+      <CheckInsView filterUserIds={filterUserIds} />
       <Screen path={paths.checkIn} transition={SlideRight}>
         {(match) => (
           <CheckInRoutes

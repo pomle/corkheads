@@ -1,29 +1,38 @@
 import React from "react";
-import { Nav } from "components/ui/layout/NavigationBar";
 import ThemeProvider from "components/ui/theme/ThemeProvider";
 import ItemList from "components/ui/layout/ItemList";
 import { useUserArticleToplistQuery } from "components/hooks/db/useUserArticleToplistQuery";
 import RankedTopArticleItem from "components/fragments/Article/RankedTopArticleItem";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import { useBack, useScreen } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
+import { stringCodec } from "components/route/codecs";
+import ArticleDetailsView from "../ArticleDetailsView";
+import { SlideRight } from "components/ui/transitions/Slide";
 
 interface UserToplistViewProps {
-  nav: Nav;
-  routes: {
-    article: (articleId: string) => void;
-  };
   userId: string;
 }
 
-const UserToplistView: React.FC<UserToplistViewProps> = ({
-  nav,
-  routes,
-  userId,
-}) => {
+const UserToplistView: React.FC<UserToplistViewProps> = ({ userId }) => {
+  const goBack = useBack();
+
+  const goToArticle = useScreen({
+    path: (path) => path.append("/:articleId", { articleId: stringCodec }),
+    render: ({ articleId }) => (
+      <ArticleDetailsView userId={userId} articleId={articleId} />
+    ),
+    transition: SlideRight,
+  });
+
   const request = useUserArticleToplistQuery(userId, 10);
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title="Top drinks">
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title="Top drinks"
+      >
         <ItemList divided>
           {request.results.map((pointer, index) => {
             return (
@@ -31,7 +40,7 @@ const UserToplistView: React.FC<UserToplistViewProps> = ({
                 key={pointer.articleId}
                 rank={index + 1}
                 pointer={pointer}
-                routes={routes}
+                toArticle={goToArticle}
               />
             );
           })}

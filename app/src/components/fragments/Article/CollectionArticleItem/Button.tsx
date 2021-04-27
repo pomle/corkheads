@@ -3,13 +3,13 @@ import CollectionArticleItem from ".";
 
 interface CollectionArticleItemButtonProps {
   pointer: { articleId: string; userId: string };
-  route: (articleId: string) => void;
+  toArticle: (articleId: string) => void;
 }
 
 const CollectionArticleItemButton: React.FC<CollectionArticleItemButtonProps> = React.memo(
-  ({ pointer, route }) => {
+  ({ pointer, toArticle }) => {
     return (
-      <button onClick={() => route(pointer.articleId)}>
+      <button onClick={() => toArticle(pointer.articleId)}>
         <CollectionArticleItem pointer={pointer} />
       </button>
     );

@@ -8,14 +8,12 @@ import ContributionArticleItem from "components/fragments/Article/ContributionAr
 
 interface ContributionSectionProps {
   userId: string;
-  routes: {
-    article: (article: string) => void;
-  };
+  toArticle: (articleId: string) => void;
 }
 
 const ContributionSection: React.FC<ContributionSectionProps> = ({
   userId,
-  routes,
+  toArticle,
 }) => {
   const query = useMemo((): ArticleQuery => {
     return {
@@ -43,7 +41,7 @@ const ContributionSection: React.FC<ContributionSectionProps> = ({
         return (
           <button
             key={pointer.articleId}
-            onClick={() => routes.article(pointer.articleId)}
+            onClick={() => toArticle(pointer.articleId)}
           >
             <ContributionArticleItem pointer={pointer} />
           </button>

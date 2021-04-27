@@ -15,7 +15,7 @@ import BackButton from "components/ui/trigger/BackButton";
 
 type Mount<P extends Path<PathCodec>> = {
   mountPath: P;
-  render: (params: ReturnType<P["decode"]>[0]) => React.ReactElement;
+  render: (params: Parameters<P["decode"]>[0]) => React.ReactElement;
   transition?: React.FC<{ active: boolean }>;
 };
 
@@ -62,6 +62,7 @@ export const ScreenContext: React.FC<ScreenContextProps> = ({
 
   return (
     <Context.Provider value={value}>
+      <div data-path={mountPath.path} />
       <ViewStack>
         {children}
 
@@ -111,7 +112,7 @@ export function useScreen<P extends Path<PathCodec>>({
   transition,
 }: {
   path: (sourcePath: Path<{}>) => P;
-  render: (params: ReturnType<P["decode"]>[0]) => React.ReactElement;
+  render: (params: Parameters<P["decode"]>[0]) => React.ReactElement;
   transition?: React.FC<{ active: boolean }>;
 }) {
   const context = useScreenContext();

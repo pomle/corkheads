@@ -25,20 +25,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface RankedTopArticleItemProps {
   pointer: UserArticlePointer;
   rank: React.ReactNode;
-  routes: {
-    article: (articleId: string) => void;
-  };
+  toArticle: ({ articleId }: { articleId: string }) => void;
 }
 
 const RankedTopArticleItem: React.FC<RankedTopArticleItemProps> = React.memo(
-  ({ pointer, rank, routes }) => {
+  ({ pointer, rank, toArticle }) => {
     const classes = useStyles();
 
     return (
       <button
         key={pointer.articleId}
         className={classes.RankedTopArticleItem}
-        onClick={() => routes.article(pointer.articleId)}
+        onClick={() => toArticle({ articleId: pointer.articleId })}
       >
         <div className="rank">{rank}</div>
         <TopArticleItem pointer={pointer} />

@@ -11,24 +11,31 @@ import {
   useUserArticleQuery,
 } from "components/hooks/db/useUserArticleQuery";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import { useBack, useScreen } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
+import { stringCodec } from "components/route/codecs";
+import ArticleDetailsView from "../ArticleDetailsView";
+import { SlideRight } from "components/ui/transitions/Slide";
 
 const MIN_ITEMS = 10;
 const MAX_ITEMS = 100;
 const INC_SIZE = 10;
 
 interface UserCollectionViewProps {
-  nav: Nav;
-  routes: {
-    article: (articleId: string) => void;
-  };
   userId: string;
 }
 
-const UserCollectionView: React.FC<UserCollectionViewProps> = ({
-  nav,
-  routes,
-  userId,
-}) => {
+const UserCollectionView: React.FC<UserCollectionViewProps> = ({ userId }) => {
+  const goBack = useBack();
+
+  const goToArticle = useScreen({
+    path: (path) => path.append("/:articleId", { articleId: stringCodec }),
+    render: ({ articleId }) => (
+      <ArticleDetailsView userId={userId} articleId={articleId} />
+    ),
+    transition: SlideRight,
+  });
+
   const [size, bump] = useScrollSize(MIN_ITEMS, MAX_ITEMS, INC_SIZE);
 
   const query = useMemo((): UserArticleQuery => {
@@ -62,10 +69,13 @@ const UserCollectionView: React.FC<UserCollectionViewProps> = ({
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title="Collection">
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title="Collection"
+      >
         <CollectionArticleList
           pointers={pointers.slice(0, size)}
-          routes={routes}
+          toArticle={(articleId) => goToArticle({ articleId })}
         />
         <ViewportDetector onEnter={bump} />
       </HeaderPageLayout>

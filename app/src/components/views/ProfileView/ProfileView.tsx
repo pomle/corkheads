@@ -53,14 +53,9 @@ interface ProfileViewProps {
   routes: {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
-    collection: () => string;
     communityCheckIns: () => string;
-    contributions: () => string;
     checkIns: () => string;
     friends: () => string;
-    toplist: () => string;
-    user: (userId: string) => void;
-    wishlist: () => string;
   };
   userId: string;
 }
@@ -153,13 +148,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({ routes, userId }) => {
                         />
                       }
                     >
-                      <FriendsSection userId={userId} routes={routes} />
+                      <FriendsSection userId={userId} />
                     </Section>
                   </SectionList>
                 </Scroll>
 
                 <Scroll>
-                  <Dashboard userId={userId} routes={routes} />
+                  <Dashboard userId={userId} />
                 </Scroll>
               </SlidingWindow>
             </HeaderLayout>

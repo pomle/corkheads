@@ -7,14 +7,12 @@ import CollectionArticleList from "components/fragments/Article/CollectionArticl
 
 interface CollectionSectionProps {
   userId: string;
-  routes: {
-    article: (articleId: string) => void;
-  };
+  toArticle: (articleId: string) => void;
 }
 
 const CollectionSection: React.FC<CollectionSectionProps> = ({
   userId,
-  routes,
+  toArticle,
 }) => {
   const query = useMemo((): UserArticleQuery => {
     return {
@@ -29,7 +27,9 @@ const CollectionSection: React.FC<CollectionSectionProps> = ({
 
   const request = useUserArticleQuery(query);
 
-  return <CollectionArticleList pointers={request.results} routes={routes} />;
+  return (
+    <CollectionArticleList pointers={request.results} toArticle={toArticle} />
+  );
 };
 
 export default CollectionSection;

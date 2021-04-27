@@ -10,24 +10,33 @@ import {
   useArticleQuery,
 } from "components/hooks/db/useArticleQuery";
 import HeaderPageLayout from "components/ui/layout/HeaderPageLayout";
+import { useBack, useScreen } from "components/context/ScreenContext";
+import BackButton from "components/ui/trigger/BackButton";
+import { stringCodec } from "components/route/codecs";
+import ArticleDetailsView from "../ArticleDetailsView";
+import { SlideRight } from "components/ui/transitions/Slide";
 
 const MIN_ITEMS = 20;
 const MAX_ITEMS = 100;
 const INC_SIZE = 10;
 
 interface UserContributionsViewProps {
-  nav: Nav;
-  routes: {
-    article: (articleId: string) => void;
-  };
   userId: string;
 }
 
 const UserContributionsView: React.FC<UserContributionsViewProps> = ({
-  nav,
-  routes,
   userId,
 }) => {
+  const goBack = useBack();
+
+  const goToArticle = useScreen({
+    path: (path) => path.append("/:articleId", { articleId: stringCodec }),
+    render: ({ articleId }) => (
+      <ArticleDetailsView userId={userId} articleId={articleId} />
+    ),
+    transition: SlideRight,
+  });
+
   const [size, bump] = useScrollSize(MIN_ITEMS, MAX_ITEMS, INC_SIZE);
 
   const query = useMemo((): ArticleQuery => {
@@ -52,13 +61,16 @@ const UserContributionsView: React.FC<UserContributionsViewProps> = ({
 
   return (
     <ThemeProvider theme="pure">
-      <HeaderPageLayout nav={nav} title="Contributions">
+      <HeaderPageLayout
+        nav={{ back: <BackButton onClick={goBack} /> }}
+        title="Contributions"
+      >
         <ItemList>
           {pointers.slice(0, size).map((pointer) => {
             return (
               <button
                 key={pointer.articleId}
-                onClick={() => routes.article(pointer.articleId)}
+                onClick={() => goToArticle({ articleId: pointer.articleId })}
               >
                 <ContributionArticleItem pointer={pointer} />
               </button>

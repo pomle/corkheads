@@ -5,12 +5,13 @@ import TopArticleItemButton from "components/fragments/Article/TopArticleItem/Bu
 
 interface ToplistSectionProps {
   userId: string;
-  routes: {
-    article: (articleId: string) => void;
-  };
+  toArticle: (articleId: string) => void;
 }
 
-const ToplistSection: React.FC<ToplistSectionProps> = ({ userId, routes }) => {
+const ToplistSection: React.FC<ToplistSectionProps> = ({
+  userId,
+  toArticle,
+}) => {
   const request = useUserArticleToplistQuery(userId, 3);
 
   return (
@@ -20,7 +21,7 @@ const ToplistSection: React.FC<ToplistSectionProps> = ({ userId, routes }) => {
           <TopArticleItemButton
             key={pointer.articleId}
             pointer={pointer}
-            route={routes.article}
+            toArticle={toArticle}
           />
         );
       })}

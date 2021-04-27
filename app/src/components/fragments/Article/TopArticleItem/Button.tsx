@@ -3,13 +3,13 @@ import TopArticleItem from ".";
 
 interface TopArticleItemButtonProps {
   pointer: { articleId: string; userId: string };
-  route: (articleId: string) => void;
+  toArticle: (articleId: string) => void;
 }
 
 const TopArticleItemButton: React.FC<TopArticleItemButtonProps> = React.memo(
-  ({ pointer, route }) => {
+  ({ pointer, toArticle }) => {
     return (
-      <button onClick={() => route(pointer.articleId)}>
+      <button onClick={() => toArticle(pointer.articleId)}>
         <TopArticleItem pointer={pointer} />
       </button>
     );

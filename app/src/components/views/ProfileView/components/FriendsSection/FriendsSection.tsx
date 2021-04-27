@@ -5,15 +5,13 @@ import {
   FollowingQuery,
   useFollowingQuery,
 } from "components/hooks/db/useFollowingQuery";
+import { useUserRoute } from "components/route/paths";
 
 interface FriendsSectionProps {
   userId: string;
-  routes: {
-    user: (userId: string) => void;
-  };
 }
 
-const FriendsSection: React.FC<FriendsSectionProps> = ({ userId, routes }) => {
+const FriendsSection: React.FC<FriendsSectionProps> = ({ userId }) => {
   const query = useMemo((): FollowingQuery => {
     return {
       userId,
@@ -29,6 +27,8 @@ const FriendsSection: React.FC<FriendsSectionProps> = ({ userId, routes }) => {
 
   const request = useFollowingQuery(query);
 
+  const goToUser = useUserRoute();
+
   return (
     <ItemList divided>
       {request.results.map((pointer) => {
@@ -36,7 +36,7 @@ const FriendsSection: React.FC<FriendsSectionProps> = ({ userId, routes }) => {
           <button
             key={pointer.userId}
             type="button"
-            onClick={() => routes.user(pointer.userId)}
+            onClick={() => goToUser({ userId: pointer.userId })}
           >
             <UserItem pointer={pointer} />
           </button>

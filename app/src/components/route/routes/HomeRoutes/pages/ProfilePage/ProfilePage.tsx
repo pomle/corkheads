@@ -9,14 +9,9 @@ interface ProfilePageProps {
     article: (articleId: string) => void;
     checkIn: (checkInId: string) => void;
     checkIns: () => string;
-    collection: () => string;
     communityCheckIns: () => string;
-    contributions: () => string;
     friends: () => string;
     search: () => void;
-    toplist: () => string;
-    user: (userId: string) => void;
-    wishlist: () => string;
   };
 }
 
