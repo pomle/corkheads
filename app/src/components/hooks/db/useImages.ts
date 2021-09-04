@@ -1,9 +1,10 @@
-import { useSingle, useStore } from "components/hooks/store2/useStore";
+import { useCollectionResult } from "@pomle/react-firebase";
 import { Image } from "types/Image";
+import { useSingle } from "./helpers/useSingle";
 import { useCollection } from "./useCollection";
 
 export function useImages(imageIds: string[]) {
-  return useStore<Image>(useCollection().image, imageIds);
+  return useCollectionResult<Image>(useCollection().image, imageIds);
 }
 
 export function useImage(imageId?: string) {

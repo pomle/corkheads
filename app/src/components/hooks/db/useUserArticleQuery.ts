@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { UserArticle } from "types/UserArticle";
-import { QueryRequest } from "../store2/useStore";
+import { QueryRequest } from "./types";
 import { useDB } from "../useDB";
 
 type SortFields =
