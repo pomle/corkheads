@@ -1,9 +1,10 @@
-import { useSingle, useStore } from "components/hooks/store2/useStore";
+import { useCollectionResult } from "@pomle/react-firebase";
 import { CheckIn } from "types/CheckIn";
+import { useSingle } from "./helpers/useSingle";
 import { useCollection } from "./useCollection";
 
 export function useCheckIns(checkInIds: string[]) {
-  return useStore<CheckIn>(useCollection().checkIn, checkInIds);
+  return useCollectionResult<CheckIn>(useCollection().checkIn, checkInIds);
 }
 
 export function useCheckIn(checkInId?: string) {

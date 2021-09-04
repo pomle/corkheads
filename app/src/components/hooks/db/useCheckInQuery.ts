@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { CheckIn } from "types/CheckIn";
-import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
+import { QueryRequest } from "./types";
 
 type SortOrder = {
   field: keyof CheckIn;

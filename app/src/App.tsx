@@ -4,7 +4,7 @@ import Router from "components/route/Router";
 import { ContextMenuContext } from "components/context/ContextMenuContext";
 import { InternationalizationContext } from "components/context/InternationalizationContext";
 import { FirebaseContext } from "components/context/FirebaseContext";
-import { FirebaseStoreContext } from "components/context/FirebaseStore";
+import { FirebaseStoreContext } from "@pomle/react-firebase";
 import { ObjectStoreContext } from "components/context/ObjectStoreContext";
 import { PopupDialogContext } from "components/context/PopupDialogContext";
 import { SessionContext } from "components/context/SessionContext";

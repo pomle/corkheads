@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { QueryRequest } from "../store2/useStore";
 import { useDB } from "../useDB";
+import { QueryRequest } from "./types";
 
 type SortOrder = {
   field: "timestamp";

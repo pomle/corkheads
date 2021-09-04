@@ -1,10 +1,11 @@
-import { useSingle, useStore } from "components/hooks/store2/useStore";
+import { useCollectionResult } from "@pomle/react-firebase";
 import { UserArticle } from "types/UserArticle";
+import { useSingle } from "./helpers/useSingle";
 import { useUserCollection } from "./useCollection";
 
 export function useUserArticles(userId: string, articleIds: string[]) {
   const collection = useUserCollection(userId).userArticle;
-  return useStore<UserArticle>(collection, articleIds);
+  return useCollectionResult<UserArticle>(collection, articleIds);
 }
 
 export function useUserArticle(userId: string, articleId?: string) {
