@@ -5,7 +5,6 @@ import { ContextMenuContext } from "components/context/ContextMenuContext";
 import { InternationalizationContext } from "components/context/InternationalizationContext";
 import { FirebaseContext } from "components/context/FirebaseContext";
 import { FirebaseStoreContext } from "@pomle/react-firebase";
-import { ObjectStoreContext } from "components/context/ObjectStoreContext";
 import { PopupDialogContext } from "components/context/PopupDialogContext";
 import { SessionContext } from "components/context/SessionContext";
 import * as Sentry from "@sentry/react";
@@ -15,7 +14,6 @@ const contexts = [
   FirebaseContext,
   FirebaseStoreContext,
   SessionContext,
-  ObjectStoreContext,
   ContextMenuContext,
   InternationalizationContext,
   PopupDialogContext,
