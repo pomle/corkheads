@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
 import { ReactComponent as Logo } from "assets/graphics/corkheads-logo.svg";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
-import { useSession } from "components/context/SessionContext";
 import { useSharedInput } from "components/hooks/useSharedInput";
 import ButtonSet from "components/ui/layout/ButtonSet";
 import ViewBody from "components/ui/layout/ViewBody";
@@ -23,6 +22,7 @@ import NavigationBar from "components/ui/layout/NavigationBar";
 import BackButton from "components/ui/trigger/BackButton";
 import Divider from "components/ui/layout/Divider";
 import { useMessageDialog } from "components/hooks/useMessageDialog";
+import { useAuth } from "components/hooks/useAuth";
 
 const useStyles = makeStyles((theme: Theme) => ({
   LoginView: {
@@ -65,7 +65,7 @@ interface LoginViewProps {
 }
 
 const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
-  const session = useSession();
+  const auth = useAuth();
 
   const { publishMessage } = useMessageDialog();
 
@@ -75,7 +75,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
 
   const handleLogin = useAsyncCallback(
     useCallback(() => {
-      return session.auth
+      return auth
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           setAccountState(AccountState.Created);
@@ -83,7 +83,7 @@ const LoginView: React.FC<LoginViewProps> = ({ routes }) => {
         .catch((error: Error) => {
           publishMessage(error.message);
         });
-    }, [session, email, password, setAccountState, publishMessage])
+    }, [auth, email, password, setAccountState, publishMessage])
   );
 
   const classes = useStyles();

@@ -1,5 +1,5 @@
-import { useSession } from "components/context/SessionContext";
+import { useFirebase } from "components/context/FirebaseContext";
 
 export function useAuth() {
-  return useSession().auth;
+  return useFirebase().auth;
 }
