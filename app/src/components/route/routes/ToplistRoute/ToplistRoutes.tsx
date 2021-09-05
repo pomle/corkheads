@@ -5,8 +5,7 @@ import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import ToplistPage from "./pages/ToplistPage";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 
 interface ToplistRouteProps {
   origin: Path<{}>;
@@ -24,7 +23,7 @@ const ToplistRoute: React.FC<ToplistRouteProps> = ({
   const paths = useMemo(
     () => ({
       article: path.append("/:articleId", {
-        articleId: stringCodec,
+        articleId: codecs.string,
       }),
     }),
     [path]

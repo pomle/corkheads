@@ -7,8 +7,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import FindPage from "./pages/FindPage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 
 interface SearchRoutesProps {
   origin: Path<{}>;
@@ -26,10 +25,10 @@ const SearchRoutes: React.FC<SearchRoutesProps> = ({
   const paths = useMemo(
     () => ({
       article: path.append("/article/:articleId", {
-        articleId: stringCodec,
+        articleId: codecs.string,
       }),
       user: path.append("/user/:userId", {
-        userId: stringCodec,
+        userId: codecs.string,
       }),
       createArticle: path.append("/create-article", {}),
     }),

@@ -4,8 +4,7 @@ import Screen from "components/route/Screen";
 import UserRoutes from "components/route/routes/UserRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 import FriendsPage from "./pages/FriendsPage";
 
 interface FriendsRouteProps {
@@ -24,7 +23,7 @@ const FriendsRoute: React.FC<FriendsRouteProps> = ({
   const paths = useMemo(
     () => ({
       user: path.append("/:userId", {
-        userId: stringCodec,
+        userId: codecs.string,
       }),
     }),
     [path]

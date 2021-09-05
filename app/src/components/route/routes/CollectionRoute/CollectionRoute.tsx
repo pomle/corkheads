@@ -5,8 +5,7 @@ import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import CollectionPage from "./pages/CollectionPage";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 
 interface CollectionRouteProps {
   origin: Path<{}>;
@@ -24,7 +23,7 @@ const CollectionRoute: React.FC<CollectionRouteProps> = ({
   const paths = useMemo(
     () => ({
       article: path.append("/:articleId", {
-        articleId: stringCodec,
+        articleId: codecs.string,
       }),
     }),
     [path]

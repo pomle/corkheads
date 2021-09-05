@@ -5,8 +5,7 @@ import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import ViewStack from "components/ui/layout/ViewStack";
 import ContributionsPage from "./pages/ContributionsPage";
 import { SlideRight } from "components/ui/transitions/Slide";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 
 interface ContributionsRouteProps {
   origin: Path<{}>;
@@ -24,7 +23,7 @@ const ContributionsRoute: React.FC<ContributionsRouteProps> = ({
   const paths = useMemo(
     () => ({
       article: path.append("/:articleId", {
-        articleId: stringCodec,
+        articleId: codecs.string,
       }),
     }),
     [path]

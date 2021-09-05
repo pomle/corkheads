@@ -4,13 +4,12 @@ import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import ToplistRoute from "components/route/routes/ToplistRoute";
-import { Path } from "lib/path";
+import { Path, codecs } from "@pomle/paths";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import CollectionRoute from "components/route/routes/CollectionRoute";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 import WishlistRoute from "components/route/routes/WishlistRoute";
-import { stringCodec } from "components/route/codecs";
 import UserPage from "./pages/UserPage";
 import ContributionsRoute from "../ContributionsRoute";
 
@@ -28,10 +27,10 @@ const UserRoutes: React.FC<UserRoutesProps> = ({ userId, origin, path }) => {
       prev: origin,
       here: path,
       article: path.append("/article/:articleId", {
-        articleId: stringCodec,
+        articleId: codecs.string,
       }),
       checkIn: path.append("/check-in/:checkInId", {
-        checkInId: stringCodec,
+        checkInId: codecs.string,
       }),
       checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
