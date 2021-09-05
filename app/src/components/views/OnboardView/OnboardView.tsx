@@ -9,7 +9,6 @@ import ActionButton from "components/ui/trigger/ActionButton";
 import Input from "components/ui/input/Input/Input";
 import { isEmailValid } from "lib/email";
 import { useAsyncCallback } from "components/hooks/useAsyncCallback";
-import { useSession } from "components/context/SessionContext";
 import { createRandomPassword } from "lib/random";
 import { ReactComponent as EmailIcon } from "assets/graphics/icons/envelope.svg";
 import { useMessageDialog } from "components/hooks/useMessageDialog";
@@ -21,6 +20,7 @@ import {
 import Divider from "components/ui/layout/Divider";
 import { usePopupDialog } from "components/context/PopupDialogContext";
 import ConfirmCreateAccountDialog from "./components/ConfirmCreateAccountDialog";
+import { useAuth } from "components/hooks/useAuth";
 
 const useStyles = makeStyles((theme: Theme) => ({
   OnboardView: {
@@ -62,7 +62,7 @@ interface OnboardViewProps {
 }
 
 const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
-  const session = useSession();
+  const auth = useAuth();
   const popupDialog = usePopupDialog();
 
   const { publishMessage } = useMessageDialog();
@@ -73,7 +73,7 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
   const handleSignUp = useAsyncCallback(
     useCallback(() => {
       const password = createRandomPassword(32);
-      return session.auth
+      return auth
         .createUserWithEmailAndPassword(email, password)
         .then((userCred) => {
           setAccountState(AccountState.Created);
@@ -89,7 +89,7 @@ const OnboardView: React.FC<OnboardViewProps> = ({ routes }) => {
         .catch((error: Error) => {
           publishMessage(error.message);
         });
-    }, [session, email, setAccountState, publishMessage])
+    }, [auth, email, setAccountState, publishMessage])
   );
 
   const handleCreate = useCallback(() => {

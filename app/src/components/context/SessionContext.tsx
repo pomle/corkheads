@@ -1,13 +1,13 @@
 import React from "react";
 import { useFirebase } from "components/context/FirebaseContext";
-import { FirebaseAuthContext, useFirebaseAuth } from "@pomle/react-firebase";
+import { FirebaseUserContext, useFirebaseUser } from "@pomle/react-firebase";
 
 export const SessionContext: React.FC = ({ children }) => {
   const { auth } = useFirebase();
 
-  return <FirebaseAuthContext auth={auth}>{children}</FirebaseAuthContext>;
+  return <FirebaseUserContext auth={auth}>{children}</FirebaseUserContext>;
 };
 
 export function useSession() {
-  return useFirebaseAuth();
+  return useFirebaseUser();
 }
