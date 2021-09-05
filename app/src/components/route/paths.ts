@@ -1,18 +1,17 @@
-import { createPath } from "lib/path";
-import { stringCodec } from "./codecs";
+import { createPath, codecs } from "@pomle/paths";
 
 const root = createPath("", {});
 
 export const paths = {
   root,
   article: root.append("/article/:articleId", {
-    articleId: stringCodec,
+    articleId: codecs.string,
   }),
   checkIn: root.append("/check-in/:checkInId", {
-    checkInId: stringCodec,
+    checkInId: codecs.string,
   }),
   search: root.append("/search", {}),
   user: root.append("/user/:userId", {
-    userId: stringCodec,
+    userId: codecs.string,
   }),
 };

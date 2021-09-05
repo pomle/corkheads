@@ -5,8 +5,7 @@ import ViewStack from "components/ui/layout/ViewStack";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
 import CheckInPage from "./pages/CheckInPage";
 import CheckInPicturePage from "./pages/CheckInPicturePage";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 import { SlideRight } from "components/ui/transitions/Slide";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import { paths as rootPaths } from "components/route/paths";
@@ -28,7 +27,7 @@ const CheckInRoutes: React.FC<CheckInRoutesProps> = ({
 
   const paths = useMemo(
     () => ({
-      article: path.append("/article/:articleId", { articleId: stringCodec }),
+      article: path.append("/article/:articleId", { articleId: codecs.string }),
       picture: path.append("/picture", {}),
       user: rootPaths.user,
     }),

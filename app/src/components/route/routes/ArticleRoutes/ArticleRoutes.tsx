@@ -7,7 +7,7 @@ import { ZoomCenter } from "components/ui/transitions/Zoom";
 import ArticlePage from "./pages/ArticlePage";
 import ArticlePicturePage from "./pages/ArticlePicturePage";
 import CheckInCreatePage from "./pages/CheckInCreatePage";
-import { Path } from "lib/path";
+import { Path } from "@pomle/paths";
 import { paths as rootPaths } from "components/route/paths";
 
 interface ArticleRoutesProps {

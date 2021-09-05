@@ -8,9 +8,8 @@ import SettingsPage from "./pages/SettingsPage";
 import { useMe } from "components/hooks/useMe";
 import BusyView from "components/views/BusyView";
 import ToplistRoute from "components/route/routes/ToplistRoute";
-import { Path } from "lib/path";
+import { Path, codecs } from "@pomle/paths";
 import ArticleRoutes from "../ArticleRoutes";
-import { stringCodec } from "components/route/codecs";
 import CollectionRoute from "components/route/routes/CollectionRoute";
 import CheckInsRoute from "components/route/routes/CheckInsRoute";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
@@ -32,8 +31,10 @@ const HomeRoutes: React.FC<HomeRoutesProps> = ({ path }) => {
   const paths = useMemo(
     () => ({
       here: path,
-      article: path.append("/article/:articleId", { articleId: stringCodec }),
-      checkIn: path.append("/check-in/:checkInId", { checkInId: stringCodec }),
+      article: path.append("/article/:articleId", { articleId: codecs.string }),
+      checkIn: path.append("/check-in/:checkInId", {
+        checkInId: codecs.string,
+      }),
       checkIns: path.append("/check-ins", {}),
       collection: path.append("/collection", {}),
       communityCheckIns: path.append("/community/check-ins", {}),

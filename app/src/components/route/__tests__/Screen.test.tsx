@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { MemoryRouter } from "react-router-dom";
 import renderer, { act, ReactTestRenderer } from "react-test-renderer";
-import { createPath, createCodec } from "lib/path";
+import { createPath, createCodec } from "@pomle/paths";
 import Screen from "../Screen";
 
 const stringCodec = createCodec(

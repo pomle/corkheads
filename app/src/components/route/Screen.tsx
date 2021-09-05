@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
-import { PathCodec, Path, createPath } from "lib/path";
+import { PathCodec, Path, createPath } from "@pomle/paths";
 
 const Screen = <PathCodecType extends PathCodec>({
   path,

@@ -4,8 +4,7 @@ import Screen from "components/route/Screen";
 import ViewStack from "components/ui/layout/ViewStack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import CheckInsPage from "./pages/CheckInsPage";
-import { Path } from "lib/path";
-import { stringCodec } from "components/route/codecs";
+import { Path, codecs } from "@pomle/paths";
 import CheckInRoutes from "components/route/routes/CheckInRoutes";
 
 interface CheckInsRouteProps {
@@ -26,7 +25,7 @@ const CheckInsRoute: React.FC<CheckInsRouteProps> = ({
   const paths = useMemo(
     () => ({
       checkIn: path.append("/:checkInId", {
-        checkInId: stringCodec,
+        checkInId: codecs.string,
       }),
     }),
     [path]
