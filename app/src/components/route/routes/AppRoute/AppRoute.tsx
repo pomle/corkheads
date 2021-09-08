@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import Slide, { SlideDirection } from "components/ui/transitions/Slide";
 import AuthenticationView from "components/views/AuthenticationView";
 import ContextMenuView from "components/views/ContextMenuView/ContextMenuView";

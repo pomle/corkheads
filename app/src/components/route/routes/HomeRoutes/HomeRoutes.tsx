@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";

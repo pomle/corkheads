@@ -9,7 +9,7 @@ import {
   AccountState,
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import Fade from "components/ui/transitions/Fade";
 
 enum Section {

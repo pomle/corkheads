@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import { ZoomCenter } from "components/ui/transitions/Zoom";
 import CheckInPage from "./pages/CheckInPage";
 import CheckInPicturePage from "./pages/CheckInPicturePage";
