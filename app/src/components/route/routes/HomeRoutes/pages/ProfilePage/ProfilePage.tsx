@@ -1,6 +1,6 @@
 import React from "react";
 import ProfileView from "components/views/ProfileView";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import FindDrinkOverlayView from "components/views/FindDrinkOverlayView";
 import ErrorBoundary from "components/views/ErrorBoundaryView";
 import { ReactComponent as CogIcon } from "assets/graphics/icons/cog.svg";

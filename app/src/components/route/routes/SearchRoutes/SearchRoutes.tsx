@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import ArticleRoutes from "components/route/routes/ArticleRoutes";
 import UserRoutes from "components/route/routes/UserRoutes";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import FindPage from "./pages/FindPage";
 import ArticleCreatePage from "./pages/ArticleCreatePage";
 import { SlideDown, SlideRight } from "components/ui/transitions/Slide";

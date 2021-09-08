@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useHistory } from "react-router-dom";
 import Screen from "components/route/Screen";
 import UserRoutes from "components/route/routes/UserRoutes";
-import ViewStack from "components/ui/layout/ViewStack";
+import { ViewStack } from "@pomle/react-viewstack";
 import { SlideRight } from "components/ui/transitions/Slide";
 import { Path, codecs } from "@pomle/paths";
 import FriendsPage from "./pages/FriendsPage";
