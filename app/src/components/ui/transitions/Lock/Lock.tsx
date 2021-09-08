@@ -1,9 +1,15 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { TransitionEffectProps } from "../types";
-import { pointerEvents } from "../states";
 
-const filter = ({ active }: TransitionEffectProps) => {
+type StyleProps = {
+  active: boolean;
+};
+
+function pointerEvents(props: StyleProps) {
+  return props.active ? "all" : "none";
+}
+
+const filter = ({ active }: StyleProps) => {
   if (active) {
     return "none";
   }
@@ -19,7 +25,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Lock: React.FC<TransitionEffectProps> = ({ active, children }) => {
+interface LockProps {
+  active: boolean;
+}
+
+const Lock: React.FC<LockProps> = ({ active, children }) => {
   const classes = useStyles({ active });
   return <div className={classes.Lock}>{children}</div>;
 };

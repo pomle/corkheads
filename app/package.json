@@ -7,6 +7,7 @@
     "@pomle/paths": "^1.0.0",
     "@pomle/react-firebase": "^0.4.0-0",
     "@pomle/react-viewstack": "^1.0.0",
+    "@pomle/react-viewstack-transitions": "^1.0.0",
     "@pomle/use-local-storage": "^0.1.0",
     "@sentry/react": "^5.27.6",
     "@sentry/tracing": "^5.27.6",

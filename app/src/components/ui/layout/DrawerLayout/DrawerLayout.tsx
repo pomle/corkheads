@@ -1,6 +1,6 @@
 import React, { useRef, useState, useLayoutEffect, useCallback } from "react";
 import { makeStyles } from "@material-ui/styles";
-import Slide, { SlideDirection } from "components/ui/transitions/Slide";
+import { Slide, SlideDirection } from "@pomle/react-viewstack-transitions";
 
 const MEASUREMENT_UPDATE_INTERVAL_MS = 1000;
 

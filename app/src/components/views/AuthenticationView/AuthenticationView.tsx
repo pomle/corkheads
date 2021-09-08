@@ -10,7 +10,7 @@ import {
   useDevicePreference,
 } from "components/hooks/store/useDevicePreferences";
 import { ViewStack } from "@pomle/react-viewstack";
-import Fade from "components/ui/transitions/Fade";
+import { Fade } from "@pomle/react-viewstack-transitions";
 
 enum Section {
   Onboard,
