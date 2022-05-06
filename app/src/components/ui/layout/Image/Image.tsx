@@ -114,7 +114,7 @@ const Image: React.FC<ImageProps> = ({
   const classes = useStyles({ fit, ready, placeholder });
 
   return (
-    <div className={`Image ${classes.Image}`}>
+    <div key={src} className={`Image ${classes.Image}`}>
       <picture>
         {formats &&
           mimeTypes.map((mime) => {
@@ -129,7 +129,6 @@ const Image: React.FC<ImageProps> = ({
           })}
         {src && (
           <img
-            key={src}
             src={src}
             sizes={size}
             alt=""

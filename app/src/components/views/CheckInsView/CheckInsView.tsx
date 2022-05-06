@@ -54,7 +54,7 @@ const CheckInsView: React.FC<CheckInsViewProps> = ({
       title = "Your check ins";
     }
   } else if (filterUserIds === undefined) {
-    title = "Recent check ins";
+    title = "Community check ins";
   }
 
   const pointers = useMemo(() => {
